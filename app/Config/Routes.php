@@ -18,6 +18,8 @@ $routes->group('masyarakat', function($routes) {
     $routes->post('surat/domisili-kelompok-tani/preview', 'Masyarakat\SuratController::previewDomisiliKelompokTani');
 
     $routes->get('surat/domisili-bangunan', 'Masyarakat\SuratController::domisiliBangunan');
+    $routes->post('surat/domisili-bangunan/preview', 'Masyarakat\SuratController::previewDomisiliBangunan');
+    
     $routes->get('surat/domisili-manusia', 'Masyarakat\SuratController::domisiliManusia');
     $routes->get('surat/pindah', 'Masyarakat\SuratController::pindah');
     $routes->get('surat/usaha', 'Masyarakat\SuratController::usaha');

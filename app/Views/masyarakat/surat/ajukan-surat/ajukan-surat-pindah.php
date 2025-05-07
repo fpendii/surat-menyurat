@@ -1,0 +1,145 @@
+<!-- app/Views/ajukan_surat_pindah.php -->
+
+<?= $this->extend('komponen/template-admin') ?>
+
+<?= $this->section('content') ?>
+
+<div class="container mt-4">
+    <h2>Ajukan Surat Pindah</h2>
+
+    <form action="<?= site_url('masyarakat/surat/pindah/preview') ?>" method="POST">
+        <?= csrf_field() ?>
+
+        <!-- Data Pemohon -->
+        <h5>Data Pemohon</h5>
+        <div class="form-group">
+            <label for="nama">Nama</label>
+            <input type="text" class="form-control" id="nama" name="nama" required>
+        </div>
+
+        <div class="form-group">
+            <label for="jenis_kelamin">Jenis Kelamin</label>
+            <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
+                <option value="L">Laki-laki</option>
+                <option value="P">Perempuan</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="ttl">Tempat / Tanggal Lahir</label>
+            <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Bandung, 01 Januari 1990" required>
+        </div>
+
+        <div class="form-group">
+            <label for="kewarganegaraan">Kewarganegaraan</label>
+            <input type="text" class="form-control" id="kewarganegaraan" name="kewarganegaraan" required>
+        </div>
+
+        <div class="form-group">
+            <label for="agama">Agama</label>
+            <input type="text" class="form-control" id="agama" name="agama" required>
+        </div>
+
+        <div class="form-group">
+            <label for="status_perkawinan">Status Perkawinan</label>
+            <input type="text" class="form-control" id="status_perkawinan" name="status_perkawinan" required>
+        </div>
+
+        <div class="form-group">
+            <label for="pekerjaan">Pekerjaan</label>
+            <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" required>
+        </div>
+
+        <div class="form-group">
+            <label for="pendidikan">Pendidikan</label>
+            <input type="text" class="form-control" id="pendidikan" name="pendidikan" required>
+        </div>
+
+        <div class="form-group">
+            <label for="alamat_asal">Alamat Asal</label>
+            <textarea class="form-control" id="alamat_asal" name="alamat_asal" rows="2" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="nik">NIK</label>
+            <input type="text" class="form-control" id="nik" name="nik" required>
+        </div>
+
+        <div class="form-group">
+            <label for="tujuan_pindah">Tujuan Pindah</label>
+            <input type="text" class="form-control" id="tujuan_pindah" name="tujuan_pindah" required>
+        </div>
+
+        <div class="form-group">
+            <label for="alasan_pindah">Alasan Pindah</label>
+            <input type="text" class="form-control" id="alasan_pindah" name="alasan_pindah" required>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_pengikut">Jumlah Pengikut</label>
+            <input type="number" class="form-control" id="jumlah_pengikut" name="jumlah_pengikut" min="1" value="1" required>
+        </div>
+
+        <!-- Data Pengikut (Dapat Ditambahkan Berdasarkan Jumlah Pengikut) -->
+        <div id="pengikut-wrapper">
+            <div class="pengikut-group border p-3 rounded mb-3">
+                <h5>Data Pengikut 1</h5>
+                <div class="form-group">
+                    <label for="nama_pengikut">Nama Pengikut</label>
+                    <input type="text" class="form-control" name="nama_pengikut[]" required>
+                </div>
+                <div class="form-group">
+                    <label for="jenis_kelamin_pengikut">Jenis Kelamin</label>
+                    <select class="form-control" name="jenis_kelamin_pengikut[]" required>
+                        <option value="L">Laki-laki</option>
+                        <option value="P">Perempuan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="umur_pengikut">Umur</label>
+                    <input type="number" class="form-control" name="umur_pengikut[]" required>
+                </div>
+                <div class="form-group">
+                    <label for="status_perkawinan_pengikut">Status Perkawinan</label>
+                    <input type="text" class="form-control" name="status_perkawinan_pengikut[]" required>
+                </div>
+                <div class="form-group">
+                    <label for="pendidikan_pengikut">Pendidikan</label>
+                    <input type="text" class="form-control" name="pendidikan_pengikut[]" required>
+                </div>
+                <div class="form-group">
+                    <label for="no_ktp_pengikut">No. KTP</label>
+                    <input type="text" class="form-control" name="no_ktp_pengikut[]" required>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary mb-3" id="tambah-pengikut">+ Tambah Pengikut</button>
+        <br>
+        <button type="submit" class="btn btn-primary">Ajukan Surat</button>
+    </form>
+</div>
+
+<script>
+// Fungsi untuk menambah input data pengikut
+document.getElementById('tambah-pengikut').addEventListener('click', function () {
+    const jumlahPengikut = document.getElementById('jumlah_pengikut').value;
+    const wrapper = document.getElementById('pengikut-wrapper');
+    const index = wrapper.childElementCount + 1;
+
+    // Periksa apakah jumlah pengikut sudah sesuai
+    if (index <= jumlahPengikut) {
+        const newGroup = wrapper.firstElementChild.cloneNode(true);
+
+        // Update data pengikut yang baru
+        newGroup.querySelectorAll('input').forEach(input => input.value = '');
+        newGroup.querySelector('h5').textContent = `Data Pengikut ${index}`;
+
+        wrapper.appendChild(newGroup);
+    } else {
+        alert("Jumlah pengikut telah mencapai batas.");
+    }
+});
+</script>
+
+<?= $this->endSection() ?>

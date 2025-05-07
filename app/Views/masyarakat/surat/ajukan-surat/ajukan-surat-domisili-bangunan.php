@@ -7,8 +7,10 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Domisili Bangunan</h2>
 
-    <form action="<?= site_url('surat-domisili/submit') ?>" method="POST" enctype="multipart/form-data">
+    <form action="<?= site_url('masyarakat/surat/domisili-bangunan/preview') ?>" method="POST">
+
         <?= csrf_field() ?>
+
 
         <div class="form-group">
             <label for="nama_gapoktan">Nama Gapoktan</label>
