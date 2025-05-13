@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Catatan Polisi</h2>
 
-    <form action="<?= site_url('masyarakat/surat/domisili/preview') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/catatan-polisi/preview') ?>" target="_blank" method="POST">
 
         <?= csrf_field() ?>
 

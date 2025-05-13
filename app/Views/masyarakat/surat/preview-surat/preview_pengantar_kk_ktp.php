@@ -108,7 +108,7 @@
 
     <hr>
 
-    <div class="title">SURAT KETERANGAN DOMISILI</div>
+    <div class="title">SURAT PENGANTAR</div>
     <div class="number">Nomor: 400.12.2.2/53/Handil Suruk/2024</div>
 
     <p style="text-align: justify;">Disampaikan dengan hormat untuk permohonan pengurusan administrasi kependudukan ke
@@ -140,24 +140,48 @@
                 <th>Jumlah</th>
             </tr>
         </thead>
+        <tbody>
+            <?php foreach ($dataOrang as $key => $value) : ?>
+                <tr>
+                    <td><?= $key + 1 ?></td>
+                    <td><?= $value['nama'] ?? '...' ?></td>
+                    <td><?= $value['nik'] ?? '...' ?></td>
+                    <td><?= $value['keterangan'] ?? '...' ?></td>
+                    <td><?= $value['jumlah'] ?? '...' ?></td>
+                </tr>
+            <?php endforeach ?>
+
+        </tbody>
+    </table>
+    <p>
+        Demikian disampaikan kiranya dapat digunakan sebagaimana mestinya, sebelum dan sesudahnya kami ucapkan terimakasih.
+    </p>
+     <p style="text-align: center; margin-top: 50px;">
+        Mengetahui, <br>
+     </p>       
+    <table  style="margin-top: 30px; width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <td style="text-align: center; vertical-align: middle; border: none;">Kepala Desa Handil Suruk</td>
+                <td style="text-align: center; vertical-align: middle; border: none;">Kepala Desa Handil Suruk</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: center; vertical-align: middle; border: none;">
+                    <!-- <img src="" alt="Tanda Tangan" style="width: 100px;"> -->
+                    <p style="margin-top: 100px;" class="bold">SUDARNO</p>
+                    <p>NIP. 19651231 198303 1 001</p>
+                </td>
+                <td style="text-align: center; vertical-align: middle; border: none;">
+                    <!-- <img src="" alt="Tanda Tangan" style="width: 100px;"> -->
+                    <p style="margin-top: 100px;" class="bold">SUDARNO</p>
+                    <p>NIP. 19651231 198303 1 001</p>
+                </td>
+            </tr>
     </table>
 
-    <p>
-        Bahwa Kantor tersebut di atas pada saat ini benar-benar berdomisili di
-        <?= $alamat ?? '...' ?>, Kec. <?= $kecamatan ?? '...' ?>, Kab. <?= $kabupaten ?? '...' ?> Prov.
-        <?= $provinsi ?? '...' ?>.
-    </p>
-    <p>
-        Demikian Surat Keterangan ini dibuat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya.
-    </p>
 
-    <div class="ttd">
-        <p>Dikeluarkan di Handil Suruk</p>
-        <p>Pada Tanggal: <?= date('d F Y', strtotime($tgl_pembentukan ?? date('Y-m-d'))) ?></p>
-        <p>Kepala Desa Handil Suruk</p>
-        <br><br><br>
-        <p class="bold"><?= $nama ?? '...' ?></p>
-    </div>
 
 </body>
 

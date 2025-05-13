@@ -32,14 +32,27 @@ $routes->group('masyarakat', function($routes) {
     $routes->get('surat/pengantar-kk-ktp', 'Masyarakat\SuratController::pengantarKKKTP');
     $routes->post('surat/pengantar-kk-ktp/preview', 'Masyarakat\SuratController::previewPengantarKKKTP');
     
-    
     $routes->get('surat/tidak-mampu', 'Masyarakat\SuratController::tidakMampu');
+    $routes->post('surat/tidak-mampu/preview', 'Masyarakat\SuratController::previewTidakMampu');
+
     $routes->get('surat/belum-bekerja', 'Masyarakat\SuratController::belumBekerja');
+    $routes->post('surat/belum-bekerja/preview', 'Masyarakat\SuratController::previewBelumBekerja');
+
     $routes->get('surat/kehilangan', 'Masyarakat\SuratController::kehilangan');
+    $routes->post('surat/kehilangan/preview', 'Masyarakat\SuratController::previewKehilangan');
+
     $routes->get('surat/catatan-polisi', 'Masyarakat\SuratController::catatanPolisi');
+    $routes->post('surat/catatan-polisi/preview', 'Masyarakat\SuratController::previewCatatanPolisi');
+
     $routes->get('surat/kelahiran', 'Masyarakat\SuratController::kelahiran');
+    $routes->post('surat/kelahiran/preview', 'Masyarakat\SuratController::previewKelahiran');
+
     $routes->get('surat/kematian', 'Masyarakat\SuratController::kematian');
+    $routes->post('surat/kematian/preview', 'Masyarakat\SuratController::previewKematian');
+
     $routes->get('surat/ahli-waris', 'Masyarakat\SuratController::ahliWaris');
+    $routes->post('surat/ahli-waris/preview', 'Masyarakat\SuratController::previewAhliWaris');
+
     $routes->get('surat/suami-istri', 'Masyarakat\SuratController::suamiIstri');
     $routes->get('surat/status-perkawinan', 'Masyarakat\SuratController::statusPerkawinan');
 });
