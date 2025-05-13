@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Domisili Kelompok Tani</h2>
 
-    <form action="<?= site_url('masyarakat/surat/domisili-kelompok-tani/preview') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/domisili-kelompok-tani/preview') ?>" target="_blank" method="POST">
 
         <?= csrf_field() ?>
 

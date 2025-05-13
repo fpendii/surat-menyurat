@@ -21,9 +21,18 @@ $routes->group('masyarakat', function($routes) {
     $routes->post('surat/domisili-bangunan/preview', 'Masyarakat\SuratController::previewDomisiliBangunan');
     
     $routes->get('surat/domisili-manusia', 'Masyarakat\SuratController::domisiliManusia');
+    $routes->post('surat/domisili-warga/preview', 'Masyarakat\SuratController::previewDomisiliWarga');
+
     $routes->get('surat/pindah', 'Masyarakat\SuratController::pindah');
+    $routes->post('surat/pindah/preview', 'Masyarakat\SuratController::previewPindah');
+
     $routes->get('surat/usaha', 'Masyarakat\SuratController::usaha');
+    $routes->post('surat/usaha/preview', 'Masyarakat\SuratController::previewUsaha');
+    
     $routes->get('surat/pengantar-kk-ktp', 'Masyarakat\SuratController::pengantarKKKTP');
+    $routes->post('surat/pengantar-kk-ktp/preview', 'Masyarakat\SuratController::previewPengantarKKKTP');
+    
+    
     $routes->get('surat/tidak-mampu', 'Masyarakat\SuratController::tidakMampu');
     $routes->get('surat/belum-bekerja', 'Masyarakat\SuratController::belumBekerja');
     $routes->get('surat/kehilangan', 'Masyarakat\SuratController::kehilangan');

@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Domisili Bangunan</h2>
 
-    <form action="<?= site_url('masyarakat/surat/domisili-bangunan/preview') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/domisili-bangunan/preview') ?>" target="_blank"  method="POST">
 
         <?= csrf_field() ?>
 

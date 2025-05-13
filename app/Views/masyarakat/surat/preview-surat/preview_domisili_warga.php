@@ -13,12 +13,10 @@
         }
 
         .surat {
-            /* border: 1px solid black; */
             padding: 30px;
             margin: 30px auto;
             max-width: 800px;
         }
-
 
         .kop-border {
             border-top: 4px solid black;
@@ -91,44 +89,67 @@
 
             <table style="width: 100%; margin-bottom: 10px;">
                 <tr>
-                    <td>Nama Gapoktan</td>
+                    <td>Nama Pejabat</td>
                     <td>:</td>
-                    <td><strong style="text-transform: uppercase;"><?php echo $nama_gapoktan; ?></strong></td>
+                    <td><strong><?php echo $nama_pejabat; ?></strong></td>
                 </tr>
                 <tr>
-                    <td>Tanggal Pembentukan</td>
+                    <td>Jabatan</td>
                     <td>:</td>
-                    <td><?php echo date("d F Y", strtotime($tgl_pembentukan)); ?></td>
+                    <td><strong><?php echo $jabatan; ?></strong></td>
                 </tr>
                 <tr>
-                    <td>Alamat Sekretariat</td>
+                    <td>Kecamatan Pejabat</td>
+                    <td>:</td>
+                    <td><?php echo $kecamatan_pejabat; ?></td>
+                </tr>
+                <tr>
+                    <td>Kabupaten Pejabat</td>
+                    <td>:</td>
+                    <td><?php echo $kabupaten_pejabat; ?></td>
+                </tr>
+            </table>
+
+            <p>Yang Bertanda Tangan di bawah ini Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, Menerangkan dengan sebenarnya bahwa:</p>
+
+            <table style="width: 100%; margin-bottom: 10px;">
+                <tr>
+                    <td>Nama Warga</td>
+                    <td>:</td>
+                    <td><strong><?php echo $nama_warga; ?></strong></td>
+                </tr>
+                <tr>
+                    <td>NIK</td>
+                    <td>:</td>
+                    <td><?php echo $nik; ?></td>
+                </tr>
+                <tr>
+                    <td>Alamat</td>
                     <td>:</td>
                     <td><?php echo $alamat; ?></td>
                 </tr>
+                <tr>
+                    <td>Desa</td>
+                    <td>:</td>
+                    <td><?php echo $desa; ?></td>
+                </tr>
+                <tr>
+                    <td>Kecamatan</td>
+                    <td>:</td>
+                    <td><?php echo $kecamatan; ?></td>
+                </tr>
+                <tr>
+                    <td>Kabupaten</td>
+                    <td>:</td>
+                    <td><?php echo $kabupaten; ?></td>
+                </tr>
+                <tr>
+                    <td>Provinsi</td>
+                    <td>:</td>
+                    <td><?php echo $provinsi; ?></td>
+                </tr>
             </table>
 
-            <p><strong>Susunan Pengurus:</strong></p>
-            <table style="width: 100%;">
-                <tr>
-                    <td>Ketua</td>
-                    <td>:</td>
-                    <td><?php echo $ketua; ?></td>
-                </tr>
-                <tr>
-                    <td>Sekretaris</td>
-                    <td>:</td>
-                    <td><?php echo $sekretaris; ?></td>
-                </tr>
-                <tr>
-                    <td>Bendahara</td>
-                    <td>:</td>
-                    <td><?php echo $bendahara; ?></td>
-                </tr>
-            </table>
-
-            <p>
-                Bahwa adalah benar-benar Gapoktan “<?php echo $nama_gapoktan; ?>” yang berada di Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut.
-            </p>
             <p>
                 Demikian Surat Keterangan Domisili ini diberikan untuk dapat diketahui dan dipergunakan sebagaimana mestinya.
             </p>
@@ -141,7 +162,6 @@
             <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
-
 
     </div>
 

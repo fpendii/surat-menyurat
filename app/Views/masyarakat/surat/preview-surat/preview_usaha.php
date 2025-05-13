@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Surat Keterangan Domisili</title>
+    <title>Surat Keterangan Usaha</title>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -13,22 +13,16 @@
         }
 
         .surat {
-            /* border: 1px solid black; */
             padding: 30px;
             margin: 30px auto;
             max-width: 800px;
         }
-
 
         .kop-border {
             border-top: 4px solid black;
             border-bottom: 1px solid black;
             margin-top: 10px;
             margin-bottom: 20px;
-        }
-
-        .logo {
-            width: 90px;
         }
 
         .kop-text {
@@ -81,57 +75,78 @@
 
         <!-- Judul -->
         <div style="text-align: center; margin-bottom: 20px;">
-            <h5><u><strong>SURAT KETERANGAN DOMISILI</strong></u></h5>
-            <p>Nomor : 400.12.2.2/53/Handil Suruk/2024</p>
+            <h5><u><strong>SURAT KETERANGAN USAHA</strong></u></h5>
+            <p>Nomor : 400.12.2.2/54/Handil Suruk/2024</p>
         </div>
 
         <!-- Isi Surat -->
         <div class="text-isi">
-            <p>Yang Bertanda Tangan di bawah ini Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, Menerangkan dengan sebenarnya bahwa:</p>
+            <p>Yang bertanda tangan di bawah ini, Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, menerangkan bahwa:</p>
 
             <table style="width: 100%; margin-bottom: 10px;">
                 <tr>
-                    <td>Nama Gapoktan</td>
+                    <td>Nama</td>
                     <td>:</td>
-                    <td><strong style="text-transform: uppercase;"><?php echo $nama_gapoktan; ?></strong></td>
+                    <td><strong><?= $nama; ?></strong></td>
                 </tr>
                 <tr>
-                    <td>Tanggal Pembentukan</td>
+                    <td>NIK</td>
                     <td>:</td>
-                    <td><?php echo date("d F Y", strtotime($tgl_pembentukan)); ?></td>
+                    <td><?= $nik; ?></td>
                 </tr>
                 <tr>
-                    <td>Alamat Sekretariat</td>
+                    <td>Alamat</td>
                     <td>:</td>
-                    <td><?php echo $alamat; ?></td>
+                    <td><?= $alamat; ?></td>
+                </tr>
+                <tr>
+                    <td>RT/RW</td>
+                    <td>:</td>
+                    <td><?= $rt_rw; ?></td>
+                </tr>
+                <tr>
+                    <td>Desa</td>
+                    <td>:</td>
+                    <td><?= $desa; ?></td>
+                </tr>
+                <tr>
+                    <td>Kecamatan</td>
+                    <td>:</td>
+                    <td><?= $kecamatan; ?></td>
+                </tr>
+                <tr>
+                    <td>Kabupaten</td>
+                    <td>:</td>
+                    <td><?= $kabupaten; ?></td>
+                </tr>
+                <tr>
+                    <td>Provinsi</td>
+                    <td>:</td>
+                    <td><?= $provinsi; ?></td>
                 </tr>
             </table>
 
-            <p><strong>Susunan Pengurus:</strong></p>
-            <table style="width: 100%;">
+            <p>Adalah benar memiliki dan menjalankan usaha dengan rincian sebagai berikut:</p>
+
+            <table style="width: 100%; margin-bottom: 10px;">
                 <tr>
-                    <td>Ketua</td>
+                    <td>Nama Usaha</td>
                     <td>:</td>
-                    <td><?php echo $ketua; ?></td>
+                    <td><?= $nama_usaha; ?></td>
                 </tr>
                 <tr>
-                    <td>Sekretaris</td>
+                    <td>Alamat Usaha</td>
                     <td>:</td>
-                    <td><?php echo $sekretaris; ?></td>
+                    <td><?= $alamat_usaha; ?></td>
                 </tr>
                 <tr>
-                    <td>Bendahara</td>
+                    <td>Sejak Tahun</td>
                     <td>:</td>
-                    <td><?php echo $bendahara; ?></td>
+                    <td><?= $sejak_tahun; ?></td>
                 </tr>
             </table>
 
-            <p>
-                Bahwa adalah benar-benar Gapoktan “<?php echo $nama_gapoktan; ?>” yang berada di Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut.
-            </p>
-            <p>
-                Demikian Surat Keterangan Domisili ini diberikan untuk dapat diketahui dan dipergunakan sebagaimana mestinya.
-            </p>
+            <p>Demikian surat keterangan ini dibuat agar dapat dipergunakan sebagaimana mestinya.</p>
         </div>
 
         <!-- Tanda Tangan -->
@@ -141,7 +156,6 @@
             <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
-
 
     </div>
 

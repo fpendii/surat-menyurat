@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Pengantar KK dan KTP</h2>
 
-    <form action="<?= site_url('masyarakat/surat/domisili-kelompok-tani/preview') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/pengantar-kk-ktp/preview') ?>" method="POST">
 
         <?= csrf_field() ?>
 
@@ -43,7 +43,7 @@
         </div>
 
         <button type="button" class="btn btn-success mb-3" onclick="addPerson()">+ Tambah Orang</button>
-        <button type="submit" class="btn btn-primary">Ajukan Surat Domisili</button>
+        <button type="submit" class="btn btn-primary">Ajukan Surat</button>
     </form>
 </div>
 
