@@ -26,7 +26,7 @@ class SuratController extends BaseController
             ['nama' => 'Surat Keterangan Kematian', 'slug' => 'kematian', 'deskripsi' => 'Surat keterangan kematian.'],
             ['nama' => 'Surat Keterangan Ahli Waris', 'slug' => 'ahli-waris', 'deskripsi' => 'Surat yang menyatakan seseorang sebagai ahli waris.'],
             ['nama' => 'Surat Keterangan Suami Istri', 'slug' => 'suami-istri', 'deskripsi' => 'Surat keterangan status pasangan suami istri.'],
-            ['nama' => 'Surat Keterangan Janda/Duda/Perjaka', 'slug' => 'status-perkawinan', 'deskripsi' => 'Surat keterangan status janda, duda, atau perjaka.'],
+            ['nama' => 'Surat Keterangan Status Perkawinan', 'slug' => 'status-perkawinan', 'deskripsi' => 'Surat keterangan status perkawinan.'],
         ];
 
         return view('masyarakat/surat/index', $data);

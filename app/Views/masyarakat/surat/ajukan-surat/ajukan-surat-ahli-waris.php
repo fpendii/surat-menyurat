@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Ahli Waris</h2>
 
-    <form action="<?= site_url('masyarakat/surat/ahli-waris/preview') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/ahli-waris/preview') ?>" target="_blank" method="POST">
         <?= csrf_field() ?>
 
         <!-- Data Pemilik Harta -->

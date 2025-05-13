@@ -54,7 +54,9 @@ $routes->group('masyarakat', function($routes) {
     $routes->post('surat/ahli-waris/preview', 'Masyarakat\SuratController::previewAhliWaris');
 
     $routes->get('surat/suami-istri', 'Masyarakat\SuratController::suamiIstri');
+
     $routes->get('surat/status-perkawinan', 'Masyarakat\SuratController::statusPerkawinan');
+    $routes->post('surat/status-perkawinan/preview', 'Masyarakat\SuratController::previewStatusPerkawinan');
 });
 
 
