@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Controllers\Masyarakat;
+
+use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+class SuratKelahiranController extends BaseController
+{
+    public function kelahiran()
+    {
+        return view('masyarakat/surat/ajukan-surat/ajukan-surat-kelahiran');
+    }
+
+    public function previewKelahiran()
+    {
+        $data = [
+            'nama' => $this->request->getPost('nama'),
+            'ttl' => $this->request->getPost('ttl'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'pekerjaan' => $this->request->getPost('pekerjaan'),
+            'alamat' => $this->request->getPost('alamat'),
+            'nama_ayah' => $this->request->getPost('nama_ayah'),
+            'nama_ibu' => $this->request->getPost('nama_ibu'),
+            'anak_ke' => $this->request->getPost('anak_ke'),
+        ];
+
+        $path = FCPATH . 'img/logo.png'; // pastikan path benar
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path); // gunakan variabel baru
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+
+        $data['logo'] = $logo;
+
+        // Render view menjadi HTML
+        $html = view('masyarakat/surat/preview-surat/preview_kelahiran', $data);
+
+        // Konfigurasi Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Output file PDF ke browser
+        $dompdf->stream('surat_kelahiran.pdf', ['Attachment' => false]); // true = download, false = tampil di browser
+        exit();
+    }
+
+    public function ajukanKelahiran()
+    {
+        // Ambil data dari form
+        $data = [
+            'nama' => $this->request->getPost('nama'),
+            'ttl' => $this->request->getPost('ttl'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'pekerjaan' => $this->request->getPost('pekerjaan'),
+            'alamat' => $this->request->getPost('alamat'),
+            'nama_ayah' => $this->request->getPost('nama_ayah'),
+            'nama_ibu' => $this->request->getPost('nama_ibu'),
+            'anak_ke' => $this->request->getPost('anak_ke'),
+        ];
+
+        // Simpan data ke database atau lakukan proses lainnya
+        // ...
+
+        return redirect()->to('/masyarakat/surat')->with('success', 'Surat Kelahiran berhasil diajukan.');
+    }
+}

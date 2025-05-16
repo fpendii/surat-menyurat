@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Keterangan Tidak Mampu</h2>
 
-    <form action="<?= site_url('masyarakat/surat/tidak-mampu/preview') ?>" target="_blank" method="POST">
+    <form action="<?= site_url('masyarakat/surat/tidak-mampu/ajukan') ?>" method="POST">
         <?= csrf_field() ?>
 
         <div class="form-group">

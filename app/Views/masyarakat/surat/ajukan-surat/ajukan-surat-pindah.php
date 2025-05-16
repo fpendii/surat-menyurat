@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Pindah</h2>
 
-    <form action="<?= site_url('masyarakat/surat/pindah/preview') ?>" target="_blank" method="POST">
+    <form action="<?= site_url('masyarakat/surat/pindah/ajukan') ?>" method="POST">
         <?= csrf_field() ?>
 
         <!-- Data Pemohon -->

@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Keterangan Kematian</h2>
 
-    <form action="<?= site_url('masyarakat/surat/kematian/preview') ?>" target="_blank" method="POST">
+    <form action="<?= site_url('masyarakat/surat/kematian/ajukan') ?>" method="POST">
         <?= csrf_field() ?>
 
         <div class="form-group">

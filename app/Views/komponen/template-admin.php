@@ -20,6 +20,9 @@
     <!-- iCheck -->
     <link href="/template-admin/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
 
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- bootstrap-progressbar -->
     <link href="/template-admin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- JQVMap -->
@@ -271,6 +274,8 @@
     <!-- Custom Theme Scripts -->
     <script src="/template-admin/build/js/custom.min.js"></script>
 
+    <!-- Bootstrap 5 JS Bundle (termasuk Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

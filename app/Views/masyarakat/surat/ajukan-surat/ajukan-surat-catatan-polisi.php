@@ -7,13 +7,13 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Catatan Polisi</h2>
 
-    <form action="<?= site_url('masyarakat/surat/catatan-polisi/preview') ?>" target="_blank" method="POST">
+    <form action="<?= site_url('masyarakat/surat/catatan-polisi/ajukan') ?>" method="POST">
 
         <?= csrf_field() ?>
 
         <div class="form-group">
             <label for="nama">Nama</label>
-            <input type="text" class="form-control" id="nama" name="nama" value="Rina" required>
+            <input type="text" class="form-control" id="nama" name="nama" required>
         </div>
 
         <div class="form-group">

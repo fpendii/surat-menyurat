@@ -25,7 +25,20 @@
     <div class="col-md-12 col-sm-12">
       <div class="x_panel" style="min-height: 600px;">
         <div class="x_title">
-          <div class="clearfix"></div>
+          <div class="clearfix">
+            <?php if (session()->getFlashdata('success')): ?>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <?= session()->getFlashdata('success') ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<?php elseif (session()->getFlashdata('error')): ?>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <?= session()->getFlashdata('error') ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<?php endif; ?>
+
+          </div>
         </div>
 
         <div class="x_content">

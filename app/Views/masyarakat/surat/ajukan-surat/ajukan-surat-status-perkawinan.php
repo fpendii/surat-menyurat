@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Keterangan Kawin</h2>
 
-    <form action="<?= site_url('masyarakat/surat/keterangan-kawin/preview') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/status-perkawinan/ajukan') ?>" method="POST">
         <?= csrf_field() ?>
 
         <div class="form-group">
