@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Pindah</h2>
 
-    <form action="<?= site_url('masyarakat/surat/pindah/ajukan') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/pindah/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <!-- Data Pemohon -->
@@ -80,6 +80,7 @@
             <input type="number" class="form-control" id="jumlah_pengikut" name="jumlah_pengikut" min="1" value="1" required>
         </div>
 
+        
         <!-- Data Pengikut (Dapat Ditambahkan Berdasarkan Jumlah Pengikut) -->
         <div id="pengikut-wrapper">
             <div class="pengikut-group border p-3 rounded mb-3">
@@ -114,6 +115,24 @@
             </div>
         </div>
 
+        <!-- Upload Berkas Pendukung -->
+        <h5>Upload Berkas</h5>
+
+        <div class="form-group">
+            <label for="file_kk">Kartu Keluarga (KK)</label>
+            <input type="file" class="form-control-file" id="file_kk" name="file_kk" accept=".pdf,.jpg,.jpeg,.png" required>
+        </div>
+
+        <div class="form-group">
+            <label for="file_ktp">KTP</label>
+            <input type="file" class="form-control-file" id="file_ktp" name="file_ktp" accept=".pdf,.jpg,.jpeg,.png" required>
+        </div>
+
+        <div class="form-group">
+            <label for="file_f1">Form F1</label>
+            <input type="file" class="form-control-file" id="file_f1" name="file_f1" accept=".pdf,.jpg,.jpeg,.png" required>
+        </div>
+
         <button type="button" class="btn btn-secondary mb-3" id="tambah-pengikut">+ Tambah Pengikut</button>
         <br>
         <button type="submit" class="btn btn-primary">Ajukan Surat</button>
@@ -121,25 +140,25 @@
 </div>
 
 <script>
-// Fungsi untuk menambah input data pengikut
-document.getElementById('tambah-pengikut').addEventListener('click', function () {
-    const jumlahPengikut = document.getElementById('jumlah_pengikut').value;
-    const wrapper = document.getElementById('pengikut-wrapper');
-    const index = wrapper.childElementCount + 1;
+    // Fungsi untuk menambah input data pengikut
+    document.getElementById('tambah-pengikut').addEventListener('click', function() {
+        const jumlahPengikut = document.getElementById('jumlah_pengikut').value;
+        const wrapper = document.getElementById('pengikut-wrapper');
+        const index = wrapper.childElementCount + 1;
 
-    // Periksa apakah jumlah pengikut sudah sesuai
-    if (index <= jumlahPengikut) {
-        const newGroup = wrapper.firstElementChild.cloneNode(true);
+        // Periksa apakah jumlah pengikut sudah sesuai
+        if (index <= jumlahPengikut) {
+            const newGroup = wrapper.firstElementChild.cloneNode(true);
 
-        // Update data pengikut yang baru
-        newGroup.querySelectorAll('input').forEach(input => input.value = '');
-        newGroup.querySelector('h5').textContent = `Data Pengikut ${index}`;
+            // Update data pengikut yang baru
+            newGroup.querySelectorAll('input').forEach(input => input.value = '');
+            newGroup.querySelector('h5').textContent = `Data Pengikut ${index}`;
 
-        wrapper.appendChild(newGroup);
-    } else {
-        alert("Jumlah pengikut telah mencapai batas.");
-    }
-});
+            wrapper.appendChild(newGroup);
+        } else {
+            alert("Jumlah pengikut telah mencapai batas.");
+        }
+    });
 </script>
 
 <?= $this->endSection() ?>
