@@ -73,6 +73,11 @@ $routes->group('masyarakat', function($routes) {
     $routes->get('surat/status-perkawinan', 'Masyarakat\SuratStatusPerkawinanController::statusPerkawinan');
     $routes->post('surat/status-perkawinan/ajukan', 'Masyarakat\SuratStatusPerkawinanController::ajukanStatusPerkawinan');
     $routes->post('surat/status-perkawinan/preview', 'Masyarakat\SuratStatusPerkawinanController::previewStatusPerkawinan');
+
+
+    // Data Surat
+    $routes->get('data-surat', 'Masyarakat\DataSuratController::dataSurat');
+    $routes->get('data-surat/batal/(:num)', 'Masyarakat\DataSuratController::suratBatal/$1');
 });
 
 

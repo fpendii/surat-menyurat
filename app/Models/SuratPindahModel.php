@@ -7,8 +7,9 @@ use CodeIgniter\Model;
 class SuratPindahModel extends Model
 {
     protected $table = 'surat_pindah';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_surat_pindah';
     protected $allowedFields = [
+        'id_surat',
         'nama',
         'jenis_kelamin',
         'ttl',
@@ -22,9 +23,6 @@ class SuratPindahModel extends Model
         'tujuan_pindah',
         'alasan_pindah',
         'jumlah_pengikut',
-        'kk',
-        'ktp',
-        'form_f1',
     ];
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
 }

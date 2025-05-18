@@ -8,15 +8,18 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Models\SuratPindahModel; // Pastikan Anda menggunakan model yang sesuai
 use App\Models\PengikutPindahModel; // Pastikan Anda menggunakan model yang sesuai
+use App\Models\SuratModel; // Pastikan Anda menggunakan model yang sesuai
 
 class SuratPindahController extends BaseController
 {
     protected $suratPindahModel;
     protected $pengikutPindahModel;
+    protected $suratModel;
     public function __construct()
     {
         $this->suratPindahModel = new SuratPindahModel();
         $this->pengikutPindahModel = new PengikutPindahModel();
+        $this->suratModel = new SuratModel();
     }
     public function pindah()
     {
@@ -99,9 +102,22 @@ class SuratPindahController extends BaseController
             $formF1->move('uploads/surat', $formF1Name);
         }
 
+        // Tambah Data Surat
+        $this->suratModel->insert([
+            'no_surat' => 'SP-' . date('YmdHis'),
+            'id_user' => 1, // Ganti dengan ID user yang sesuai
+            'jenis_surat' => 'surat-pindah',
+            'kk' => $kkName,
+            'ktp' => $ktpName,
+            'form_f1' => $formF1Name,
+        ]);
+        $suratId = $this->suratModel->getInsertID();
+
 
         // Ambil data utama
         $dataSurat = [
+            'id_surat' => $suratId,
+            
             'nama' => $this->request->getPost('nama'),
             'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
             'ttl' => $this->request->getPost('ttl'),
@@ -115,9 +131,6 @@ class SuratPindahController extends BaseController
             'tujuan_pindah' => $this->request->getPost('tujuan_pindah'),
             'alasan_pindah' => $this->request->getPost('alasan_pindah'),
             'jumlah_pengikut' => $this->request->getPost('jumlah_pengikut'),
-            'kk' => $kkName,
-            'ktp' => $ktpName,
-            'form_f1' => $formF1Name,
         ];
 
         // Simpan ke database
@@ -137,7 +150,7 @@ class SuratPindahController extends BaseController
         if (is_array($namaPengikut)) {
             for ($i = 0; $i < count($namaPengikut); $i++) {
                 $pengikutData[] = [
-                    'surat_pindah_id' => $suratPindahId,
+                    'id_surat_pindah' => $suratPindahId,
                     'nama' => $namaPengikut[$i],
                     'jenis_kelamin' => $jkPengikut[$i],
                     'umur' => $umurPengikut[$i],

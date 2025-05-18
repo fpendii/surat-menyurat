@@ -82,9 +82,9 @@
                             <ul class="nav side-menu">
                                 <li><a href="/masyarakat/dashboard"><i class="fa fa-home"></i> Dashboard </a></li>
                                 <li><a href="/masyarakat/surat"><i class="fa fa-envelope"></i> Surat </a></li>
-                                <li><a href="/masyarakat/surat"><i class="fa fa-envelope"></i> Data Surat </a></li>
-                                <li><a href="/masyarakat/surat"><i class="fa fa-archive"></i> Arsip Surat </a></li>
-                                <li><a href="/masyarakat/surat"><i class="fa fa-power-off"></i> Logout </a></li>
+                                <li><a href="/masyarakat/data-surat"><i class="fa fa-envelope"></i> Data Surat </a></li>
+                                <li><a href="/masyarakat/arsip-surat"><i class="fa fa-archive"></i> Arsip Surat </a></li>
+                                <li><a href="/logout"><i class="fa fa-power-off"></i> Logout </a></li>
                             </ul>
                         </div>
 

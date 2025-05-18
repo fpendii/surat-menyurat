@@ -7,9 +7,9 @@ use CodeIgniter\Model;
 class PengikutPindahModel extends Model
 {
     protected $table = 'pengikut_pindah';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_pengikut_pindah';
     protected $allowedFields = [
-        'surat_pindah_id',
+        'id_surat_pindah',
         'nama',
         'jenis_kelamin',
         'umur',
@@ -17,5 +17,5 @@ class PengikutPindahModel extends Model
         'pendidikan',
         'no_ktp',
     ];
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
 }
