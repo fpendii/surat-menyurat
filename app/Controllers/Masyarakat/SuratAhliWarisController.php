@@ -6,6 +6,9 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Models\SuratModel;
+use App\Models\SuratAhliWarisModel;
+use App\Models\AhliWarisModel;
 
 class SuratAhliWarisController extends BaseController
 {
@@ -51,18 +54,71 @@ class SuratAhliWarisController extends BaseController
 
     public function ajukanAhliWaris()
     {
-        // Ambil data dari form
-        $data = [
-            'pemilik_harta' => $this->request->getPost('pemilik_harta'),
-            'nama_ahli_waris' => $this->request->getPost('nama_ahli_waris'),
-            'nik_ahli_waris' => $this->request->getPost('nik_ahli_waris'),
-            'ttl_ahli_waris' => $this->request->getPost('ttl_ahli_waris'),
-            'hubungan_ahli_waris' => $this->request->getPost('hubungan_ahli_waris')
-        ];
+        helper(['form', 'url']);
 
-        // Simpan data ke database atau lakukan proses lainnya sesuai kebutuhan
-        // ...
+        $userId = 1; // Ambil ID user dari session login
+        $pemilikHarta = $this->request->getPost('pemilik_harta');
+        $namaAhliWaris = $this->request->getPost('nama_ahli_waris');
+        $nikAhliWaris = $this->request->getPost('nik_ahli_waris');
+        $ttlAhliWaris = $this->request->getPost('ttl_ahli_waris');
+        $hubunganAhliWaris = $this->request->getPost('hubungan_ahli_waris');
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Surat berhasil diajukan.');
+        // Upload surat nikah
+        $suratNikah = $this->request->getFile('surat_nikah');
+        $namaFileNikah = null;
+        if ($suratNikah && $suratNikah->isValid() && !$suratNikah->hasMoved()) {
+            $namaFileNikah = $suratNikah->getRandomName();
+            $suratNikah->move(FCPATH . 'uploads/ahli_waris', $namaFileNikah);
+        }
+
+        // Simpan surat
+        $suratModel = new SuratModel();
+        $suratId = $suratModel->insert([
+            'id_user' => $userId,
+            'no_surat' => 'AW-' . date('YmdHis'),
+            'jenis_surat' => 'ahli_waris',
+            'status' => 'diajukan'
+        ]);
+
+
+        // Simpan ke tabel surat_ahli_waris
+        $suratAhliWarisModel = new \App\Models\SuratAhliWarisModel();
+        $idSuratAhliWaris = $suratAhliWarisModel->insert([
+            'id_surat' => $suratId,
+            'pemilik_harta' => $pemilikHarta,
+            'surat_nikah' => $namaFileNikah,
+            'status' => 'diproses'
+        ]);
+
+        // Simpan data ahli waris
+        $ahliWarisModel = new \App\Models\AhliWarisModel();
+        $jumlahAhliWaris = count($namaAhliWaris);
+
+        for ($i = 0; $i < $jumlahAhliWaris; $i++) {
+            $ktp = $this->request->getFileMultiple('ktp_ahli_waris')[$i] ?? null;
+            $kk = $this->request->getFileMultiple('kk_ahli_waris')[$i] ?? null;
+            $akta = $this->request->getFileMultiple('akta_lahir_ahli_waris')[$i] ?? null;
+
+            $ktpName = $ktp && $ktp->isValid() && !$ktp->hasMoved() ? $ktp->getRandomName() : null;
+            $kkName = $kk && $kk->isValid() && !$kk->hasMoved() ? $kk->getRandomName() : null;
+            $aktaName = $akta && $akta->isValid() && !$akta->hasMoved() ? $akta->getRandomName() : null;
+
+            if ($ktpName) $ktp->move(FCPATH . 'uploads/ahli_waris', $ktpName);
+            if ($kkName) $kk->move(FCPATH . 'uploads/ahli_waris', $kkName);
+            if ($aktaName) $akta->move(FCPATH . 'uploads/ahli_waris', $aktaName);
+
+            $ahliWarisModel->insert([
+                'id_surat_ahli_waris' => $idSuratAhliWaris,
+                'nama' => $namaAhliWaris[$i],
+                'nik' => $nikAhliWaris[$i],
+                'ttl' => $ttlAhliWaris[$i],
+                'hubungan' => $hubunganAhliWaris[$i],
+                'file_ktp' => $ktpName,
+                'file_kk' => $kkName,
+                'file_akta_lahir' => $aktaName
+            ]);
+        }
+
+        return redirect()->to('/masyarakat/surat')->with('success', 'Surat ahli waris berhasil diajukan.');
     }
 }

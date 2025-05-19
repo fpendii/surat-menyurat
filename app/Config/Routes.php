@@ -29,11 +29,12 @@ $routes->group('masyarakat', function($routes) {
     $routes->get('surat/pindah', 'Masyarakat\SuratPindahController::pindah');
     $routes->post('surat/pindah/ajukan', 'Masyarakat\SuratPindahController::ajukanPindah');
     $routes->post('surat/pindah/preview', 'Masyarakat\SuratPindahController::previewPindah');
+    $routes->get('data-surat/surat-pindah/download/(:num)', 'Masyarakat\SuratPindahController::downloadSurat/$1');
 
     $routes->get('surat/usaha', 'Masyarakat\SuratUsahaController::usaha');
     $routes->post('surat/usaha/ajukan', 'Masyarakat\SuratUsahaController::ajukanUsaha');
     $routes->post('surat/usaha/preview', 'Masyarakat\SuratUsahaController::previewUsaha');
-    
+     
     $routes->get('surat/pengantar-kk-ktp', 'Masyarakat\SuratPengantarKKKTPController::pengantarKKKTP');
     $routes->post('surat/pengantar-kk-ktp/ajukan', 'Masyarakat\SuratPengantarKKKTPController::ajukanPengantarKKKTP');
     $routes->post('surat/pengantar-kk-ktp/preview', 'Masyarakat\SuratPengantarKKKTPController::previewPengantarKKKTP');

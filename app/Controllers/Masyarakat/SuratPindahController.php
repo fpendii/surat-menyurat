@@ -117,7 +117,7 @@ class SuratPindahController extends BaseController
         // Ambil data utama
         $dataSurat = [
             'id_surat' => $suratId,
-            
+
             'nama' => $this->request->getPost('nama'),
             'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
             'ttl' => $this->request->getPost('ttl'),
@@ -163,5 +163,72 @@ class SuratPindahController extends BaseController
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
+    }
+
+    public function downloadSurat($id)
+    {
+        // Load model
+        $suratModel = new \App\Models\SuratModel();
+        $suratPindahModel = new \App\Models\SuratPindahModel();
+        $pengikutModel = new \App\Models\PengikutPindahModel();
+
+        // Ambil data dari database
+        $surat = $suratModel->find($id);
+        $suratPindah = $suratPindahModel->where('id_surat', $surat['id_surat'])->first();
+        $pengikutList = $pengikutModel->where('id_surat_pindah', $suratPindah['id_surat_pindah'])->findAll();
+
+        // Pastikan data ditemukan
+        if (!$surat || !$suratPindah) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'nama' => $suratPindah['nama'],
+            'jenis_kelamin' => $suratPindah['jenis_kelamin'],
+            'ttl' => $suratPindah['ttl'],
+            'kewarganegaraan' => $suratPindah['kewarganegaraan'],
+            'agama' => $suratPindah['agama'],
+            'status_perkawinan' => $suratPindah['status_perkawinan'],
+            'pekerjaan' => $suratPindah['pekerjaan'],
+            'pendidikan' => $suratPindah['pendidikan'],
+            'alamat_asal' => $suratPindah['alamat_asal'],
+            'nik' => $suratPindah['nik'],
+            'tujuan_pindah' => $suratPindah['tujuan_pindah'],
+            'alasan_pindah' => $suratPindah['alasan_pindah'],
+            'jumlah_pengikut' => count($pengikutList),
+            'nama_pengikut' => array_column($pengikutList, 'nama'),
+            'jenis_kelamin_pengikut' => array_column($pengikutList, 'jenis_kelamin'),
+            'umur_pengikut' => array_column($pengikutList, 'umur'),
+            'status_perkawinan_pengikut' => array_column($pengikutList, 'status_perkawinan'),
+            'pendidikan_pengikut' => array_column($pengikutList, 'pendidikan'),
+            'no_ktp_pengikut' => array_column($pengikutList, 'no_ktp'),
+        ];
+
+        // Logo
+        $path = FCPATH . 'img/logo.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+
+        $data['logo'] = $logo;
+
+        // Render view
+        $html = view('masyarakat/surat/preview-surat/preview_pindah', $data);
+
+        // PDF config
+        $options = new \Dompdf\Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new \Dompdf\Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $filename = 'surat_pindah_' . strtolower(str_replace(' ', '_', $suratPindah['nama'])) . '_' . date('Ymd') . '.pdf';
+        $dompdf->stream($filename, ['Attachment' => true]);
+
+        exit();
     }
 }

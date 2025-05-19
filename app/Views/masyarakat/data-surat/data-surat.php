@@ -67,10 +67,10 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="<?= base_url('admin/surat/edit/' . $s['id_surat']) ?>" class="btn btn-sm btn-warning">
+                                        <a href="<?= base_url('masyarakat/data-surat/edit/' . $s['id_surat']) ?>" class="btn btn-sm btn-warning">
                                             <i class="fa fa-edit"></i> Edit
                                         </a>
-                                        <a href="<?= base_url('admin/surat/download/' . $s['id_surat']) ?>" class="btn btn-sm btn-success">
+                                        <a href="<?= base_url('masyarakat/data-surat/'.$s['jenis_surat'].'/download/' . $s['id_surat']) ?>" class="btn btn-sm btn-success">
                                             <i class="fa fa-download"></i> Download
                                         </a>
                                         <button
