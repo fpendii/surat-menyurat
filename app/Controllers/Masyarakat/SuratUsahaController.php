@@ -57,7 +57,53 @@ class SuratUsahaController extends BaseController
 
     public function ajukanUsaha()
     {
-        $data = [
+        $validation = \Config\Services::validation();
+        $rules = [
+            'nama' => 'required',
+            'nik' => 'required|numeric|exact_length[16]',
+            'alamat' => 'required',
+            'rt_rw' => 'required',
+            'desa' => 'required',
+            'kecamatan' => 'required',
+            'kabupaten' => 'required',
+            'provinsi' => 'required',
+            'nama_usaha' => 'required',
+            'alamat_usaha' => 'required',
+            'sejak_tahun' => 'required|numeric|exact_length[4]',
+            'kk' => 'uploaded[kk]|max_size[kk,2048]|mime_in[kk,image/jpg,image/jpeg,image/png,application/pdf]',
+            'ktp' => 'uploaded[ktp]|max_size[ktp,2048]|mime_in[ktp,image/jpg,image/jpeg,image/png,application/pdf]',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        $userId = 1; // Ambil dari session login seharusnya
+
+        $kk = $this->request->getFile('kk');
+        $ktp = $this->request->getFile('ktp');
+
+        $kkName = $kk->getRandomName();
+        $ktpName = $ktp->getRandomName();
+
+        $kk->move('uploads/kk/', $kkName);
+        $ktp->move('uploads/ktp/', $ktpName);
+
+        // Simpan data ke tabel surat dulu
+        $suratModel = new \App\Models\SuratModel();
+
+        $idSurat = $suratModel->insert([
+            'id_user' => $userId,
+            'no_surat' => 'US-' . date('YmdHis'),
+            'jenis_surat' => 'usaha',
+            'status' => 'diajukan'
+        ]);
+
+        // Simpan data detail surat usaha
+        $usahaModel = new \App\Models\SuratUsahaModel();
+
+        $usahaModel->insert([
+            'id_surat' => $idSurat,
             'nama' => $this->request->getPost('nama'),
             'nik' => $this->request->getPost('nik'),
             'alamat' => $this->request->getPost('alamat'),
@@ -69,12 +115,10 @@ class SuratUsahaController extends BaseController
             'nama_usaha' => $this->request->getPost('nama_usaha'),
             'alamat_usaha' => $this->request->getPost('alamat_usaha'),
             'sejak_tahun' => $this->request->getPost('sejak_tahun'),
-        ];
+            'kk' => $kkName,
+            'ktp' => $ktpName,
+        ]);
 
-        // Simpan data ke database atau lakukan proses lainnya
-        // ...
-
-        
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
     }
 }

@@ -55,7 +55,52 @@ class SuratTidakMampuController extends BaseController
 
     public function ajukanTidakMampu()
     {
-        $data = [
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nama' => 'required',
+            'bin_binti' => 'required',
+            'nik' => 'required|numeric|exact_length[16]',
+            'ttl' => 'required',
+            'jenis_kelamin' => 'required|in_list[L,P]',
+            'agama' => 'required',
+            'pekerjaan' => 'required',
+            'alamat' => 'required',
+            'keperluan' => 'required',
+            'ktp' => 'uploaded[ktp]|mime_in[ktp,image/jpeg,image/png,application/pdf]|max_size[ktp,2048]',
+            'kk' => 'uploaded[kk]|mime_in[kk,image/jpeg,image/png,application/pdf]|max_size[kk,2048]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        $ktpFile = $this->request->getFile('ktp');
+        $kkFile = $this->request->getFile('kk');
+
+        $ktpName = $ktpFile->getRandomName();
+        $kkName = $kkFile->getRandomName();
+
+        $ktpFile->move(WRITEPATH . 'uploads/surat_tidak_mampu/', $ktpName);
+        $kkFile->move(WRITEPATH . 'uploads/surat_tidak_mampu/', $kkName);
+
+        // Ambil ID user dari session login
+        $userId = 1;
+
+        // Simpan ke tabel `surat`
+        $suratModel = new \App\Models\SuratModel();
+
+        $idSurat = $suratModel->insert([
+             'id_user' => $userId,
+            'no_surat' => 'TM-' . date('YmdHis'),
+            'jenis_surat' => 'kehilangan',
+            'status' => 'diajukan'
+        ], true); // 'true' agar return ID yang baru disisipkan
+
+        // Simpan ke tabel `surat_tidak_mampu`
+        $tidakMampuModel = new \App\Models\SuratTidakMampuModel();
+
+        $tidakMampuModel->insert([
+            'id_surat' => $idSurat,
             'nama' => $this->request->getPost('nama'),
             'bin_binti' => $this->request->getPost('bin_binti'),
             'nik' => $this->request->getPost('nik'),
@@ -65,10 +110,9 @@ class SuratTidakMampuController extends BaseController
             'pekerjaan' => $this->request->getPost('pekerjaan'),
             'alamat' => $this->request->getPost('alamat'),
             'keperluan' => $this->request->getPost('keperluan'),
-        ];
-
-        // Simpan data ke database atau lakukan tindakan lain sesuai kebutuhan
-        // ...
+            'ktp' => $ktpName,
+            'kk' => $kkName,
+        ]);
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
     }

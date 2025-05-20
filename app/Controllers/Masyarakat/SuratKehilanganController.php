@@ -13,7 +13,7 @@ class SuratKehilanganController extends BaseController
     {
         return view('masyarakat/surat/ajukan-surat/ajukan-surat-kehilangan');
     }
-    
+
     public function previewKehilangan()
     {
         $data = [
@@ -54,8 +54,59 @@ class SuratKehilanganController extends BaseController
 
     public function ajukanKehilangan()
     {
-        // Ambil data dari form
-        $data = [
+        $validation = \Config\Services::validation();
+        $userId = 1; // Ambil dari session login seharusnya
+
+        // Validasi input
+        $rules = [
+            'nama' => 'required',
+            'jenis_kelamin' => 'required',
+            'ttl' => 'required',
+            'nik' => 'required|numeric|exact_length[16]',
+            'agama' => 'required',
+            'alamat' => 'required',
+            'barang_hilang' => 'required',
+            'keperluan' => 'required',
+            'kk' => 'uploaded[kk]|max_size[kk,2048]|ext_in[kk,jpg,jpeg,png,pdf]',
+            'ktp' => 'uploaded[ktp]|max_size[ktp,2048]|ext_in[ktp,jpg,jpeg,png,pdf]',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Simpan data ke tabel surat
+        $suratModel = new \App\Models\SuratModel();
+        $suratData = [
+            'id_user' => $userId,
+            'no_surat' => 'KH-' . date('YmdHis'),
+            'jenis_surat' => 'kehilangan',
+            'status' => 'diajukan'
+        ];
+
+        $idSurat = $suratModel->insert($suratData);
+        if (!$idSurat) {
+            return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat.');
+        }
+
+        // Upload file
+        $uploadPath = WRITEPATH . 'uploads/surat_kehilangan/';
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
+
+        $ktp = $this->request->getFile('ktp');
+        $kk = $this->request->getFile('kk');
+
+        $ktpName = $ktp->getRandomName();
+        $kkName = $kk->getRandomName();
+
+        $ktp->move($uploadPath, $ktpName);
+        $kk->move($uploadPath, $kkName);
+
+        // Simpan data ke tabel kehilangan
+        $kehilanganData = [
+            'id_surat' => $idSurat,
             'nama' => $this->request->getPost('nama'),
             'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
             'ttl' => $this->request->getPost('ttl'),
@@ -64,10 +115,16 @@ class SuratKehilanganController extends BaseController
             'alamat' => $this->request->getPost('alamat'),
             'barang_hilang' => $this->request->getPost('barang_hilang'),
             'keperluan' => $this->request->getPost('keperluan'),
+            'ktp' => $ktpName,
+            'kk' => $kkName,
         ];
 
-        // Simpan data ke database atau lakukan proses lain sesuai kebutuhan
-        // ...
+        $kehilanganModel = new \App\Models\SuratKehilanganModel();
+        if (!$kehilanganModel->insert($kehilanganData)) {
+            // rollback surat
+            $suratModel->delete($idSurat);
+            return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data kehilangan.');
+        }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Keterangan Kehilangan berhasil diajukan.');
     }
