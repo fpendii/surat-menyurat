@@ -51,13 +51,45 @@ class SuratPengantarKKKTPController extends BaseController
 
     public function ajukanPengantarKKKTP()
     {
-        // Ambil data array dari form input
-        $dataOrang = $this->request->getPost('data'); // data adalah array
+        $validation = \Config\Services::validation();
+        $dataInput = $this->request->getPost('data');
 
-        // Simpan data ke database atau lakukan proses lainnya
-        // ...
+        // foreach ($dataInput as $index => $person) {
+        //     $validation->setRules([
+        //         "data[$index][nama]" => 'required|min_length[3]',
+        //         "data[$index][no_kk]" => 'required|numeric',
+        //         "data[$index][nik]" => 'required|numeric|exact_length[16]',
+        //         "data[$index][keterangan]" => 'required|min_length[5]',
+        //         "data[$index][jumlah]" => 'required|integer|greater_than[0]',
+        //     ]);
+        // }
 
-        // Redirect atau tampilkan pesan sukses
-        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
+        // if (!$validation->withRequest($this->request)->run()) {
+        //     return redirect()->to('/masyarakat/surat/pengantar-kk-ktp')->withInput()->with('errors', $validation->getErrors());
+        // }
+
+        // Simpan data ke tabel surat
+        $suratModel = new \App\Models\SuratModel();
+        $idSurat = $suratModel->insert([
+            'id_user' => 1,
+            'no_surat' => 'KKKTP-' . date('YmdHis'),
+            'jenis_surat' => 'pengantar_kk_ktp',
+            'status' => 'diajukan'
+        ], true);
+
+        // Simpan detail orang
+        $detailModel = new \App\Models\SuratPengantarKkKtpModel();
+        foreach ($dataInput as $person) {
+            $detailModel->insert([
+                'id_surat' => $idSurat,
+                'nama' => $person['nama'],
+                'no_kk' => $person['no_kk'],
+                'nik' => $person['nik'],
+                'keterangan' => $person['keterangan'],
+                'jumlah' => $person['jumlah']
+            ]);
+        }
+
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat pengantar KK dan KTP berhasil diajukan.');
     }
 }

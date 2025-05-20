@@ -54,17 +54,42 @@ class SuratDomisiliBangunanController extends BaseController
 
     public function ajukanDomisiliBangunan()
     {
-        $data = [
-            'nama_gapoktan'   => $this->request->getPost('nama_gapoktan'),
-            'tgl_pembentukan' => $this->request->getPost('tgl_pembentukan'),
-            'alamat'          => $this->request->getPost('alamat'),
-            'ketua'           => $this->request->getPost('ketua'),
-            'sekretaris'      => $this->request->getPost('sekretaris'),
-            'bendahara'       => $this->request->getPost('bendahara'),
-        ];
+        $validation = \Config\Services::validation();
 
-        // Simpan data ke database atau lakukan proses lainnya
-        // Misalnya, simpan ke tabel surat_domisili_bangunan
+        // Validasi input
+        $validation->setRules([
+            'nama_gapoktan'   => 'required|min_length[3]',
+            'tgl_pembentukan' => 'required|valid_date',
+            'alamat'          => 'required|min_length[5]',
+            'ketua'           => 'required|min_length[3]',
+            'sekretaris'      => 'required|min_length[3]',
+            'bendahara'       => 'required|min_length[3]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Simpan data ke tabel surat terlebih dahulu
+        $suratModel = new \App\Models\SuratModel();
+        $idSurat = $suratModel->insert([
+            'id_user' => 1,
+            'no_surat' => 'DB-' . date('YmdHis'),
+            'jenis_surat' => 'domisili_bangunan',
+            'status' => 'diajukan',
+        ], true); // true supaya dapat id terakhir
+
+        // Simpan data ke tabel surat_domisili_bangunan
+        $domisiliBangunanModel = new \App\Models\SuratDomisiliBangunanModel();
+        $domisiliBangunanModel->insert([
+            'id_surat'         => $idSurat,
+            'nama_gapoktan'    => $this->request->getPost('nama_gapoktan'),
+            'tgl_pembentukan'  => $this->request->getPost('tgl_pembentukan'),
+            'alamat'           => $this->request->getPost('alamat'),
+            'ketua'            => $this->request->getPost('ketua'),
+            'sekretaris'       => $this->request->getPost('sekretaris'),
+            'bendahara'        => $this->request->getPost('bendahara'),
+        ]);
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Domisili Bangunan berhasil diajukan.');
     }

@@ -57,24 +57,53 @@ class SuratDomisiliManusiaController extends BaseController
 
     public function ajukanDomisiliWarga()
     {
-        $data = [
-            'nama_pejabat'   => $this->request->getPost('nama_pejabat'),
-            'jabatan' => $this->request->getPost('jabatan'),
-            'kecamatan_pejabat'          => $this->request->getPost('kecamatan_pejabat'),
-            'kabupaten_pejabat'           => $this->request->getPost('kabupaten_pejabat'),
-            'nama_warga'      => $this->request->getPost('nama_warga'),
-            'nik'       => $this->request->getPost('nik'),
-            'alamat'       => $this->request->getPost('alamat'),
-            'desa'       => $this->request->getPost('desa'),
-            'kecamatan'       => $this->request->getPost('kecamatan'),
-            'kabupaten'       => $this->request->getPost('kabupaten'),
-            'provinsi'       => $this->request->getPost('provinsi'),
-        ];
+        $validation = \Config\Services::validation();
 
-        // Simpan data ke database atau lakukan proses lainnya
-        // ...
+        // Aturan validasi
+        $validation->setRules([
+            'nama_pejabat'       => 'required|min_length[3]',
+            'jabatan'            => 'required|min_length[3]',
+            'kecamatan_pejabat'  => 'required|min_length[3]',
+            'kabupaten_pejabat'  => 'required|min_length[3]',
+            'nama_warga'         => 'required|min_length[3]',
+            'nik'                => 'required|numeric|exact_length[16]',
+            'alamat'             => 'required|min_length[5]',
+            'desa'               => 'required|min_length[3]',
+            'kecamatan'          => 'required|min_length[3]',
+            'kabupaten'          => 'required|min_length[3]',
+            'provinsi'           => 'required|min_length[3]',
+        ]);
 
-        // Redirect atau tampilkan pesan sukses
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->to('/masyarakat/surat/domisili-manusia')->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Simpan data ke tabel surat dulu
+        $suratModel = new \App\Models\SuratModel();
+        $idSurat = $suratModel->insert([
+            'id_user'    => 1, // pastikan user login
+            'no_surat'   => 'DW-' . date('YmdHis'),
+            'jenis_surat' => 'domisili_warga',
+            'status'     => 'diajukan',
+        ], true);
+
+        // Simpan data ke tabel surat_domisili_warga
+        $domisiliWargaModel = new \App\Models\SuratDomisiliWargaModel();
+        $domisiliWargaModel->insert([
+            'id_surat'           => $idSurat,
+            'nama_pejabat'       => $this->request->getPost('nama_pejabat'),
+            'jabatan'            => $this->request->getPost('jabatan'),
+            'kecamatan_pejabat'  => $this->request->getPost('kecamatan_pejabat'),
+            'kabupaten_pejabat'  => $this->request->getPost('kabupaten_pejabat'),
+            'nama_warga'         => $this->request->getPost('nama_warga'),
+            'nik'                => $this->request->getPost('nik'),
+            'alamat'             => $this->request->getPost('alamat'),
+            'desa'               => $this->request->getPost('desa'),
+            'kecamatan'          => $this->request->getPost('kecamatan'),
+            'kabupaten'          => $this->request->getPost('kabupaten'),
+            'provinsi'           => $this->request->getPost('provinsi'),
+        ]);
+
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
     }
 }
