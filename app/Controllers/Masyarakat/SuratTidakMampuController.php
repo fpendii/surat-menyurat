@@ -92,7 +92,7 @@ class SuratTidakMampuController extends BaseController
         $idSurat = $suratModel->insert([
              'id_user' => $userId,
             'no_surat' => 'TM-' . date('YmdHis'),
-            'jenis_surat' => 'kehilangan',
+            'jenis_surat' => 'tidak_mampu',
             'status' => 'diajukan'
         ], true); // 'true' agar return ID yang baru disisipkan
 

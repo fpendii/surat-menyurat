@@ -57,11 +57,11 @@
         <p><strong>Ketua:</strong> <span id="preview_ketua"></span></p>
         <p><strong>Sekretaris:</strong> <span id="preview_sekretaris"></span></p>
         <p><strong>Bendahara:</strong> <span id="preview_bendahara"></span></p>
-        <p class="text-danger">Apakah Anda yakin data di atas sudah benar dan ingin mencetak surat?</p>
+        <p class="text-danger">Apakah Anda yakin data di atas sudah benar dan ingin mengajukan surat?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Lagi</button>
-        <button type="button" class="btn btn-success" id="konfirmasiSubmit">Ya, Cetak!</button>
+        <button type="button" class="btn btn-success" id="konfirmasiSubmit">Ya, Ajukan!</button>
       </div>
     </div>
   </div>
