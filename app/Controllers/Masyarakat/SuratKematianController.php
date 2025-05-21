@@ -55,8 +55,39 @@ class SuratKematianController extends BaseController
 
     public function ajukanKematian()
     {
-        // Ambil data dari form
-        $data = [
+        // Validasi input
+        $validation = \Config\Services::validation();
+
+        $rules = [
+            'nama' => 'required',
+            'jenis_kelamin' => 'required|in_list[L,P]',
+            'ttl' => 'required',
+            'agama' => 'required',
+            'hari_tanggal' => 'required',
+            'jam' => 'required',
+            'tempat' => 'required',
+            'penyebab' => 'required',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('/masyarakat/surat/kematian')->withInput()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Simpan ke tabel `surat`
+        $suratModel = new \App\Models\SuratModel();
+        $idUser = 1; // Pastikan user login dan ada session
+
+        $idSurat = $suratModel->insert([
+            'id_user' => 1,
+            'no_surat' => 'SK-' . date('YmdHis'),
+            'jenis_surat' => 'kematian',
+            'status' => 'diajukan'
+        ]);
+
+        // Simpan ke tabel `surat_kematian`
+        $kematianModel = new \App\Models\SuratKematianModel();
+        $kematianModel->insert([
+            'id_surat' => $idSurat,
             'nama' => $this->request->getPost('nama'),
             'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
             'ttl' => $this->request->getPost('ttl'),
@@ -65,10 +96,7 @@ class SuratKematianController extends BaseController
             'jam' => $this->request->getPost('jam'),
             'tempat' => $this->request->getPost('tempat'),
             'penyebab' => $this->request->getPost('penyebab'),
-        ];
-
-        // Simpan data ke database atau lakukan proses lainnya
-        // ...
+        ]);
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat kematian berhasil diajukan.');
     }

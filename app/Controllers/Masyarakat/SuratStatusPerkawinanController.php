@@ -52,8 +52,40 @@ class SuratStatusPerkawinanController extends BaseController
 
     public function ajukanStatusPerkawinan()
     {
-        // Ambil data dari form
-        $data = [
+        // Validasi input
+        $validationRules = [
+            'nama'    => 'required|max_length[100]',
+            'nik'     => 'required|numeric',
+            'ttl'     => 'required|max_length[100]',
+            'agama'   => 'required',
+            'alamat'  => 'required',
+            'status'  => 'required',
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->to('/masyarakat/surat/status-perkawinan')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $db = \Config\Database::connect();
+        $suratModel = new \App\Models\SuratModel();
+        $statusPerkawinanModel = new \App\Models\SuratStatusPerkawinanModel();
+
+        // Transaksi agar data konsisten
+        $db->transStart();
+
+        // Simpan data ke tabel surat
+        $suratData = [
+            'id_user' => 1,
+            'no_surat' => 'SP-' . date('YmdHis'),
+            'jenis_surat' => 'status_perkawinan',
+            'status' => 'diajukan',
+        ];
+        $suratModel->insert($suratData);
+        $idSurat = $suratModel->getInsertID();
+
+        // Simpan data ke tabel surat_status_perkawinan
+        $statusPerkawinanData = [
+            'id_surat' => $idSurat,
             'nama' => $this->request->getPost('nama'),
             'nik' => $this->request->getPost('nik'),
             'ttl' => $this->request->getPost('ttl'),
@@ -61,10 +93,14 @@ class SuratStatusPerkawinanController extends BaseController
             'alamat' => $this->request->getPost('alamat'),
             'status' => $this->request->getPost('status'),
         ];
+        $statusPerkawinanModel->insert($statusPerkawinanData);
 
-        // Simpan data ke database atau lakukan proses lainnya
-        // ...
+        $db->transComplete();
+
+        if ($db->transStatus() === false) {
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data.');
+        }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat berhasil diajukan.');
-    }   
+    }
 }

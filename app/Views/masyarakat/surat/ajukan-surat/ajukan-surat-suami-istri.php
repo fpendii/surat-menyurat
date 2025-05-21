@@ -5,41 +5,51 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Keterangan Suami Istri</h2>
 
+    <?php if (session()->getFlashdata('errors')) : ?>
+        <div class="alert alert-danger">
+            <ul>
+                <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                    <li><?= esc($error) ?></li>
+                <?php endforeach ?>
+            </ul>
+        </div>
+    <?php endif ?>
+
     <form action="<?= site_url('masyarakat/surat/suami-istri/ajukan') ?>" method="POST">
         <?= csrf_field() ?>
 
         <h5 class="mt-4">Data Suami</h5>
         <div class="form-group">
             <label for="nama_suami">Nama Suami</label>
-            <input type="text" class="form-control" id="nama_suami" name="nama_suami" required>
+            <input type="text" class="form-control" id="nama_suami" name="nama_suami" value="<?= old('nama_suami') ?>" required>
         </div>
 
         <div class="form-group">
             <label for="nik_suami">NIK Suami</label>
-            <input type="text" class="form-control" id="nik_suami" name="nik_suami" required>
+            <input type="text" class="form-control" id="nik_suami" name="nik_suami" value="<?= old('nik_suami') ?>" required>
         </div>
 
         <div class="form-group">
             <label for="ttl_suami">Tempat / Tanggal Lahir Suami</label>
-            <input type="text" class="form-control" id="ttl_suami" name="ttl_suami" placeholder="Contoh: Surabaya, 14 Februari 1990" required>
+            <input type="text" class="form-control" id="ttl_suami" name="ttl_suami" value="<?= old('ttl_suami') ?>" placeholder="Contoh: Surabaya, 14 Februari 1990" required>
         </div>
 
         <div class="form-group">
             <label for="agama_suami">Agama Suami</label>
             <select class="form-control" id="agama_suami" name="agama_suami" required>
                 <option value="">-- Pilih --</option>
-                <option value="Islam">Islam</option>
-                <option value="Kristen">Kristen</option>
-                <option value="Katolik">Katolik</option>
-                <option value="Hindu">Hindu</option>
-                <option value="Budha">Budha</option>
-                <option value="Konghucu">Konghucu</option>
+                <?php
+                $agama_suami = old('agama_suami');
+                $options = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu'];
+                foreach ($options as $opt) : ?>
+                    <option value="<?= $opt ?>" <?= $agama_suami === $opt ? 'selected' : '' ?>><?= $opt ?></option>
+                <?php endforeach ?>
             </select>
         </div>
 
         <div class="form-group">
             <label for="alamat_suami">Alamat Suami</label>
-            <textarea class="form-control" id="alamat_suami" name="alamat_suami" rows="3" required></textarea>
+            <textarea class="form-control" id="alamat_suami" name="alamat_suami" rows="3" required><?= old('alamat_suami') ?></textarea>
         </div>
 
         <hr>
@@ -47,35 +57,34 @@
         <h5 class="mt-4">Data Istri</h5>
         <div class="form-group">
             <label for="nama_istri">Nama Istri</label>
-            <input type="text" class="form-control" id="nama_istri" name="nama_istri" required>
+            <input type="text" class="form-control" id="nama_istri" name="nama_istri" value="<?= old('nama_istri') ?>" required>
         </div>
 
         <div class="form-group">
             <label for="nik_istri">NIK Istri</label>
-            <input type="text" class="form-control" id="nik_istri" name="nik_istri" required>
+            <input type="text" class="form-control" id="nik_istri" name="nik_istri" value="<?= old('nik_istri') ?>" required>
         </div>
 
         <div class="form-group">
             <label for="ttl_istri">Tempat / Tanggal Lahir Istri</label>
-            <input type="text" class="form-control" id="ttl_istri" name="ttl_istri" placeholder="Contoh: Bandung, 5 Mei 1992" required>
+            <input type="text" class="form-control" id="ttl_istri" name="ttl_istri" value="<?= old('ttl_istri') ?>" placeholder="Contoh: Bandung, 5 Mei 1992" required>
         </div>
 
         <div class="form-group">
             <label for="agama_istri">Agama Istri</label>
             <select class="form-control" id="agama_istri" name="agama_istri" required>
                 <option value="">-- Pilih --</option>
-                <option value="Islam">Islam</option>
-                <option value="Kristen">Kristen</option>
-                <option value="Katolik">Katolik</option>
-                <option value="Hindu">Hindu</option>
-                <option value="Budha">Budha</option>
-                <option value="Konghucu">Konghucu</option>
+                <?php
+                $agama_istri = old('agama_istri');
+                foreach ($options as $opt) : ?>
+                    <option value="<?= $opt ?>" <?= $agama_istri === $opt ? 'selected' : '' ?>><?= $opt ?></option>
+                <?php endforeach ?>
             </select>
         </div>
 
         <div class="form-group">
             <label for="alamat_istri">Alamat Istri</label>
-            <textarea class="form-control" id="alamat_istri" name="alamat_istri" rows="3" required></textarea>
+            <textarea class="form-control" id="alamat_istri" name="alamat_istri" rows="3" required><?= old('alamat_istri') ?></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>

@@ -54,6 +54,23 @@ class SuratBelumBekerjaController extends BaseController
 
     public function ajukanBelumBekerja()
     {
+        // Validasi input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nama' => 'required',
+            'nik' => 'required|numeric|exact_length[16]',
+            'ttl' => 'required',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'status_pekerjaan' => 'required',
+            'warga_negara' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->to('/masyarakat/surat/belum-bekerja')->withInput()->with('errors', $validation->getErrors());
+        }
+
         // Ambil data dari form
         $data = [
             'nama' => $this->request->getPost('nama'),
@@ -66,10 +83,22 @@ class SuratBelumBekerjaController extends BaseController
             'alamat' => $this->request->getPost('alamat'),
         ];
 
-        // Simpan data ke database (jika perlu)
-        // ...
+        // Simpan ke tabel `surat`
+        $suratModel = new \App\Models\SuratModel();
+        $suratData = [
+            'id_user' => 1,
+            'no_surat' => 'BB-' . date('YmdHis'),
+            'jenis_surat' => 'belum_bekerja',
+            'status' => 'diajukan'
+        ];
+        $suratModel->insert($suratData);
+        $idSurat = $suratModel->getInsertID();
 
-        // Redirect atau tampilkan pesan sukses
+        // Simpan ke tabel `surat_belum_bekerja`
+        $detailModel = new \App\Models\SuratBelumBekerjaModel();
+        $data['id_surat'] = $idSurat;
+        $detailModel->insert($data);
+
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat berhasil diajukan.');
     }
 }

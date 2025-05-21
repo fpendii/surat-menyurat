@@ -57,24 +57,67 @@ class SuratSuamiIstriController extends BaseController
 
     public function ajukanSuamiIstri()
     {
-        // Ambil data dari form
-        $data = [
-            'nama_suami' => $this->request->getPost('nama_suami'),
-            'nik_suami' => $this->request->getPost('nik_suami'),
-            'ttl_suami' => $this->request->getPost('ttl_suami'),
-            'agama_suami' => $this->request->getPost('agama_suami'),
-            'alamat_suami' => $this->request->getPost('alamat_suami'),
-            'nama_istri' => $this->request->getPost('nama_istri'),
-            'nik_istri' => $this->request->getPost('nik_istri'),
-            'ttl_istri' => $this->request->getPost('ttl_istri'),
-            'agama_istri' => $this->request->getPost('agama_istri'),
-            'alamat_istri' => $this->request->getPost('alamat_istri')
+        // Validasi input
+        $validation = \Config\Services::validation();
+
+        $validationRules = [
+            'nama_suami'    => 'required',
+            'nik_suami'     => 'required|numeric|exact_length[16]',
+            'ttl_suami'     => 'required',
+            'agama_suami'   => 'required',
+            'alamat_suami'  => 'required',
+            'nama_istri'    => 'required',
+            'nik_istri'     => 'required|numeric|exact_length[16]',
+            'ttl_istri'     => 'required',
+            'agama_istri'   => 'required',
+            'alamat_istri'  => 'required',
         ];
 
-        // Simpan data ke database atau lakukan proses lainnya
-        // ...
+        if (!$this->validate($validationRules)) {
+            return redirect()->to('/masyarakat/surat/suami-istri')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $db = \Config\Database::connect();
+        $db->transStart();
+
+        // Simpan ke tabel surat (misal ada kolom jenis_surat dan created_at)
+        $suratModel = new \App\Models\SuratModel();
+
+        $suratData = [
+            'id_user' => 1,
+            'no_surat' => 'SS-' . date('YmdHis'),
+            'jenis_surat' => 'suami_istri',
+            'status' => 'diajukan'
+        ];
+
+        $suratModel->insert($suratData);
+        $suratId = $suratModel->getInsertID();
+
+        // Simpan ke tabel suami_istri, dengan relasi ke surat via surat_id
+        $suamiIstriModel = new \App\Models\SuamiIstriModel();
+
+        $suamiIstriData = [
+            'id_surat'      => $suratId,
+            'nama_suami'    => $this->request->getPost('nama_suami'),
+            'nik_suami'     => $this->request->getPost('nik_suami'),
+            'ttl_suami'     => $this->request->getPost('ttl_suami'),
+            'agama_suami'   => $this->request->getPost('agama_suami'),
+            'alamat_suami'  => $this->request->getPost('alamat_suami'),
+            'nama_istri'    => $this->request->getPost('nama_istri'),
+            'nik_istri'     => $this->request->getPost('nik_istri'),
+            'ttl_istri'     => $this->request->getPost('ttl_istri'),
+            'agama_istri'   => $this->request->getPost('agama_istri'),
+            'alamat_istri'  => $this->request->getPost('alamat_istri'),
+        ];
+
+        $suamiIstriModel->insert($suamiIstriData);
+
+        $db->transComplete();
+
+        if ($db->transStatus() === FALSE) {
+            return redirect()->back()->withInput()->with('error', 'Gagal mengajukan surat. Silakan coba lagi.');
+        }
 
         return redirect()->to('/masyarakat/surat/')->with('success', 'Pengajuan surat suami istri berhasil diajukan.');
     }
-
 }

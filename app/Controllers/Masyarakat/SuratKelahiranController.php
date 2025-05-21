@@ -54,20 +54,49 @@ class SuratKelahiranController extends BaseController
 
     public function ajukanKelahiran()
     {
-        // Ambil data dari form
-        $data = [
-            'nama' => $this->request->getPost('nama'),
-            'ttl' => $this->request->getPost('ttl'),
-            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
-            'pekerjaan' => $this->request->getPost('pekerjaan'),
-            'alamat' => $this->request->getPost('alamat'),
-            'nama_ayah' => $this->request->getPost('nama_ayah'),
-            'nama_ibu' => $this->request->getPost('nama_ibu'),
-            'anak_ke' => $this->request->getPost('anak_ke'),
+        $validation = \Config\Services::validation();
+
+        // Aturan validasi
+        $rules = [
+            'nama'         => 'required',
+            'ttl'          => 'required',
+            'jenis_kelamin' => 'required',
+            'pekerjaan'    => 'required',
+            'alamat'       => 'required',
+            'nama_ayah'    => 'required',
+            'nama_ibu'     => 'required',
+            'anak_ke'      => 'required|numeric',
         ];
 
-        // Simpan data ke database atau lakukan proses lainnya
-        // ...
+        if (!$this->validate($rules)) {
+            return redirect()->to('/masyarakat/surat/kelahiran')->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Ambil data dari form
+        $data = [
+            'nama'          => $this->request->getPost('nama'),
+            'ttl'           => $this->request->getPost('ttl'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'pekerjaan'     => $this->request->getPost('pekerjaan'),
+            'alamat'        => $this->request->getPost('alamat'),
+            'nama_ayah'     => $this->request->getPost('nama_ayah'),
+            'nama_ibu'      => $this->request->getPost('nama_ibu'),
+            'anak_ke'       => $this->request->getPost('anak_ke'),
+        ];
+
+        // Simpan ke tabel `surat`
+        $suratModel = new \App\Models\SuratModel();
+        $idSurat = $suratModel->insert([
+            'id_user' => 1,
+            'no_surat' => 'KL-' . date('YmdHis'),
+            'jenis_surat' => 'kelahiran',
+            'status' => 'diajukan'
+        ]);
+
+        // Simpan ke tabel `surat_kelahiran`
+        $kelahiranModel = new \App\Models\SuratKelahiranModel();
+        $data['id_surat'] = $idSurat;
+        $kelahiranModel->insert($data);
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Kelahiran berhasil diajukan.');
     }
