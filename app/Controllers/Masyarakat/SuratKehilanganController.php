@@ -128,4 +128,62 @@ class SuratKehilanganController extends BaseController
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Keterangan Kehilangan berhasil diajukan.');
     }
+
+
+public function downloadSurat($idSurat)
+{
+    $suratModel = new \App\Models\SuratModel();
+    $kehilanganModel = new \App\Models\SuratKehilanganModel();
+
+    // Ambil data surat
+    $surat = $suratModel->find($idSurat);
+    if (!$surat || $surat['jenis_surat'] !== 'kehilangan') {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat kehilangan');
+    }
+
+    // Ambil data kehilangan
+    $kehilangan = $kehilanganModel->where('id_surat', $idSurat)->first();
+    if (!$kehilangan) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat kehilangan tidak ditemukan');
+    }
+
+    // Siapkan data untuk view
+    $data = [
+        'nama' => $kehilangan['nama'],
+        'jenis_kelamin' => $kehilangan['jenis_kelamin'],
+        'ttl' => $kehilangan['ttl'],
+        'nik' => $kehilangan['nik'],
+        'agama' => $kehilangan['agama'],
+        'alamat' => $kehilangan['alamat'],
+        'barang_hilang' => $kehilangan['barang_hilang'],
+        'keperluan' => $kehilangan['keperluan']
+    ];
+
+    // Ambil dan encode logo
+    $path = FCPATH . 'img/logo.png'; // Ubah path sesuai lokasi logomu
+    $type = pathinfo($path, PATHINFO_EXTENSION);
+    $imageData = file_get_contents($path);
+    $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+
+    $data['logo'] = $logo;
+
+    // Render view ke HTML
+    $html = view('masyarakat/surat/preview-surat/preview_kehilangan', $data); // Pastikan view ini tersedia
+
+    // Siapkan PDF
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', true);
+
+    $dompdf = new Dompdf($options);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    // Unduh PDF
+    $dompdf->stream('Surat_Keterangan_Kehilangan_' . $kehilangan['nama'] . '.pdf', ['Attachment' => true]);
+}
+
+
+    
 }

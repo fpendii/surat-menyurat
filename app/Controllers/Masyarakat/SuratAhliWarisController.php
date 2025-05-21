@@ -121,4 +121,61 @@ class SuratAhliWarisController extends BaseController
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat ahli waris berhasil diajukan.');
     }
+
+
+    public function downloadSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $suratAhliWarisModel = new \App\Models\SuratAhliWarisModel();
+        $ahliWarisModel = new \App\Models\AhliWarisModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($idSurat);
+        if (!$surat) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan');
+        }
+
+        // Ambil data surat ahli waris
+        $suratAhliWaris = $suratAhliWarisModel->where('id_surat', $idSurat)->first();
+        if (!$suratAhliWaris) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data ahli waris tidak ditemukan');
+        }
+
+        // Ambil data ahli waris
+        $dataAhliWaris = $ahliWarisModel->where('id_surat_ahli_waris', $suratAhliWaris['id_surat_ahli_waris'])->findAll();
+
+        // Data untuk view
+        $data = [
+            'pemilik_harta' => $suratAhliWaris['pemilik_harta'],
+            'nama_ahli_waris' => array_column($dataAhliWaris, 'nama'),
+            'nik_ahli_waris' => array_column($dataAhliWaris, 'nik'),
+            'ttl_ahli_waris' => array_column($dataAhliWaris, 'ttl'),
+            'hubungan_ahli_waris' => array_column($dataAhliWaris, 'hubungan'),
+            'logo' => FCPATH . 'assets/logo.png' // sesuaikan path logo
+        ];
+
+         // Logo
+        $path = FCPATH . 'img/logo.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+
+        $data['logo'] = $logo;
+
+        // Render HTML
+        $html = view('masyarakat/surat/preview-surat/preview_ahli_waris', $data); // sesuaikan nama view-mu
+
+        // Siapkan PDF
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true); // agar gambar bisa ditampilkan
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Download PDF
+        $dompdf->stream('Surat_Keterangan_Ahli_Waris_' . $suratAhliWaris['pemilik_harta'] . '.pdf', ['Attachment' => true]);
+    }
 }

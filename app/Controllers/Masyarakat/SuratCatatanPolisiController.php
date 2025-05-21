@@ -55,7 +55,7 @@ class SuratCatatanPolisiController extends BaseController
 
     public function ajukanCatatanPolisi()
     {
-        
+
         $validation = \Config\Services::validation();
         $userId = 1; // Ambil ID user dari session login
 
@@ -139,5 +139,60 @@ class SuratCatatanPolisiController extends BaseController
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Catatan Polisi berhasil diajukan.');
+    }
+
+    public function downloadSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $catatanPolisiModel = new \App\Models\CatatanPolisiModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'catatan_polisi') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat catatan polisi');
+        }
+
+        // Ambil data catatan polisi
+        $catatanPolisi = $catatanPolisiModel->where('id_surat', $idSurat)->first();
+        if (!$catatanPolisi) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat catatan polisi tidak ditemukan');
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'nama' => $catatanPolisi['nama'],
+            'jenis_kelamin' => $catatanPolisi['jenis_kelamin'],
+            'tempat_tanggal_lahir' => $catatanPolisi['tempat_tanggal_lahir'],
+            'status_perkawinan' => $catatanPolisi['status_perkawinan'],
+            'kewarganegaraan' => $catatanPolisi['kewarganegaraan'],
+            'agama' => $catatanPolisi['agama'],
+            'pekerjaan' => $catatanPolisi['pekerjaan'],
+            'nik' => $catatanPolisi['nik'],
+            'alamat' => $catatanPolisi['alamat']
+        ];
+
+        // Ambil dan encode logo
+        $path = FCPATH . 'img/logo.png'; // Ubah path sesuai kebutuhan
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+
+        $data['logo'] = $logo;
+
+        // Render view ke HTML
+        $html = view('masyarakat/surat/preview-surat/preview_catatan_polisi', $data); // Sesuaikan nama view-nya
+
+        // Siapkan PDF
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Unduh PDF
+        $dompdf->stream('Surat_Catatan_Polisi_' . $catatanPolisi['nama'] . '.pdf', ['Attachment' => true]);
     }
 }

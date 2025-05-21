@@ -34,6 +34,7 @@ $routes->group('masyarakat', function($routes) {
     $routes->get('surat/usaha', 'Masyarakat\SuratUsahaController::usaha');
     $routes->post('surat/usaha/ajukan', 'Masyarakat\SuratUsahaController::ajukanUsaha');
     $routes->post('surat/usaha/preview', 'Masyarakat\SuratUsahaController::previewUsaha');
+     $routes->get('data-surat/usaha/download/(:num)', 'Masyarakat\SuratUsahaController::downloadSurat/$1');
      
     $routes->get('surat/pengantar-kk-ktp', 'Masyarakat\SuratPengantarKKKTPController::pengantarKKKTP');
     $routes->post('surat/pengantar-kk-ktp/ajukan', 'Masyarakat\SuratPengantarKKKTPController::ajukanPengantarKKKTP');
@@ -50,10 +51,12 @@ $routes->group('masyarakat', function($routes) {
     $routes->get('surat/kehilangan', 'Masyarakat\SuratKehilanganController::kehilangan');
     $routes->post('surat/kehilangan/ajukan', 'Masyarakat\SuratKehilanganController::ajukanKehilangan');
     $routes->post('surat/kehilangan/preview', 'Masyarakat\SuratKehilanganController::previewKehilangan');
+     $routes->get('data-surat/kehilangan/download/(:num)', 'Masyarakat\SuratKehilanganController::downloadSurat/$1');
 
     $routes->get('surat/catatan-polisi', 'Masyarakat\SuratCatatanPolisiController::catatanPolisi');
     $routes->post('surat/catatan-polisi/ajukan', 'Masyarakat\SuratCatatanPolisiController::ajukanCatatanPolisi');
     $routes->post('surat/catatan-polisi/preview', 'Masyarakat\SuratCatatanPolisiController::previewCatatanPolisi');
+    $routes->get('data-surat/catatan_polisi/download/(:num)', 'Masyarakat\SuratCatatanPolisiController::downloadSurat/$1');
 
     $routes->get('surat/kelahiran', 'Masyarakat\SuratKelahiranController::kelahiran');
     $routes->post('surat/kelahiran/ajukan', 'Masyarakat\SuratKelahiranController::ajukanKelahiran');
@@ -66,6 +69,8 @@ $routes->group('masyarakat', function($routes) {
     $routes->get('surat/ahli-waris', 'Masyarakat\SuratAhliWarisController::ahliWaris');
     $routes->post('surat/ahli-waris/ajukan', 'Masyarakat\SuratAhliWarisController::ajukanAhliWaris');
     $routes->post('surat/ahli-waris/preview', 'Masyarakat\SuratAhliWarisController::previewAhliWaris');
+    $routes->get('data-surat/ahli_waris/download/(:num)', 'Masyarakat\SuratAhliWarisController::downloadSurat/$1');
+
 
     $routes->get('surat/suami-istri', 'Masyarakat\SuratSuamiIstriController::suamiIstri');
     $routes->post('surat/suami-istri/ajukan', 'Masyarakat\SuratSuamiIstriController::ajukanSuamiIstri');

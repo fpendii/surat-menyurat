@@ -121,4 +121,63 @@ class SuratUsahaController extends BaseController
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
     }
+
+
+    public function downloadSurat($idSurat)
+{
+    $suratModel = new \App\Models\SuratModel();
+    $usahaModel = new \App\Models\SuratUsahaModel();
+
+    // Ambil data surat
+    $surat = $suratModel->find($idSurat);
+    if (!$surat || $surat['jenis_surat'] !== 'usaha') {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat usaha');
+    }
+
+    // Ambil data usaha
+    $usaha = $usahaModel->where('id_surat', $idSurat)->first();
+    if (!$usaha) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat usaha tidak ditemukan');
+    }
+
+    // Siapkan data untuk view
+    $data = [
+        'nama' => $usaha['nama'],
+        'nik' => $usaha['nik'],
+        'alamat' => $usaha['alamat'],
+        'rt_rw' => $usaha['rt_rw'],
+        'desa' => $usaha['desa'],
+        'kecamatan' => $usaha['kecamatan'],
+        'kabupaten' => $usaha['kabupaten'],
+        'provinsi' => $usaha['provinsi'],
+        'nama_usaha' => $usaha['nama_usaha'],
+        'alamat_usaha' => $usaha['alamat_usaha'],
+        'sejak_tahun' => $usaha['sejak_tahun']
+    ];
+
+    // Ambil dan encode logo
+    $path = FCPATH . 'img/logo.png'; // Ubah path sesuai lokasi logomu
+    $type = pathinfo($path, PATHINFO_EXTENSION);
+    $imageData = file_get_contents($path);
+    $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+
+    $data['logo'] = $logo;
+
+    // Render view ke HTML
+    $html = view('masyarakat/surat/preview-surat/preview_usaha', $data); // Pastikan view ini tersedia
+
+    // Siapkan PDF
+    $options = new \Dompdf\Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', true);
+
+    $dompdf = new \Dompdf\Dompdf($options);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    // Unduh PDF
+    $dompdf->stream('Surat_Keterangan_Usaha_' . $usaha['nama'] . '.pdf', ['Attachment' => true]);
+}
+
 }
