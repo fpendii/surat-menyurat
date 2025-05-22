@@ -77,9 +77,10 @@ class SuratKehilanganController extends BaseController
 
         // Simpan data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
+        $noSurat = 'KH-' . date('YmdHis');
         $suratData = [
             'id_user' => $userId,
-            'no_surat' => 'KH-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'jenis_surat' => 'kehilangan',
             'status' => 'diajukan'
         ];
@@ -124,6 +125,29 @@ class SuratKehilanganController extends BaseController
             // rollback surat
             $suratModel->delete($idSurat);
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data kehilangan.');
+        }
+
+         // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Pengajuan Surat Keterangan Kehilangan Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Terdapat pengajuan <strong>Surat Keterangan Kehilangan</strong> baru.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Keterangan Kehilangan berhasil diajukan.');

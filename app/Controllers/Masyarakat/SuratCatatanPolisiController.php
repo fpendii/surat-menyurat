@@ -72,9 +72,10 @@ class SuratCatatanPolisiController extends BaseController
         }
 
         // Simpan dulu data surat umum ke tabel surat dan dapatkan id_surat
+        $noSurat = 'CP-' . date('YmdHis');
         $suratData = [
             'id_user' => $userId,
-            'no_surat' => 'CP-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'jenis_surat' => 'catatan_polisi',
             'status' => 'diajukan'
         ];
@@ -136,6 +137,29 @@ class SuratCatatanPolisiController extends BaseController
             // Jika gagal simpan, rollback hapus surat juga
             $suratModel->delete($idSurat);
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat catatan polisi.');
+        }
+
+         // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Notifikasi Pengajuan Surat Catatan Polisi');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Terdapat pengajuan <strong>Surat Catatan Polisi</strong> baru.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Catatan Polisi berhasil diajukan.');

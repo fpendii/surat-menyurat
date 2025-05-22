@@ -74,9 +74,10 @@ class SuratStatusPerkawinanController extends BaseController
         $db->transStart();
 
         // Simpan data ke tabel surat
+        $noSurat = 'SP-' . date('YmdHis');
         $suratData = [
             'id_user' => 1,
-            'no_surat' => 'SP-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'jenis_surat' => 'status_perkawinan',
             'status' => 'diajukan',
         ];
@@ -99,6 +100,29 @@ class SuratStatusPerkawinanController extends BaseController
 
         if ($db->transStatus() === false) {
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data.');
+        }
+
+         // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject ('Pengajuan Surat Status Perkawinan Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Pengajuan surat status perkawinan baru telah diajukan.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat berhasil diajukan.');

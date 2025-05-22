@@ -72,9 +72,10 @@ class SuratDomisiliBangunanController extends BaseController
 
         // Simpan data ke tabel surat terlebih dahulu
         $suratModel = new \App\Models\SuratModel();
+        $noSurat = 'DB-' . date('YmdHis');
         $idSurat = $suratModel->insert([
-            'id_user' => 1,
-            'no_surat' => 'DB-' . date('YmdHis'),
+            'id_user' => 1, // Ganti dengan session()->get('id_user') jika sudah login
+            'no_surat' => $noSurat,
             'jenis_surat' => 'domisili_bangunan',
             'status' => 'diajukan',
         ], true); // true supaya dapat id terakhir
@@ -91,8 +92,33 @@ class SuratDomisiliBangunanController extends BaseController
             'bendahara'        => $this->request->getPost('bendahara'),
         ]);
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Surat Domisili Bangunan berhasil diajukan.');
+        // Kirim email ke kepala desa dan admin
+        $email = \Config\Services::email();
+
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Notifikasi Pengajuan Surat Domisili Bangunan');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Terdapat pengajuan <strong>Surat Domisili Bangunan</strong> baru.<br>" .
+                    "Nomor Surat: <strong>{$noSurat}</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear(); // Reset konfigurasi sebelum kirim ke email berikutnya
+        }
+
+        return redirect()->to('/masyarakat/surat')->with('success', 'Surat Domisili Bangunan berhasil diajukan dan notifikasi dikirim.');
     }
+
 
 
     public function downloadSurat($id)

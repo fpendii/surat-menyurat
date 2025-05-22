@@ -73,13 +73,13 @@ class SuratAhliWarisController extends BaseController
 
         // Simpan surat
         $suratModel = new SuratModel();
+        $noSurat = 'AW-' . date('YmdHis');
         $suratId = $suratModel->insert([
             'id_user' => $userId,
-            'no_surat' => 'AW-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'jenis_surat' => 'ahli_waris',
             'status' => 'diajukan'
         ]);
-
 
         // Simpan ke tabel surat_ahli_waris
         $suratAhliWarisModel = new \App\Models\SuratAhliWarisModel();
@@ -119,8 +119,32 @@ class SuratAhliWarisController extends BaseController
             ]);
         }
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Surat ahli waris berhasil diajukan.');
+        // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Terdapat pengajuan <strong>Surat Ahli Waris</strong> baru.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
+
+        return redirect()->to('/masyarakat/surat')->with('success', 'Surat ahli waris berhasil diajukan dan notifikasi telah dikirim.');
     }
+
 
 
     public function downloadSurat($idSurat)
@@ -154,7 +178,7 @@ class SuratAhliWarisController extends BaseController
             'logo' => FCPATH . 'assets/logo.png' // sesuaikan path logo
         ];
 
-         // Logo
+        // Logo
         $path = FCPATH . 'img/logo.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $imageData = file_get_contents($path);

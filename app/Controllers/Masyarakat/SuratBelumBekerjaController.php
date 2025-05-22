@@ -85,9 +85,10 @@ class SuratBelumBekerjaController extends BaseController
 
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
+        $noSurat = 'BB-' . date('YmdHis');
         $suratData = [
             'id_user' => 1,
-            'no_surat' => 'BB-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'jenis_surat' => 'belum_bekerja',
             'status' => 'diajukan'
         ];
@@ -98,6 +99,29 @@ class SuratBelumBekerjaController extends BaseController
         $detailModel = new \App\Models\SuratBelumBekerjaModel();
         $data['id_surat'] = $idSurat;
         $detailModel->insert($data);
+
+        // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject ('Pengajuan Surat Belum Bekerja Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Terdapat pengajuan <strong>Surat Belum Bekerja</strong> baru.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat berhasil diajukan.');
     }

@@ -102,9 +102,10 @@ class SuratPindahController extends BaseController
             $formF1->move('uploads/surat', $formF1Name);
         }
 
+        $noSurat = 'SP-' . date('YmdHis');
         // Tambah Data Surat
         $this->suratModel->insert([
-            'no_surat' => 'SP-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'id_user' => 1, // Ganti dengan ID user yang sesuai
             'jenis_surat' => 'surat-pindah',
             'kk' => $kkName,
@@ -160,6 +161,29 @@ class SuratPindahController extends BaseController
                 ];
             }
             $this->pengikutPindahModel->insertBatch($pengikutData);
+        }
+
+         // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject ('Pengajuan Surat Pindah Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Pengajuan surat pindah baru telah diajukan.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');

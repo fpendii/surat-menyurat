@@ -88,10 +88,10 @@ class SuratTidakMampuController extends BaseController
 
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
-
+        $noSurat = 'TM-' . date('YmdHis');
         $idSurat = $suratModel->insert([
             'id_user' => $userId,
-            'no_surat' => 'TM-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'jenis_surat' => 'tidak_mampu',
             'status' => 'diajukan'
         ], true); // 'true' agar return ID yang baru disisipkan
@@ -113,6 +113,29 @@ class SuratTidakMampuController extends BaseController
             'ktp' => $ktpName,
             'kk' => $kkName,
         ]);
+
+         // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject ('Pengajuan Surat Tidak Mampu Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Pengajuan surat tidak mampu telah diajukan.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
     }

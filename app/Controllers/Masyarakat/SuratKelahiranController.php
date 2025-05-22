@@ -86,9 +86,10 @@ class SuratKelahiranController extends BaseController
 
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
+        $noSurat = 'KL-' . date('YmdHis');
         $idSurat = $suratModel->insert([
             'id_user' => 1,
-            'no_surat' => 'KL-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'jenis_surat' => 'kelahiran',
             'status' => 'diajukan'
         ]);
@@ -97,6 +98,29 @@ class SuratKelahiranController extends BaseController
         $kelahiranModel = new \App\Models\SuratKelahiranModel();
         $data['id_surat'] = $idSurat;
         $kelahiranModel->insert($data);
+
+         // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Pengajuan Surat Kelahiran Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Pengajuan surat kelahiran baru telah diajukan.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Kelahiran berhasil diajukan.');
     }

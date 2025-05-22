@@ -82,10 +82,10 @@ class SuratSuamiIstriController extends BaseController
 
         // Simpan ke tabel surat (misal ada kolom jenis_surat dan created_at)
         $suratModel = new \App\Models\SuratModel();
-
+        $noSurat = 'SS-' . date('YmdHis');
         $suratData = [
             'id_user' => 1,
-            'no_surat' => 'SS-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'jenis_surat' => 'suami_istri',
             'status' => 'diajukan'
         ];
@@ -116,6 +116,29 @@ class SuratSuamiIstriController extends BaseController
 
         if ($db->transStatus() === FALSE) {
             return redirect()->back()->withInput()->with('error', 'Gagal mengajukan surat. Silakan coba lagi.');
+        }
+
+         // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject ('Pengajuan Surat Suami Istri Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Pengajuan surat suami istri baru telah diajukan.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
         }
 
         return redirect()->to('/masyarakat/surat/')->with('success', 'Pengajuan surat suami istri berhasil diajukan.');

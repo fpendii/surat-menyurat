@@ -80,9 +80,10 @@ class SuratDomisiliManusiaController extends BaseController
 
         // Simpan data ke tabel surat dulu
         $suratModel = new \App\Models\SuratModel();
+        $noSurat = 'DW-' . date('YmdHis');
         $idSurat = $suratModel->insert([
             'id_user'    => 1, // pastikan user login
-            'no_surat'   => 'DW-' . date('YmdHis'),
+            'no_surat'   => $noSurat,
             'jenis_surat' => 'domisili_warga',
             'status'     => 'diajukan',
         ], true);
@@ -103,6 +104,32 @@ class SuratDomisiliManusiaController extends BaseController
             'kabupaten'          => $this->request->getPost('kabupaten'),
             'provinsi'           => $this->request->getPost('provinsi'),
         ]);
+
+         // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Pengajuan Surat Domisili Warga Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                "Pengajuan surat domisili warga baru telah diajukan.<br>" .
+                "No Surat: $noSurat<br>" .
+                "Nama Warga: " . $this->request->getPost('nama_warga') . "<br>" .
+                "NIK: " . $this->request->getPost('nik') . "<br>" .
+                "Alamat: " . $this->request->getPost('alamat') . "<br><br>" .
+                "Silakan cek sistem untuk informasi lebih lanjut.<br><br>" .
+                "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
     }

@@ -91,10 +91,10 @@ class SuratUsahaController extends BaseController
 
         // Simpan data ke tabel surat dulu
         $suratModel = new \App\Models\SuratModel();
-
+        $noSurat = 'US-' . date('YmdHis');
         $idSurat = $suratModel->insert([
             'id_user' => $userId,
-            'no_surat' => 'US-' . date('YmdHis'),
+            'no_surat' => $noSurat,
             'jenis_surat' => 'usaha',
             'status' => 'diajukan'
         ]);
@@ -118,6 +118,29 @@ class SuratUsahaController extends BaseController
             'kk' => $kkName,
             'ktp' => $ktpName,
         ]);
+
+         // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject ('Pengajuan Surat Usaha Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Pengajuan surat usaha baru telah diajukan.<br>" .
+                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
     }

@@ -92,11 +92,11 @@ class SuratKelompokTaniController extends BaseController
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
-            $email->setFrom('no-reply@desa.id', 'Sistem Surat Desa');
-            $email->setSubject('Pengajuan Surat Domisili Kelompok Tani Baru');
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject ('Pengajuan Surat Domisili Kelompok Tani');
             $email->setMessage(
                 "Halo,<br><br>" .
-                    "Terdapat pengajuan <strong>Surat Domisili Kelompok Tani</strong> baru.<br>" .
+                    "Pengajuan surat domisili kelompok tani baru telah diajukan.<br>" .
                     "Nomor Surat: <strong>KLT-" . date('YmdHis') . "</strong><br>" .
                     "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
                     "Terima kasih."
