@@ -100,4 +100,64 @@ class SuratKematianController extends BaseController
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat kematian berhasil diajukan.');
     }
+
+    public function downloadSurat($id)
+    {
+        // Load model
+        $suratModel = new \App\Models\SuratModel();
+        $kematianModel = new \App\Models\SuratKematianModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail kematian
+        $detail = $kematianModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data surat kematian tidak ditemukan.');
+        }
+
+        // Logo desa (jika ada)
+        $path = FCPATH . 'img/logo.png';
+        $logo = null;
+        if (file_exists($path)) {
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $imageData = file_get_contents($path);
+            $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'logo' => $logo,
+            'no_surat' => $surat['no_surat'],
+            'tanggal' => date('d-m-Y', strtotime($surat['created_at'] ?? date('Y-m-d'))),
+            'nama' => $detail['nama'],
+            'jenis_kelamin' => $detail['jenis_kelamin'],
+            'ttl' => $detail['ttl'],
+            'agama' => $detail['agama'],
+            'hari_tanggal' => $detail['hari_tanggal'],
+            'jam' => $detail['jam'],
+            'tempat' => $detail['tempat'],
+            'penyebab' => $detail['penyebab'],
+        ];
+
+        // Render HTML ke PDF
+        $html = view('masyarakat/surat/preview-surat/preview_kematian', $data);
+
+        $options = new \Dompdf\Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new \Dompdf\Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $filename = 'surat_kematian_' . strtolower(str_replace(' ', '_', $detail['nama'])) . '_' . date('Ymd') . '.pdf';
+        $dompdf->stream($filename, ['Attachment' => true]);
+
+        exit();
+    }
 }

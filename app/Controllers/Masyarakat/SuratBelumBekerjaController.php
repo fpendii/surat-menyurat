@@ -101,4 +101,66 @@ class SuratBelumBekerjaController extends BaseController
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat berhasil diajukan.');
     }
+
+    public function downloadSurat($id)
+    {
+        // Load model
+        $suratModel = new \App\Models\SuratModel();
+        $belumBekerjaModel = new \App\Models\SuratBelumBekerjaModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail belum bekerja
+        $detail = $belumBekerjaModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data surat belum bekerja tidak ditemukan.');
+        }
+
+        // Load logo (jika tersedia)
+        $path = FCPATH . 'img/logo.png';
+        $logo = null;
+        if (file_exists($path)) {
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $imageData = file_get_contents($path);
+            $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'logo' => $logo,
+            'no_surat' => $surat['no_surat'],
+            'tanggal' => date('d-m-Y', strtotime($surat['created_at'] ?? date('Y-m-d'))),
+            'nama' => $detail['nama'],
+            'nik' => $detail['nik'],
+            'ttl' => $detail['ttl'],
+            'jenis_kelamin' => $detail['jenis_kelamin'],
+            'agama' => $detail['agama'],
+            'status_pekerjaan' => $detail['status_pekerjaan'],
+            'warga_negara' => $detail['warga_negara'],
+            'alamat' => $detail['alamat'],
+        ];
+
+        // Render HTML dari view
+        $html = view('masyarakat/surat/preview-surat/preview_belum_bekerja', $data);
+
+        // Dompdf config
+        $options = new \Dompdf\Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new \Dompdf\Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Nama file
+        $filename = 'surat_belum_bekerja_' . strtolower(str_replace(' ', '_', $detail['nama'])) . '_' . date('Ymd') . '.pdf';
+        $dompdf->stream($filename, ['Attachment' => true]);
+
+        exit();
+    }
 }

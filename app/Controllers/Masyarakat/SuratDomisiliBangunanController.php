@@ -93,4 +93,63 @@ class SuratDomisiliBangunanController extends BaseController
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Domisili Bangunan berhasil diajukan.');
     }
+
+
+    public function downloadSurat($id)
+    {
+        // Load model
+        $suratModel = new \App\Models\SuratModel();
+        $domisiliBangunanModel = new \App\Models\SuratDomisiliBangunanModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail domisili bangunan
+        $detail = $domisiliBangunanModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data domisili bangunan tidak ditemukan.');
+        }
+
+        // Logo desa (jika ada)
+        $path = FCPATH . 'img/logo.png';
+        $logo = null;
+        if (file_exists($path)) {
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $imageData = file_get_contents($path);
+            $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'logo' => $logo,
+            'no_surat' => $surat['no_surat'],
+            'tanggal' => date('d-m-Y', strtotime($surat['created_at'] ?? date('Y-m-d'))),
+            'nama_gapoktan' => $detail['nama_gapoktan'],
+            'tgl_pembentukan' => $detail['tgl_pembentukan'],
+            'alamat' => $detail['alamat'],
+            'ketua' => $detail['ketua'],
+            'sekretaris' => $detail['sekretaris'],
+            'bendahara' => $detail['bendahara'],
+        ];
+
+        // Render HTML ke PDF
+        $html = view('masyarakat/surat/preview-surat/preview_domisili_bangunan', $data);
+
+        $options = new \Dompdf\Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new \Dompdf\Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $filename = 'surat_domisili_bangunan_' . strtolower(str_replace(' ', '_', $detail['nama_gapoktan'])) . '_' . date('Ymd') . '.pdf';
+        $dompdf->stream($filename, ['Attachment' => true]);
+
+        exit();
+    }
 }

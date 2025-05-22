@@ -120,4 +120,71 @@ class SuratSuamiIstriController extends BaseController
 
         return redirect()->to('/masyarakat/surat/')->with('success', 'Pengajuan surat suami istri berhasil diajukan.');
     }
+
+    public function downloadSurat($id)
+    {
+        // Load model
+        $suratModel = new \App\Models\SuratModel();
+        $suamiIstriModel = new \App\Models\SuamiIstriModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail suami istri
+        $detail = $suamiIstriModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data surat suami istri tidak ditemukan.');
+        }
+
+        // Logo desa (jika ada)
+        $path = FCPATH . 'img/logo.png';
+        $logo = null;
+        if (file_exists($path)) {
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $imageData = file_get_contents($path);
+            $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'logo' => $logo,
+            'no_surat' => $surat['no_surat'],
+            'tanggal' => date('d-m-Y', strtotime($surat['created_at'] ?? date('Y-m-d'))),
+
+            'nama_suami' => $detail['nama_suami'],
+            'nik_suami' => $detail['nik_suami'],
+            'ttl_suami' => $detail['ttl_suami'],
+            'agama_suami' => $detail['agama_suami'],
+            'alamat_suami' => $detail['alamat_suami'],
+
+            'nama_istri' => $detail['nama_istri'],
+            'nik_istri' => $detail['nik_istri'],
+            'ttl_istri' => $detail['ttl_istri'],
+            'agama_istri' => $detail['agama_istri'],
+            'alamat_istri' => $detail['alamat_istri'],
+
+            // tanggal_nikah dan tempat_nikah bisa ditambahkan jika perlu
+        ];
+
+
+        // Render HTML ke PDF
+        $html = view('masyarakat/surat/preview-surat/preview_suami_istri', $data);
+
+        $options = new \Dompdf\Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new \Dompdf\Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $filename = 'surat_suami_istri_' . strtolower(str_replace(' ', '_', $detail['nama_suami'])) . '_' . date('Ymd') . '.pdf';
+        $dompdf->stream($filename, ['Attachment' => true]);
+
+        exit();
+    }
 }

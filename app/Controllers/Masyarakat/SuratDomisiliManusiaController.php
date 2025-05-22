@@ -106,4 +106,55 @@ class SuratDomisiliManusiaController extends BaseController
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
     }
+
+    public function downloadSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'domisili_warga') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat domisili warga');
+        }
+
+        $domisiliWargaModel = new \App\Models\SuratDomisiliWargaModel();
+        $domisiliWarga = $domisiliWargaModel->where('id_surat', $idSurat)->first();
+        if (!$domisiliWarga) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data domisili warga tidak ditemukan');
+        }
+
+        $path = FCPATH . 'img/logo.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        $data['logo'] = $logo;
+
+        // Render view menjadi HTML
+        $html = view('masyarakat/surat/preview-surat/preview_domisili_warga', [
+            'logo' => $logo,
+            'nama_pejabat' => $domisiliWarga['nama_pejabat'],
+            'jabatan' => $domisiliWarga['jabatan'],
+            'kecamatan_pejabat' => $domisiliWarga['kecamatan_pejabat'],
+            'kabupaten_pejabat' => $domisiliWarga['kabupaten_pejabat'],
+            'nama_warga' => $domisiliWarga['nama_warga'],
+            'nik' => $domisiliWarga['nik'],
+            'alamat' => $domisiliWarga['alamat'],
+            'desa' => $domisiliWarga['desa'],
+            'kecamatan' => $domisiliWarga['kecamatan'],
+            'kabupaten' => $domisiliWarga['kabupaten'],
+            'provinsi' => $domisiliWarga['provinsi'],
+        ]);
+
+        // Konfigurasi Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        // Output file PDF ke browser
+        $dompdf->stream('surat_domisili_warga.pdf', ['Attachment' => true]); // true = download, false = tampil di browser
+        exit();
+    }
+        
 }

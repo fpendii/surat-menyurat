@@ -88,4 +88,46 @@ class SuratKelompokTaniController extends BaseController
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
     }
+
+    public function downloadSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'domisili_kelompok_tani') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat domisili kelompok tani');
+        }
+
+        $domisiliModel = new \App\Models\SuratDomisiliKelompokTaniModel();
+        $domisili = $domisiliModel->where('id_surat', $idSurat)->first();
+        if (!$domisili) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat domisili kelompok tani tidak ditemukan');
+        }
+
+        $data = [
+            'nama_gapoktan'    => $domisili['nama_gapoktan'],
+            'tgl_pembentukan'  => $domisili['tgl_pembentukan'],
+            'alamat'           => $domisili['alamat'],
+            'ketua'            => $domisili['ketua'],
+            'sekretaris'       => $domisili['sekretaris'],
+            'bendahara'        => $domisili['bendahara'],
+        ];
+
+        // Logo
+        $path = FCPATH . 'img/logo.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        $data['logo'] = $logo;
+
+        // Render view
+        $html = view('masyarakat/surat/preview-surat/preview_domisili_kelompok_tani', $data);
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        // Output file PDF ke browser
+        $dompdf->stream('surat_domisili_kelompok_tani.pdf', ['Attachment' => true]);
+        exit();
+    }   
 }

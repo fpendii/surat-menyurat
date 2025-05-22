@@ -54,19 +54,7 @@ class SuratPengantarKKKTPController extends BaseController
         $validation = \Config\Services::validation();
         $dataInput = $this->request->getPost('data');
 
-        // foreach ($dataInput as $index => $person) {
-        //     $validation->setRules([
-        //         "data[$index][nama]" => 'required|min_length[3]',
-        //         "data[$index][no_kk]" => 'required|numeric',
-        //         "data[$index][nik]" => 'required|numeric|exact_length[16]',
-        //         "data[$index][keterangan]" => 'required|min_length[5]',
-        //         "data[$index][jumlah]" => 'required|integer|greater_than[0]',
-        //     ]);
-        // }
 
-        // if (!$validation->withRequest($this->request)->run()) {
-        //     return redirect()->to('/masyarakat/surat/pengantar-kk-ktp')->withInput()->with('errors', $validation->getErrors());
-        // }
 
         // Simpan data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
@@ -91,5 +79,52 @@ class SuratPengantarKKKTPController extends BaseController
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat pengantar KK dan KTP berhasil diajukan.');
+    }
+
+
+
+    public function downloadSurat($id)
+    {
+        // Ambil data surat
+        $suratModel = new \App\Models\SuratModel();
+        $detailModel = new \App\Models\SuratPengantarKkKtpModel();
+
+        $surat = $suratModel->find($id);
+        $dataOrang = $detailModel->where('id_surat', $id)->findAll();
+
+        // Jika data tidak ditemukan
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Surat tidak ditemukan.');
+        }
+
+        // Logo, bisa dari file lokal atau base64
+         $path = FCPATH . 'img/logo.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        $data['logo'] = $logo;
+
+        // Load view
+        $html = view('masyarakat/surat/preview-surat/preview_pengantar_kk_ktp', [
+            'surat' => $surat,
+            'dataOrang' => $dataOrang,
+            'logo' => $logo,
+        ]);
+
+        // Setup Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true); // dibutuhkan jika ada gambar dari URL
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+
+        // Setting ukuran dan orientasi kertas
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render PDF
+        $dompdf->render();
+
+        // Download PDF
+        $dompdf->stream('surat-pengantar-kk-ktp.pdf', ['Attachment' => true]);
     }
 }

@@ -103,4 +103,51 @@ class SuratStatusPerkawinanController extends BaseController
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat berhasil diajukan.');
     }
+
+    public function downloadSurat($idSurat)
+{
+    $suratModel = new \App\Models\SuratModel();
+    $statusModel = new \App\Models\SuratStatusPerkawinanModel();
+
+    // Ambil data surat dan detail status perkawinan
+    $surat = $suratModel->find($idSurat);
+    if (!$surat || $surat['jenis_surat'] !== 'status_perkawinan') {
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Surat tidak ditemukan');
+    }
+
+    $detail = $statusModel->where('id_surat', $idSurat)->first();
+
+    $path = FCPATH . 'img/logo.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        $data['logo'] = $logo;
+
+    // Siapkan data untuk view
+    $data = [
+        'logo' => $logo,
+        'no_surat' => $surat['no_surat'],
+        'tanggal' => date('d F Y', strtotime($surat['created_at'] ?? date('Y-m-d'))),
+
+        'nama' => $detail['nama'],
+        'nik' => $detail['nik'],
+        'ttl' => $detail['ttl'],
+        'agama' => $detail['agama'],
+        'alamat' => $detail['alamat'],
+        'status' => $detail['status'],
+    ];
+
+    // Render view surat jadi HTML
+    $html = view('masyarakat/surat/preview-surat/preview_status_perkawinan', $data);
+
+    // Load dan generate PDF
+    $dompdf = new \Dompdf\Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    // Tampilkan PDF ke browser langsung (inline)
+    $dompdf->stream("Surat_Status_Perkawinan_{$detail['nama']}.pdf", ["Attachment" => false]);
+}
+
 }

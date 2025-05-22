@@ -90,7 +90,7 @@ class SuratTidakMampuController extends BaseController
         $suratModel = new \App\Models\SuratModel();
 
         $idSurat = $suratModel->insert([
-             'id_user' => $userId,
+            'id_user' => $userId,
             'no_surat' => 'TM-' . date('YmdHis'),
             'jenis_surat' => 'tidak_mampu',
             'status' => 'diajukan'
@@ -115,5 +115,61 @@ class SuratTidakMampuController extends BaseController
         ]);
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
+    }
+
+    public function downloadSurat($id)
+    {
+        // Load model
+        $suratModel = new \App\Models\SuratModel();
+        $tidakMampuModel = new \App\Models\SuratTidakMampuModel();
+
+        // Ambil data dari database
+        $surat = $suratModel->find($id);
+        $suratTidakMampu = $tidakMampuModel->where('id_surat', $surat['id_surat'])->first();
+
+        // Pastikan data ditemukan
+        if (!$surat || !$suratTidakMampu) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'nama' => $suratTidakMampu['nama'],
+            'bin_binti' => $suratTidakMampu['bin_binti'],
+            'nik' => $suratTidakMampu['nik'],
+            'ttl' => $suratTidakMampu['ttl'],
+            'jenis_kelamin' => $suratTidakMampu['jenis_kelamin'],
+            'agama' => $suratTidakMampu['agama'],
+            'pekerjaan' => $suratTidakMampu['pekerjaan'],
+            'alamat' => $suratTidakMampu['alamat'],
+            'keperluan' => $suratTidakMampu['keperluan'],
+            'tanggal_surat' => $surat['created_at'] ?? date('Y-m-d'),
+            'no_surat' => $surat['no_surat'],
+        ];
+
+        // Logo
+        $path = FCPATH . 'img/logo.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        $data['logo'] = $logo;
+
+        // Render view
+        $html = view('masyarakat/surat/preview-surat/preview_tidak_mampu', $data);
+
+        // PDF config
+        $options = new \Dompdf\Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new \Dompdf\Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $filename = 'surat_tidak_mampu_' . strtolower(str_replace(' ', '_', $suratTidakMampu['nama'])) . '_' . date('Ymd') . '.pdf';
+        $dompdf->stream($filename, ['Attachment' => true]);
+
+        exit();
     }
 }
