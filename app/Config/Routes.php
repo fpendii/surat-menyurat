@@ -94,6 +94,18 @@ $routes->group('masyarakat', function($routes) {
     // Data Surat
     $routes->get('data-surat', 'Masyarakat\DataSuratController::dataSurat');
     $routes->get('data-surat/batal/(:num)', 'Masyarakat\DataSuratController::suratBatal/$1');
+
 });
 
+
+// Group khusus kepala desa
+$routes->group('kepala-desa', function($routes) {
+    // Dashboard Kepala Desa
+    $routes->get('dashboard', 'KepalaDesa\KepalaDesaDashboardController::index');
+    $routes->get('pengajuan-surat', 'KepalaDesa\PengajuanSuratController::pengajuanSurat');
+    $routes->get('pengajuan-surat/(:num)', 'KepalaDesa\PengajuanSuratController::detailSurat/$1');
+    $routes->post('pengajuan-surat/konfirmasi/(:num)', 'KepalaDesa\PengajuanSuratController::konfirmasiSurat/$1');
+    $routes->get('pengajuan-surat/revisi/(:num)', 'KepalaDesa\PengajuanSuratController::revisiSurat/$1');
+    $routes->post('pengajuan-surat/kirim-revisi/(:num)', 'KepalaDesa\PengajuanSuratController::kirimRevisi/$1');
+});
 

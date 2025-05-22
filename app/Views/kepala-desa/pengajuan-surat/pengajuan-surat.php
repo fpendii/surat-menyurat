@@ -1,4 +1,4 @@
-<?= $this->extend('komponen/template-admin') ?>
+<?= $this->extend('komponen/template-kepala-desa') ?>
 
 <?= $this->section('content') ?>
 
@@ -20,6 +20,21 @@
     </div>
 
     <div class="x_content">
+        <?php if (session()->getFlashdata('success')) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('success') ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php elseif (session()->getFlashdata('error')) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('error') ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif; ?>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card-box table-responsive">
@@ -69,20 +84,42 @@
                                         }
                                         ?>
                                     </td>
+
                                     <td>
-                                        <a href="<?= base_url('masyarakat/data-surat/edit/' . $s['id_surat']) ?>" class="btn btn-sm btn-warning">
-                                            <i class="fa fa-edit"></i> Edit
-                                        </a>
+                                        <button type="button" class="btn btn-sm btn-warning" style="color: white;" data-toggle="modal" data-target="#modalKonfirmasi<?= $s['id_surat'] ?>" title="Konfirmasi Surat">
+                                            <i class="fa fa-check"></i> Konfirmasi
+                                        </button>
+
+
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modalKonfirmasi<?= $s['id_surat'] ?>" tabindex="-1" role="dialog" aria-labelledby="modalLabel<?= $s['id_surat'] ?>" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <form action="<?= base_url('kepala-desa/pengajuan-surat/konfirmasi/' . $s['id_surat']) ?>" method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel<?= $s['id_surat'] ?>">Konfirmasi Surat</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Apakah Anda ingin <strong>ACC</strong> atau <strong>Tolak</strong> surat ini?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" name="aksi" value="proses" class="btn btn-success">ACC</button>
+                                                            <button type="submit" name="aksi" value="revisi" class="btn btn-danger">Tolak</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
                                         <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/download/' . $s['id_surat']) ?>" class="btn btn-sm btn-success">
                                             <i class="fa fa-download"></i> Download
                                         </a>
-                                        <button
-                                            class="btn btn-sm btn-danger"
-                                            data-toggle="modal"
-                                            data-target="#modalBatalAjukan"
-                                            onclick="setBatalId(<?= $s['id_surat'] ?>)">
-                                            <i class="fa fa-times"></i> Batal Ajukan
-                                        </button>
+
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

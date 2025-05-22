@@ -64,15 +64,14 @@ class SuratKelompokTaniController extends BaseController
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
-        // Simpan data ke tabel surat terlebih dahulu
+        // Simpan data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
-
         $idSurat = $suratModel->insert([
-            'id_user' => 1,
+            'id_user' => 1, // Ganti sesuai session user login kalau sudah implementasi login
             'no_surat' => 'KLT-' . date('YmdHis'),
             'jenis_surat' => 'domisili_kelompok_tani',
             'status' => 'diajukan'
-        ], true); // `true` agar insert() mengembalikan last insert id
+        ], true);
 
         // Simpan data ke tabel surat_domisili_kelompok_tani
         $domisiliModel = new \App\Models\SuratDomisiliKelompokTaniModel();
@@ -86,8 +85,33 @@ class SuratKelompokTaniController extends BaseController
             'bendahara'        => $this->request->getPost('bendahara'),
         ]);
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
+        // Kirim email ke kepala desa dan admin
+        $email = \Config\Services::email();
+
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti dengan email yang sesuai
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('no-reply@desa.id', 'Sistem Surat Desa');
+            $email->setSubject('Pengajuan Surat Domisili Kelompok Tani Baru');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Terdapat pengajuan <strong>Surat Domisili Kelompok Tani</strong> baru.<br>" .
+                    "Nomor Surat: <strong>KLT-" . date('YmdHis') . "</strong><br>" .
+                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear(); // Reset sebelum kirim email berikutnya
+        }
+
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan dan notifikasi telah dikirim.');
     }
+
 
     public function downloadSurat($idSurat)
     {
@@ -129,5 +153,5 @@ class SuratKelompokTaniController extends BaseController
         // Output file PDF ke browser
         $dompdf->stream('surat_domisili_kelompok_tani.pdf', ['Attachment' => true]);
         exit();
-    }   
+    }
 }

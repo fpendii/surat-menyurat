@@ -67,7 +67,7 @@
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2>John Doe</h2>
+                            <h2>Kepala Desa</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -79,16 +79,26 @@
                         <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
-                                <li><a href="/masyarakat/dashboard"><i class="fa fa-home"></i> Dashboard </a></li>
-                                <li><a href="/masyarakat/surat"><i class="fa fa-envelope"></i> Surat </a></li>
-                                <li><a href="/masyarakat/data-surat"><i class="fa fa-envelope"></i> Data Surat </a></li>
-                                <li><a href="/masyarakat/arsip-surat"><i class="fa fa-archive"></i> Arsip Surat </a></li>
-                                <li><a href="/logout"><i class="fa fa-power-off"></i> Logout </a></li>
+                                <li>
+                                    <a href="/kepala-desa/dashboard">
+                                        <i class="fa fa-home"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/kepala-desa/pengajuan-surat">
+                                        <i class="fa fa-envelope"></i> Pengajuan Surat
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/logout">
+                                        <i class="fa fa-sign-out"></i> Logout
+                                    </a>
+                                </li>
                             </ul>
                         </div>
-
                     </div>
                     <!-- /sidebar menu -->
+
 
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
