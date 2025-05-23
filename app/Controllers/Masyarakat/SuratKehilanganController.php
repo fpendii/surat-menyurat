@@ -127,7 +127,7 @@ class SuratKehilanganController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data kehilangan.');
         }
 
-         // Kirim email notifikasi
+        // Kirim email notifikasi
         $email = \Config\Services::email();
         $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
 
@@ -154,60 +154,161 @@ class SuratKehilanganController extends BaseController
     }
 
 
-public function downloadSurat($idSurat)
-{
-    $suratModel = new \App\Models\SuratModel();
-    $kehilanganModel = new \App\Models\SuratKehilanganModel();
+    public function downloadSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $kehilanganModel = new \App\Models\SuratKehilanganModel();
 
-    // Ambil data surat
-    $surat = $suratModel->find($idSurat);
-    if (!$surat || $surat['jenis_surat'] !== 'kehilangan') {
-        throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat kehilangan');
+        // Ambil data surat
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'kehilangan') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat kehilangan');
+        }
+
+        // Ambil data kehilangan
+        $kehilangan = $kehilanganModel->where('id_surat', $idSurat)->first();
+        if (!$kehilangan) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat kehilangan tidak ditemukan');
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'nama' => $kehilangan['nama'],
+            'jenis_kelamin' => $kehilangan['jenis_kelamin'],
+            'ttl' => $kehilangan['ttl'],
+            'nik' => $kehilangan['nik'],
+            'agama' => $kehilangan['agama'],
+            'alamat' => $kehilangan['alamat'],
+            'barang_hilang' => $kehilangan['barang_hilang'],
+            'keperluan' => $kehilangan['keperluan']
+        ];
+
+        // Ambil dan encode logo
+        $path = FCPATH . 'img/logo.png'; // Ubah path sesuai lokasi logomu
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+
+        $data['logo'] = $logo;
+
+        // Render view ke HTML
+        $html = view('masyarakat/surat/preview-surat/preview_kehilangan', $data); // Pastikan view ini tersedia
+
+        // Siapkan PDF
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Unduh PDF
+        $dompdf->stream('Surat_Keterangan_Kehilangan_' . $kehilangan['nama'] . '.pdf', ['Attachment' => true]);
     }
 
-    // Ambil data kehilangan
-    $kehilangan = $kehilanganModel->where('id_surat', $idSurat)->first();
-    if (!$kehilangan) {
-        throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat kehilangan tidak ditemukan');
+    public function editSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $kehilanganModel = new \App\Models\SuratKehilanganModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'kehilangan') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat kehilangan');
+        }
+
+        // Ambil data kehilangan
+        $kehilangan = $kehilanganModel->where('id_surat', $idSurat)->first();
+        if (!$kehilangan) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat kehilangan tidak ditemukan');
+        }
+
+        return view('masyarakat/surat/edit-surat/edit_kehilangan', [
+            'kehilangan' => $kehilangan,
+            'surat' => $surat
+        ]);
     }
 
-    // Siapkan data untuk view
-    $data = [
-        'nama' => $kehilangan['nama'],
-        'jenis_kelamin' => $kehilangan['jenis_kelamin'],
-        'ttl' => $kehilangan['ttl'],
-        'nik' => $kehilangan['nik'],
-        'agama' => $kehilangan['agama'],
-        'alamat' => $kehilangan['alamat'],
-        'barang_hilang' => $kehilangan['barang_hilang'],
-        'keperluan' => $kehilangan['keperluan']
-    ];
+    public function updateSurat($idSurat)
+    {
+        $validation = \Config\Services::validation();
 
-    // Ambil dan encode logo
-    $path = FCPATH . 'img/logo.png'; // Ubah path sesuai lokasi logomu
-    $type = pathinfo($path, PATHINFO_EXTENSION);
-    $imageData = file_get_contents($path);
-    $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        // Ambil model
+        $suratModel = new \App\Models\SuratModel();
+        $kehilanganModel = new \App\Models\SuratKehilanganModel();
 
-    $data['logo'] = $logo;
+        // Cek apakah surat dan jenisnya valid
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'kehilangan') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat kehilangan');
+        }
 
-    // Render view ke HTML
-    $html = view('masyarakat/surat/preview-surat/preview_kehilangan', $data); // Pastikan view ini tersedia
+        // Ambil data kehilangan
+        $kehilangan = $kehilanganModel->where('id_surat', $idSurat)->first();
+        if (!$kehilangan) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat kehilangan tidak ditemukan');
+        }
 
-    // Siapkan PDF
-    $options = new Options();
-    $options->set('isHtml5ParserEnabled', true);
-    $options->set('isRemoteEnabled', true);
+        // Validasi input
+        $rules = [
+            'nama' => 'required',
+            'jenis_kelamin' => 'required',
+            'ttl' => 'required',
+            'nik' => 'required|numeric|exact_length[16]',
+            'agama' => 'required',
+            'alamat' => 'required',
+            'barang_hilang' => 'required',
+            'keperluan' => 'required',
+            'kk' => 'max_size[kk,2048]|ext_in[kk,jpg,jpeg,png,pdf]',
+            'ktp' => 'max_size[ktp,2048]|ext_in[ktp,jpg,jpeg,png,pdf]',
+        ];
 
-    $dompdf = new Dompdf($options);
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
 
-    // Unduh PDF
-    $dompdf->stream('Surat_Keterangan_Kehilangan_' . $kehilangan['nama'] . '.pdf', ['Attachment' => true]);
-}
+        $uploadPath = WRITEPATH . 'uploads/surat_kehilangan/';
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
 
+        $ktp = $this->request->getFile('ktp');
+        $kk = $this->request->getFile('kk');
 
-    
+        $ktpName = $kehilangan['ktp']; // Default dari database
+        $kkName = $kehilangan['kk'];   // Default dari database
+
+        // Jika user upload file baru, simpan yang baru
+        if ($ktp && $ktp->isValid() && !$ktp->hasMoved()) {
+            $ktpName = $ktp->getRandomName();
+            $ktp->move($uploadPath, $ktpName);
+        }
+
+        if ($kk && $kk->isValid() && !$kk->hasMoved()) {
+            $kkName = $kk->getRandomName();
+            $kk->move($uploadPath, $kkName);
+        }
+
+        // Update data kehilangan
+        $kehilanganData = [
+            'nama' => $this->request->getPost('nama'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'ttl' => $this->request->getPost('ttl'),
+            'nik' => $this->request->getPost('nik'),
+            'agama' => $this->request->getPost('agama'),
+            'alamat' => $this->request->getPost('alamat'),
+            'barang_hilang' => $this->request->getPost('barang_hilang'),
+            'keperluan' => $this->request->getPost('keperluan'),
+            'ktp' => $ktpName,
+            'kk' => $kkName,
+        ];
+
+        if (!$kehilanganModel->update($kehilangan['id_surat_kehilangan'], $kehilanganData)) {
+            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui data kehilangan.');
+        }
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat Keterangan Kehilangan berhasil diperbarui.');
+    }
 }

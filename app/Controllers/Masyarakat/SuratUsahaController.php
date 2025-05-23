@@ -119,14 +119,14 @@ class SuratUsahaController extends BaseController
             'ktp' => $ktpName,
         ]);
 
-         // Kirim email notifikasi
+        // Kirim email notifikasi
         $email = \Config\Services::email();
         $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject ('Pengajuan Surat Usaha Baru');
+            $email->setSubject('Pengajuan Surat Usaha Baru');
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat usaha baru telah diajukan.<br>" .
@@ -147,60 +147,118 @@ class SuratUsahaController extends BaseController
 
 
     public function downloadSurat($idSurat)
-{
-    $suratModel = new \App\Models\SuratModel();
-    $usahaModel = new \App\Models\SuratUsahaModel();
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $usahaModel = new \App\Models\SuratUsahaModel();
 
-    // Ambil data surat
-    $surat = $suratModel->find($idSurat);
-    if (!$surat || $surat['jenis_surat'] !== 'usaha') {
-        throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat usaha');
+        // Ambil data surat
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'usaha') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat usaha');
+        }
+
+        // Ambil data usaha
+        $usaha = $usahaModel->where('id_surat', $idSurat)->first();
+        if (!$usaha) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat usaha tidak ditemukan');
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'nama' => $usaha['nama'],
+            'nik' => $usaha['nik'],
+            'alamat' => $usaha['alamat'],
+            'rt_rw' => $usaha['rt_rw'],
+            'desa' => $usaha['desa'],
+            'kecamatan' => $usaha['kecamatan'],
+            'kabupaten' => $usaha['kabupaten'],
+            'provinsi' => $usaha['provinsi'],
+            'nama_usaha' => $usaha['nama_usaha'],
+            'alamat_usaha' => $usaha['alamat_usaha'],
+            'sejak_tahun' => $usaha['sejak_tahun']
+        ];
+
+        // Ambil dan encode logo
+        $path = FCPATH . 'img/logo.png'; // Ubah path sesuai lokasi logomu
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($path);
+        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+
+        $data['logo'] = $logo;
+
+        // Render view ke HTML
+        $html = view('masyarakat/surat/preview-surat/preview_usaha', $data); // Pastikan view ini tersedia
+
+        // Siapkan PDF
+        $options = new \Dompdf\Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new \Dompdf\Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Unduh PDF
+        $dompdf->stream('Surat_Keterangan_Usaha_' . $usaha['nama'] . '.pdf', ['Attachment' => true]);
     }
 
-    // Ambil data usaha
-    $usaha = $usahaModel->where('id_surat', $idSurat)->first();
-    if (!$usaha) {
-        throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat usaha tidak ditemukan');
+    public function editSurat($id)
+    {
+        $usahaModel = new \App\Models\SuratUsahaModel();
+        $suratModel = new \App\Models\SuratModel();
+
+        $usaha = $usahaModel->where('id_surat', $id)->first();
+        if (!$usaha) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat usaha tidak ditemukan');
+        }
+
+        $surat = $suratModel->find($usaha['id_surat']);
+        if (!$surat) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan');
+        }
+
+        return view('masyarakat/surat/edit-surat/edit_usaha', [
+            'usaha' => $usaha,
+            'surat' => $surat
+        ]);
     }
 
-    // Siapkan data untuk view
-    $data = [
-        'nama' => $usaha['nama'],
-        'nik' => $usaha['nik'],
-        'alamat' => $usaha['alamat'],
-        'rt_rw' => $usaha['rt_rw'],
-        'desa' => $usaha['desa'],
-        'kecamatan' => $usaha['kecamatan'],
-        'kabupaten' => $usaha['kabupaten'],
-        'provinsi' => $usaha['provinsi'],
-        'nama_usaha' => $usaha['nama_usaha'],
-        'alamat_usaha' => $usaha['alamat_usaha'],
-        'sejak_tahun' => $usaha['sejak_tahun']
-    ];
+    public function updateSurat($id)
+    {
+        $usahaModel = new \App\Models\SuratUsahaModel();
+        $suratModel = new \App\Models\SuratModel();
 
-    // Ambil dan encode logo
-    $path = FCPATH . 'img/logo.png'; // Ubah path sesuai lokasi logomu
-    $type = pathinfo($path, PATHINFO_EXTENSION);
-    $imageData = file_get_contents($path);
-    $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        $usaha = $usahaModel->where('id_surat', $id)->first();
+        if (!$usaha) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat usaha tidak ditemukan');
+        }
 
-    $data['logo'] = $logo;
+        $surat = $suratModel->find($usaha['id_surat']);
+        if (!$surat) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan');
+        }
 
-    // Render view ke HTML
-    $html = view('masyarakat/surat/preview-surat/preview_usaha', $data); // Pastikan view ini tersedia
+        $suratModel = new \App\Models\SuratModel();
+        $suratModel->update($id, [
+            'no_surat' => $this->request->getPost('no_surat'),
+            'status' => 'diajukan'
+        ]);
 
-    // Siapkan PDF
-    $options = new \Dompdf\Options();
-    $options->set('isHtml5ParserEnabled', true);
-    $options->set('isRemoteEnabled', true);
+        $usahaModel->where('id_surat', $id)->set([
+            'nama' => $this->request->getPost('nama'),
+            'nik' => $this->request->getPost('nik'),
+            'alamat' => $this->request->getPost('alamat'),
+            'rt_rw' => $this->request->getPost('rt_rw'),
+            'desa' => $this->request->getPost('desa'),
+            'kecamatan' => $this->request->getPost('kecamatan'),
+            'kabupaten' => $this->request->getPost('kabupaten'),
+            'provinsi' => $this->request->getPost('provinsi'),
+            'nama_usaha' => $this->request->getPost('nama_usaha'),
+            'alamat_usaha' => $this->request->getPost('alamat_usaha'),
+            'sejak_tahun' => $this->request->getPost('sejak_tahun')
+        ])->update();
 
-    $dompdf = new \Dompdf\Dompdf($options);
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
-
-    // Unduh PDF
-    $dompdf->stream('Surat_Keterangan_Usaha_' . $usaha['nama'] . '.pdf', ['Attachment' => true]);
-}
-
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
+    }
 }

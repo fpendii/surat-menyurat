@@ -107,7 +107,7 @@ class SuratBelumBekerjaController extends BaseController
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject ('Pengajuan Surat Belum Bekerja Baru');
+            $email->setSubject('Pengajuan Surat Belum Bekerja Baru');
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Terdapat pengajuan <strong>Surat Belum Bekerja</strong> baru.<br>" .
@@ -186,5 +186,81 @@ class SuratBelumBekerjaController extends BaseController
         $dompdf->stream($filename, ['Attachment' => true]);
 
         exit();
+    }
+
+    public function editSurat($id)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $belumBekerjaModel = new \App\Models\SuratBelumBekerjaModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail belum bekerja
+        $detail = $belumBekerjaModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data surat belum bekerja tidak ditemukan.');
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'surat' => $surat,
+            'detail' => $detail,
+        ];
+
+        return view('masyarakat/surat/edit-surat/edit_belum_bekerja', $data);
+    }
+
+    public function updateSurat($id)
+    {
+        // Validasi input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nama' => 'required',
+            'nik' => 'required|numeric|exact_length[16]',
+            'ttl' => 'required',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'status_pekerjaan' => 'required',
+            'warga_negara' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Cek apakah surat dan detailnya ada
+        $suratModel = new \App\Models\SuratModel();
+        $detailModel = new \App\Models\SuratBelumBekerjaModel();
+
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        $detail = $detailModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data detail surat tidak ditemukan.');
+        }
+
+        // Data update
+        $updateData = [
+            'nama' => $this->request->getPost('nama'),
+            'nik' => $this->request->getPost('nik'),
+            'ttl' => $this->request->getPost('ttl'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'agama' => $this->request->getPost('agama'),
+            'status_pekerjaan' => $this->request->getPost('status_pekerjaan'),
+            'warga_negara' => $this->request->getPost('warga_negara'),
+            'alamat' => $this->request->getPost('alamat'),
+        ];
+
+        $detailModel->update($detail['id_belum_bekerja'], $updateData);
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

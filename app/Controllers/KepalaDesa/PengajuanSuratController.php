@@ -24,7 +24,7 @@ class PengajuanSuratController extends BaseController
     }
     public function pengajuanSurat()
     {
-        $dataSurat = $this->suratModel->findAll();
+        $dataSurat = $this->suratModel->where('status_surat', 'diajukan')->findAll();
         $data = [
             'dataSurat' => $dataSurat,
         ];
@@ -49,18 +49,20 @@ class PengajuanSuratController extends BaseController
                 // Ambil data user pengaju
                 $userModel = new \App\Models\UserModel();
                 $user = $userModel->find($dataSurat['id_user']);
+                $admin = $userModel->where('role', 'admin')->first(); // Ambil data admin
 
                 if ($user && isset($user['email'])) {
                     $email = \Config\Services::email();
-                    $email->setTo($user['email']);
-                    $email->setFrom('desa@example.com', 'Desa Pabahanan');
+                    $email->setTo($admin['email']);
+                    $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
                     $email->setSubject('Revisi Pengajuan Surat');
                     $email->setMessage(
                         "Halo <strong>{$user['name']}</strong>,<br><br>" .
-                            "Pengajuan surat Anda dengan nomor <strong>{$dataSurat['no_surat']}</strong> telah <strong>disetujui</strong> oleh Kepala Desa.<br>" .
-                            "Silakan datang ke kantor desa untuk proses selanjutnya atau unduh jika tersedia di sistem.<br><br>" .
+                            "Pengajuan surat dengan nomor <strong>{$dataSurat['no_surat']}</strong> telah <strong>disetujui</strong> oleh Kepala Desa.<br>" .
+                            "Silakan unggah surat yang telah ditandatangani untuk dikirim ke pemohon melalui sistem.<br><br>" .
                             "Terima kasih."
                     );
+
 
                     if (!$email->send()) {
                         log_message('error', 'Gagal mengirim email ke ' . $user['email'] . ': ' . $email->printDebugger(['headers']));

@@ -17,6 +17,7 @@ class SuratModel extends Model
         'ktp',
         'form_f1',
         'catatan',
+        'file_surat',
     ];
     protected $useTimestamps = true;
 }

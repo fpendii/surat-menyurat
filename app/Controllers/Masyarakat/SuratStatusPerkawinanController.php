@@ -102,14 +102,14 @@ class SuratStatusPerkawinanController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data.');
         }
 
-         // Kirim email notifikasi
+        // Kirim email notifikasi
         $email = \Config\Services::email();
         $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject ('Pengajuan Surat Status Perkawinan Baru');
+            $email->setSubject('Pengajuan Surat Status Perkawinan Baru');
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat status perkawinan baru telah diajukan.<br>" .
@@ -129,49 +129,106 @@ class SuratStatusPerkawinanController extends BaseController
     }
 
     public function downloadSurat($idSurat)
-{
-    $suratModel = new \App\Models\SuratModel();
-    $statusModel = new \App\Models\SuratStatusPerkawinanModel();
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $statusModel = new \App\Models\SuratStatusPerkawinanModel();
 
-    // Ambil data surat dan detail status perkawinan
-    $surat = $suratModel->find($idSurat);
-    if (!$surat || $surat['jenis_surat'] !== 'status_perkawinan') {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Surat tidak ditemukan');
-    }
+        // Ambil data surat dan detail status perkawinan
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'status_perkawinan') {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Surat tidak ditemukan');
+        }
 
-    $detail = $statusModel->where('id_surat', $idSurat)->first();
+        $detail = $statusModel->where('id_surat', $idSurat)->first();
 
-    $path = FCPATH . 'img/logo.png';
+        $path = FCPATH . 'img/logo.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $imageData = file_get_contents($path);
         $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
         $data['logo'] = $logo;
 
-    // Siapkan data untuk view
-    $data = [
-        'logo' => $logo,
-        'no_surat' => $surat['no_surat'],
-        'tanggal' => date('d F Y', strtotime($surat['created_at'] ?? date('Y-m-d'))),
+        // Siapkan data untuk view
+        $data = [
+            'logo' => $logo,
+            'no_surat' => $surat['no_surat'],
+            'tanggal' => date('d F Y', strtotime($surat['created_at'] ?? date('Y-m-d'))),
 
-        'nama' => $detail['nama'],
-        'nik' => $detail['nik'],
-        'ttl' => $detail['ttl'],
-        'agama' => $detail['agama'],
-        'alamat' => $detail['alamat'],
-        'status' => $detail['status'],
-    ];
+            'nama' => $detail['nama'],
+            'nik' => $detail['nik'],
+            'ttl' => $detail['ttl'],
+            'agama' => $detail['agama'],
+            'alamat' => $detail['alamat'],
+            'status' => $detail['status'],
+        ];
 
-    // Render view surat jadi HTML
-    $html = view('masyarakat/surat/preview-surat/preview_status_perkawinan', $data);
+        // Render view surat jadi HTML
+        $html = view('masyarakat/surat/preview-surat/preview_status_perkawinan', $data);
 
-    // Load dan generate PDF
-    $dompdf = new \Dompdf\Dompdf();
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
+        // Load dan generate PDF
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
 
-    // Tampilkan PDF ke browser langsung (inline)
-    $dompdf->stream("Surat_Status_Perkawinan_{$detail['nama']}.pdf", ["Attachment" => false]);
-}
+        // Tampilkan PDF ke browser langsung (inline)
+        $dompdf->stream("Surat_Status_Perkawinan_{$detail['nama']}.pdf", ["Attachment" => false]);
+    }
 
+    public function editSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $statusModel = new \App\Models\SuratStatusPerkawinanModel();
+
+        // Ambil data surat dan detail status perkawinan
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'status_perkawinan') {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Surat tidak ditemukan');
+        }
+
+        $detail = $statusModel->where('id_surat', $idSurat)->first();
+
+        return view('masyarakat/surat/edit-surat/edit_status_perkawinan', [
+            'surat' => $surat,
+            'detail' => $detail,
+        ]);
+    }
+
+    public function updateSurat($idSurat)
+    {
+        $validationRules = [
+            'nama'   => 'required|max_length[100]',
+            'nik'    => 'required|numeric',
+            'ttl'    => 'required|max_length[100]',
+            'agama'  => 'required',
+            'alamat' => 'required',
+            'status' => 'required',
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $suratModel = new \App\Models\SuratModel();
+        $statusModel = new \App\Models\SuratStatusPerkawinanModel();
+
+        // Update data surat
+        $suratData = [
+            'jenis_surat' => 'status_perkawinan',
+            'status'      => 'diajukan',
+        ];
+        $suratModel->update($idSurat, $suratData);
+
+        // Update data status perkawinan
+        $statusData = [
+            'nama'   => $this->request->getPost('nama'),
+            'nik'    => $this->request->getPost('nik'),
+            'ttl'    => $this->request->getPost('ttl'),
+            'agama'  => $this->request->getPost('agama'),
+            'alamat' => $this->request->getPost('alamat'),
+            'status' => $this->request->getPost('status'),
+        ];
+        $statusModel->set($statusData)->where('id_surat', $idSurat)->update();
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat berhasil diperbarui.');
+    }
 }

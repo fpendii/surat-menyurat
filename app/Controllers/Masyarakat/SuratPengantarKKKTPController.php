@@ -79,14 +79,14 @@ class SuratPengantarKKKTPController extends BaseController
             ]);
         }
 
-         // Kirim email notifikasi
+        // Kirim email notifikasi
         $email = \Config\Services::email();
         $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject ('Pengajuan Surat Pengantar KK dan KTP Baru');
+            $email->setSubject('Pengajuan Surat Pengantar KK dan KTP Baru');
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat pengantar KK dan KTP baru telah diajukan.<br>" .
@@ -122,7 +122,7 @@ class SuratPengantarKKKTPController extends BaseController
         }
 
         // Logo, bisa dari file lokal atau base64
-         $path = FCPATH . 'img/logo.png';
+        $path = FCPATH . 'img/logo.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $imageData = file_get_contents($path);
         $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
@@ -150,5 +150,87 @@ class SuratPengantarKKKTPController extends BaseController
 
         // Download PDF
         $dompdf->stream('surat-pengantar-kk-ktp.pdf', ['Attachment' => true]);
+    }
+
+    public function editSurat($id)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $detailModel = new \App\Models\SuratPengantarKkKtpModel();
+
+        $surat = $suratModel->find($id);
+        $dataOrang = $detailModel->where('id_surat', $id)->findAll();
+
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Surat tidak ditemukan.');
+        }
+
+        return view('masyarakat/surat/edit-surat/edit_pengantar_kk_ktp', [
+            'surat' => $surat,
+            'dataOrang' => $dataOrang
+        ]);
+    }
+
+    public function updateSurat($id)
+    {
+        $validation = \Config\Services::validation();
+        $dataInput = $this->request->getPost('data');
+
+        // Validasi sederhana: cek dataInput tidak kosong
+        if (empty($dataInput)) {
+            return redirect()->back()->with('error', 'Data orang tidak boleh kosong.')->withInput();
+        }
+
+        $suratModel = new \App\Models\SuratModel();
+        $detailModel = new \App\Models\SuratPengantarKkKtpModel();
+
+        // Cek surat ada
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Surat tidak ditemukan.');
+        }
+
+        // Update surat, misal update status atau data lain jika ada
+        $suratModel->update($id, [
+            'status_surat' => 'diajukan', // contoh update status kalau ada input
+            // tambahkan field lain kalau perlu
+        ]);
+
+        // Hapus dulu data detail lama yang terkait surat ini
+        $detailModel->where('id_surat', $id)->delete();
+
+        // Simpan ulang data detail orang
+        foreach ($dataInput as $person) {
+            $detailModel->insert([
+                'id_surat' => $id,
+                'nama' => $person['nama'],
+                'no_kk' => $person['no_kk'],
+                'nik' => $person['nik'],
+                'keterangan' => $person['keterangan'],
+                'jumlah' => $person['jumlah']
+            ]);
+        }
+
+        // Opsional: Kirim email notifikasi update
+        $email = \Config\Services::email();
+        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Update Surat Pengantar KK dan KTP');
+            $email->setMessage(
+                "Halo,<br><br>" .
+                    "Surat pengantar KK dan KTP dengan nomor surat <strong>{$surat['no_surat']}</strong> telah diperbarui.<br>" .
+                    "Silakan cek sistem untuk melihat perubahan.<br><br>" .
+                    "Terima kasih."
+            );
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi update ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+            $email->clear();
+        }
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
     }
 }

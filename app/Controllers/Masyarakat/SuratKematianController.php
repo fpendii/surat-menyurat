@@ -183,4 +183,84 @@ class SuratKematianController extends BaseController
 
         exit();
     }
+
+
+    public function editSurat($id)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $kematianModel = new \App\Models\SuratKematianModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail kematian
+        $detail = $kematianModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data surat kematian tidak ditemukan.');
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'surat' => $surat,
+            'detail' => $detail,
+        ];
+
+        return view('masyarakat/surat/edit-surat/edit_kematian', $data);
+    }
+
+    public function updateSurat($id)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $kematianModel = new \App\Models\SuratKematianModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail kematian
+        $detail = $kematianModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data surat kematian tidak ditemukan.');
+        }
+
+        // Validasi input
+        $validation = \Config\Services::validation();
+
+        $rules = [
+            'nama' => 'required',
+            'jenis_kelamin' => 'required|in_list[L,P]',
+            'ttl' => 'required',
+            'agama' => 'required',
+            'hari_tanggal' => 'required',
+            'jam' => 'required',
+            'tempat' => 'required',
+            'penyebab' => 'required',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('/masyarakat/surat/kematian')->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Update tabel `surat`
+        $suratModel->update($id, ['status_surat' => 'diajukan']);
+
+        // Update tabel `surat_kematian`
+        $kematianModel->update($detail['id_surat'], [
+            'nama' => $this->request->getPost('nama'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'ttl' => $this->request->getPost('ttl'),
+            'agama' => $this->request->getPost('agama'),
+            'hari_tanggal' => $this->request->getPost('hari_tanggal'),
+            'jam' => $this->request->getPost('jam'),
+            'tempat' => $this->request->getPost('tempat'),
+            'penyebab' => $this->request->getPost('penyebab'),
+        ]);
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat kematian berhasil diperbarui.');
+    }
 }

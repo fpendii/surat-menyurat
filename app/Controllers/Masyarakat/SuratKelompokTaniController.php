@@ -154,4 +154,64 @@ class SuratKelompokTaniController extends BaseController
         $dompdf->stream('surat_domisili_kelompok_tani.pdf', ['Attachment' => true]);
         exit();
     }
+
+    public function editSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $domisiliModel = new \App\Models\SuratDomisiliKelompokTaniModel();
+
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'domisili_kelompok_tani') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat domisili kelompok tani');
+        }
+
+        $domisili = $domisiliModel->where('id_surat', $idSurat)->first();
+        if (!$domisili) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat domisili kelompok tani tidak ditemukan');
+        }
+
+        return view('masyarakat/surat/edit-surat/edit_domisili_kelompok_tani', [
+            'surat' => $surat,
+            'detail' => $domisili
+        ]);
+    }
+
+    public function updateSurat($idSurat)
+    {
+        $validation = \Config\Services::validation();
+
+        // Validasi input
+        $validation->setRules([
+            'nama_gapoktan'   => 'required|min_length[3]',
+            'tgl_pembentukan' => 'required|valid_date',
+            'alamat'          => 'required|min_length[5]',
+            'ketua'           => 'required|min_length[3]',
+            'sekretaris'      => 'required|min_length[3]',
+            'bendahara'       => 'required|min_length[3]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Update data ke tabel surat
+        $suratModel = new \App\Models\SuratModel();
+        $suratModel->update($idSurat, [
+            'no_surat' => $this->request->getPost('no_surat'),
+            'status' => 'diajukan'
+        ]);
+
+        // Update data ke tabel surat_domisili_kelompok_tani
+        $domisiliModel = new \App\Models\SuratDomisiliKelompokTaniModel();
+         $domisiliModel->where('id_surat', $idSurat)->set([
+            'nama_gapoktan'    => $this->request->getPost('nama_gapoktan'),
+            'tgl_pembentukan'  => $this->request->getPost('tgl_pembentukan'),
+            'alamat'           => $this->request->getPost('alamat'),
+            'ketua'            => $this->request->getPost('ketua'),
+            'sekretaris'       => $this->request->getPost('sekretaris'),
+            'bendahara'        => $this->request->getPost('bendahara'),
+        ])->update();
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
+    }
 }

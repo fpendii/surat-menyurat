@@ -210,4 +210,91 @@ class SuratSuamiIstriController extends BaseController
 
         exit();
     }
+
+    public function editSurat($id)
+    {
+        // Load model
+        $suratModel = new \App\Models\SuratModel();
+        $suamiIstriModel = new \App\Models\SuamiIstriModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail suami istri
+        $detail = $suamiIstriModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data surat suami istri tidak ditemukan.');
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'surat' => $surat,
+            'detail' => $detail,
+        ];
+
+        return view('masyarakat/surat/edit-surat/edit_suami_istri', $data);
+    }
+
+    public function updateSurat($id)
+    {
+        // Load model
+        $suratModel = new \App\Models\SuratModel();
+        $suamiIstriModel = new \App\Models\SuamiIstriModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail suami istri
+        $detail = $suamiIstriModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data surat suami istri tidak ditemukan.');
+        }
+
+        // Validasi input
+        $validationRules = [
+            'nama_suami'    => 'required',
+            'nik_suami'     => 'required|numeric|exact_length[16]',
+            'ttl_suami'     => 'required',
+            'agama_suami'   => 'required',
+            'alamat_suami'  => 'required',
+            'nama_istri'    => 'required',
+            'nik_istri'     => 'required|numeric|exact_length[16]',
+            'ttl_istri'     => 'required',
+            'agama_istri'   => 'required',
+            'alamat_istri'  => 'required',
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Update data surat
+        $suratData = [
+            'status_surat' => 'diajukan',
+        ];
+        $suratModel->update($id, $suratData);
+
+        // Update data detail suami istri
+        $suamiIstriData = [
+            'nama_suami'    => $this->request->getPost('nama_suami'),
+            'nik_suami'     => $this->request->getPost('nik_suami'),
+            'ttl_suami'     => $this->request->getPost('ttl_suami'),
+            'agama_suami'   => $this->request->getPost('agama_suami'),
+            'alamat_suami
+            ' => $this->request->getPost('alamat_suami'),
+            'nama_istri'    => $this->request->getPost('nama_istri'),
+            'nik_istri'     => $this->request->getPost('nik_istri'),
+            'ttl_istri'     => $this->request->getPost('ttl_istri'),
+            'agama_istri'   => $this->request->getPost('agama_istri'),
+            'alamat_istri'  => $this->request->getPost('alamat_istri'),
+        ];
+        $suamiIstriModel->update($detail['id_suami_istri'], $suamiIstriData);
+        return redirect()->to('/masyarakat/data-surat/')->with('success', 'Data surat suami istri berhasil diperbarui.');
+    }
 }

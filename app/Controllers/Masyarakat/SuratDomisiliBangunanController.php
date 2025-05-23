@@ -178,4 +178,70 @@ class SuratDomisiliBangunanController extends BaseController
 
         exit();
     }
+
+    public function editSurat($id)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $domisiliBangunanModel = new \App\Models\SuratDomisiliBangunanModel();
+
+        // Ambil data surat
+        $surat = $suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        // Ambil data detail domisili bangunan
+        $detail = $domisiliBangunanModel->where('id_surat', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data domisili bangunan tidak ditemukan.');
+        }
+
+        // Siapkan data untuk view
+        $data = [
+            'surat' => $surat,
+            'detail' => $detail,
+        ];
+
+        return view('masyarakat/surat/edit-surat/edit_surat_domisili_bangunan', $data);
+    }
+
+    public function updateSurat($id)
+    {
+        $validation = \Config\Services::validation();
+
+        // Validasi input
+        $validation->setRules([
+            'nama_gapoktan'   => 'required|min_length[3]',
+            'tgl_pembentukan' => 'required|valid_date',
+            'alamat'          => 'required|min_length[5]',
+            'ketua'           => 'required|min_length[3]',
+            'sekretaris'      => 'required|min_length[3]',
+            'bendahara'       => 'required|min_length[3]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Update data ke tabel surat
+        $suratModel = new \App\Models\SuratModel();
+        $suratModel->update($id, [
+            'no_surat' => $this->request->getPost('no_surat'),
+            'jenis_surat' => 'domisili_bangunan',
+            'status_surat' => 'diajukan',
+        ]);
+
+        // Update data ke tabel surat_domisili_bangunan
+        $domisiliBangunanModel = new \App\Models\SuratDomisiliBangunanModel();
+        $domisiliBangunanModel->where('id_surat', $id)->set([
+            'nama_gapoktan'    => $this->request->getPost('nama_gapoktan'),
+            'tgl_pembentukan'  => $this->request->getPost('tgl_pembentukan'),
+            'alamat'           => $this->request->getPost('alamat'),
+            'ketua'            => $this->request->getPost('ketua'),
+            'sekretaris'       => $this->request->getPost('sekretaris'),
+            'bendahara'        => $this->request->getPost('bendahara'),
+        ])->update();
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat Domisili Bangunan berhasil diperbarui.');
+    }
 }

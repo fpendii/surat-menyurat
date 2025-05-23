@@ -202,4 +202,83 @@ class SuratAhliWarisController extends BaseController
         // Download PDF
         $dompdf->stream('Surat_Keterangan_Ahli_Waris_' . $suratAhliWaris['pemilik_harta'] . '.pdf', ['Attachment' => true]);
     }
+
+    public function editSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $suratAhliWarisModel = new \App\Models\SuratAhliWarisModel();
+        $ahliWarisModel = new \App\Models\AhliWarisModel();
+
+        $surat = $suratModel->find($idSurat);
+        if (!$surat) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan');
+        }
+
+        $suratAhliWaris = $suratAhliWarisModel->where('id_surat', $idSurat)->first();
+        if (!$suratAhliWaris) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data ahli waris tidak ditemukan');
+        }
+
+        $dataAhliWaris = $ahliWarisModel->where('id_surat_ahli_waris', $suratAhliWaris['id_surat_ahli_waris'])->findAll();
+
+        return view('masyarakat/surat/edit-surat/edit_ahli_waris', [
+            'surat' => $surat,
+            'suratAhliWaris' => $suratAhliWaris,
+            'dataAhliWaris' => $dataAhliWaris,
+            'validation' => \Config\Services::validation()
+        ]);
+    }
+
+    public function updateSurat($idSurat)
+{
+    $suratModel = new \App\Models\SuratModel();
+    $suratAhliWarisModel = new \App\Models\SuratAhliWarisModel();
+    $ahliWarisModel = new \App\Models\AhliWarisModel();
+
+    // Cari surat utama
+    $surat = $suratModel->find($idSurat);
+    if (!$surat) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan');
+    }
+
+    // Cari surat ahli waris
+    $suratAhliWaris = $suratAhliWarisModel->where('id_surat', $idSurat)->first();
+    if (!$suratAhliWaris) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Data ahli waris tidak ditemukan');
+    }
+
+    // Ambil input
+    $pemilikHarta = $this->request->getPost('pemilik_harta');
+    $namaWaris = $this->request->getPost('nama_ahli_waris');
+    $nikWaris = $this->request->getPost('nik_ahli_waris');
+    $ttlWaris = $this->request->getPost('ttl_ahli_waris');
+    $hubunganWaris = $this->request->getPost('hubungan_ahli_waris');
+
+    // Update pemilik harta
+    $suratAhliWarisModel->update($suratAhliWaris['id_surat_ahli_waris'], [
+        'pemilik_harta' => $pemilikHarta
+    ]);
+
+    // Update status surat menjadi "diajukan"
+    $suratModel->update($idSurat, [
+        'status_surat' => 'diajukan'
+    ]);
+
+    // Hapus data ahli waris lama
+    $ahliWarisModel->where('id_surat_ahli_waris', $suratAhliWaris['id_surat_ahli_waris'])->delete();
+
+    // Simpan ulang data ahli waris baru
+    foreach ($namaWaris as $i => $nama) {
+        $ahliWarisModel->insert([
+            'id_surat_ahli_waris' => $suratAhliWaris['id_surat_ahli_waris'],
+            'nama' => $nama,
+            'nik' => $nikWaris[$i],
+            'ttl' => $ttlWaris[$i],
+            'hubungan' => $hubunganWaris[$i],
+        ]);
+    }
+
+    return redirect()->to('/masyarakat/data-surat/')->with('success', 'Data surat berhasil diperbarui.');
+}
+
 }

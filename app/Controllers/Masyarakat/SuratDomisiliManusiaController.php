@@ -183,5 +183,63 @@ class SuratDomisiliManusiaController extends BaseController
         $dompdf->stream('surat_domisili_warga.pdf', ['Attachment' => true]); // true = download, false = tampil di browser
         exit();
     }
-        
+
+    public function editSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $domisiliWargaModel = new \App\Models\SuratDomisiliWargaModel();
+
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'domisili_warga') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat domisili warga');
+        }
+
+        $domisiliWarga = $domisiliWargaModel->where('id_surat', $idSurat)->first();
+        if (!$domisiliWarga) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data domisili warga tidak ditemukan');
+        }
+
+        return view('masyarakat/surat/edit-surat/edit_domisili_warga', [
+            'surat' => $surat,
+            'detail' => $domisiliWarga,
+        ]);
+    }
+
+
+    public function updateSurat($idSurat)
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $domisiliWargaModel = new \App\Models\SuratDomisiliWargaModel();
+
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['jenis_surat'] !== 'domisili_warga') {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat domisili warga');
+        }
+
+        $domisiliWarga = $domisiliWargaModel->where('id_surat', $idSurat)->first();
+        if (!$domisiliWarga) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data domisili warga tidak ditemukan');
+        }
+
+         $domisiliWargaModel->where('id_surat', $idSurat)->set([
+            'nama_pejabat'       => $this->request->getPost('nama_pejabat'),
+            'jabatan'            => $this->request->getPost('jabatan'),
+            'kecamatan_pejabat'  => $this->request->getPost('kecamatan_pejabat'),
+            'kabupaten_pejabat'  => $this->request->getPost('kabupaten_pejabat'),
+            'nama_warga'         => $this->request->getPost('nama_warga'),
+            'nik'                => $this->request->getPost('nik'),
+            'alamat'             => $this->request->getPost('alamat'),
+            'desa'               => $this->request->getPost('desa'),
+            'kecamatan'          => $this->request->getPost('kecamatan'),
+            'kabupaten'          => $this->request->getPost('kabupaten'),
+            'provinsi'           => $this->request->getPost('provinsi'),   
+        ])->update();
+
+        $suratModel->update($idSurat, [
+            'no_surat' => $this->request->getPost('no_surat'),
+            'status' => 'diajukan',
+        ]);
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat berhasil diperbarui.');
+    }
 }
