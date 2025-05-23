@@ -15,6 +15,14 @@
         </div>
     <?php endif; ?>
 
+    <!-- Catatan dari Kepala Desa -->
+    <?php if (!empty($surat['catatan'])): ?>
+        <div class="alert alert-warning">
+            <strong>Catatan dari Kepala Desa:</strong><br>
+            <?= nl2br(esc($surat['catatan'])) ?>
+        </div>
+    <?php endif; ?>
+
     <form action="<?= site_url('masyarakat/surat/belum-bekerja/update/' . $surat['id_surat']) ?>" method="POST">
         <?= csrf_field() ?>
         <input type="hidden" name="_method" value="PUT">

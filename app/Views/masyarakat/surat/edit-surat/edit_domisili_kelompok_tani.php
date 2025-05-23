@@ -4,6 +4,14 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Domisili Kelompok Tani</h2>
 
+    <!-- Catatan dari Kepala Desa -->
+    <?php if (!empty($surat['catatan'])): ?>
+        <div class="alert alert-warning">
+            <strong>Catatan dari Kepala Desa:</strong><br>
+            <?= nl2br(esc($surat['catatan'])) ?>
+        </div>
+    <?php endif; ?>
+
     <!-- Form Pengajuan Surat -->
     <form action="<?= site_url('masyarakat/surat/domisili_kelompok_tani/update/' . $detail['id_surat']) ?>" method="POST">
         <?= csrf_field() ?>

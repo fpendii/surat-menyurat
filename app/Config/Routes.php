@@ -5,10 +5,19 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+
+
+$routes->get('', 'AuthController::login');
+$routes->get('login', 'AuthController::login');
+$routes->post('login/proses', 'AuthController::loginProses');
+$routes->get('register', 'AuthController::register');
+$routes->get('/unauthorized', 'AuthController::unauthorized');
+$routes->get('forgot-password', 'AuthController::forgotPassword');
+$routes->get('logout', 'AuthController::logout');
+
 
 // Group khusus masyarakat
-$routes->group('masyarakat', function($routes) {
+$routes->group('masyarakat', ['filter' => 'role:masyarakat'], function($routes) {
     // Dashboard Masyarakat
     $routes->get('dashboard', 'Masyarakat\MasyarakatDashboardController::index');
     $routes->get('surat', 'Masyarakat\SuratController::index');
@@ -135,7 +144,7 @@ $routes->group('masyarakat', function($routes) {
 
 
 // Group khusus kepala desa
-$routes->group('kepala-desa', function($routes) {
+$routes->group('kepala-desa', ['filter' => 'role:kepala-desa'], function($routes) {
     // Dashboard Kepala Desa
     $routes->get('dashboard', 'KepalaDesa\KepalaDesaDashboardController::index');
     $routes->get('pengajuan-surat', 'KepalaDesa\PengajuanSuratController::pengajuanSurat');
@@ -145,19 +154,19 @@ $routes->group('kepala-desa', function($routes) {
     $routes->post('pengajuan-surat/kirim-revisi/(:num)', 'KepalaDesa\PengajuanSuratController::kirimRevisi/$1');
 });
 
-// Group khusus kepala desa
-$routes->group('kepala-desa', function($routes) {
-    // Dashboard Kepala Desa
-    $routes->get('dashboard', 'KepalaDesa\KepalaDesaDashboardController::index');
-    $routes->get('pengajuan-surat', 'KepalaDesa\PengajuanSuratController::pengajuanSurat');
-    $routes->get('pengajuan-surat/(:num)', 'KepalaDesa\PengajuanSuratController::detailSurat/$1');
-    $routes->post('pengajuan-surat/konfirmasi/(:num)', 'KepalaDesa\PengajuanSuratController::konfirmasiSurat/$1');
-    $routes->get('pengajuan-surat/revisi/(:num)', 'KepalaDesa\PengajuanSuratController::revisiSurat/$1');
-    $routes->post('pengajuan-surat/kirim-revisi/(:num)', 'KepalaDesa\PengajuanSuratController::kirimRevisi/$1');
-});
+// // Group khusus kepala desa
+// $routes->group('kepala-desa', function($routes) {
+//     // Dashboard Kepala Desa
+//     $routes->get('dashboard', 'KepalaDesa\KepalaDesaDashboardController::index');
+//     $routes->get('pengajuan-surat', 'KepalaDesa\PengajuanSuratController::pengajuanSurat');
+//     $routes->get('pengajuan-surat/(:num)', 'KepalaDesa\PengajuanSuratController::detailSurat/$1');
+//     $routes->post('pengajuan-surat/konfirmasi/(:num)', 'KepalaDesa\PengajuanSuratController::konfirmasiSurat/$1');
+//     $routes->get('pengajuan-surat/revisi/(:num)', 'KepalaDesa\PengajuanSuratController::revisiSurat/$1');
+//     $routes->post('pengajuan-surat/kirim-revisi/(:num)', 'KepalaDesa\PengajuanSuratController::kirimRevisi/$1');
+// });
 
 // Group khusus admin
-$routes->group('admin', function($routes) {
+$routes->group('admin', ['filter' => 'role:admin'], function($routes) {
     // Dashboard Kepala Desa
     $routes->get('dashboard', 'Admin\AdminDashboardController::index');
     $routes->get('pengajuan-surat', 'Admin\PengajuanSuratController::pengajuanSurat');

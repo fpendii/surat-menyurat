@@ -7,6 +7,14 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Domisili Warga</h2>
 
+    <!-- Catatan dari Kepala Desa -->
+    <?php if (!empty($surat['catatan'])): ?>
+        <div class="alert alert-warning">
+            <strong>Catatan dari Kepala Desa:</strong><br>
+            <?= nl2br(esc($surat['catatan'])) ?>
+        </div>
+    <?php endif; ?>
+
     <form action="<?= site_url('masyarakat/surat/domisili-warga/update/' . $surat['id_surat']) ?>" method="POST">
         <?= csrf_field() ?>
 

@@ -67,7 +67,7 @@ class SuratKelompokTaniController extends BaseController
         // Simpan data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
         $idSurat = $suratModel->insert([
-            'id_user' => 1, // Ganti sesuai session user login kalau sudah implementasi login
+            'id_user' => session()->get('user_id'), // Ganti sesuai session user login kalau sudah implementasi login
             'no_surat' => 'KLT-' . date('YmdHis'),
             'jenis_surat' => 'domisili_kelompok_tani',
             'status' => 'diajukan'
