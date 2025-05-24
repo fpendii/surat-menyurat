@@ -70,12 +70,27 @@ class SuratDomisiliBangunanController extends BaseController
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
+        // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '400.12.2.2';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+         $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Simpan data ke tabel surat terlebih dahulu
         $suratModel = new \App\Models\SuratModel();
-        $noSurat = 'DB-' . date('YmdHis');
         $idSurat = $suratModel->insert([
-            'id_user' => 1, // Ganti dengan session()->get('id_user') jika sudah login
-            'no_surat' => $noSurat,
+            'id_user' => session()->get('user_id'), // Ganti dengan session()->get('id_user') jika sudah login
+            'no_surat' => $nomorSurat,
             'jenis_surat' => 'domisili_bangunan',
             'status' => 'diajukan',
         ], true); // true supaya dapat id terakhir
@@ -104,7 +119,7 @@ class SuratDomisiliBangunanController extends BaseController
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Terdapat pengajuan <strong>Surat Domisili Bangunan</strong> baru.<br>" .
-                    "Nomor Surat: <strong>{$noSurat}</strong><br>" .
+                    "Nomor Surat: <strong>{$nomorSurat}</strong><br>" .
                     "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
                     "Terima kasih."
             );

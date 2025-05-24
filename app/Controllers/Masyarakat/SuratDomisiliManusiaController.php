@@ -78,12 +78,28 @@ class SuratDomisiliManusiaController extends BaseController
             return redirect()->to('/masyarakat/surat/domisili-manusia')->withInput()->with('errors', $validation->getErrors());
         }
 
+        // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '400.12.2.2';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Simpan data ke tabel surat dulu
         $suratModel = new \App\Models\SuratModel();
-        $noSurat = 'DW-' . date('YmdHis');
         $idSurat = $suratModel->insert([
-            'id_user'    => 1, // pastikan user login
-            'no_surat'   => $noSurat,
+            'id_user'    => session()->get('user_id'), // pastikan user login
+            'no_surat'   => $nomorSurat,
             'jenis_surat' => 'domisili_warga',
             'status'     => 'diajukan',
         ], true);
@@ -105,7 +121,7 @@ class SuratDomisiliManusiaController extends BaseController
             'provinsi'           => $this->request->getPost('provinsi'),
         ]);
 
-         // Kirim email notifikasi
+        // Kirim email notifikasi
         $email = \Config\Services::email();
         $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
 
@@ -115,13 +131,13 @@ class SuratDomisiliManusiaController extends BaseController
             $email->setSubject('Pengajuan Surat Domisili Warga Baru');
             $email->setMessage(
                 "Halo,<br><br>" .
-                "Pengajuan surat domisili warga baru telah diajukan.<br>" .
-                "No Surat: $noSurat<br>" .
-                "Nama Warga: " . $this->request->getPost('nama_warga') . "<br>" .
-                "NIK: " . $this->request->getPost('nik') . "<br>" .
-                "Alamat: " . $this->request->getPost('alamat') . "<br><br>" .
-                "Silakan cek sistem untuk informasi lebih lanjut.<br><br>" .
-                "Terima kasih."
+                    "Pengajuan surat domisili warga baru telah diajukan.<br>" .
+                    "No Surat: $nomorSurat<br>" .
+                    "Nama Warga: " . $this->request->getPost('nama_warga') . "<br>" .
+                    "NIK: " . $this->request->getPost('nik') . "<br>" .
+                    "Alamat: " . $this->request->getPost('alamat') . "<br><br>" .
+                    "Silakan cek sistem untuk informasi lebih lanjut.<br><br>" .
+                    "Terima kasih."
             );
 
             if (!$email->send()) {
@@ -221,7 +237,7 @@ class SuratDomisiliManusiaController extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Data domisili warga tidak ditemukan');
         }
 
-         $domisiliWargaModel->where('id_surat', $idSurat)->set([
+        $domisiliWargaModel->where('id_surat', $idSurat)->set([
             'nama_pejabat'       => $this->request->getPost('nama_pejabat'),
             'jabatan'            => $this->request->getPost('jabatan'),
             'kecamatan_pejabat'  => $this->request->getPost('kecamatan_pejabat'),
@@ -232,7 +248,7 @@ class SuratDomisiliManusiaController extends BaseController
             'desa'               => $this->request->getPost('desa'),
             'kecamatan'          => $this->request->getPost('kecamatan'),
             'kabupaten'          => $this->request->getPost('kabupaten'),
-            'provinsi'           => $this->request->getPost('provinsi'),   
+            'provinsi'           => $this->request->getPost('provinsi'),
         ])->update();
 
         $suratModel->update($idSurat, [

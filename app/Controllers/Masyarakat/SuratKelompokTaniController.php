@@ -64,11 +64,27 @@ class SuratKelompokTaniController extends BaseController
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
+        // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '400.12.2.2';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Simpan data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
         $idSurat = $suratModel->insert([
             'id_user' => session()->get('user_id'), // Ganti sesuai session user login kalau sudah implementasi login
-            'no_surat' => 'KLT-' . date('YmdHis'),
+            'no_surat' => $nomorSurat,
             'jenis_surat' => 'domisili_kelompok_tani',
             'status' => 'diajukan'
         ], true);
@@ -93,7 +109,7 @@ class SuratKelompokTaniController extends BaseController
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject ('Pengajuan Surat Domisili Kelompok Tani');
+            $email->setSubject('Pengajuan Surat Domisili Kelompok Tani');
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat domisili kelompok tani baru telah diajukan.<br>" .
@@ -203,7 +219,7 @@ class SuratKelompokTaniController extends BaseController
 
         // Update data ke tabel surat_domisili_kelompok_tani
         $domisiliModel = new \App\Models\SuratDomisiliKelompokTaniModel();
-         $domisiliModel->where('id_surat', $idSurat)->set([
+        $domisiliModel->where('id_surat', $idSurat)->set([
             'nama_gapoktan'    => $this->request->getPost('nama_gapoktan'),
             'tgl_pembentukan'  => $this->request->getPost('tgl_pembentukan'),
             'alamat'           => $this->request->getPost('alamat'),
