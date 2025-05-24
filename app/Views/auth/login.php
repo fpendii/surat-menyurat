@@ -52,11 +52,22 @@
                             <input type="email" class="form-control" name="email" placeholder="Email" required />
                         </div>
                         <div>
-                            <input type="password" class="form-control" name="password" placeholder="Password" required />
+                            <input type="password" class="form-control" name="password" placeholder="Password"
+                                required />
                         </div>
                         <div>
                             <button type="submit" class="btn btn-default submit">Login</button>
-                            <a class="reset_pass" href="#">Lupa Password?</a>
+                         
+                        </div>
+                        <div class="separator">
+                            <p class="change_link">Belum Punya Akun ?
+                                <a href="#signup" class="to_register"> Buat Akun </a>
+                            </p>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+
                         </div>
                     </form>
 
@@ -65,19 +76,39 @@
 
             <div id="register" class="animate form registration_form">
                 <section class="login_content">
-                    <form>
+                    <form action="/register/proses" method="post">
                         <h1>Buat Akun</h1>
+
+                        <?php if (session()->getFlashdata('error')): ?>
+                            <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+                        <?php endif; ?>
+
                         <div>
-                            <input type="text" class="form-control" placeholder="Username" required="" />
+                            <input type="text" class="form-control" name="name" placeholder="Nama Lengkap"
+                                value="<?= old('name') ?>" required />
                         </div>
+
                         <div>
-                            <input type="email" class="form-control" placeholder="Email" required="" />
+                            <input type="email" class="form-control" name="email" placeholder="Email"
+                                value="<?= old('email') ?>" required />
                         </div>
+
                         <div>
-                            <input type="password" class="form-control" placeholder="Password" required="" />
+                            <input type="text" class="form-control" name="phone" placeholder="No. Handphone"
+                                value="<?= old('phone') ?>" required />
                         </div>
+
                         <div>
-                            <a class="btn btn-default submit" href="index.html">Submit</a>
+                            <textarea class="form-control" name="address" placeholder="Alamat" rows="3" required
+                                style="display: block; width: 100%; margin-bottom: 10px;"><?= old('address') ?></textarea>
+                        </div>
+
+                        <div>
+                            <input type="password" class="form-control" name="password" placeholder="Password" required />
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-default submit">Submit</button>
                         </div>
 
                         <div class="clearfix"></div>
@@ -89,12 +120,14 @@
 
                             <div class="clearfix"></div>
                             <br />
-
-
                         </div>
                     </form>
                 </section>
             </div>
+
+
+
+
         </div>
     </div>
 </body>

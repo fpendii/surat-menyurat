@@ -7,13 +7,17 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 
-$routes->get('', 'AuthController::login');
+$routes->get('/', 'AuthController::login');
 $routes->get('login', 'AuthController::login');
 $routes->post('login/proses', 'AuthController::loginProses');
 $routes->get('register', 'AuthController::register');
+$routes->post('register/proses', 'AuthController::registerProses');
 $routes->get('/unauthorized', 'AuthController::unauthorized');
-$routes->get('forgot-password', 'AuthController::forgotPassword');
 $routes->get('logout', 'AuthController::logout');
+
+
+
+$routes->get('aktivasi/(:segment)', 'AuthController::aktivasi/$1');
 
 
 // Group khusus masyarakat
