@@ -15,7 +15,7 @@ class ArsipSuratController extends BaseController
     }
     public function arsipSurat()
     {
-        $id_user = 1;
+        $id_user = session()->get('user_id');
         // Ambil data surat dari model
         $dataSurat = $this->suratModel->where('status_surat', 'selesai')->where('id_user', $id_user)->findAll(); 
         $data = [

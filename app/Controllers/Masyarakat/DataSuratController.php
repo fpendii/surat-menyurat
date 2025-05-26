@@ -24,7 +24,7 @@ class DataSuratController extends BaseController
         // Ambil data surat dari model
         $dataSurat = $this->suratModel
             ->where('status_surat !=', 'selesai')
-            ->where('id_user', 1)
+            ->where('id_user', session()->get('user_id'))
             ->findAll();
         $data = [
             'dataSurat' => $dataSurat,

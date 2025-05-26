@@ -21,7 +21,7 @@ $routes->get('aktivasi/(:segment)', 'AuthController::aktivasi/$1');
 
 
 // Group khusus masyarakat
-$routes->group('masyarakat', ['filter' => 'role:masyarakat'], function($routes) {
+$routes->group('masyarakat', function($routes) {
     // Dashboard Masyarakat
     $routes->get('dashboard', 'Masyarakat\MasyarakatDashboardController::index');
     $routes->get('surat', 'Masyarakat\SuratController::index');
@@ -148,7 +148,7 @@ $routes->group('masyarakat', ['filter' => 'role:masyarakat'], function($routes) 
 
 
 // Group khusus kepala desa
-$routes->group('kepala-desa', ['filter' => 'role:kepala-desa'], function($routes) {
+$routes->group('kepala-desa', function($routes) {
     // Dashboard Kepala Desa
     $routes->get('dashboard', 'KepalaDesa\KepalaDesaDashboardController::index');
     $routes->get('pengajuan-surat', 'KepalaDesa\PengajuanSuratController::pengajuanSurat');
@@ -170,7 +170,7 @@ $routes->group('kepala-desa', ['filter' => 'role:kepala-desa'], function($routes
 // });
 
 // Group khusus admin
-$routes->group('admin', ['filter' => 'role:admin'], function($routes) {
+$routes->group('admin', function($routes) {
     // Dashboard Kepala Desa
     $routes->get('dashboard', 'Admin\AdminDashboardController::index');
     $routes->get('pengajuan-surat', 'Admin\PengajuanSuratController::pengajuanSurat');
