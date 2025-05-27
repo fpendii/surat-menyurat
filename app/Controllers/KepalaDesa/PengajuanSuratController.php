@@ -101,7 +101,7 @@ class PengajuanSuratController extends BaseController
         // Kirim email ke user
         $email = \Config\Services::email();
         $email->setTo($user['email']);
-        $email->setFrom('desa@example.com', 'Desa Contoh');
+        $email->setFrom('desa@example.com', 'Sistem Surat Desa Handil Suruk');
         $email->setSubject('Revisi Pengajuan Surat');
         $email->setMessage(
             "Halo <strong>" . esc($user['name']) . "</strong>,<br><br>" .

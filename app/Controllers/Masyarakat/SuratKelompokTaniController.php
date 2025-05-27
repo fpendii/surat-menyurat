@@ -157,7 +157,7 @@ class SuratKelompokTaniController extends BaseController
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $imageData = file_get_contents($path);
         $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
-        $data['logo'] = $logo;
+        $data['logo'] = null;
 
         // Render view
         $html = view('masyarakat/surat/preview-surat/preview_domisili_kelompok_tani', $data);
@@ -167,7 +167,7 @@ class SuratKelompokTaniController extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         // Output file PDF ke browser
-        $dompdf->stream('surat_domisili_kelompok_tani.pdf', ['Attachment' => true]);
+        $dompdf->stream('surat_domisili_kelompok_tani.pdf', ['Attachment' => false]);
         exit();
     }
 
@@ -214,7 +214,7 @@ class SuratKelompokTaniController extends BaseController
         $suratModel = new \App\Models\SuratModel();
         $suratModel->update($idSurat, [
             'no_surat' => $this->request->getPost('no_surat'),
-            'status' => 'diajukan'
+            'status_surat' => 'diajukan'
         ]);
 
         // Update data ke tabel surat_domisili_kelompok_tani

@@ -13,6 +13,7 @@ class ArsipSuratController extends BaseController
     {
         $this->suratModel = new SuratModel();
     }
+    
     public function arsipSurat()
     {
         $id_user = session()->get('user_id');

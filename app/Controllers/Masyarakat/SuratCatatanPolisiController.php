@@ -139,9 +139,9 @@ class SuratCatatanPolisiController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat catatan polisi.');
         }
 
-         // Kirim email notifikasi
+        // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
@@ -244,99 +244,98 @@ class SuratCatatanPolisiController extends BaseController
     }
 
     public function updateSurat($idSurat)
-{
-    $validation = \Config\Services::validation();
-    $userId = 1; // Ambil ID user dari session login, sesuaikan dengan implementasi Anda
+    {
+        $validation = \Config\Services::validation();
+        $userId = 1; // Ambil ID user dari session login, sesuaikan dengan implementasi Anda
 
-    // Validasi input (file boleh tidak diupload ulang saat update)
-    $valid = $this->validate([
-        'kk' => 'max_size[kk,2048]|mime_in[kk,image/jpg,image/jpeg,image/png,application/pdf]',
-        'ktp' => 'max_size[ktp,2048]|mime_in[ktp,image/jpg,image/jpeg,image/png,application/pdf]',
-        'akta_lahir' => 'max_size[akta_lahir,2048]|mime_in[akta_lahir,image/jpg,image/jpeg,image/png,application/pdf]',
-        'ijazah' => 'max_size[ijazah,2048]|mime_in[ijazah,image/jpg,image/jpeg,image/png,application/pdf]',
-        'foto_latar_belakang' => 'max_size[foto_latar_belakang,2048]|mime_in[foto_latar_belakang,image/jpg,image/jpeg,image/png]',
-    ]);
+        // Validasi input (file boleh tidak diupload ulang saat update)
+        $valid = $this->validate([
+            'kk' => 'max_size[kk,2048]|mime_in[kk,image/jpg,image/jpeg,image/png,application/pdf]',
+            'ktp' => 'max_size[ktp,2048]|mime_in[ktp,image/jpg,image/jpeg,image/png,application/pdf]',
+            'akta_lahir' => 'max_size[akta_lahir,2048]|mime_in[akta_lahir,image/jpg,image/jpeg,image/png,application/pdf]',
+            'ijazah' => 'max_size[ijazah,2048]|mime_in[ijazah,image/jpg,image/jpeg,image/png,application/pdf]',
+            'foto_latar_belakang' => 'max_size[foto_latar_belakang,2048]|mime_in[foto_latar_belakang,image/jpg,image/jpeg,image/png]',
+        ]);
 
-    if (!$valid) {
-        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-    }
-
-    $suratModel = new \App\Models\SuratModel();
-    $catatanPolisiModel = new \App\Models\CatatanPolisiModel();
-
-    // Cari data surat lama, pastikan milik user dan ada
-    $surat = $suratModel->find($idSurat);
-    if (!$surat || $surat['id_user'] != $userId) {
-        return redirect()->back()->with('error', 'Data surat tidak ditemukan atau Anda tidak berhak mengubahnya.');
-    }
-
-    // Update data surat jika diperlukan, contoh update status tetap 'diajukan'
-    $suratUpdateData = [
-        'status_surat' => 'diajukan',
-    ];
-    $suratModel->update($idSurat, $suratUpdateData);
-
-    // Ambil data catatan polisi terkait
-    $catatanPolisi = $catatanPolisiModel->where('id_surat', $idSurat)->first();
-    if (!$catatanPolisi) {
-        return redirect()->back()->with('error', 'Data catatan polisi tidak ditemukan.');
-    }
-
-    $berkasPath = WRITEPATH . 'uploads/surat_catatan_polisi/';
-    if (!is_dir($berkasPath)) {
-        mkdir($berkasPath, 0777, true);
-    }
-
-    // Siapkan array update data
-    $updateData = [
-        'nama' => $this->request->getPost('nama'),
-        'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
-        'tempat_tanggal_lahir' => $this->request->getPost('tempat_tanggal_lahir'),
-        'status_perkawinan' => $this->request->getPost('status_perkawinan'),
-        'kewarganegaraan' => $this->request->getPost('kewarganegaraan'),
-        'agama' => $this->request->getPost('agama'),
-        'pekerjaan' => $this->request->getPost('pekerjaan'),
-        'nik' => $this->request->getPost('nik'),
-        'alamat' => $this->request->getPost('alamat'),
-    ];
-
-    // Fungsi bantu upload file jika ada, return nama file baru, atau null jika tidak ada upload
-    $handleUpload = function($inputName, $oldFileName) use ($berkasPath) {
-        $file = $this->request->getFile($inputName);
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            // Hapus file lama jika ada
-            if ($oldFileName && file_exists($berkasPath . $oldFileName)) {
-                unlink($berkasPath . $oldFileName);
-            }
-            $newName = $file->getRandomName();
-            $file->move($berkasPath, $newName);
-            return $newName;
+        if (!$valid) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
-        return null; // tidak ada upload
-    };
 
-    // Cek dan upload file baru jika ada, jika tidak, gunakan file lama
-    $kkName = $handleUpload('kk', $catatanPolisi['kk']);
-    if ($kkName) $updateData['kk'] = $kkName;
+        $suratModel = new \App\Models\SuratModel();
+        $catatanPolisiModel = new \App\Models\CatatanPolisiModel();
 
-    $ktpName = $handleUpload('ktp', $catatanPolisi['ktp']);
-    if ($ktpName) $updateData['ktp'] = $ktpName;
+        // Cari data surat lama, pastikan milik user dan ada
+        $surat = $suratModel->find($idSurat);
+        if (!$surat || $surat['id_user'] != $userId) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan atau Anda tidak berhak mengubahnya.');
+        }
 
-    $aktaName = $handleUpload('akta_lahir', $catatanPolisi['akta_lahir']);
-    if ($aktaName) $updateData['akta_lahir'] = $aktaName;
+        // Update data surat jika diperlukan, contoh update status tetap 'diajukan'
+        $suratUpdateData = [
+            'status_surat' => 'diajukan',
+        ];
+        $suratModel->update($idSurat, $suratUpdateData);
 
-    $ijazahName = $handleUpload('ijazah', $catatanPolisi['ijazah']);
-    if ($ijazahName) $updateData['ijazah'] = $ijazahName;
+        // Ambil data catatan polisi terkait
+        $catatanPolisi = $catatanPolisiModel->where('id_surat', $idSurat)->first();
+        if (!$catatanPolisi) {
+            return redirect()->back()->with('error', 'Data catatan polisi tidak ditemukan.');
+        }
 
-    $fotoName = $handleUpload('foto_latar_belakang', $catatanPolisi['foto_latar_belakang']);
-    if ($fotoName) $updateData['foto_latar_belakang'] = $fotoName;
+        $berkasPath = WRITEPATH . 'uploads/surat_catatan_polisi/';
+        if (!is_dir($berkasPath)) {
+            mkdir($berkasPath, 0777, true);
+        }
 
-    // Update data catatan polisi
-    if (!$catatanPolisiModel->update($catatanPolisi['id_surat_keterangan_polisi'], $updateData)) {
-        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui data catatan polisi.');
+        // Siapkan array update data
+        $updateData = [
+            'nama' => $this->request->getPost('nama'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'tempat_tanggal_lahir' => $this->request->getPost('tempat_tanggal_lahir'),
+            'status_perkawinan' => $this->request->getPost('status_perkawinan'),
+            'kewarganegaraan' => $this->request->getPost('kewarganegaraan'),
+            'agama' => $this->request->getPost('agama'),
+            'pekerjaan' => $this->request->getPost('pekerjaan'),
+            'nik' => $this->request->getPost('nik'),
+            'alamat' => $this->request->getPost('alamat'),
+        ];
+
+        // Fungsi bantu upload file jika ada, return nama file baru, atau null jika tidak ada upload
+        $handleUpload = function ($inputName, $oldFileName) use ($berkasPath) {
+            $file = $this->request->getFile($inputName);
+            if ($file && $file->isValid() && !$file->hasMoved()) {
+                // Hapus file lama jika ada
+                if ($oldFileName && file_exists($berkasPath . $oldFileName)) {
+                    unlink($berkasPath . $oldFileName);
+                }
+                $newName = $file->getRandomName();
+                $file->move($berkasPath, $newName);
+                return $newName;
+            }
+            return null; // tidak ada upload
+        };
+
+        // Cek dan upload file baru jika ada, jika tidak, gunakan file lama
+        $kkName = $handleUpload('kk', $catatanPolisi['kk']);
+        if ($kkName) $updateData['kk'] = $kkName;
+
+        $ktpName = $handleUpload('ktp', $catatanPolisi['ktp']);
+        if ($ktpName) $updateData['ktp'] = $ktpName;
+
+        $aktaName = $handleUpload('akta_lahir', $catatanPolisi['akta_lahir']);
+        if ($aktaName) $updateData['akta_lahir'] = $aktaName;
+
+        $ijazahName = $handleUpload('ijazah', $catatanPolisi['ijazah']);
+        if ($ijazahName) $updateData['ijazah'] = $ijazahName;
+
+        $fotoName = $handleUpload('foto_latar_belakang', $catatanPolisi['foto_latar_belakang']);
+        if ($fotoName) $updateData['foto_latar_belakang'] = $fotoName;
+
+        // Update data catatan polisi
+        if (!$catatanPolisiModel->update($catatanPolisi['id_surat_keterangan_polisi'], $updateData)) {
+            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui data catatan polisi.');
+        }
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat Catatan Polisi berhasil diperbarui.');
     }
-
-    return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat Catatan Polisi berhasil diperbarui.');
-}
-
 }

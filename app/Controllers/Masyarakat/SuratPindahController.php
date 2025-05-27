@@ -163,14 +163,14 @@ class SuratPindahController extends BaseController
             $this->pengikutPindahModel->insertBatch($pengikutData);
         }
 
-         // Kirim email notifikasi
+        // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject ('Pengajuan Surat Pindah Baru');
+            $email->setSubject('Pengajuan Surat Pindah Baru');
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat pindah baru telah diajukan.<br>" .
@@ -268,93 +268,92 @@ class SuratPindahController extends BaseController
             'pengikutList' => $pengikutList
         ]);
     }
-public function updateSurat($id)
-{
-    // Ambil data surat dan surat pindah
-    $surat = $this->suratModel->find($id);
-    $suratPindah = $this->suratPindahModel->where('id_surat', $surat['id_surat'])->first();
-    $pengikutList = $this->pengikutPindahModel->where('id_surat_pindah', $suratPindah['id_surat_pindah'])->findAll();
+    public function updateSurat($id)
+    {
+        // Ambil data surat dan surat pindah
+        $surat = $this->suratModel->find($id);
+        $suratPindah = $this->suratPindahModel->where('id_surat', $surat['id_surat'])->first();
+        $pengikutList = $this->pengikutPindahModel->where('id_surat_pindah', $suratPindah['id_surat_pindah'])->findAll();
 
-    // Handle file upload
-    $fileKK = $this->request->getFile('file_kk');
-    $fileKTP = $this->request->getFile('file_ktp');
-    $fileF1 = $this->request->getFile('file_f1');
+        // Handle file upload
+        $fileKK = $this->request->getFile('file_kk');
+        $fileKTP = $this->request->getFile('file_ktp');
+        $fileF1 = $this->request->getFile('file_f1');
 
-    $fileKKName = $fileKK && $fileKK->isValid() ? $fileKK->getRandomName() : $surat['kk'];
-    $fileKTPName = $fileKTP && $fileKTP->isValid() ? $fileKTP->getRandomName() : $surat['ktp'];
-    $fileF1Name = $fileF1 && $fileF1->isValid() ? $fileF1->getRandomName() : $surat['form_f1'];
+        $fileKKName = $fileKK && $fileKK->isValid() ? $fileKK->getRandomName() : $surat['kk'];
+        $fileKTPName = $fileKTP && $fileKTP->isValid() ? $fileKTP->getRandomName() : $surat['ktp'];
+        $fileF1Name = $fileF1 && $fileF1->isValid() ? $fileF1->getRandomName() : $surat['form_f1'];
 
-    // Simpan file ke folder uploads jika valid
-    if ($fileKK && $fileKK->isValid()) {
-        $fileKK->move('uploads', $fileKKName);
-    }
-    if ($fileKTP && $fileKTP->isValid()) {
-        $fileKTP->move('uploads', $fileKTPName);
-    }
-    if ($fileF1 && $fileF1->isValid()) {
-        $fileF1->move('uploads', $fileF1Name);
-    }
-
-    // Update data surat
-    $this->suratModel->update($id, [
-        'no_surat' => $this->request->getPost('no_surat'),
-        'kk' => $fileKKName,
-        'ktp' => $fileKTPName,
-        'form_f1' => $fileF1Name,
-    ]);
-
-    // Update data surat pindah
-    $this->suratPindahModel->update($suratPindah['id_surat_pindah'], [
-        'nama' => $this->request->getPost('nama'),
-        'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
-        'ttl' => $this->request->getPost('ttl'),
-        'kewarganegaraan' => $this->request->getPost('kewarganegaraan'),
-        'agama' => $this->request->getPost('agama'),
-        'status_perkawinan' => $this->request->getPost('status_perkawinan'),
-        'pekerjaan' => $this->request->getPost('pekerjaan'),
-        'pendidikan' => $this->request->getPost('pendidikan'),
-        'alamat_asal' => $this->request->getPost('alamat_asal'),
-        'nik' => $this->request->getPost('nik'),
-        'tujuan_pindah' => $this->request->getPost('tujuan_pindah'),
-        'alasan_pindah' => $this->request->getPost('alasan_pindah'),
-    ]);
-
-    // Update atau insert data pengikut
-    $jumlahPengikut = $this->request->getPost('jumlah_pengikut');
-
-    $namaPengikut = $this->request->getPost('nama_pengikut');
-    $jenisKelaminPengikut = $this->request->getPost('jenis_kelamin_pengikut');
-    $umurPengikut = $this->request->getPost('umur_pengikut');
-    $statusPerkawinanPengikut = $this->request->getPost('status_perkawinan_pengikut');
-    $pendidikanPengikut = $this->request->getPost('pendidikan_pengikut');
-    $noKtpPengikut = $this->request->getPost('no_ktp_pengikut');
-
-    for ($i = 0; $i < $jumlahPengikut; $i++) {
-        if (isset($pengikutList[$i])) {
-            // Update pengikut yang sudah ada
-            $this->pengikutPindahModel->update($pengikutList[$i]['id_pengikut_pindah'], [
-                'nama' => $namaPengikut[$i],
-                'jenis_kelamin' => $jenisKelaminPengikut[$i],
-                'umur' => $umurPengikut[$i],
-                'status_perkawinan' => $statusPerkawinanPengikut[$i],
-                'pendidikan' => $pendidikanPengikut[$i],
-                'no_ktp' => $noKtpPengikut[$i]
-            ]);
-        } else {
-            // Tambahkan pengikut baru
-            $this->pengikutPindahModel->insert([
-                'id_surat_pindah' => $suratPindah['id_surat_pindah'],
-                'nama' => $namaPengikut[$i],
-                'jenis_kelamin' => $jenisKelaminPengikut[$i],
-                'umur' => $umurPengikut[$i],
-                'status_perkawinan' => $statusPerkawinanPengikut[$i],
-                'pendidikan' => $pendidikanPengikut[$i],
-                'no_ktp' => $noKtpPengikut[$i]
-            ]);
+        // Simpan file ke folder uploads jika valid
+        if ($fileKK && $fileKK->isValid()) {
+            $fileKK->move('uploads', $fileKKName);
         }
+        if ($fileKTP && $fileKTP->isValid()) {
+            $fileKTP->move('uploads', $fileKTPName);
+        }
+        if ($fileF1 && $fileF1->isValid()) {
+            $fileF1->move('uploads', $fileF1Name);
+        }
+
+        // Update data surat
+        $this->suratModel->update($id, [
+            'no_surat' => $this->request->getPost('no_surat'),
+            'kk' => $fileKKName,
+            'ktp' => $fileKTPName,
+            'form_f1' => $fileF1Name,
+        ]);
+
+        // Update data surat pindah
+        $this->suratPindahModel->update($suratPindah['id_surat_pindah'], [
+            'nama' => $this->request->getPost('nama'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'ttl' => $this->request->getPost('ttl'),
+            'kewarganegaraan' => $this->request->getPost('kewarganegaraan'),
+            'agama' => $this->request->getPost('agama'),
+            'status_perkawinan' => $this->request->getPost('status_perkawinan'),
+            'pekerjaan' => $this->request->getPost('pekerjaan'),
+            'pendidikan' => $this->request->getPost('pendidikan'),
+            'alamat_asal' => $this->request->getPost('alamat_asal'),
+            'nik' => $this->request->getPost('nik'),
+            'tujuan_pindah' => $this->request->getPost('tujuan_pindah'),
+            'alasan_pindah' => $this->request->getPost('alasan_pindah'),
+        ]);
+
+        // Update atau insert data pengikut
+        $jumlahPengikut = $this->request->getPost('jumlah_pengikut');
+
+        $namaPengikut = $this->request->getPost('nama_pengikut');
+        $jenisKelaminPengikut = $this->request->getPost('jenis_kelamin_pengikut');
+        $umurPengikut = $this->request->getPost('umur_pengikut');
+        $statusPerkawinanPengikut = $this->request->getPost('status_perkawinan_pengikut');
+        $pendidikanPengikut = $this->request->getPost('pendidikan_pengikut');
+        $noKtpPengikut = $this->request->getPost('no_ktp_pengikut');
+
+        for ($i = 0; $i < $jumlahPengikut; $i++) {
+            if (isset($pengikutList[$i])) {
+                // Update pengikut yang sudah ada
+                $this->pengikutPindahModel->update($pengikutList[$i]['id_pengikut_pindah'], [
+                    'nama' => $namaPengikut[$i],
+                    'jenis_kelamin' => $jenisKelaminPengikut[$i],
+                    'umur' => $umurPengikut[$i],
+                    'status_perkawinan' => $statusPerkawinanPengikut[$i],
+                    'pendidikan' => $pendidikanPengikut[$i],
+                    'no_ktp' => $noKtpPengikut[$i]
+                ]);
+            } else {
+                // Tambahkan pengikut baru
+                $this->pengikutPindahModel->insert([
+                    'id_surat_pindah' => $suratPindah['id_surat_pindah'],
+                    'nama' => $namaPengikut[$i],
+                    'jenis_kelamin' => $jenisKelaminPengikut[$i],
+                    'umur' => $umurPengikut[$i],
+                    'status_perkawinan' => $statusPerkawinanPengikut[$i],
+                    'pendidikan' => $pendidikanPengikut[$i],
+                    'no_ktp' => $noKtpPengikut[$i]
+                ]);
+            }
+        }
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
     }
-
-    return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
-}
-
 }

@@ -83,6 +83,15 @@
                                 <li><a href="/admin/pengajuan-surat"><i class="fa fa-envelope"></i> Pengajuan Surat </a>
                                 </li>
 
+                                <li><a href="/admin/surat-masuk"><i class="fa fa-inbox"></i> Surat Masuk </a>
+                                </li>
+
+                                <li><a href="/admin/disposisi"><i class="fa fa-share"></i> Disposisi </a>
+                                </li>
+
+                                <li><a href="/admin/arsip-surat"><i class="fa fa-archive"></i> Arsip Surat </a>
+                                </li>
+
                                 <li><a href="/logout"><i class="fa fa-power-off"></i> Logout </a></li>
                             </ul>
                         </div>

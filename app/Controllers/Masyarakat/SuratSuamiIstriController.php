@@ -118,14 +118,14 @@ class SuratSuamiIstriController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Gagal mengajukan surat. Silakan coba lagi.');
         }
 
-         // Kirim email notifikasi
+        // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject ('Pengajuan Surat Suami Istri Baru');
+            $email->setSubject('Pengajuan Surat Suami Istri Baru');
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat suami istri baru telah diajukan.<br>" .

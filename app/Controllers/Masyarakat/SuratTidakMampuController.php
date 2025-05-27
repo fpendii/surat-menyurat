@@ -114,14 +114,14 @@ class SuratTidakMampuController extends BaseController
             'kk' => $kkName,
         ]);
 
-         // Kirim email notifikasi
+        // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject ('Pengajuan Surat Tidak Mampu Baru');
+            $email->setSubject('Pengajuan Surat Tidak Mampu Baru');
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat tidak mampu telah diajukan.<br>" .
@@ -215,48 +215,47 @@ class SuratTidakMampuController extends BaseController
     }
 
     public function updateSurat($id)
-{
-    $suratModel = new \App\Models\SuratModel();
-    $tidakMampuModel = new \App\Models\SuratTidakMampuModel();
+    {
+        $suratModel = new \App\Models\SuratModel();
+        $tidakMampuModel = new \App\Models\SuratTidakMampuModel();
 
-    $surat = $suratModel->find($id);
-    $suratTidakMampu = $tidakMampuModel->where('id_surat', $surat['id_surat'])->first();
+        $surat = $suratModel->find($id);
+        $suratTidakMampu = $tidakMampuModel->where('id_surat', $surat['id_surat'])->first();
 
-    if (!$surat || !$suratTidakMampu) {
-        return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        if (!$surat || !$suratTidakMampu) {
+            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+        }
+
+        $suratModel->update($id, ['status_surat' => 'diajukan']);
+
+        $updateData = [
+            'nama' => $this->request->getPost('nama'),
+            'bin_binti' => $this->request->getPost('bin_binti'),
+            'nik' => $this->request->getPost('nik'),
+            'ttl' => $this->request->getPost('ttl'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'agama' => $this->request->getPost('agama'),
+            'pekerjaan' => $this->request->getPost('pekerjaan'),
+            'alamat' => $this->request->getPost('alamat'),
+            'keperluan' => $this->request->getPost('keperluan'),
+        ];
+
+        $ktpFile = $this->request->getFile('ktp');
+        if ($ktpFile && $ktpFile->isValid() && !$ktpFile->hasMoved()) {
+            $ktpName = $ktpFile->getRandomName();
+            $ktpFile->move('uploads/surat_tidak_mampu/', $ktpName);
+            $updateData['ktp'] = $ktpName;
+        }
+
+        $kkFile = $this->request->getFile('kk');
+        if ($kkFile && $kkFile->isValid() && !$kkFile->hasMoved()) {
+            $kkName = $kkFile->getRandomName();
+            $kkFile->move('uploads/surat_tidak_mampu/', $kkName);
+            $updateData['kk'] = $kkName;
+        }
+
+        $tidakMampuModel->update($suratTidakMampu['id_tidak_mampu'], $updateData);
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
     }
-
-    $suratModel->update($id, ['status_surat' => 'diajukan']);
-
-    $updateData = [
-        'nama' => $this->request->getPost('nama'),
-        'bin_binti' => $this->request->getPost('bin_binti'),
-        'nik' => $this->request->getPost('nik'),
-        'ttl' => $this->request->getPost('ttl'),
-        'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
-        'agama' => $this->request->getPost('agama'),
-        'pekerjaan' => $this->request->getPost('pekerjaan'),
-        'alamat' => $this->request->getPost('alamat'),
-        'keperluan' => $this->request->getPost('keperluan'),
-    ];
-
-    $ktpFile = $this->request->getFile('ktp');
-    if ($ktpFile && $ktpFile->isValid() && !$ktpFile->hasMoved()) {
-        $ktpName = $ktpFile->getRandomName();
-        $ktpFile->move('uploads/surat_tidak_mampu/', $ktpName);
-        $updateData['ktp'] = $ktpName;
-    }
-
-    $kkFile = $this->request->getFile('kk');
-    if ($kkFile && $kkFile->isValid() && !$kkFile->hasMoved()) {
-        $kkName = $kkFile->getRandomName();
-        $kkFile->move('uploads/surat_tidak_mampu/', $kkName);
-        $updateData['kk'] = $kkName;
-    }
-
-    $tidakMampuModel->update($suratTidakMampu['id_tidak_mampu'], $updateData);
-
-    return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
-}
-
 }

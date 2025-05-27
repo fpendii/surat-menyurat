@@ -77,7 +77,7 @@ class SuratDomisiliBangunanController extends BaseController
 
         // 2. Hitung nomor urut surat dari database berdasarkan tahun
         $suratModel = new \App\Models\SuratModel();
-         $jumlahSuratTahunIni = $suratModel
+        $jumlahSuratTahunIni = $suratModel
             ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan'])
             ->where('YEAR(created_at)', $tahun)
             ->countAllResults();
@@ -110,7 +110,7 @@ class SuratDomisiliBangunanController extends BaseController
         // Kirim email ke kepala desa dan admin
         $email = \Config\Services::email();
 
-        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);

@@ -20,4 +20,6 @@ class SuratModel extends Model
         'file_surat',
     ];
     protected $useTimestamps = true;
+
+    
 }

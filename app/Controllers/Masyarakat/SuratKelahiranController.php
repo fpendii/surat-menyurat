@@ -101,7 +101,7 @@ class SuratKelahiranController extends BaseController
 
         // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti sesuai kebutuhan
+        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
@@ -218,7 +218,7 @@ class SuratKelahiranController extends BaseController
         return view('masyarakat/surat/edit-surat/edit_kelahiran', $data);
     }
 
-    
+
 
     public function updateSurat($id_surat)
     {
