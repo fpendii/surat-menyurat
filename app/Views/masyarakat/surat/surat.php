@@ -27,16 +27,16 @@
         <div class="x_title">
           <div class="clearfix">
             <?php if (session()->getFlashdata('success')): ?>
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <?= session()->getFlashdata('success') ?>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-<?php elseif (session()->getFlashdata('error')): ?>
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <?= session()->getFlashdata('error') ?>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-<?php endif; ?>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('success') ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <?php elseif (session()->getFlashdata('error')): ?>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('error') ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <?php endif; ?>
 
           </div>
         </div>
@@ -77,11 +77,11 @@
 
 <!-- JS untuk Search Filter -->
 <script>
-  document.getElementById("searchInput").addEventListener("keyup", function () {
+  document.getElementById("searchInput").addEventListener("keyup", function() {
     const keyword = this.value.toLowerCase();
     const cards = document.querySelectorAll(".surat-card");
 
-    cards.forEach(function (card) {
+    cards.forEach(function(card) {
       const nama = card.getAttribute("data-nama");
       if (nama.includes(keyword)) {
         card.style.display = "block";

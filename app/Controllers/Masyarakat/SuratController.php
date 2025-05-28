@@ -9,7 +9,7 @@ use Dompdf\Options;
 
 class SuratController extends BaseController
 {
-    public function index()
+    public function surat()
     {
         $data['suratList'] = [
             ['nama' => 'Surat Domisili Kelompok Tani', 'slug' => 'domisili-kelompok-tani', 'deskripsi' => 'Surat keterangan tempat tinggal untuk kelompok tani.'],
@@ -29,15 +29,6 @@ class SuratController extends BaseController
             ['nama' => 'Surat Keterangan Status Perkawinan', 'slug' => 'status-perkawinan', 'deskripsi' => 'Surat keterangan status perkawinan.'],
         ];
 
-        return view('masyarakat/surat/index', $data);
+        return view('masyarakat/surat/surat', $data);
     }
-
-
-    
-    
-    
-    
-
-    
-    
 }

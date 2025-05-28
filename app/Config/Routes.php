@@ -21,10 +21,10 @@ $routes->get('aktivasi/(:segment)', 'AuthController::aktivasi/$1');
 
 
 // Group khusus masyarakat
-$routes->group('masyarakat', function($routes) {
+$routes->group('masyarakat', function ($routes) {
     // Dashboard Masyarakat
     $routes->get('dashboard', 'Masyarakat\MasyarakatDashboardController::index');
-    $routes->get('surat', 'Masyarakat\SuratController::index');
+    $routes->get('surat', 'Masyarakat\SuratController::surat');
 
     // Surat-surat spesifik
     $routes->get('surat/domisili-kelompok-tani', 'Masyarakat\SuratKelompokTaniController::domisiliKelompokTani');
@@ -41,7 +41,7 @@ $routes->group('masyarakat', function($routes) {
     $routes->get('data-surat/domisili_bangunan/edit/(:num)', 'Masyarakat\SuratDomisiliBangunanController::editSurat/$1');
     $routes->post('data-surat/domisili_bangunan/update/(:num)', 'Masyarakat\SuratDomisiliBangunanController::updateSurat/$1');
 
-    
+
     $routes->get('surat/domisili-manusia', 'Masyarakat\SuratDomisiliManusiaController::domisiliManusia');
     $routes->post('surat/domisili-warga/ajukan', 'Masyarakat\SuratDomisiliManusiaController::ajukanDomisiliWarga');
     $routes->post('surat/domisili-warga/preview', 'Masyarakat\SuratDomisiliManusiaController::previewDomisiliWarga');
@@ -62,14 +62,14 @@ $routes->group('masyarakat', function($routes) {
     $routes->get('data-surat/usaha/download/(:num)', 'Masyarakat\SuratUsahaController::downloadSurat/$1');
     $routes->get('data-surat/usaha/edit/(:num)', 'Masyarakat\SuratUsahaController::editSurat/$1');
     $routes->put('surat/usaha/update/(:num)', 'Masyarakat\SuratUsahaController::updateSurat/$1');
-     
+
     $routes->get('surat/pengantar-kk-ktp', 'Masyarakat\SuratPengantarKKKTPController::pengantarKKKTP');
     $routes->post('surat/pengantar-kk-ktp/ajukan', 'Masyarakat\SuratPengantarKKKTPController::ajukanPengantarKKKTP');
     $routes->post('surat/pengantar-kk-ktp/preview', 'Masyarakat\SuratPengantarKKKTPController::previewPengantarKKKTP');
     $routes->get('data-surat/pengantar_kk_ktp/download/(:num)', 'Masyarakat\SuratPengantarKKKTPController::downloadSurat/$1');
     $routes->get('data-surat/pengantar_kk_ktp/edit/(:num)', 'Masyarakat\SuratPengantarKKKTPController::editSurat/$1');
     $routes->post('surat/pengantar-kk-ktp/update/(:num)', 'Masyarakat\SuratPengantarKKKTPController::updateSurat/$1');
-    
+
     $routes->get('surat/tidak-mampu', 'Masyarakat\SuratTidakMampuController::tidakMampu');
     $routes->post('surat/tidak-mampu/ajukan', 'Masyarakat\SuratTidakMampuController::ajukanTidakMampu');
     $routes->post('surat/tidak-mampu/preview', 'Masyarakat\SuratTidakMampuController::previewTidakMampu');
@@ -87,7 +87,7 @@ $routes->group('masyarakat', function($routes) {
     $routes->get('surat/kehilangan', 'Masyarakat\SuratKehilanganController::kehilangan');
     $routes->post('surat/kehilangan/ajukan', 'Masyarakat\SuratKehilanganController::ajukanKehilangan');
     $routes->post('surat/kehilangan/preview', 'Masyarakat\SuratKehilanganController::previewKehilangan');
-     $routes->get('data-surat/kehilangan/download/(:num)', 'Masyarakat\SuratKehilanganController::downloadSurat/$1');
+    $routes->get('data-surat/kehilangan/download/(:num)', 'Masyarakat\SuratKehilanganController::downloadSurat/$1');
     $routes->get('data-surat/kehilangan/edit/(:num)', 'Masyarakat\SuratKehilanganController::editSurat/$1');
     $routes->post('surat/kehilangan/update/(:num)', 'Masyarakat\SuratKehilanganController::updateSurat/$1');
 
@@ -142,13 +142,11 @@ $routes->group('masyarakat', function($routes) {
     //arsip surat
     $routes->get('arsip-surat', 'Masyarakat\ArsipSuratController::arsipSurat');
     $routes->get('arsip-surat/selesai/download/(:num)', 'Masyarakat\ArsipSuratController::downloadSurat/$1');
-
-
 });
 
 
 // Group khusus kepala desa
-$routes->group('kepala-desa', function($routes) {
+$routes->group('kepala-desa', function ($routes) {
     // Dashboard Kepala Desa
     $routes->get('dashboard', 'KepalaDesa\KepalaDesaDashboardController::index');
     $routes->get('pengajuan-surat', 'KepalaDesa\PengajuanSuratController::pengajuanSurat');
@@ -170,10 +168,9 @@ $routes->group('kepala-desa', function($routes) {
 // });
 
 // Group khusus admin
-$routes->group('admin', function($routes) {
+$routes->group('admin', function ($routes) {
     // Dashboard Kepala Desa
     $routes->get('dashboard', 'Admin\AdminDashboardController::index');
     $routes->get('pengajuan-surat', 'Admin\PengajuanSuratController::pengajuanSurat');
     $routes->post('kirim-surat/(:num)', 'Admin\PengajuanSuratController::kirimSurat/$1');
 });
-
