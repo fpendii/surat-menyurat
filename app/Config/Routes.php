@@ -42,12 +42,12 @@ $routes->group('masyarakat', function ($routes) {
     $routes->post('data-surat/domisili_bangunan/update/(:num)', 'Masyarakat\SuratDomisiliBangunanController::updateSurat/$1');
 
 
-    $routes->get('surat/domisili-manusia', 'Masyarakat\SuratDomisiliManusiaController::domisiliManusia');
-    $routes->post('surat/domisili-warga/ajukan', 'Masyarakat\SuratDomisiliManusiaController::ajukanDomisiliWarga');
-    $routes->post('surat/domisili-warga/preview', 'Masyarakat\SuratDomisiliManusiaController::previewDomisiliWarga');
-    $routes->get('data-surat/domisili_warga/download/(:num)', 'Masyarakat\SuratDomisiliManusiaController::downloadSurat/$1');
-    $routes->get('data-surat/domisili_warga/edit/(:num)', 'Masyarakat\SuratDomisiliManusiaController::editSurat/$1');
-    $routes->post('surat/domisili-warga/update/(:num)', 'Masyarakat\SuratDomisiliManusiaController::updateSurat/$1');
+    $routes->get('surat/domisili-manusia', 'Masyarakat\SuratDomisiliWargaController::domisiliManusia');
+    $routes->post('surat/domisili-warga/ajukan', 'Masyarakat\SuratDomisiliWargaController::ajukanDomisiliWarga');
+    $routes->post('surat/domisili-warga/preview', 'Masyarakat\SuratDomisiliWargaController::previewDomisiliWarga');
+    $routes->get('data-surat/domisili_warga/download/(:num)', 'Masyarakat\SuratDomisiliWargaController::downloadSurat/$1');
+    $routes->get('data-surat/domisili_warga/edit/(:num)', 'Masyarakat\SuratDomisiliWargaController::editSurat/$1');
+    $routes->post('surat/domisili-warga/update/(:num)', 'Masyarakat\SuratDomisiliWargaController::updateSurat/$1');
 
     $routes->get('surat/pindah', 'Masyarakat\SuratPindahController::pindah');
     $routes->post('surat/pindah/ajukan', 'Masyarakat\SuratPindahController::ajukanPindah');

@@ -7,7 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-class SuratDomisiliManusiaController extends BaseController
+class SuratDomisiliWargaController extends BaseController
 {
     public function domisiliManusia()
     {
