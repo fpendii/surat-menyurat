@@ -42,7 +42,7 @@ $routes->group('masyarakat', function ($routes) {
     $routes->post('data-surat/domisili_bangunan/update/(:num)', 'Masyarakat\SuratDomisiliBangunanController::updateSurat/$1');
 
 
-    $routes->get('surat/domisili-manusia', 'Masyarakat\SuratDomisiliWargaController::domisiliManusia');
+    $routes->get('surat/domisili-warga', 'Masyarakat\SuratDomisiliWargaController::domisiliWarga');
     $routes->post('surat/domisili-warga/ajukan', 'Masyarakat\SuratDomisiliWargaController::ajukanDomisiliWarga');
     $routes->post('surat/domisili-warga/preview', 'Masyarakat\SuratDomisiliWargaController::previewDomisiliWarga');
     $routes->get('data-surat/domisili_warga/download/(:num)', 'Masyarakat\SuratDomisiliWargaController::downloadSurat/$1');

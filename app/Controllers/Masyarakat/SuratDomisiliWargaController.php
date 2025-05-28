@@ -9,7 +9,7 @@ use Dompdf\Options;
 
 class SuratDomisiliWargaController extends BaseController
 {
-    public function domisiliManusia()
+    public function domisiliWarga()
     {
         return view('masyarakat/surat/ajukan-surat/ajukan-surat-domisili-manusia');
     }
