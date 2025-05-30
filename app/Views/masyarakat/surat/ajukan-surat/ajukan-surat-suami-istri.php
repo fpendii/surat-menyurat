@@ -26,8 +26,18 @@
 
         <div class="form-group">
             <label for="nik_suami">NIK Suami</label>
-            <input type="text" class="form-control" id="nik_suami" name="nik_suami" value="<?= old('nik_suami') ?>" required>
+            <input type="text"
+                class="form-control"
+                id="nik_suami"
+                name="nik_suami"
+                value="<?= old('nik_suami') ?>"
+                required
+                minlength="16"
+                maxlength="16"
+                pattern="\d{16}"
+                oninput="this.value = this.value.replace(/\D/g, '')">
         </div>
+
 
         <div class="form-group">
             <label for="ttl_suami">Tempat / Tanggal Lahir Suami</label>
@@ -62,8 +72,18 @@
 
         <div class="form-group">
             <label for="nik_istri">NIK Istri</label>
-            <input type="text" class="form-control" id="nik_istri" name="nik_istri" value="<?= old('nik_istri') ?>" required>
+            <input type="text"
+                class="form-control"
+                id="nik_istri"
+                name="nik_istri"
+                value="<?= old('nik_istri') ?>"
+                required
+                minlength="16"
+                maxlength="16"
+                pattern="\d{16}"
+                oninput="this.value = this.value.replace(/\D/g, '')">
         </div>
+
 
         <div class="form-group">
             <label for="ttl_istri">Tempat / Tanggal Lahir Istri</label>

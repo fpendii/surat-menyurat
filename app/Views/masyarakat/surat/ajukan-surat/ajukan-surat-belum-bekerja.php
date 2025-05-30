@@ -25,8 +25,10 @@
 
         <div class="form-group">
             <label for="nik">NIK</label>
-            <input type="text" class="form-control" id="nik" name="nik" value="<?= old('nik') ?>" required>
+            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
+            <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
+
 
         <div class="form-group">
             <label for="ttl">Tempat / Tanggal Lahir</label>
@@ -46,9 +48,9 @@
             <label for="agama">Agama</label>
             <select class="form-control" id="agama" name="agama" required>
                 <option value="">-- Pilih --</option>
-                <?php 
-                    $agamas = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu'];
-                    foreach ($agamas as $agama) :
+                <?php
+                $agamas = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu'];
+                foreach ($agamas as $agama) :
                 ?>
                     <option value="<?= $agama ?>" <?= old('agama') == $agama ? 'selected' : '' ?>><?= $agama ?></option>
                 <?php endforeach ?>

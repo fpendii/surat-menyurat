@@ -39,8 +39,10 @@
 
         <div class="form-group">
             <label for="nik">NIK</label>
-            <input type="text" class="form-control" id="nik" name="nik" required>
+            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
+            <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
+
 
         <div class="form-group">
             <label for="alamat">Alamat</label>

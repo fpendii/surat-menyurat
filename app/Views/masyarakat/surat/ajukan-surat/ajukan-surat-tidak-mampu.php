@@ -34,9 +34,10 @@
 
         <div class="form-group">
             <label for="nik">NIK</label>
-            <input type="text" class="form-control" id="nik" name="nik" value="<?= old('nik') ?>" required>
-            <small class="form-text text-muted">Masukkan Nomor Induk Kependudukan (16 digit).</small>
+            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
+            <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
+
 
         <div class="form-group">
             <label for="ttl">Tempat / Tanggal Lahir</label>
@@ -56,8 +57,24 @@
 
         <div class="form-group">
             <label for="agama">Agama</label>
-            <input type="text" class="form-control" id="agama" name="agama" value="<?= old('agama') ?>" required>
-            <small class="form-text text-muted">Masukkan agama sesuai identitas.</small>
+            <select
+                class="form-control <?= (isset($validation) && $validation->hasError('agama')) ? 'is-invalid' : '' ?>"
+                id="agama"
+                name="agama"
+                required>
+                <option value="" <?= old('agama') == '' ? 'selected' : '' ?>>-- Pilih --</option>
+                <option value="Islam" <?= old('agama') == 'Islam' ? 'selected' : '' ?>>Islam</option>
+                <option value="Kristen" <?= old('agama') == 'Kristen' ? 'selected' : '' ?>>Kristen</option>
+                <option value="Katolik" <?= old('agama') == 'Katolik' ? 'selected' : '' ?>>Katolik</option>
+                <option value="Hindu" <?= old('agama') == 'Hindu' ? 'selected' : '' ?>>Hindu</option>
+                <option value="Budha" <?= old('agama') == 'Budha' ? 'selected' : '' ?>>Budha</option>
+                <option value="Konghucu" <?= old('agama') == 'Konghucu' ? 'selected' : '' ?>>Konghucu</option>
+            </select>
+            <?php if (isset($validation) && $validation->hasError('agama')) : ?>
+                <div class="invalid-feedback">
+                    <?= $validation->getError('agama') ?>
+                </div>
+            <?php endif ?>
         </div>
 
         <div class="form-group">

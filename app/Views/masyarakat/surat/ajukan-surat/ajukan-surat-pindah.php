@@ -37,8 +37,26 @@
 
         <div class="form-group">
             <label for="agama">Agama</label>
-            <input type="text" class="form-control" id="agama" name="agama" required>
+            <select
+                class="form-control <?= (isset($validation) && $validation->hasError('agama')) ? 'is-invalid' : '' ?>"
+                id="agama"
+                name="agama"
+                required>
+                <option value="" <?= old('agama') == '' ? 'selected' : '' ?>>-- Pilih --</option>
+                <option value="Islam" <?= old('agama') == 'Islam' ? 'selected' : '' ?>>Islam</option>
+                <option value="Kristen" <?= old('agama') == 'Kristen' ? 'selected' : '' ?>>Kristen</option>
+                <option value="Katolik" <?= old('agama') == 'Katolik' ? 'selected' : '' ?>>Katolik</option>
+                <option value="Hindu" <?= old('agama') == 'Hindu' ? 'selected' : '' ?>>Hindu</option>
+                <option value="Budha" <?= old('agama') == 'Budha' ? 'selected' : '' ?>>Budha</option>
+                <option value="Konghucu" <?= old('agama') == 'Konghucu' ? 'selected' : '' ?>>Konghucu</option>
+            </select>
+            <?php if (isset($validation) && $validation->hasError('agama')) : ?>
+                <div class="invalid-feedback">
+                    <?= $validation->getError('agama') ?>
+                </div>
+            <?php endif ?>
         </div>
+
 
         <div class="form-group">
             <label for="status_perkawinan">Status Perkawinan</label>
@@ -62,8 +80,10 @@
 
         <div class="form-group">
             <label for="nik">NIK</label>
-            <input type="text" class="form-control" id="nik" name="nik" required>
+            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
+            <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
+
 
         <div class="form-group">
             <label for="tujuan_pindah">Tujuan Pindah</label>
@@ -80,7 +100,7 @@
             <input type="number" class="form-control" id="jumlah_pengikut" name="jumlah_pengikut" min="1" value="1" required>
         </div>
 
-        
+
         <!-- Data Pengikut (Dapat Ditambahkan Berdasarkan Jumlah Pengikut) -->
         <div id="pengikut-wrapper">
             <div class="pengikut-group border p-3 rounded mb-3">
@@ -110,8 +130,16 @@
                 </div>
                 <div class="form-group">
                     <label for="no_ktp_pengikut">No. KTP</label>
-                    <input type="text" class="form-control" name="no_ktp_pengikut[]" required>
+                    <input type="text"
+                        class="form-control"
+                        name="no_ktp_pengikut[]"
+                        required
+                        minlength="16"
+                        maxlength="16"
+                        pattern="\d{16}"
+                        oninput="this.value = this.value.replace(/\D/g, '')">
                 </div>
+
             </div>
         </div>
 

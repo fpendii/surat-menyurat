@@ -13,16 +13,16 @@ class ArsipSuratController extends BaseController
     {
         $this->suratModel = new SuratModel();
     }
-    
+
     public function arsipSurat()
     {
         $id_user = session()->get('user_id');
         // Ambil data surat dari model
-        $dataSurat = $this->suratModel->where('status_surat', 'selesai')->where('id_user', $id_user)->findAll(); 
+        $dataSurat = $this->suratModel->where('status_surat', 'selesai')->where('id_user', $id_user)->findAll();
         $data = [
             'dataSurat' => $dataSurat,
         ];
-        return view('masyarakat/arsip-surat/arsip-surat', $data);   
+        return view('masyarakat/arsip-surat/arsip-surat', $data);
     }
 
     public function downloadSurat($id_surat)
