@@ -196,7 +196,7 @@ class SuratDomisiliWargaController extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         // Output file PDF ke browser
-        $dompdf->stream('surat_domisili_warga.pdf', ['Attachment' => true]); // true = download, false = tampil di browser
+        $dompdf->stream('surat_domisili_warga.pdf', ['Attachment' => false]); // true = download, false = tampil di browser
         exit();
     }
 

@@ -16,7 +16,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/catatan-polisi/ajukan') ?>" method="POST" enctype="multipart/form-data">
+    <form action="<?= site_url('masyarakat/surat/catatan-polisi/ajukan') ?>"  method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <!-- Form input dasar -->

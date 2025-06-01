@@ -14,18 +14,18 @@
     </div>
 
 
-<div class="form-group mb-2">
-  <label for="tgl_pembentukan">Tanggal Pembentukan Kelompok Tani</label>
-  <input type="date" class="form-control" id="tgl_pembentukan" name="tgl_pembentukan" required>
-</div>
+    <div class="form-group mb-2">
+      <label for="tgl_pembentukan">Tanggal Pembentukan Kelompok Tani</label>
+      <input type="date" class="form-control" id="tgl_pembentukan" name="tgl_pembentukan" required>
+    </div>
 
-<script>
-  // Ambil tanggal hari ini dalam format YYYY-MM-DD
-  const today = new Date().toISOString().split('T')[0];
+    <script>
+      // Ambil tanggal hari ini dalam format YYYY-MM-DD
+      const today = new Date().toISOString().split('T')[0];
 
-  // Set atribut max agar tanggal tidak bisa melebihi hari ini
-  document.getElementById("tgl_pembentukan").setAttribute("max", today);
-</script>
+      // Set atribut max agar tanggal tidak bisa melebihi hari ini
+      document.getElementById("tgl_pembentukan").setAttribute("max", today);
+    </script>
 
 
     <div class="form-group mb-2">
@@ -54,7 +54,8 @@
 
 <!-- Modal Konfirmasi -->
 <div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered"> <!-- Modal di tengah -->
+  <div class="modal-dialog modal-dialog-centered">
+    <!-- Modal di tengah -->
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Konfirmasi Data</h5>
@@ -79,7 +80,7 @@
 
 <!-- Script Konfirmasi dan Submit -->
 <script>
-  document.getElementById('ajukanForm').addEventListener('submit', function(e) {
+  document.getElementById('ajukanForm').addEventListener('submit', function (e) {
     e.preventDefault(); // Cegah form langsung submit
 
     // Ambil data input
@@ -103,7 +104,7 @@
     modal.show();
   });
 
-  document.getElementById('konfirmasiSubmit').addEventListener('click', function() {
+  document.getElementById('konfirmasiSubmit').addEventListener('click', function () {
     // Buat form baru untuk submit ke target preview
     const form = document.getElementById('ajukanForm');
     form.setAttribute('action', "<?= site_url('masyarakat/surat/domisili-kelompok-tani/ajukan') ?>");

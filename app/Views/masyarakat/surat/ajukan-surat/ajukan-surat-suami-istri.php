@@ -15,7 +15,7 @@
         </div>
     <?php endif ?>
 
-    <form action="<?= site_url('masyarakat/surat/suami-istri/ajukan') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/suami-istri/ajukan') ?>"  method="POST">
         <?= csrf_field() ?>
 
         <h5 class="mt-4">Data Suami</h5>
