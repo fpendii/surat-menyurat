@@ -83,15 +83,30 @@ class SuratTidakMampuController extends BaseController
         $ktpFile->move(WRITEPATH . 'uploads/surat_tidak_mampu/', $ktpName);
         $kkFile->move(WRITEPATH . 'uploads/surat_tidak_mampu/', $kkName);
 
+         // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '400.9.14.5';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['tidak_mampu'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Ambil ID user dari session login
         $userId = 1;
 
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
-        $noSurat = 'TM-' . date('YmdHis');
         $idSurat = $suratModel->insert([
             'id_user' => $userId,
-            'no_surat' => $noSurat,
+            'no_surat' => $nomorSurat,
             'jenis_surat' => 'tidak_mampu',
             'status' => 'diajukan'
         ], true); // 'true' agar return ID yang baru disisipkan
@@ -125,7 +140,7 @@ class SuratTidakMampuController extends BaseController
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat tidak mampu telah diajukan.<br>" .
-                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Nomor Surat: <strong>$nomorSurat</strong><br>" .
                     "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
                     "Terima kasih."
             );

@@ -71,11 +71,27 @@ class SuratCatatanPolisiController extends BaseController
             return redirect()->to('masyarakat/surat/catatan-polisi')->withInput()->with('errors', $validation->getErrors());
         }
 
+        // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '300.1.6';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['catatan_polisi','kehilangan'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Simpan dulu data surat umum ke tabel surat dan dapatkan id_surat
-        $noSurat = 'CP-' . date('YmdHis');
+       
         $suratData = [
             'id_user' => $userId,
-            'no_surat' => $noSurat,
+            'no_surat' => $nomorSurat,
             'jenis_surat' => 'catatan_polisi',
             'status' => 'diajukan'
         ];
@@ -150,7 +166,7 @@ class SuratCatatanPolisiController extends BaseController
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Terdapat pengajuan <strong>Surat Catatan Polisi</strong> baru.<br>" .
-                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Nomor Surat: <strong>$nomorSurat</strong><br>" .
                     "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
                     "Terima kasih."
             );

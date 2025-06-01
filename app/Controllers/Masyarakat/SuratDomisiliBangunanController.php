@@ -78,7 +78,7 @@ class SuratDomisiliBangunanController extends BaseController
         // 2. Hitung nomor urut surat dari database berdasarkan tahun
         $suratModel = new \App\Models\SuratModel();
         $jumlahSuratTahunIni = $suratModel
-            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan'])
+            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan','surat-pindah'])
             ->where('YEAR(created_at)', $tahun)
             ->countAllResults();
         $nomorUrut = $jumlahSuratTahunIni + 1;

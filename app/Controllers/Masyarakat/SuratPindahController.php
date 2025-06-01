@@ -101,11 +101,26 @@ class SuratPindahController extends BaseController
             $formF1Name = $formF1->getRandomName();
             $formF1->move('uploads/surat', $formF1Name);
         }
+        
+         // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '400.12.2.2';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
 
-        $noSurat = 'SP-' . date('YmdHis');
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan', 'surat-pindah'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Tambah Data Surat
         $this->suratModel->insert([
-            'no_surat' => $noSurat,
+            'no_surat' => $nomorSurat,
             'id_user' => 1, // Ganti dengan ID user yang sesuai
             'jenis_surat' => 'surat-pindah',
             'kk' => $kkName,
@@ -174,7 +189,7 @@ class SuratPindahController extends BaseController
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat pindah baru telah diajukan.<br>" .
-                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Nomor Surat: <strong>$nomorSurat</strong><br>" .
                     "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
                     "Terima kasih."
             );
