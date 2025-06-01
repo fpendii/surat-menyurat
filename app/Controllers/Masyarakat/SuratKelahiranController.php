@@ -103,7 +103,7 @@ class SuratKelahiranController extends BaseController
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
         $idSurat = $suratModel->insert([
-            'id_user' => 1,
+            'id_user' => session()->get('user_id'),
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'kelahiran',
             'status' => 'diajukan'

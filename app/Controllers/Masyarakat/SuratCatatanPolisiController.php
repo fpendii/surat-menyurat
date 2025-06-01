@@ -57,7 +57,7 @@ class SuratCatatanPolisiController extends BaseController
     {
 
         $validation = \Config\Services::validation();
-        $userId = 1; // Ambil ID user dari session login
+        $userId = session()->get('user_id'); // Ambil ID user dari session login
 
         $valid = $this->validate([
             'kk' => 'uploaded[kk]|max_size[kk,2048]|mime_in[kk,image/jpg,image/jpeg,image/png,application/pdf]',

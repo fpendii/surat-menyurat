@@ -121,7 +121,7 @@ class SuratPindahController extends BaseController
         // Tambah Data Surat
         $this->suratModel->insert([
             'no_surat' => $nomorSurat,
-            'id_user' => 1, // Ganti dengan ID user yang sesuai
+            'id_user' => session()->get('user_id'), // Ganti dengan ID user yang sesuai
             'jenis_surat' => 'surat-pindah',
             'kk' => $kkName,
             'ktp' => $ktpName,

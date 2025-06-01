@@ -99,7 +99,7 @@ class SuratSuamiIstriController extends BaseController
         // Simpan ke tabel surat (misal ada kolom jenis_surat dan created_at)
         $suratModel = new \App\Models\SuratModel();
         $suratData = [
-            'id_user' => 1,
+            'id_user' => session()->get('user_id'),
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'suami_istri',
             'status' => 'diajukan'

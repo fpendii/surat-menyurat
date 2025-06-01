@@ -92,7 +92,7 @@ class SuratStatusPerkawinanController extends BaseController
         // Simpan data ke tabel surat
        
         $suratData = [
-            'id_user' => 1,
+            'id_user' => session()->get('user_id'),
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'status_perkawinan',
             'status' => 'diajukan',

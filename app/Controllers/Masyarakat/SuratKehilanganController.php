@@ -55,7 +55,7 @@ class SuratKehilanganController extends BaseController
     public function ajukanKehilangan()
     {
         $validation = \Config\Services::validation();
-        $userId = 1; // Ambil dari session login seharusnya
+        $userId = session()->get('user_id'); // Ambil dari session login seharusnya
 
         // Validasi input
         $rules = [

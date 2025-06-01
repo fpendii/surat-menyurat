@@ -56,7 +56,7 @@ class SuratAhliWarisController extends BaseController
     {
         helper(['form', 'url']);
 
-        $userId = 1; // Ambil ID user dari session login
+        $userId = session()->get('user_id'); // Ambil ID user dari session login
         $pemilikHarta = $this->request->getPost('pemilik_harta');
         $namaAhliWaris = $this->request->getPost('nama_ahli_waris');
         $nikAhliWaris = $this->request->getPost('nik_ahli_waris');

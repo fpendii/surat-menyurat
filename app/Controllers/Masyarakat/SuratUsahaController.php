@@ -94,7 +94,7 @@ class SuratUsahaController extends BaseController
         // 3. Gabungkan semua jadi nomor surat
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
-        $userId = 1; // Ambil dari session login seharusnya
+        $userId = session()->get('user_id'); // Ambil dari session login seharusnya
 
         $kk = $this->request->getFile('kk');
         $ktp = $this->request->getFile('ktp');

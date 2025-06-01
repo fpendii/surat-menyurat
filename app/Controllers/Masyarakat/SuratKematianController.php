@@ -91,9 +91,9 @@ class SuratKematianController extends BaseController
 
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
-        $idUser = 1; // Pastikan user login dan ada session
+        $idUser = session()->get('id_user'); // Pastikan user login dan ada session
         $idSurat = $suratModel->insert([
-            'id_user' => 1,
+            'id_user' => $idUser,
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'kematian',
             'status' => 'diajukan'

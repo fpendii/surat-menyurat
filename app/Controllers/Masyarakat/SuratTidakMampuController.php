@@ -100,7 +100,7 @@ class SuratTidakMampuController extends BaseController
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
         // Ambil ID user dari session login
-        $userId = 1;
+        $userId = session()->get('user_id');
 
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
