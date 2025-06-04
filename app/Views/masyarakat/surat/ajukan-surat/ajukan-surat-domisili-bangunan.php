@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Domisili Bangunan</h2>
 
-    <form id="domisiliForm" action="<?= site_url('masyarakat/surat/domisili-bangunan/ajukan') ?>" method="POST"">
+    <form id="domisiliForm" action="<?= site_url('masyarakat/surat/domisili-bangunan/ajukan') ?>"  method="POST">
         <?= csrf_field() ?>
 
         <div class="form-group">

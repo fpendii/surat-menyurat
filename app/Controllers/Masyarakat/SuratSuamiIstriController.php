@@ -80,12 +80,27 @@ class SuratSuamiIstriController extends BaseController
         $db = \Config\Database::connect();
         $db->transStart();
 
+         // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '400.12.3.2';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['status_perkawinan','suami_istri'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Simpan ke tabel surat (misal ada kolom jenis_surat dan created_at)
         $suratModel = new \App\Models\SuratModel();
-        $noSurat = 'SS-' . date('YmdHis');
         $suratData = [
-            'id_user' => 1,
-            'no_surat' => $noSurat,
+            'id_user' => session()->get('user_id'),
+            'no_surat' => $nomorSurat,
             'jenis_surat' => 'suami_istri',
             'status' => 'diajukan'
         ];
@@ -129,7 +144,7 @@ class SuratSuamiIstriController extends BaseController
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat suami istri baru telah diajukan.<br>" .
-                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Nomor Surat: <strong>$nomorSurat</strong><br>" .
                     "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
                     "Terima kasih."
             );

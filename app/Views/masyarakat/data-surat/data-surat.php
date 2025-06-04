@@ -73,8 +73,8 @@
                                         <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/edit/' . $s['id_surat']) ?>" class="btn btn-sm btn-warning">
                                             <i class="fa fa-edit"></i> Edit
                                         </a>
-                                        <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/download/' . $s['id_surat']) ?>" class="btn btn-sm btn-success">
-                                            <i class="fa fa-download"></i> Download
+                                        <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/download/' . $s['id_surat']) ?>" target="_blank" class="btn btn-sm btn-secondary">
+                                            <i class="fa fa-eye"></i> Preview
                                         </a>
                                         <button
                                             class="btn btn-sm btn-danger"

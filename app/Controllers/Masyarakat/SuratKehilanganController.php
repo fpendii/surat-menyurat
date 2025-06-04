@@ -55,7 +55,7 @@ class SuratKehilanganController extends BaseController
     public function ajukanKehilangan()
     {
         $validation = \Config\Services::validation();
-        $userId = 1; // Ambil dari session login seharusnya
+        $userId = session()->get('user_id'); // Ambil dari session login seharusnya
 
         // Validasi input
         $rules = [
@@ -75,12 +75,28 @@ class SuratKehilanganController extends BaseController
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
+        // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '300.1.6';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['catatan_polisi', 'kehilangan'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Simpan data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
-        $noSurat = 'KH-' . date('YmdHis');
+        
         $suratData = [
             'id_user' => $userId,
-            'no_surat' => $noSurat,
+            'no_surat' => $nomorSurat,
             'jenis_surat' => 'kehilangan',
             'status' => 'diajukan'
         ];
@@ -138,7 +154,7 @@ class SuratKehilanganController extends BaseController
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Terdapat pengajuan <strong>Surat Keterangan Kehilangan</strong> baru.<br>" .
-                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Nomor Surat: <strong>$nomorSurat</strong><br>" .
                     "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
                     "Terima kasih."
             );

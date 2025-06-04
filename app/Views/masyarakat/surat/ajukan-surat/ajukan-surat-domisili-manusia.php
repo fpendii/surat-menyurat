@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Domisili Warga</h2>
 
-    <form action="<?= site_url('masyarakat/surat/domisili-warga/ajukan') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/domisili-warga/ajukan') ?>"  method="POST">
         <?= csrf_field() ?>
 
         <h5 class="mt-3">Data Pejabat (Yang Bertanda Tangan)</h5>

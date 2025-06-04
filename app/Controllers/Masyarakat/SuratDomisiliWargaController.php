@@ -86,7 +86,7 @@ class SuratDomisiliWargaController extends BaseController
         // 2. Hitung nomor urut surat dari database berdasarkan tahun
         $suratModel = new \App\Models\SuratModel();
         $jumlahSuratTahunIni = $suratModel
-            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan'])
+            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan', 'surat-pindah'])
             ->where('YEAR(created_at)', $tahun)
             ->countAllResults();
 
@@ -196,7 +196,7 @@ class SuratDomisiliWargaController extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         // Output file PDF ke browser
-        $dompdf->stream('surat_domisili_warga.pdf', ['Attachment' => true]); // true = download, false = tampil di browser
+        $dompdf->stream('surat_domisili_warga.pdf', ['Attachment' => false]); // true = download, false = tampil di browser
         exit();
     }
 

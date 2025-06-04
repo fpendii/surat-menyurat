@@ -17,7 +17,7 @@
         </div>
     <?php endif ?>
 
-    <form action="<?= site_url('masyarakat/surat/kehilangan/ajukan') ?>" method="POST" enctype="multipart/form-data">
+    <form action="<?= site_url('masyarakat/surat/kehilangan/ajukan') ?>"  method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <div class="form-group">

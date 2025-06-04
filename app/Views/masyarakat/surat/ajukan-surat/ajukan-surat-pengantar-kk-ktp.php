@@ -6,7 +6,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Pengantar KK dan KTP</h2>
 
-    <form action="<?= site_url('masyarakat/surat/pengantar-kk-ktp/ajukan') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/pengantar-kk-ktp/ajukan') ?>"  method="POST">
         <?= csrf_field() ?>
 
         <div id="form-container">

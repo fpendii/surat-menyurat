@@ -73,13 +73,28 @@ class SuratKematianController extends BaseController
             return redirect()->to('/masyarakat/surat/kematian')->withInput()->withInput()->with('errors', $validation->getErrors());
         }
 
+        // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '400.12.3.1';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['ahli_waris', 'kematian', 'kelahiran'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
-        $idUser = 1; // Pastikan user login dan ada session
-        $noSurat = 'SK-' . date('YmdHis');
+        $idUser = session()->get('id_user'); // Pastikan user login dan ada session
         $idSurat = $suratModel->insert([
-            'id_user' => 1,
-            'no_surat' => $noSurat,
+            'id_user' => $idUser,
+            'no_surat' => $nomorSurat,
             'jenis_surat' => 'kematian',
             'status' => 'diajukan'
         ]);
@@ -109,7 +124,7 @@ class SuratKematianController extends BaseController
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat kematian baru telah diajukan.<br>" .
-                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Nomor Surat: <strong>$nomorSurat</strong><br>" .
                     "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
                     "Terima kasih."
             );

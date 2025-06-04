@@ -84,12 +84,27 @@ class SuratKelahiranController extends BaseController
             'anak_ke'       => $this->request->getPost('anak_ke'),
         ];
 
+        // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '400.12.3.1';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['ahli_waris', 'kematian', 'kelahiran'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Gabungkan semua jadi nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
-        $noSurat = 'KL-' . date('YmdHis');
         $idSurat = $suratModel->insert([
-            'id_user' => 1,
-            'no_surat' => $noSurat,
+            'id_user' => session()->get('user_id'),
+            'no_surat' => $nomorSurat,
             'jenis_surat' => 'kelahiran',
             'status' => 'diajukan'
         ]);
@@ -110,7 +125,7 @@ class SuratKelahiranController extends BaseController
             $email->setMessage(
                 "Halo,<br><br>" .
                     "Pengajuan surat kelahiran baru telah diajukan.<br>" .
-                    "Nomor Surat: <strong>$noSurat</strong><br>" .
+                    "Nomor Surat: <strong>$nomorSurat</strong><br>" .
                     "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
                     "Terima kasih."
             );
