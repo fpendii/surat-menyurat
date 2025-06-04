@@ -56,7 +56,6 @@ class AuthController extends BaseController
         }
     }
 
-
     public function register()
     {
         return view('auth/register');
@@ -108,7 +107,7 @@ class AuthController extends BaseController
         $emailService->setMessage($message);
         $emailService->send();
 
-        return redirect()->to('/#signin')->with('success', 'Registrasi berhasil. Silakan cek email Anda untuk aktivasi akun.');
+        return redirect()->back()->with('success', 'Registrasi berhasil. Silakan cek email Anda untuk aktivasi akun.');
     }
 
     public function aktivasi($code)
@@ -160,7 +159,6 @@ class AuthController extends BaseController
         return redirect()->back()->with('success', 'Link reset password telah dikirim ke email Anda');
     }
 
-
     public function resetPasswordForm()
     {
         $token = $this->request->getGet('token');
@@ -174,9 +172,6 @@ class AuthController extends BaseController
 
         echo view('reset_password', ['token' => $token]);
     }
-
-
-
 
     public function logout()
     {

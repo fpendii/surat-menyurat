@@ -145,8 +145,6 @@ class SuratAhliWarisController extends BaseController
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat ahli waris berhasil diajukan dan notifikasi telah dikirim.');
     }
 
-
-
     public function downloadSurat($idSurat)
     {
         $suratModel = new \App\Models\SuratModel();

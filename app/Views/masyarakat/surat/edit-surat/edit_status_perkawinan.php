@@ -19,17 +19,17 @@
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/status-perkawinan/update/'. $detail['id_surat']) ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/status-perkawinan/update/' . $detail['id_surat']) ?>" method="POST">
         <?= csrf_field() ?>
 
         <div class="form-group">
             <label for="nama">Nama</label>
-            <input 
-                type="text" 
-                class="form-control <?= (isset($validation) && $validation->hasError('nama')) ? 'is-invalid' : '' ?>" 
-                id="nama" 
-                name="nama" 
-                value="<?= old('nama', $detail['nama']) ?>" 
+            <input
+                type="text"
+                class="form-control <?= (isset($validation) && $validation->hasError('nama')) ? 'is-invalid' : '' ?>"
+                id="nama"
+                name="nama"
+                value="<?= old('nama', $detail['nama']) ?>"
                 required>
             <?php if (isset($validation) && $validation->hasError('nama')) : ?>
                 <div class="invalid-feedback">
@@ -40,13 +40,17 @@
 
         <div class="form-group">
             <label for="nik">NIK</label>
-            <input 
-                type="text" 
-                class="form-control <?= (isset($validation) && $validation->hasError('nik')) ? 'is-invalid' : '' ?>" 
-                id="nik" 
-                name="nik" 
-                value="<?= old('nik', $detail['nik']) ?>" 
-                required>
+            <input
+                type="text"
+                class="form-control <?= (isset($validation) && $validation->hasError('nik')) ? 'is-invalid' : '' ?>"
+                id="nik"
+                name="nik"
+                value="<?= old('nik', $detail['nik']) ?>"
+                required
+                maxlength="16"
+                pattern="\d{16}"
+                title="NIK harus terdiri dari 16 digit angka"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,16);">
             <?php if (isset($validation) && $validation->hasError('nik')) : ?>
                 <div class="invalid-feedback">
                     <?= $validation->getError('nik') ?>
@@ -54,15 +58,16 @@
             <?php endif ?>
         </div>
 
+
         <div class="form-group">
             <label for="ttl">Tempat / Tanggal Lahir</label>
-            <input 
-                type="text" 
-                class="form-control <?= (isset($validation) && $validation->hasError('ttl')) ? 'is-invalid' : '' ?>" 
-                id="ttl" 
-                name="ttl" 
-                placeholder="Contoh: Surabaya, 14 Februari 1995" 
-                value="<?= old('ttl', $detail['ttl']) ?>" 
+            <input
+                type="text"
+                class="form-control <?= (isset($validation) && $validation->hasError('ttl')) ? 'is-invalid' : '' ?>"
+                id="ttl"
+                name="ttl"
+                placeholder="Contoh: Surabaya, 14 Februari 1995"
+                value="<?= old('ttl', $detail['ttl']) ?>"
                 required>
             <?php if (isset($validation) && $validation->hasError('ttl')) : ?>
                 <div class="invalid-feedback">
@@ -73,10 +78,10 @@
 
         <div class="form-group">
             <label for="agama">Agama</label>
-            <select 
-                class="form-control <?= (isset($validation) && $validation->hasError('agama')) ? 'is-invalid' : '' ?>" 
-                id="agama" 
-                name="agama" 
+            <select
+                class="form-control <?= (isset($validation) && $validation->hasError('agama')) ? 'is-invalid' : '' ?>"
+                id="agama"
+                name="agama"
                 required>
                 <?php
                 $agamaList = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu'];
@@ -96,11 +101,11 @@
 
         <div class="form-group">
             <label for="alamat">Alamat</label>
-            <textarea 
-                class="form-control <?= (isset($validation) && $validation->hasError('alamat')) ? 'is-invalid' : '' ?>" 
-                id="alamat" 
-                name="alamat" 
-                rows="3" 
+            <textarea
+                class="form-control <?= (isset($validation) && $validation->hasError('alamat')) ? 'is-invalid' : '' ?>"
+                id="alamat"
+                name="alamat"
+                rows="3"
                 required><?= old('alamat', $detail['alamat']) ?></textarea>
             <?php if (isset($validation) && $validation->hasError('alamat')) : ?>
                 <div class="invalid-feedback">
@@ -115,10 +120,10 @@
             $statusList = ['Belum Kawin', 'Sudah Kawin', 'Cerai Hidup', 'Cerai Mati'];
             $selectedStatus = old('status', $detail['status']);
             ?>
-            <select 
-                class="form-control <?= (isset($validation) && $validation->hasError('status')) ? 'is-invalid' : '' ?>" 
-                id="status" 
-                name="status" 
+            <select
+                class="form-control <?= (isset($validation) && $validation->hasError('status')) ? 'is-invalid' : '' ?>"
+                id="status"
+                name="status"
                 required>
                 <option value="">-- Pilih --</option>
                 <?php foreach ($statusList as $status): ?>

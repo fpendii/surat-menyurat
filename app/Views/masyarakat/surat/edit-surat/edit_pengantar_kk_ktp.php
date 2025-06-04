@@ -17,34 +17,54 @@
 
         <div id="form-container">
             <?php foreach ($dataOrang as $index => $orang): ?>
-            <div class="form-person mb-4 border p-3 rounded">
-                <h5>Data Orang <?= $index + 1 ?></h5>
+                <div class="form-person mb-4 border p-3 rounded">
+                    <h5>Data Orang <?= $index + 1 ?></h5>
 
-                <div class="form-group">
-                    <label>Nama</label>
-                    <input type="text" name="data[<?= $index ?>][nama]" class="form-control" value="<?= esc($orang['nama']) ?>" required>
-                </div>
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" name="data[<?= $index ?>][nama]" class="form-control" value="<?= esc($orang['nama']) ?>" required>
+                    </div>
 
-                <div class="form-group">
-                    <label>No Kartu Keluarga</label>
-                    <input type="text" name="data[<?= $index ?>][no_kk]" class="form-control" value="<?= esc($orang['no_kk']) ?>" required>
-                </div>
+                    <div class="form-group">
+                        <label>No Kartu Keluarga</label>
+                        <input
+                            type="text"
+                            name="data[<?= $index ?>][no_kk]"
+                            class="form-control"
+                            value="<?= esc($orang['no_kk']) ?>"
+                            required
+                            maxlength="16"
+                            pattern="\d{16}"
+                            title="No KK harus terdiri dari 16 digit angka"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,16);">
+                    </div>
 
-                <div class="form-group">
-                    <label>NIK</label>
-                    <input type="text" name="data[<?= $index ?>][nik]" class="form-control" value="<?= esc($orang['nik']) ?>" required>
-                </div>
 
-                <div class="form-group">
-                    <label>Keterangan</label>
-                    <textarea name="data[<?= $index ?>][keterangan]" class="form-control" rows="2" required><?= esc($orang['keterangan']) ?></textarea>
-                </div>
+                    <div class="form-group">
+                        <label>NIK</label>
+                        <input
+                            type="text"
+                            name="data[<?= $index ?>][nik]"
+                            class="form-control"
+                            value="<?= esc($orang['nik']) ?>"
+                            required
+                            maxlength="16"
+                            pattern="\d{16}"
+                            title="NIK harus terdiri dari 16 digit angka"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,16);">
+                    </div>
 
-                <div class="form-group">
-                    <label>Jumlah</label>
-                    <input type="number" name="data[<?= $index ?>][jumlah]" class="form-control" value="<?= esc($orang['jumlah']) ?>" required>
+
+                    <div class="form-group">
+                        <label>Keterangan</label>
+                        <textarea name="data[<?= $index ?>][keterangan]" class="form-control" rows="2" required><?= esc($orang['keterangan']) ?></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Jumlah</label>
+                        <input type="number" name="data[<?= $index ?>][jumlah]" class="form-control" value="<?= esc($orang['jumlah']) ?>" required>
+                    </div>
                 </div>
-            </div>
             <?php endforeach; ?>
         </div>
 

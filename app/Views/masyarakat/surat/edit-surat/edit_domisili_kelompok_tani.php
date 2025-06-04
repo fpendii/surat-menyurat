@@ -17,14 +17,23 @@
         <?= csrf_field() ?>
         <input type="text" name="no_surat" value="<?= $surat['no_surat'] ?>" hidden>
         <div class="form-group mb-2">
-        <label for="nama_gapoktan">Nama Gapoktan</label>
+            <label for="nama_gapoktan">Nama Kelompok Tani</label>
             <input type="text" value="<?= $detail['nama_gapoktan'] ?>" class="form-control" id="nama_gapoktan" name="nama_gapoktan" required>
         </div>
 
+        <?php $today = date('Y-m-d'); ?>
         <div class="form-group mb-2">
-            <label for="tgl_pembentukan">Tanggal Pembentukan</label>
-            <input type="date" value="<?= $detail['tgl_pembentukan'] ?>" class="form-control" id="tgl_pembentukan" name="tgl_pembentukan" required>
+            <label for="tgl_pembentukan">Tanggal Pembentukan Kelompok Tani</label>
+            <input
+                type="date"
+                value="<?= $detail['tgl_pembentukan'] ?>"
+                class="form-control"
+                id="tgl_pembentukan"
+                name="tgl_pembentukan"
+                required
+                max="<?= $today ?>">
         </div>
+
 
         <div class="form-group mb-2">
             <label for="alamat">Alamat Lengkap</label>

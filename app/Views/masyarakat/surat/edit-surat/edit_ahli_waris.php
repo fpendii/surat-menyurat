@@ -44,8 +44,18 @@
                     </div>
                     <div class="form-group">
                         <label>NIK</label>
-                        <input type="text" class="form-control" name="nik_ahli_waris[]" value="<?= esc($aw['nik']) ?>" required>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="nik_ahli_waris[]"
+                            value="<?= esc($aw['nik']) ?>"
+                            required
+                            maxlength="16"
+                            pattern="\d{16}"
+                            title="NIK harus terdiri dari 16 digit angka"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,16);">
                     </div>
+
                     <div class="form-group">
                         <label>Tempat/Tanggal Lahir</label>
                         <input type="text" class="form-control" name="ttl_ahli_waris[]" value="<?= esc($aw['ttl']) ?>" required>
@@ -66,29 +76,29 @@
 </div>
 
 <script>
-document.getElementById('tambah-ahli-waris').addEventListener('click', function () {
-    const wrapper = document.getElementById('ahli-waris-wrapper');
-    const clone = wrapper.firstElementChild.cloneNode(true);
+    document.getElementById('tambah-ahli-waris').addEventListener('click', function() {
+        const wrapper = document.getElementById('ahli-waris-wrapper');
+        const clone = wrapper.firstElementChild.cloneNode(true);
 
-    // Kosongkan input
-    clone.querySelectorAll('input').forEach(input => {
-        input.value = '';
+        // Kosongkan input
+        clone.querySelectorAll('input').forEach(input => {
+            input.value = '';
+        });
+
+        wrapper.appendChild(clone);
     });
 
-    wrapper.appendChild(clone);
-});
-
-// Hapus salah satu form ahli waris
-document.addEventListener('click', function (e) {
-    if (e.target && e.target.classList.contains('remove-ahli-waris')) {
-        const groups = document.querySelectorAll('.ahli-waris-group');
-        if (groups.length > 1) {
-            e.target.closest('.ahli-waris-group').remove();
-        } else {
-            alert("Minimal harus ada satu ahli waris.");
+    // Hapus salah satu form ahli waris
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('remove-ahli-waris')) {
+            const groups = document.querySelectorAll('.ahli-waris-group');
+            if (groups.length > 1) {
+                e.target.closest('.ahli-waris-group').remove();
+            } else {
+                alert("Minimal harus ada satu ahli waris.");
+            }
         }
-    }
-});
+    });
 </script>
 
 <?= $this->endSection() ?>
