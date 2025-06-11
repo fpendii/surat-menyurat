@@ -65,9 +65,11 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/edit/' . $s['id_surat']) ?>" class="btn btn-sm btn-warning">
-                                            <i class="fa fa-edit"></i> Edit
-                                        </a>
+                                        <?php if (strtolower($s['status_surat']) == 'revisi'): ?>
+                                            <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/edit/' . $s['id_surat']) ?>" class="btn btn-sm btn-warning">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
+                                        <?php endif; ?>
                                         <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/download/' . $s['id_surat']) ?>" target="_blank" class="btn btn-sm btn-secondary">
                                             <i class="fa fa-eye"></i> Preview
                                         </a>
