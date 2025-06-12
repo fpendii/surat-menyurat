@@ -8,13 +8,8 @@
         <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Settings 1</a>
-                    <a class="dropdown-item" href="#">Settings 2</a>
-                </div>
+
             </li>
-            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>
         <div class="clearfix"></div>
     </div>
@@ -70,9 +65,11 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/edit/' . $s['id_surat']) ?>" class="btn btn-sm btn-warning">
-                                            <i class="fa fa-edit"></i> Edit
-                                        </a>
+                                        <?php if (strtolower($s['status_surat']) == 'revisi'): ?>
+                                            <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/edit/' . $s['id_surat']) ?>" class="btn btn-sm btn-warning">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
+                                        <?php endif; ?>
                                         <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/download/' . $s['id_surat']) ?>" target="_blank" class="btn btn-sm btn-secondary">
                                             <i class="fa fa-eye"></i> Preview
                                         </a>

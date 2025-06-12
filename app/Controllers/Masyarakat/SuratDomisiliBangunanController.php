@@ -149,8 +149,6 @@ class SuratDomisiliBangunanController extends BaseController
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Domisili Bangunan berhasil diajukan dan notifikasi dikirim.');
     }
 
-
-
     public function downloadSurat($id)
     {
         // Load model

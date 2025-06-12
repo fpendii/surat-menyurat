@@ -39,7 +39,17 @@
 
         <div class="form-group">
             <label for="nik">NIK</label>
-            <input type="text" class="form-control" id="nik" name="nik" value="<?= old('nik', $detail['nik']) ?>" required>
+            <input
+                type="text"
+                class="form-control"
+                id="nik"
+                name="nik"
+                value="<?= old('nik', $detail['nik']) ?>"
+                required
+                maxlength="16"
+                pattern="\d{16}"
+                title="NIK harus terdiri dari 16 digit angka"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,16);">
         </div>
 
         <div class="form-group">

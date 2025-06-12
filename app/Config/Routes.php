@@ -11,6 +11,7 @@ $routes->get('/', 'AuthController::login');
 $routes->get('login', 'AuthController::login');
 $routes->post('login/proses', 'AuthController::loginProses');
 $routes->get('register', 'AuthController::register');
+
 $routes->post('register/proses', 'AuthController::registerProses');
 $routes->get('/unauthorized', 'AuthController::unauthorized');
 $routes->get('logout', 'AuthController::logout');

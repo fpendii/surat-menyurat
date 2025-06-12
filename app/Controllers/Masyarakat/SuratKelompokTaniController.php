@@ -104,7 +104,7 @@ class SuratKelompokTaniController extends BaseController
         // Kirim email ke kepala desa dan admin
         $email = \Config\Services::email();
 
-        $emailRecipients = ['fpendii210203@gmail.com', 'fpendii210203@gmail.com']; // Ganti dengan email yang sesuai
+        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti dengan email yang sesuai
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);

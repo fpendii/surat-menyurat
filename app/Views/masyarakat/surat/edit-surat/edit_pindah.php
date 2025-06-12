@@ -69,8 +69,18 @@
 
         <div class="form-group">
             <label>NIK</label>
-            <input type="text" class="form-control" name="nik" value="<?= esc($suratPindah['nik']) ?>" required>
+            <input
+                type="text"
+                class="form-control"
+                name="nik"
+                value="<?= esc($suratPindah['nik']) ?>"
+                required
+                maxlength="16"
+                pattern="\d{16}"
+                title="NIK harus terdiri dari 16 digit angka"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,16);">
         </div>
+
 
         <div class="form-group">
             <label>Tujuan Pindah</label>
