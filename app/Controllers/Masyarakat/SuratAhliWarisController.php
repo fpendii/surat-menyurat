@@ -185,6 +185,7 @@ class SuratAhliWarisController extends BaseController
         // Data untuk view
         $data = [
             'pemilik_harta' => $suratAhliWaris['pemilik_harta'],
+            'no_surat' => $surat['no_surat'],
             'nama_ahli_waris' => array_column($dataAhliWaris, 'nama'),
             'nik_ahli_waris' => array_column($dataAhliWaris, 'nik'),
             'ttl_ahli_waris' => array_column($dataAhliWaris, 'ttl'),
@@ -214,7 +215,7 @@ class SuratAhliWarisController extends BaseController
         $dompdf->render();
 
         // Download PDF
-        $dompdf->stream('Surat_Keterangan_Ahli_Waris_' . $suratAhliWaris['pemilik_harta'] . '.pdf', ['Attachment' => true]);
+        $dompdf->stream('Surat_Keterangan_Ahli_Waris_' . $suratAhliWaris['pemilik_harta'] . '.pdf', ['Attachment' => false]);
     }
 
     public function editSurat($idSurat)

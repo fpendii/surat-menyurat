@@ -194,7 +194,7 @@ class SuratKematianController extends BaseController
         $dompdf->render();
 
         $filename = 'surat_kematian_' . strtolower(str_replace(' ', '_', $detail['nama'])) . '_' . date('Ymd') . '.pdf';
-        $dompdf->stream($filename, ['Attachment' => true]);
+        $dompdf->stream($filename, ['Attachment' => false]);
 
         exit();
     }

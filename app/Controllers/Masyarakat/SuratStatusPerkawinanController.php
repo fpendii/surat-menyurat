@@ -168,7 +168,6 @@ class SuratStatusPerkawinanController extends BaseController
             'logo' => $logo,
             'no_surat' => $surat['no_surat'],
             'tanggal' => date('d F Y', strtotime($surat['created_at'] ?? date('Y-m-d'))),
-
             'nama' => $detail['nama'],
             'nik' => $detail['nik'],
             'ttl' => $detail['ttl'],

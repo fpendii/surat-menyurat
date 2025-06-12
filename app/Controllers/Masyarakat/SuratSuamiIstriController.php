@@ -191,13 +191,11 @@ class SuratSuamiIstriController extends BaseController
             'logo' => $logo,
             'no_surat' => $surat['no_surat'],
             'tanggal' => date('d-m-Y', strtotime($surat['created_at'] ?? date('Y-m-d'))),
-
             'nama_suami' => $detail['nama_suami'],
             'nik_suami' => $detail['nik_suami'],
             'ttl_suami' => $detail['ttl_suami'],
             'agama_suami' => $detail['agama_suami'],
             'alamat_suami' => $detail['alamat_suami'],
-
             'nama_istri' => $detail['nama_istri'],
             'nik_istri' => $detail['nik_istri'],
             'ttl_istri' => $detail['ttl_istri'],
@@ -221,7 +219,7 @@ class SuratSuamiIstriController extends BaseController
         $dompdf->render();
 
         $filename = 'surat_suami_istri_' . strtolower(str_replace(' ', '_', $detail['nama_suami'])) . '_' . date('Ymd') . '.pdf';
-        $dompdf->stream($filename, ['Attachment' => true]);
+        $dompdf->stream($filename, ['Attachment' => false]);
 
         exit();
     }

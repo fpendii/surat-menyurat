@@ -109,7 +109,7 @@
     <hr>
 
     <div class="title">SURAT PENGANTAR</div>
-    <div class="number">Nomor: 400.12.2.2/53/Handil Suruk/2024</div>
+    <div class="number">Nomor : <?= $no_surat ?? '...' ?></div>
 
     <p style="text-align: justify;">Disampaikan dengan hormat untuk permohonan pengurusan administrasi kependudukan ke
         kecamatan Bumi makmur Kabupaten Tanah laut, yang mana bersangkutan telah di verifikasi oleh petugas registrasi

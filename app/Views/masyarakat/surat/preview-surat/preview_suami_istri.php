@@ -74,7 +74,7 @@
     <!-- Judul -->
     <div style="text-align: center; margin-bottom: 20px;">
         <h5><u><strong>SURAT KETERANGAN SUAMI ISTRI</strong></u></h5>
-        <p>Nomor: 470/___/Handil Suruk/2024</p>
+        <p>Nomor : <?= $no_surat ?? '...' ?></p>
     </div>
 
     <!-- Isi Surat -->

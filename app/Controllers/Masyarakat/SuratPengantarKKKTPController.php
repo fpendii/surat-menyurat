@@ -128,6 +128,7 @@ class SuratPengantarKKKTPController extends BaseController
 
         $surat = $suratModel->find($id);
         $dataOrang = $detailModel->where('id_surat', $id)->findAll();
+    
 
         // Jika data tidak ditemukan
         if (!$surat) {
@@ -162,7 +163,7 @@ class SuratPengantarKKKTPController extends BaseController
         $dompdf->render();
 
         // Download PDF
-        $dompdf->stream('surat-pengantar-kk-ktp.pdf', ['Attachment' => true]);
+        $dompdf->stream('surat-pengantar-kk-ktp.pdf', ['Attachment' => false]);
     }
 
     public function editSurat($id)

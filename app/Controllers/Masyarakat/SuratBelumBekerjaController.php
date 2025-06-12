@@ -209,7 +209,7 @@ class SuratBelumBekerjaController extends BaseController
 
         // Nama file
         $filename = 'surat_belum_bekerja_' . strtolower(str_replace(' ', '_', $detail['nama'])) . '_' . date('Ymd') . '.pdf';
-        $dompdf->stream($filename, ['Attachment' => true]);
+        $dompdf->stream($filename, ['Attachment' => false]);
 
         exit();
     }

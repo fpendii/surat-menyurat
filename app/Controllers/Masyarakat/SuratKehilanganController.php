@@ -191,6 +191,7 @@ class SuratKehilanganController extends BaseController
         $data = [
             'nama' => $kehilangan['nama'],
             'jenis_kelamin' => $kehilangan['jenis_kelamin'],
+            'no_surat' => $surat['no_surat'],
             'ttl' => $kehilangan['ttl'],
             'nik' => $kehilangan['nik'],
             'agama' => $kehilangan['agama'],
@@ -221,7 +222,7 @@ class SuratKehilanganController extends BaseController
         $dompdf->render();
 
         // Unduh PDF
-        $dompdf->stream('Surat_Keterangan_Kehilangan_' . $kehilangan['nama'] . '.pdf', ['Attachment' => true]);
+        $dompdf->stream('Surat_Keterangan_Kehilangan_' . $kehilangan['nama'] . '.pdf', ['Attachment' => false]);
     }
 
     public function editSurat($idSurat)

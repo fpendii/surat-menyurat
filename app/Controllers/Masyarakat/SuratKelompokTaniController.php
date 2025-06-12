@@ -150,6 +150,8 @@ class SuratKelompokTaniController extends BaseController
             'ketua'            => $domisili['ketua'],
             'sekretaris'       => $domisili['sekretaris'],
             'bendahara'        => $domisili['bendahara'],
+            'no_surat' => $surat['no_surat'],
+
         ];
 
         // Logo

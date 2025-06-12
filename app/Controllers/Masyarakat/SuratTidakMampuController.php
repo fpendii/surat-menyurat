@@ -206,7 +206,7 @@ class SuratTidakMampuController extends BaseController
         $dompdf->render();
 
         $filename = 'surat_tidak_mampu_' . strtolower(str_replace(' ', '_', $suratTidakMampu['nama'])) . '_' . date('Ymd') . '.pdf';
-        $dompdf->stream($filename, ['Attachment' => true]);
+        $dompdf->stream($filename, ['Attachment' => false]);
 
         exit();
     }

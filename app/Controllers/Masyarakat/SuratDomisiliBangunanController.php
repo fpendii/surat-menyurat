@@ -202,7 +202,7 @@ class SuratDomisiliBangunanController extends BaseController
         $dompdf->render();
 
         $filename = 'surat_domisili_bangunan_' . strtolower(str_replace(' ', '_', $detail['nama_gapoktan'])) . '_' . date('Ymd') . '.pdf';
-        $dompdf->stream($filename, ['Attachment' => true]);
+        $dompdf->stream($filename, ['Attachment' => false]);
 
         exit();
     }

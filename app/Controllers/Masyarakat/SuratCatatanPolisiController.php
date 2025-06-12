@@ -208,7 +208,8 @@ class SuratCatatanPolisiController extends BaseController
             'agama' => $catatanPolisi['agama'],
             'pekerjaan' => $catatanPolisi['pekerjaan'],
             'nik' => $catatanPolisi['nik'],
-            'alamat' => $catatanPolisi['alamat']
+            'alamat' => $catatanPolisi['alamat'],
+            'no_surat' => $surat['no_surat'],
         ];
 
         // Ambil dan encode logo
@@ -233,7 +234,7 @@ class SuratCatatanPolisiController extends BaseController
         $dompdf->render();
 
         // Unduh PDF
-        $dompdf->stream('Surat_Catatan_Polisi_' . $catatanPolisi['nama'] . '.pdf', ['Attachment' => true]);
+        $dompdf->stream('Surat_Catatan_Polisi_' . $catatanPolisi['nama'] . '.pdf', ['Attachment' => false]);
     }
 
     public function editSurat($id)

@@ -184,6 +184,7 @@ class SuratDomisiliWargaController extends BaseController
             'kecamatan' => $domisiliWarga['kecamatan'],
             'kabupaten' => $domisiliWarga['kabupaten'],
             'provinsi' => $domisiliWarga['provinsi'],
+            'no_surat' => $surat['no_surat'],
         ]);
 
         // Konfigurasi Dompdf

@@ -195,7 +195,7 @@ class SuratKelahiranController extends BaseController
         $dompdf->render();
 
         $filename = 'surat_kelahiran_' . strtolower(str_replace(' ', '_', $detail['nama'])) . '_' . date('Ymd') . '.pdf';
-        $dompdf->stream($filename, ['Attachment' => true]);
+        $dompdf->stream($filename, ['Attachment' => false]);
 
         exit();
     }

@@ -73,7 +73,7 @@
         <!-- Judul -->
         <div style="text-align: center; margin-bottom: 20px;">
             <h5><u><strong>SURAT KETERANGAN KEMATIAN</strong></u></h5>
-            <p>Nomor: 400/...../HandilSuruk/2024</p>
+            <p>Nomor : <?= $no_surat ?? '...' ?></p>
         </div>
 
         <!-- Isi Surat -->

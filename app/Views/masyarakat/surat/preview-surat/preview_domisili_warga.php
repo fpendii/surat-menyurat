@@ -80,7 +80,7 @@
         <!-- Judul -->
         <div style="text-align: center; margin-bottom: 20px;">
             <h5><u><strong>SURAT KETERANGAN DOMISILI</strong></u></h5>
-            <p>Nomor : 400.12.2.2/53/Handil Suruk/2024</p>
+            <p>Nomor : <?= $no_surat ?? '...' ?></p>
         </div>
 
         <!-- Isi Surat -->

@@ -232,6 +232,7 @@ class SuratPindahController extends BaseController
             'pekerjaan' => $suratPindah['pekerjaan'],
             'pendidikan' => $suratPindah['pendidikan'],
             'alamat_asal' => $suratPindah['alamat_asal'],
+            'no_surat' => $surat['no_surat'],
             'nik' => $suratPindah['nik'],
             'tujuan_pindah' => $suratPindah['tujuan_pindah'],
             'alasan_pindah' => $suratPindah['alasan_pindah'],
@@ -266,7 +267,7 @@ class SuratPindahController extends BaseController
         $dompdf->render();
 
         $filename = 'surat_pindah_' . strtolower(str_replace(' ', '_', $suratPindah['nama'])) . '_' . date('Ymd') . '.pdf';
-        $dompdf->stream($filename, ['Attachment' => true]);
+        $dompdf->stream($filename, ['Attachment' => false]);
 
         exit();
     }

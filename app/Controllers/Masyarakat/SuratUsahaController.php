@@ -190,7 +190,8 @@ class SuratUsahaController extends BaseController
             'provinsi' => $usaha['provinsi'],
             'nama_usaha' => $usaha['nama_usaha'],
             'alamat_usaha' => $usaha['alamat_usaha'],
-            'sejak_tahun' => $usaha['sejak_tahun']
+            'sejak_tahun' => $usaha['sejak_tahun'],
+            'no_surat' => $surat['no_surat'],
         ];
 
         // Ambil dan encode logo

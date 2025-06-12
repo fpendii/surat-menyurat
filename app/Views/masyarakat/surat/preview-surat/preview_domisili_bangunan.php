@@ -93,7 +93,7 @@
     <hr>
 
     <div class="title">SURAT KETERANGAN DOMISILI</div>
-    <div class="number">Nomor: 400.12.2.2/53/Handil Suruk/2024</div>
+    <div class="number">Nomor : <?= $no_surat ?? '...' ?></div>
 
     <p>Yang Bertanda Tangan di bawah ini:</p>
     <table class="info-table">
