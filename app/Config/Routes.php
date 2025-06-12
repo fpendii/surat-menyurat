@@ -179,4 +179,18 @@ $routes->group('admin', function ($routes) {
     $routes->get('surat-masuk/tambah', 'Admin\SuratMasukController::tambah');
     $routes->post('surat-masuk/simpan', 'Admin\SuratMasukController::simpan');
     $routes->post('surat-masuk/hapus/(:num)', 'Admin\SuratMasukController::hapus/$1');
+
+    $routes->get('disposisi', 'Admin\DisposisiController::index');
+     $routes->get('disposisi/tambah', 'Admin\DisposisiController::tambah');
+    $routes->post('disposisi/simpan', 'Admin\DisposisiController::simpan');
+    $routes->get('disposisi/edit/(:num)', 'Admin\DisposisiController::edit/$1');
+    $routes->post('disposisi/update/(:num)', 'Admin\DisposisiController::update/$1');
+    $routes->post('disposisi/hapus/(:num)', 'Admin\DisposisiController::hapus/$1');
+
+    $routes->get('pengguna', 'Admin\PenggunaController::index');
+    $routes->get('pengguna/tambah', 'Admin\PenggunaController::tambah');
+    $routes->post('pengguna/simpan', 'Admin\PenggunaController::simpan');
+    $routes->get('pengguna/edit/(:num)', 'Admin\PenggunaController::edit/$1');
+    $routes->post('pengguna/update/(:num)', 'Admin\PenggunaController::update/$1');
+    $routes->post('pengguna/hapus/(:num)', 'Admin\PenggunaController::hapus/$1');
 });

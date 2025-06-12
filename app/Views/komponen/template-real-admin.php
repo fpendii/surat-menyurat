@@ -93,6 +93,8 @@
                                 <li><a href="/admin/arsip-surat"><i class="fa fa-archive"></i> Arsip Surat </a>
                                 </li>
 
+                                <li><a href="/admin/pengguna"><i class="fa fa-users"></i> Data Pengguna </a></li>
+
                                 <li><a href="/logout"><i class="fa fa-power-off"></i> Logout </a></li>
                             </ul>
                         </div>

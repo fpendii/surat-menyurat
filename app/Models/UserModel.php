@@ -21,12 +21,7 @@ class UserModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
-    protected $validationRules    = [
-        'name'     => 'required|min_length[3]',
-        'email'    => 'required|valid_email|is_unique[users.email,id_user,{id_user}]',
-        'password' => 'permit_empty|min_length[6]',
-        'role'     => 'required|in_list[admin,masyarakat,kepala_desa]',
-    ];
+
 
     protected $validationMessages = [
         'email' => [
