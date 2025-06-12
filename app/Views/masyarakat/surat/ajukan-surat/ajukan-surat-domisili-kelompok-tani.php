@@ -48,6 +48,16 @@
       <input type="text" class="form-control" id="bendahara" name="bendahara" required>
     </div>
 
+    <div class="form-group">
+      <label for="ktp">Unggah KTP Ketua</label>
+      <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
+    </div>
+
+    <div class="form-group">
+      <label for="kk">Unggah Kartu Keluarga</label>
+      <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
+    </div>
+
     <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
   </form>
 </div>
@@ -109,6 +119,7 @@
     const form = document.getElementById('ajukanForm');
     form.setAttribute('action', "<?= site_url('masyarakat/surat/domisili-kelompok-tani/ajukan') ?>");
     form.setAttribute('method', "POST");
+    
     form.submit();
     // Tutup modal
     bootstrap.Modal.getInstance(document.getElementById('konfirmasiModal')).hide();

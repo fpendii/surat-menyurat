@@ -15,7 +15,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/belum-bekerja/ajukan') ?>"  method="POST">
+    <form action="<?= site_url('masyarakat/surat/belum-bekerja/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <div class="form-group">
@@ -28,7 +28,6 @@
             <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
             <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
-
 
         <div class="form-group">
             <label for="ttl">Tempat / Tanggal Lahir</label>
@@ -70,6 +69,18 @@
         <div class="form-group">
             <label for="alamat">Alamat</label>
             <textarea class="form-control" id="alamat" name="alamat" rows="3" required><?= old('alamat') ?></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="ktp">Upload KTP</label>
+            <input type="file" class="form-control-file" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
+            <small class="form-text text-muted">File harus berupa JPG, PNG, atau PDF.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="kk">Upload Kartu Keluarga (KK)</label>
+            <input type="file" class="form-control-file" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
+            <small class="form-text text-muted">File harus berupa JPG, PNG, atau PDF.</small>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>

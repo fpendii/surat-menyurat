@@ -24,6 +24,7 @@ class SuratDomisiliBangunanController extends BaseController
             'ketua'           => $this->request->getPost('ketua'),
             'sekretaris'      => $this->request->getPost('sekretaris'),
             'bendahara'       => $this->request->getPost('bendahara'),
+
         ];
 
         $path = FCPATH . 'img/logo.png'; // pastikan path benar
@@ -64,11 +65,23 @@ class SuratDomisiliBangunanController extends BaseController
             'ketua'           => 'required|min_length[3]',
             'sekretaris'      => 'required|min_length[3]',
             'bendahara'       => 'required|min_length[3]',
+            'ktp'             => 'uploaded[ktp]|max_size[ktp,2048]|ext_in[ktp,jpg,jpeg,png,pdf]',
+            'kk'              => 'uploaded[kk]|max_size[kk,2048]|ext_in[kk,jpg,jpeg,png,pdf]',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
+
+        // Upload file KTP ke public/uploads/ktp/
+        $ktpFile = $this->request->getFile('ktp');
+        $ktpName = $ktpFile->getRandomName();
+        $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);  // Simpan ke public/uploads/ktp/
+
+        // Upload file KK ke public/uploads/kk/
+        $kkFile = $this->request->getFile('kk');
+        $kkName = $kkFile->getRandomName();
+        $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);    // Simpan ke public/uploads/kk/
 
         // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.12.2.2';
@@ -78,7 +91,7 @@ class SuratDomisiliBangunanController extends BaseController
         // 2. Hitung nomor urut surat dari database berdasarkan tahun
         $suratModel = new \App\Models\SuratModel();
         $jumlahSuratTahunIni = $suratModel
-            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan','surat-pindah'])
+            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan', 'surat-pindah'])
             ->where('YEAR(created_at)', $tahun)
             ->countAllResults();
         $nomorUrut = $jumlahSuratTahunIni + 1;
@@ -93,6 +106,8 @@ class SuratDomisiliBangunanController extends BaseController
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'domisili_bangunan',
             'status' => 'diajukan',
+            'ktp' => $ktpName,
+            'kk' => $kkName,
         ], true); // true supaya dapat id terakhir
 
         // Simpan data ke tabel surat_domisili_bangunan
