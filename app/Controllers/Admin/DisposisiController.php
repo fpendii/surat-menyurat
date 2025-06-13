@@ -124,4 +124,61 @@ class DisposisiController extends BaseController
 
         return redirect()->to(base_url('admin/disposisi'))->with('success', 'Disposisi berhasil dihapus.');
     }
+
+    public function edit($id)
+    {
+        $disposisi = $this->disposisiModel->find($id);
+        if (!$disposisi) {
+            return redirect()->to('/admin/disposisi')->with('error', 'Disposisi tidak ditemukan.');
+        }
+
+        // Ambil user dengan role pegawai
+        $pegawai = $this->userModel
+            ->where('role', 'pegawai')
+            ->findAll();
+
+        $data = [
+            'disposisi' => $disposisi,
+            'pegawaiList' => $pegawai,
+        ];
+        return view('admin/disposisi/edit', $data);
+    }
+
+    public function update($id)
+    {
+        $disposisiModel = new \App\Models\DisposisiModel();
+
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'surat_dari'        => 'required',
+            'nomor_surat'       => 'required',
+            'tanggal_surat'     => 'required|valid_date',
+            'tanggal_diterima'  => 'required|valid_date',
+            'nomor_agenda'      => 'required',
+            'sifat'             => 'required|in_list[Biasa,Segera,Rahasia]',
+            'perihal'           => 'required',
+            'diteruskan_kepada' => 'required|is_natural_no_zero',
+            'catatan'           => 'permit_empty',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('error', $validation->listErrors());
+        }
+
+        $data = [
+            'surat_dari'        => $this->request->getPost('surat_dari'),
+            'nomor_surat'       => $this->request->getPost('nomor_surat'),
+            'tanggal_surat'     => $this->request->getPost('tanggal_surat'),
+            'tanggal_diterima'  => $this->request->getPost('tanggal_diterima'),
+            'nomor_agenda'      => $this->request->getPost('nomor_agenda'),
+            'sifat'             => $this->request->getPost('sifat'),
+            'perihal'           => $this->request->getPost('perihal'),
+            'diteruskan_kepada' => $this->request->getPost('diteruskan_kepada'),
+            'catatan'           => $this->request->getPost('catatan'),
+        ];
+
+        $disposisiModel->update($id, $data);
+
+        return redirect()->to(base_url('admin/disposisi'))->with('success', 'Data disposisi berhasil diperbarui.');
+    }
 }
