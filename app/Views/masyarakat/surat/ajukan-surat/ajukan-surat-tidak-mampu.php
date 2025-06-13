@@ -21,32 +21,32 @@
         <?= csrf_field() ?>
 
         <div class="form-group">
-            <label for="nama">Nama Lengkap</label>
+            <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nama" name="nama" value="<?= old('nama') ?>" required>
             <small class="form-text text-muted">Masukkan nama lengkap sesuai KTP.</small>
         </div>
 
         <div class="form-group">
-            <label for="bin_binti">Bin/Binti</label>
+            <label for="bin_binti">Bin/Binti <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="bin_binti" name="bin_binti" value="<?= old('bin_binti') ?>" required>
             <small class="form-text text-muted">Tulis nama ayah kandung.</small>
         </div>
 
         <div class="form-group">
-            <label for="nik">NIK</label>
+            <label for="nik">NIK <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
             <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
 
 
         <div class="form-group">
-            <label for="ttl">Tempat / Tanggal Lahir</label>
+            <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Bandung, 1 Januari 2000" value="<?= old('ttl') ?>" required>
             <small class="form-text text-muted">Isi dengan format Tempat, Tanggal Lahir.</small>
         </div>
 
         <div class="form-group">
-            <label for="jenis_kelamin">Jenis Kelamin</label>
+            <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
                 <option value="">-- Pilih --</option>
                 <option value="L" <?= old('jenis_kelamin') == 'L' ? 'selected' : '' ?>>Laki-laki</option>
@@ -56,7 +56,7 @@
         </div>
 
         <div class="form-group">
-            <label for="agama">Agama</label>
+            <label for="agama">Agama <span class="text-danger">*</span></label>
             <select
                 class="form-control <?= (isset($validation) && $validation->hasError('agama')) ? 'is-invalid' : '' ?>"
                 id="agama"
@@ -78,31 +78,31 @@
         </div>
 
         <div class="form-group">
-            <label for="pekerjaan">Pekerjaan</label>
+            <label for="pekerjaan">Pekerjaan <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" value="<?= old('pekerjaan') ?>" required>
             <small class="form-text text-muted">Tuliskan pekerjaan Anda saat ini.</small>
         </div>
 
         <div class="form-group">
-            <label for="alamat">Alamat</label>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea class="form-control" id="alamat" name="alamat" rows="2" required><?= old('alamat') ?></textarea>
             <small class="form-text text-muted">Masukkan alamat tempat tinggal lengkap.</small>
         </div>
 
         <div class="form-group">
-            <label for="keperluan">Keperluan Pembuatan Surat</label>
+            <label for="keperluan">Keperluan Pembuatan Surat <span class="text-danger">*</span></label>
             <textarea class="form-control" id="keperluan" name="keperluan" rows="2" required><?= old('keperluan') ?></textarea>
             <small class="form-text text-muted">Tuliskan alasan atau keperluan pengajuan surat.</small>
         </div>
 
         <div class="form-group">
-            <label for="ktp">Upload KTP</label>
+            <label for="ktp">Upload KTP <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="ktp" name="ktp" required>
             <small class="form-text text-muted">Unggah salinan KTP dalam format JPG atau PDF.</small>
         </div>
 
         <div class="form-group">
-            <label for="kk">Upload Kartu Keluarga (KK)</label>
+            <label for="kk">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="kk" name="kk" required>
             <small class="form-text text-muted">Unggah salinan KK dalam format JPG atau PDF.</small>
         </div>

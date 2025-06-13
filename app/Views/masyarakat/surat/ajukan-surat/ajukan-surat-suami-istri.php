@@ -20,12 +20,12 @@
 
         <h5 class="mt-4">Data Suami</h5>
         <div class="form-group">
-            <label for="nama_suami">Nama Suami</label>
+            <label for="nama_suami">Nama Suami <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nama_suami" name="nama_suami" value="<?= old('nama_suami') ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="nik_suami">NIK Suami</label>
+            <label for="nik_suami">NIK Suami <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control"
                 id="nik_suami"
@@ -40,12 +40,12 @@
 
 
         <div class="form-group">
-            <label for="ttl_suami">Tempat / Tanggal Lahir Suami</label>
+            <label for="ttl_suami">Tempat / Tanggal Lahir Suami <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="ttl_suami" name="ttl_suami" value="<?= old('ttl_suami') ?>" placeholder="Contoh: Surabaya, 14 Februari 1990" required>
         </div>
 
         <div class="form-group">
-            <label for="agama_suami">Agama Suami</label>
+            <label for="agama_suami">Agama Suami <span class="text-danger">*</span></label>
             <select class="form-control" id="agama_suami" name="agama_suami" required>
                 <option value="">-- Pilih --</option>
                 <?php
@@ -58,7 +58,7 @@
         </div>
 
         <div class="form-group">
-            <label for="alamat_suami">Alamat Suami</label>
+            <label for="alamat_suami">Alamat Suami <span class="text-danger">*</span></label>
             <textarea class="form-control" id="alamat_suami" name="alamat_suami" rows="3" required><?= old('alamat_suami') ?></textarea>
         </div>
 
@@ -66,12 +66,12 @@
 
         <h5 class="mt-4">Data Istri</h5>
         <div class="form-group">
-            <label for="nama_istri">Nama Istri</label>
+            <label for="nama_istri">Nama Istri <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nama_istri" name="nama_istri" value="<?= old('nama_istri') ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="nik_istri">NIK Istri</label>
+            <label for="nik_istri">NIK Istri <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control"
                 id="nik_istri"
@@ -86,12 +86,12 @@
 
 
         <div class="form-group">
-            <label for="ttl_istri">Tempat / Tanggal Lahir Istri</label>
+            <label for="ttl_istri">Tempat / Tanggal Lahir Istri <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="ttl_istri" name="ttl_istri" value="<?= old('ttl_istri') ?>" placeholder="Contoh: Bandung, 5 Mei 1992" required>
         </div>
 
         <div class="form-group">
-            <label for="agama_istri">Agama Istri</label>
+            <label for="agama_istri">Agama Istri <span class="text-danger">*</span></label>
             <select class="form-control" id="agama_istri" name="agama_istri" required>
                 <option value="">-- Pilih --</option>
                 <?php
@@ -103,7 +103,7 @@
         </div>
 
         <div class="form-group">
-            <label for="alamat_istri">Alamat Istri</label>
+            <label for="alamat_istri">Alamat Istri <span class="text-danger">*</span></label>
             <textarea class="form-control" id="alamat_istri" name="alamat_istri" rows="3" required><?= old('alamat_istri') ?></textarea>
         </div>
 

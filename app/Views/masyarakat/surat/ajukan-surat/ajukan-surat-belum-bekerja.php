@@ -19,23 +19,23 @@
         <?= csrf_field() ?>
 
         <div class="form-group">
-            <label for="nama">Nama Lengkap</label>
+            <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nama" name="nama" value="<?= old('nama') ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="nik">NIK</label>
+            <label for="nik">NIK <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
             <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
 
         <div class="form-group">
-            <label for="ttl">Tempat / Tanggal Lahir</label>
+            <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="ttl" name="ttl" value="<?= old('ttl') ?>" placeholder="Contoh: Bandung, 10 Oktober 2001" required>
         </div>
 
         <div class="form-group">
-            <label for="jenis_kelamin">Jenis Kelamin</label>
+            <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
                 <option value="">-- Pilih --</option>
                 <option value="Laki-laki" <?= old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            <label for="agama">Agama</label>
+            <label for="agama">Agama <span class="text-danger">*</span></label>
             <select class="form-control" id="agama" name="agama" required>
                 <option value="">-- Pilih --</option>
                 <?php
@@ -57,28 +57,28 @@
         </div>
 
         <div class="form-group">
-            <label for="status_pekerjaan">Status Pekerjaan</label>
+            <label for="status_pekerjaan">Status Pekerjaan <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="status_pekerjaan" name="status_pekerjaan" value="<?= old('status_pekerjaan') ?>" placeholder="Contoh: Belum bekerja" required>
         </div>
 
         <div class="form-group">
-            <label for="warga_negara">Warga Negara</label>
+            <label for="warga_negara">Warga Negara <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="warga_negara" name="warga_negara" value="<?= old('warga_negara') ?>" placeholder="Contoh: Indonesia" required>
         </div>
 
         <div class="form-group">
-            <label for="alamat">Alamat</label>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea class="form-control" id="alamat" name="alamat" rows="3" required><?= old('alamat') ?></textarea>
         </div>
 
         <div class="form-group">
-            <label for="ktp">Upload KTP</label>
+            <label for="ktp">Upload KTP <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
             <small class="form-text text-muted">File harus berupa JPG, PNG, atau PDF.</small>
         </div>
 
         <div class="form-group">
-            <label for="kk">Upload Kartu Keluarga (KK)</label>
+            <label for="kk">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
             <small class="form-text text-muted">File harus berupa JPG, PNG, atau PDF.</small>
         </div>

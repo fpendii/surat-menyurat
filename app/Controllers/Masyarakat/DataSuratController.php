@@ -13,12 +13,14 @@ class DataSuratController extends BaseController
     protected $suratPindahModel;
     protected $pengikutPindahModel;
     protected $suratModel;
+
     public function __construct()
     {
         $this->suratModel = new SuratModel();
         $this->suratPindahModel = new SuratPindahModel();
         $this->pengikutPindahModel = new PengikutPindahModel();
     }
+
     public function dataSurat()
     {
         // Ambil data surat dari model
@@ -29,6 +31,7 @@ class DataSuratController extends BaseController
         $data = [
             'dataSurat' => $dataSurat,
         ];
+
         return view('masyarakat/data-surat/data-surat', $data);
     }
 

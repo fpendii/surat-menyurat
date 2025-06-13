@@ -47,6 +47,10 @@ class AuthController extends BaseController
                     return redirect()->to('/admin/dashboard');
                 } elseif ($user['role'] == 'kepala_desa') {
                     return redirect()->to('/kepala-desa/dashboard');
+                } elseif ($user['role'] == 'pegawai') {
+                    return redirect()->to('/pegawai/dashboard');
+                } else {
+                    return redirect()->to('/login')->with('error', 'Role tidak dikenali');
                 }
             } else {
                 return redirect()->to('/login')->with('error', 'Password salah');

@@ -194,3 +194,9 @@ $routes->group('admin', function ($routes) {
     $routes->post('pengguna/update/(:num)', 'Admin\PenggunaController::update/$1');
     $routes->post('pengguna/hapus/(:num)', 'Admin\PenggunaController::hapus/$1');
 });
+
+$routes->group('pegawai', function ($routes) {
+    $routes->get('dashboard', 'Pegawai\PegawaiDashboardController::index');
+    
+    $routes->get('disposisi', 'Pegawai\DisposisiController::index');
+});

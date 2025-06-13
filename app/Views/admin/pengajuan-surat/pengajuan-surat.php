@@ -60,7 +60,7 @@
                                     <td><?= $no++ ?></td>
                                     <td><?= $s['no_surat'] ?></td>
                                     <td><?= $s['jenis_surat'] ?></td>
-                                    <td><?= date('d-m-Y H:i', strtotime($s['created_at'])) ?></td>
+                                    <td><?= date('d-m-Y', strtotime($s['created_at'])) ?></td>
                                     <td>
                                         <?php
                                         switch (strtolower($s['status_surat'])) {

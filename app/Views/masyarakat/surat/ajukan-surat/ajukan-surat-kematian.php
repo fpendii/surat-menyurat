@@ -15,11 +15,11 @@
         </div>
     <?php endif ?>
 
-    <form action="<?= site_url('masyarakat/surat/kematian/ajukan') ?>"  method="POST">
+    <form action="<?= site_url('masyarakat/surat/kematian/ajukan') ?>" method="POST">
         <?= csrf_field() ?>
 
         <div class="form-group">
-            <label for="nama">Nama Lengkap</label>
+            <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.nama')) ? 'is-invalid' : '' ?>"
@@ -33,7 +33,7 @@
         </div>
 
         <div class="form-group">
-            <label for="jenis_kelamin">Jenis Kelamin</label>
+            <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select
                 class="form-control <?= (session('errors.jenis_kelamin')) ? 'is-invalid' : '' ?>"
                 id="jenis_kelamin"
@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            <label for="ttl">Tempat / Tanggal Lahir</label>
+            <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.ttl')) ? 'is-invalid' : '' ?>"
@@ -64,7 +64,7 @@
         </div>
 
         <div class="form-group">
-            <label for="agama">Agama</label>
+            <label for="agama">Agama <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.agama')) ? 'is-invalid' : '' ?>"
@@ -78,7 +78,7 @@
         </div>
 
         <div class="form-group">
-            <label for="alamat">Alamat</label>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea
                 class="form-control <?= (session('errors.alamat')) ? 'is-invalid' : '' ?>"
                 id="alamat"
@@ -91,7 +91,7 @@
         </div>
 
         <div class="form-group">
-            <label for="hari_tanggal">Hari / Tanggal Meninggal</label>
+            <label for="hari_tanggal">Hari / Tanggal Meninggal <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.hari_tanggal')) ? 'is-invalid' : '' ?>"
@@ -106,7 +106,7 @@
         </div>
 
         <div class="form-group">
-            <label for="jam">Jam Meninggal</label>
+            <label for="jam">Jam Meninggal <span class="text-danger">*</span></label>
             <input
                 type="time"
                 class="form-control <?= (session('errors.jam')) ? 'is-invalid' : '' ?>"
@@ -120,7 +120,7 @@
         </div>
 
         <div class="form-group">
-            <label for="tempat">Tempat Meninggal</label>
+            <label for="tempat">Tempat Meninggal <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.tempat')) ? 'is-invalid' : '' ?>"
@@ -134,7 +134,7 @@
         </div>
 
         <div class="form-group">
-            <label for="penyebab">Penyebab Kematian</label>
+            <label for="penyebab">Penyebab Kematian <span class="text-danger">*</span></label>
             <textarea
                 class="form-control <?= (session('errors.penyebab')) ? 'is-invalid' : '' ?>"
                 id="penyebab"

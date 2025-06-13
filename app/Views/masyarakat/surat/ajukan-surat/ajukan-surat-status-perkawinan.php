@@ -15,7 +15,7 @@
         <?= csrf_field() ?>
 
         <div class="form-group">
-            <label for="nama">Nama</label>
+            <label for="nama">Nama <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (isset($validation) && $validation->hasError('nama')) ? 'is-invalid' : '' ?>"
@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            <label for="nik">NIK</label>
+            <label for="nik">NIK <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (isset($validation) && $validation->hasError('nik')) ? 'is-invalid' : '' ?>"
@@ -47,7 +47,7 @@
         </div>
 
         <div class="form-group">
-            <label for="ttl">Tempat / Tanggal Lahir</label>
+            <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (isset($validation) && $validation->hasError('ttl')) ? 'is-invalid' : '' ?>"
@@ -64,7 +64,7 @@
         </div>
 
         <div class="form-group">
-            <label for="agama">Agama</label>
+            <label for="agama">Agama <span class="text-danger">*</span></label>
             <select
                 class="form-control <?= (isset($validation) && $validation->hasError('agama')) ? 'is-invalid' : '' ?>"
                 id="agama"
@@ -86,7 +86,7 @@
         </div>
 
         <div class="form-group">
-            <label for="alamat">Alamat</label>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea
                 class="form-control <?= (isset($validation) && $validation->hasError('alamat')) ? 'is-invalid' : '' ?>"
                 id="alamat"
@@ -101,7 +101,7 @@
         </div>
 
         <div class="form-group">
-            <label for="status">Status</label>
+            <label for="status">Status <span class="text-danger">*</span></label>
             <select
                 class="form-control <?= (isset($validation) && $validation->hasError('status')) ? 'is-invalid' : '' ?>"
                 id="status"

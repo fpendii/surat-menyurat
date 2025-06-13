@@ -5,56 +5,51 @@
   <h2>Ajukan Surat Domisili Kelompok Tani</h2>
 
   <!-- Form Pengajuan Surat -->
-  <form id="ajukanForm">
+  <form id="ajukanForm" enctype="multipart/form-data">
     <?= csrf_field() ?>
 
     <div class="form-group mb-2">
-      <label for="nama_gapoktan">Nama Kelompok Tani</label>
+      <label for="nama_gapoktan">Nama Kelompok Tani <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="nama_gapoktan" name="nama_gapoktan" required>
     </div>
 
-
     <div class="form-group mb-2">
-      <label for="tgl_pembentukan">Tanggal Pembentukan Kelompok Tani</label>
+      <label for="tgl_pembentukan">Tanggal Pembentukan Kelompok Tani <span class="text-danger">*</span></label>
       <input type="date" class="form-control" id="tgl_pembentukan" name="tgl_pembentukan" required>
     </div>
 
     <script>
-      // Ambil tanggal hari ini dalam format YYYY-MM-DD
       const today = new Date().toISOString().split('T')[0];
-
-      // Set atribut max agar tanggal tidak bisa melebihi hari ini
       document.getElementById("tgl_pembentukan").setAttribute("max", today);
     </script>
 
-
     <div class="form-group mb-2">
-      <label for="alamat">Alamat Lengkap</label>
+      <label for="alamat">Alamat Lengkap <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="alamat" name="alamat" required>
     </div>
 
     <div class="form-group mb-2">
-      <label for="ketua">Nama Ketua</label>
+      <label for="ketua">Nama Ketua <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="ketua" name="ketua" required>
     </div>
 
     <div class="form-group mb-2">
-      <label for="sekretaris">Nama Sekretaris</label>
+      <label for="sekretaris">Nama Sekretaris <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="sekretaris" name="sekretaris" required>
     </div>
 
     <div class="form-group mb-2">
-      <label for="bendahara">Nama Bendahara</label>
+      <label for="bendahara">Nama Bendahara <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="bendahara" name="bendahara" required>
     </div>
 
-    <div class="form-group">
-      <label for="ktp">Unggah KTP Ketua</label>
+    <div class="form-group mb-2">
+      <label for="ktp">Unggah KTP Ketua <span class="text-danger">*</span></label>
       <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
     </div>
 
-    <div class="form-group">
-      <label for="kk">Unggah Kartu Keluarga</label>
+    <div class="form-group mb-2">
+      <label for="kk">Unggah Kartu Keluarga <span class="text-danger">*</span></label>
       <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
     </div>
 
@@ -65,7 +60,6 @@
 <!-- Modal Konfirmasi -->
 <div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <!-- Modal di tengah -->
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Konfirmasi Data</h5>
@@ -93,7 +87,6 @@
   document.getElementById('ajukanForm').addEventListener('submit', function (e) {
     e.preventDefault(); // Cegah form langsung submit
 
-    // Ambil data input
     const nama = document.getElementById('nama_gapoktan').value;
     const tgl = document.getElementById('tgl_pembentukan').value;
     const alamat = document.getElementById('alamat').value;
@@ -101,7 +94,6 @@
     const sekretaris = document.getElementById('sekretaris').value;
     const bendahara = document.getElementById('bendahara').value;
 
-    // Isi modal dengan data
     document.getElementById('preview_nama_gapoktan').innerText = nama;
     document.getElementById('preview_tgl_pembentukan').innerText = tgl;
     document.getElementById('preview_alamat').innerText = alamat;
@@ -109,19 +101,16 @@
     document.getElementById('preview_sekretaris').innerText = sekretaris;
     document.getElementById('preview_bendahara').innerText = bendahara;
 
-    // Tampilkan modal
     const modal = new bootstrap.Modal(document.getElementById('konfirmasiModal'));
     modal.show();
   });
 
   document.getElementById('konfirmasiSubmit').addEventListener('click', function () {
-    // Buat form baru untuk submit ke target preview
     const form = document.getElementById('ajukanForm');
     form.setAttribute('action', "<?= site_url('masyarakat/surat/domisili-kelompok-tani/ajukan') ?>");
     form.setAttribute('method', "POST");
-    
     form.submit();
-    // Tutup modal
+
     bootstrap.Modal.getInstance(document.getElementById('konfirmasiModal')).hide();
   });
 </script>

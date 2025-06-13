@@ -9,42 +9,42 @@
     <?= csrf_field() ?>
 
     <div class="form-group">
-      <label for="nama_gapoktan">Nama Gapoktan</label>
+      <label for="nama_gapoktan">Nama Gapoktan <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="nama_gapoktan" name="nama_gapoktan" required>
     </div>
 
     <div class="form-group">
-      <label for="tgl_pembentukan">Tanggal Pembentukan</label>
+      <label for="tgl_pembentukan">Tanggal Pembentukan <span class="text-danger">*</span></label>
       <input type="date" class="form-control" id="tgl_pembentukan" name="tgl_pembentukan" required>
     </div>
 
     <div class="form-group">
-      <label for="alamat">Alamat Lengkap</label>
+      <label for="alamat">Alamat Lengkap <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="alamat" name="alamat" required>
     </div>
 
     <div class="form-group">
-      <label for="ketua">Nama Ketua</label>
+      <label for="ketua">Nama Ketua <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="ketua" name="ketua" required>
     </div>
 
     <div class="form-group">
-      <label for="sekretaris">Nama Sekretaris</label>
+      <label for="sekretaris">Nama Sekretaris <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="sekretaris" name="sekretaris" required>
     </div>
 
     <div class="form-group">
-      <label for="bendahara">Nama Bendahara</label>
+      <label for="bendahara">Nama Bendahara <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="bendahara" name="bendahara" required>
     </div>
 
     <div class="form-group">
-      <label for="ktp">Upload KTP (jpg, jpeg, png, pdf)</label>
+      <label for="ktp">Upload KTP <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
       <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
     </div>
 
     <div class="form-group">
-      <label for="kk">Upload KK (jpg, jpeg, png, pdf)</label>
+      <label for="kk">Upload KK <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
       <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
     </div>
 

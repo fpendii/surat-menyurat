@@ -19,7 +19,7 @@
         <?= csrf_field() ?>
 
         <div class="form-group">
-            <label for="nama">Nama</label>
+            <label for="nama">Nama <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>"
                 id="nama" name="nama"
@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group">
-            <label for="nik">NIK</label>
+            <label for="nik">NIK <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= session('errors.nik') ? 'is-invalid' : '' ?>"
                 id="nik" name="nik"
@@ -43,7 +43,7 @@
 
 
         <div class="form-group">
-            <label for="alamat">Alamat Tempat Tinggal</label>
+            <label for="alamat">Alamat Tempat Tinggal <span class="text-danger">*</span></label>
             <textarea class="form-control <?= session('errors.alamat') ? 'is-invalid' : '' ?>"
                 id="alamat" name="alamat" rows="2" required><?= old('alamat') ?></textarea>
             <small class="form-text text-muted">Tulis alamat sesuai KTP.</small>
@@ -51,7 +51,7 @@
         </div>
 
         <div class="form-group">
-            <label for="rt_rw">RT/RW</label>
+            <label for="rt_rw">RT/RW <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= session('errors.rt_rw') ? 'is-invalid' : '' ?>"
                 id="rt_rw" name="rt_rw"
@@ -62,7 +62,7 @@
         </div>
 
         <div class="form-group">
-            <label for="desa">Desa</label>
+            <label for="desa">Desa <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= session('errors.desa') ? 'is-invalid' : '' ?>"
                 id="desa" name="desa"
@@ -71,7 +71,7 @@
         </div>
 
         <div class="form-group">
-            <label for="kecamatan">Kecamatan</label>
+            <label for="kecamatan">Kecamatan <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= session('errors.kecamatan') ? 'is-invalid' : '' ?>"
                 id="kecamatan" name="kecamatan"
@@ -80,7 +80,7 @@
         </div>
 
         <div class="form-group">
-            <label for="kabupaten">Kabupaten</label>
+            <label for="kabupaten">Kabupaten <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= session('errors.kabupaten') ? 'is-invalid' : '' ?>"
                 id="kabupaten" name="kabupaten"
@@ -89,7 +89,7 @@
         </div>
 
         <div class="form-group">
-            <label for="provinsi">Provinsi</label>
+            <label for="provinsi">Provinsi <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= session('errors.provinsi') ? 'is-invalid' : '' ?>"
                 id="provinsi" name="provinsi"
@@ -98,7 +98,7 @@
         </div>
 
         <div class="form-group">
-            <label for="nama_usaha">Nama Usaha</label>
+            <label for="nama_usaha">Nama Usaha <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= session('errors.nama_usaha') ? 'is-invalid' : '' ?>"
                 id="nama_usaha" name="nama_usaha"
@@ -108,7 +108,7 @@
         </div>
 
         <div class="form-group">
-            <label for="alamat_usaha">Alamat Usaha</label>
+            <label for="alamat_usaha">Alamat Usaha <span class="text-danger">*</span></label>
             <textarea class="form-control <?= session('errors.alamat_usaha') ? 'is-invalid' : '' ?>"
                 id="alamat_usaha" name="alamat_usaha" rows="2" required><?= old('alamat_usaha') ?></textarea>
             <small class="form-text text-muted">Masukkan alamat lengkap lokasi usaha.</small>
@@ -116,7 +116,7 @@
         </div>
 
         <div class="form-group">
-            <label for="sejak_tahun">Sejak Tahun</label>
+            <label for="sejak_tahun">Sejak Tahun <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= session('errors.sejak_tahun') ? 'is-invalid' : '' ?>"
                 id="sejak_tahun" name="sejak_tahun"
@@ -127,7 +127,7 @@
         </div>
 
         <div class="form-group">
-            <label for="kk">Upload Kartu Keluarga (KK)</label>
+            <label for="kk">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
             <input type="file"
                 class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>"
                 id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
@@ -136,7 +136,7 @@
         </div>
 
         <div class="form-group">
-            <label for="ktp">Upload Kartu Tanda Penduduk (KTP)</label>
+            <label for="ktp">Upload Kartu Tanda Penduduk (KTP) <span class="text-danger">*</span></label>
             <input type="file"
                 class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>"
                 id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
