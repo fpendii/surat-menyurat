@@ -125,20 +125,16 @@ class SuratDomisiliWargaController extends BaseController
         $email = \Config\Services::email();
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
+         $jenisSurat = 'Surat Domisili Warga';
+        // Load view email
+        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Domisili Warga Baru');
-            $email->setMessage(
-                "Halo,<br><br>" .
-                    "Pengajuan surat domisili warga baru telah diajukan.<br>" .
-                    "No Surat: $nomorSurat<br>" .
-                    "Nama Warga: " . $this->request->getPost('nama_warga') . "<br>" .
-                    "NIK: " . $this->request->getPost('nik') . "<br>" .
-                    "Alamat: " . $this->request->getPost('alamat') . "<br><br>" .
-                    "Silakan cek sistem untuk informasi lebih lanjut.<br><br>" .
-                    "Terima kasih."
-            );
+            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setMessage($view);
+            $email->setMailType('html'); // Penting agar HTML ter-render
 
             if (!$email->send()) {
                 log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));

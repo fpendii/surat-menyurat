@@ -53,103 +53,103 @@ class SuratBelumBekerjaController extends BaseController
     }
 
     public function ajukanBelumBekerja()
-{
-    $validation = \Config\Services::validation();
-    $validation->setRules([
-        'nama' => 'required',
-        'nik' => 'required|numeric|exact_length[16]',
-        'ttl' => 'required',
-        'jenis_kelamin' => 'required',
-        'agama' => 'required',
-        'status_pekerjaan' => 'required',
-        'warga_negara' => 'required',
-        'alamat' => 'required',
-        'ktp' => 'uploaded[ktp]|max_size[ktp,2048]|mime_in[ktp,image/png,image/jpeg,image/jpg,application/pdf]',
-        'kk' => 'uploaded[kk]|max_size[kk,2048]|mime_in[kk,image/png,image/jpeg,image/jpg,application/pdf]',
-    ]);
+    {
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nama' => 'required',
+            'nik' => 'required|numeric|exact_length[16]',
+            'ttl' => 'required',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'status_pekerjaan' => 'required',
+            'warga_negara' => 'required',
+            'alamat' => 'required',
+            'ktp' => 'uploaded[ktp]|max_size[ktp,2048]|mime_in[ktp,image/png,image/jpeg,image/jpg,application/pdf]',
+            'kk' => 'uploaded[kk]|max_size[kk,2048]|mime_in[kk,image/png,image/jpeg,image/jpg,application/pdf]',
+        ]);
 
-    if (!$validation->withRequest($this->request)->run()) {
-        return redirect()->to('/masyarakat/surat/belum-bekerja')->withInput()->with('errors', $validation->getErrors());
-    }
-
-    // Upload file KTP ke public/uploads/ktp/
-    $ktpFile = $this->request->getFile('ktp');
-    $ktpName = $ktpFile->getRandomName();
-    $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);  // Simpan ke public/uploads/ktp/
-
-    // Upload file KK ke public/uploads/kk/
-    $kkFile = $this->request->getFile('kk');
-    $kkName = $kkFile->getRandomName();
-    $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);    // Simpan ke public/uploads/kk/
-
-    // Ambil data dari form
-    $data = [
-        'nama' => $this->request->getPost('nama'),
-        'nik' => $this->request->getPost('nik'),
-        'ttl' => $this->request->getPost('ttl'),
-        'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
-        'agama' => $this->request->getPost('agama'),
-        'status_pekerjaan' => $this->request->getPost('status_pekerjaan'),
-        'warga_negara' => $this->request->getPost('warga_negara'),
-        'alamat' => $this->request->getPost('alamat'),
-    ];
-
-    // Nomor surat
-    $klasifikasi = '500.15.9.4';
-    $lokasi = 'Handil Suruk';
-    $tahun = date('Y');
-
-    $suratModel = new \App\Models\SuratModel();
-    $jumlahSuratTahunIni = $suratModel
-        ->whereIn('jenis_surat', ['belum_bekerja'])
-        ->where('YEAR(created_at)', $tahun)
-        ->countAllResults();
-
-    $nomorUrut = $jumlahSuratTahunIni + 1;
-    $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
-
-    // Simpan ke tabel `surat`
-    $suratData = [
-        'id_user' => session()->get('user_id'),
-        'no_surat' => $nomorSurat,
-        'jenis_surat' => 'belum_bekerja',
-        'status' => 'diajukan',
-        'ktp' => $ktpName,
-        'kk' => $kkName
-    ];
-    $suratModel->insert($suratData);
-    $idSurat = $suratModel->getInsertID();
-
-    // Simpan ke tabel `surat_belum_bekerja`
-    $detailModel = new \App\Models\SuratBelumBekerjaModel();
-    $data['id_surat'] = $idSurat;
-    $detailModel->insert($data);
-
-    // Kirim email notifikasi
-    $email = \Config\Services::email();
-    $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id'];
-
-    foreach ($emailRecipients as $recipient) {
-        $email->setTo($recipient);
-        $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-        $email->setSubject('Pengajuan Surat Belum Bekerja Baru');
-        $email->setMessage(
-            "Halo,<br><br>" .
-                "Terdapat pengajuan <strong>Surat Belum Bekerja</strong> baru.<br>" .
-                "Nomor Surat: <strong>$nomorSurat</strong><br>" .
-                "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
-                "Terima kasih."
-        );
-
-        if (!$email->send()) {
-            log_message('error', 'Gagal mengirim email ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->to('/masyarakat/surat/belum-bekerja')->withInput()->with('errors', $validation->getErrors());
         }
 
-        $email->clear();
-    }
+        // Upload file KTP ke public/uploads/ktp/
+        $ktpFile = $this->request->getFile('ktp');
+        $ktpName = $ktpFile->getRandomName();
+        $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);  // Simpan ke public/uploads/ktp/
 
-    return redirect()->to('/masyarakat/surat')->with('success', 'Surat berhasil diajukan.');
-}
+        // Upload file KK ke public/uploads/kk/
+        $kkFile = $this->request->getFile('kk');
+        $kkName = $kkFile->getRandomName();
+        $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);    // Simpan ke public/uploads/kk/
+
+        // Ambil data dari form
+        $data = [
+            'nama' => $this->request->getPost('nama'),
+            'nik' => $this->request->getPost('nik'),
+            'ttl' => $this->request->getPost('ttl'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'agama' => $this->request->getPost('agama'),
+            'status_pekerjaan' => $this->request->getPost('status_pekerjaan'),
+            'warga_negara' => $this->request->getPost('warga_negara'),
+            'alamat' => $this->request->getPost('alamat'),
+        ];
+
+        // Nomor surat
+        $klasifikasi = '500.15.9.4';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['belum_bekerja'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
+        // Simpan ke tabel `surat`
+        $suratData = [
+            'id_user' => session()->get('user_id'),
+            'no_surat' => $nomorSurat,
+            'jenis_surat' => 'belum_bekerja',
+            'status' => 'diajukan',
+            'ktp' => $ktpName,
+            'kk' => $kkName
+        ];
+        $suratModel->insert($suratData);
+        $idSurat = $suratModel->getInsertID();
+
+        // Simpan ke tabel `surat_belum_bekerja`
+        $detailModel = new \App\Models\SuratBelumBekerjaModel();
+        $data['id_surat'] = $idSurat;
+        $detailModel->insert($data);
+
+        // Kirim email notifikasi
+        $email = \Config\Services::email();
+        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id'];
+
+         // Load view email
+        $jenisSurat = 'Surat Keterangan Belum Bekerja';
+        // Load view email
+        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+
+        foreach ($emailRecipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Pengajuan Surat Belum Bekerja Baru');
+            $email->setMessage($view);
+            $email->setMailType('html'); // Penting agar HTML ter-render
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
+
+        return redirect()->to('/masyarakat/surat')->with('success', 'Surat berhasil diajukan.');
+    }
 
 
     public function downloadSurat($id)

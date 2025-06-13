@@ -74,6 +74,7 @@ class DisposisiController extends BaseController
     public function simpan()
     {
         $disposisiModel = new \App\Models\DisposisiModel();
+        $userModel = new \App\Models\UserModel();
 
         $validation = \Config\Services::validation();
         $validation->setRules([
@@ -104,10 +105,45 @@ class DisposisiController extends BaseController
             'catatan'           => $this->request->getPost('catatan'),
         ];
 
+        // Simpan ke database
         $disposisiModel->insert($data);
 
-        return redirect()->to(base_url('admin/disposisi'))->with('success', 'Data disposisi berhasil disimpan.');
+        // Ambil data user untuk email
+        $idUser = $this->request->getPost('diteruskan_kepada');
+        $user = $userModel->find($idUser);
+
+        if ($user && !empty($user['email'])) {
+            $email = \Config\Services::email();
+
+            $email->setTo($user['email']);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Disposisi Surat Baru');
+
+            // Siapkan data untuk view email
+            $dataEmail = [
+                'nama'          => $user['name'],
+                'nomor_surat'   => $data['nomor_surat'],
+                'surat_dari'    => $data['surat_dari'],
+                'perihal'       => $data['perihal'],
+                'tanggal_surat' => $data['tanggal_surat'],
+            ];
+
+            // Load view sebagai isi email
+            $message = view('email/notifikasi_disposisi', $dataEmail);
+            $email->setMessage($message);
+
+            // Kirim email
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email ke user ID ' . $idUser . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
+
+        return redirect()->to(base_url('admin/disposisi'))->with('success', 'Data disposisi berhasil disimpan dan notifikasi dikirim.');
     }
+
+
 
     public function hapus($id)
     {

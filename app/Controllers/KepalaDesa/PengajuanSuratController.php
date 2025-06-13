@@ -22,6 +22,7 @@ class PengajuanSuratController extends BaseController
         $this->suratPindahModel = new SuratPindahModel();
         $this->userModel = new UserModel();
     }
+
     public function pengajuanSurat()
     {
         $dataSurat = $this->suratModel->where('status_surat', 'diajukan')->findAll();
@@ -30,6 +31,7 @@ class PengajuanSuratController extends BaseController
         ];
         return view('kepala-desa/pengajuan-surat/pengajuan-surat', $data);
     }
+
     public function konfirmasiSurat($id_surat)
     {
         // Ambil data surat dari model
@@ -44,28 +46,29 @@ class PengajuanSuratController extends BaseController
             // Ubah status surat
             $this->suratModel->update($id_surat, ['status_surat' => $aksi]);
 
-            // Jika surat di-ACC, kirim email ke pengaju
+            // Jika surat di-ACC, kirim email ke admin
             if ($aksi == 'proses') {
-                // Ambil data user pengaju
                 $userModel = new \App\Models\UserModel();
                 $user = $userModel->find($dataSurat['id_user']);
                 $admin = $userModel->where('role', 'admin')->first(); // Ambil data admin
 
-                if ($user && isset($user['email'])) {
+                if ($user && isset($user['email']) && $admin) {
                     $email = \Config\Services::email();
                     $email->setTo($admin['email']);
                     $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-                    $email->setSubject('Revisi Pengajuan Surat');
-                    $email->setMessage(
-                        "Halo <strong>{$user['name']}</strong>,<br><br>" .
-                            "Pengajuan surat dengan nomor <strong>{$dataSurat['no_surat']}</strong> telah <strong>disetujui</strong> oleh Kepala Desa.<br>" .
-                            "Silakan unggah surat yang telah ditandatangani untuk dikirim ke pemohon melalui sistem.<br><br>" .
-                            "Terima kasih."
-                    );
+                    $email->setSubject('Surat Disetujui oleh Kepala Desa');
 
+                    // Gunakan view email HTML
+                    $emailBody = view('email/notifikasi_surat_disetujui', [
+                        'nama_pengaju' => $user['name'],
+                        'nomor_surat' => $dataSurat['no_surat'],
+                    ]);
+
+                    $email->setMessage($emailBody);
+                    $email->setMailType('html'); // Penting agar HTML tampil
 
                     if (!$email->send()) {
-                        log_message('error', 'Gagal mengirim email ke ' . $user['email'] . ': ' . $email->printDebugger(['headers']));
+                        log_message('error', 'Gagal mengirim email ke ' . $admin['email'] . ': ' . $email->printDebugger(['headers']));
                     }
                 }
             }
@@ -75,6 +78,7 @@ class PengajuanSuratController extends BaseController
             return redirect()->to('/kepala-desa/pengajuan-surat')->with('error', 'Data surat tidak ditemukan.');
         }
     }
+
 
 
     public function revisiSurat($id_surat)
@@ -98,23 +102,27 @@ class PengajuanSuratController extends BaseController
         ];
 
         $this->suratModel->update($id_surat, $data);
+
         // Kirim email ke user
         $email = \Config\Services::email();
         $email->setTo($user['email']);
-        $email->setFrom('desa@example.com', 'Sistem Surat Desa Handil Suruk');
+        $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
         $email->setSubject('Revisi Pengajuan Surat');
-        $email->setMessage(
-            "Halo <strong>" . esc($user['name']) . "</strong>,<br><br>" .
-                "Pengajuan surat Anda dengan nomor <strong>" . esc($dataSurat['no_surat']) . "</strong> memerlukan revisi.<br><br>" .
-                "<strong>Catatan Revisi:</strong><br>" .
-                "<blockquote>" . nl2br(esc($catatanRevisi)) . "</blockquote>" .
-                "<br>Silakan login kembali dan lakukan revisi atas pengajuan Anda.<br><br>Terima kasih."
-        );
+
+        // Pakai view untuk isi email
+        $emailContent = view('email/revisi_pengajuan_surat', [
+            'nama_pengaju' => $user['name'],
+            'nomor_surat' => $dataSurat['no_surat'],
+            'catatan_revisi' => $catatanRevisi
+        ]);
+
+        $email->setMessage($emailContent);
+        $email->setMailType('html');
 
         if ($email->send()) {
             return redirect()->to('/kepala-desa/pengajuan-surat')->with('success', 'Revisi berhasil dikirim dan email pemberitahuan telah dikirim.');
         } else {
-
+            log_message('error', 'Gagal kirim email: ' . $email->printDebugger(['headers']));
             return redirect()->to('/kepala-desa/pengajuan-surat')->with('error', 'Revisi berhasil, namun email gagal dikirim.');
         }
     }

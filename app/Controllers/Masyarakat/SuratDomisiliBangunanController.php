@@ -127,23 +127,22 @@ class SuratDomisiliBangunanController extends BaseController
 
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
+         $jenisSurat = 'Surat Domisili Bangunan';
+        // Load view email
+        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Notifikasi Pengajuan Surat Domisili Bangunan');
-            $email->setMessage(
-                "Halo,<br><br>" .
-                    "Terdapat pengajuan <strong>Surat Domisili Bangunan</strong> baru.<br>" .
-                    "Nomor Surat: <strong>{$nomorSurat}</strong><br>" .
-                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
-                    "Terima kasih."
-            );
+            $email->setSubject('Pengajuan Surat Domisili Bangunan Baru');
+            $email->setMessage($view);
+            $email->setMailType('html'); // Penting agar HTML ter-render
 
             if (!$email->send()) {
                 log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
             }
 
-            $email->clear(); // Reset konfigurasi sebelum kirim ke email berikutnya
+            $email->clear();
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Surat Domisili Bangunan berhasil diajukan dan notifikasi dikirim.');

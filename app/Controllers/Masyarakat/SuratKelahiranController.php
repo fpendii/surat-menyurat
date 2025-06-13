@@ -118,17 +118,16 @@ class SuratKelahiranController extends BaseController
         $email = \Config\Services::email();
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
+         $jenisSurat = 'Surat Kelahiran';
+        // Load view email
+        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Kelahiran Baru');
-            $email->setMessage(
-                "Halo,<br><br>" .
-                    "Pengajuan surat kelahiran baru telah diajukan.<br>" .
-                    "Nomor Surat: <strong>$nomorSurat</strong><br>" .
-                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
-                    "Terima kasih."
-            );
+            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setMessage($view);
+            $email->setMailType('html'); // Penting agar HTML ter-render
 
             if (!$email->send()) {
                 log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));

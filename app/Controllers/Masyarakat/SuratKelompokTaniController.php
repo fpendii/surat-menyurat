@@ -106,23 +106,22 @@ class SuratKelompokTaniController extends BaseController
 
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti dengan email yang sesuai
 
+        $jenisSurat = 'Surat Keterangan Domisili Kelompok Tani';
+        // Load view email
+        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Domisili Kelompok Tani');
-            $email->setMessage(
-                "Halo,<br><br>" .
-                    "Pengajuan surat domisili kelompok tani baru telah diajukan.<br>" .
-                    "Nomor Surat: <strong>KLT-" . date('YmdHis') . "</strong><br>" .
-                    "Silakan cek sistem untuk melakukan verifikasi.<br><br>" .
-                    "Terima kasih."
-            );
+            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setMessage($view);
+            $email->setMailType('html'); // Penting agar HTML ter-render
 
             if (!$email->send()) {
                 log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
             }
 
-            $email->clear(); // Reset sebelum kirim email berikutnya
+            $email->clear();
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan dan notifikasi telah dikirim.');
