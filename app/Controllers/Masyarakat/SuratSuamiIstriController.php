@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CodeIgniter\I18n\Time;
+
 
 class SuratSuamiIstriController extends BaseController
 {
@@ -26,7 +28,8 @@ class SuratSuamiIstriController extends BaseController
             'nik_istri' => $this->request->getPost('nik_istri'),
             'ttl_istri' => $this->request->getPost('ttl_istri'),
             'agama_istri' => $this->request->getPost('agama_istri'),
-            'alamat_istri' => $this->request->getPost('alamat_istri')
+            'alamat_istri' => $this->request->getPost('alamat_istri'),
+            
         ];
 
         $path = FCPATH . 'img/logo.png'; // pastikan path benar
@@ -215,7 +218,7 @@ class SuratSuamiIstriController extends BaseController
             'ttl_istri' => $detail['ttl_istri'],
             'agama_istri' => $detail['agama_istri'],
             'alamat_istri' => $detail['alamat_istri'],
-
+             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
             // tanggal_nikah dan tempat_nikah bisa ditambahkan jika perlu
         ];
 

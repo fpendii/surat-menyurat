@@ -9,6 +9,7 @@ use Dompdf\Options;
 use App\Models\SuratPindahModel; // Pastikan Anda menggunakan model yang sesuai
 use App\Models\PengikutPindahModel; // Pastikan Anda menggunakan model yang sesuai
 use App\Models\SuratModel; // Pastikan Anda menggunakan model yang sesuai
+use CodeIgniter\I18n\Time; // Untuk format tanggal
 
 class SuratPindahController extends BaseController
 {
@@ -245,6 +246,7 @@ class SuratPindahController extends BaseController
             'status_perkawinan_pengikut' => array_column($pengikutList, 'status_perkawinan'),
             'pendidikan_pengikut' => array_column($pengikutList, 'pendidikan'),
             'no_ktp_pengikut' => array_column($pengikutList, 'no_ktp'),
+             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Logo

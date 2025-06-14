@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CodeIgniter\I18n\Time;
 
 class SuratTidakMampuController extends BaseController
 {
@@ -185,6 +186,7 @@ class SuratTidakMampuController extends BaseController
             'keperluan' => $suratTidakMampu['keperluan'],
             'tanggal_surat' => $surat['created_at'] ?? date('Y-m-d'),
             'no_surat' => $surat['no_surat'],
+             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Logo

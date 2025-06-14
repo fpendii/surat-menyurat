@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CodeIgniter\I18n\Time;
 
 class SuratKematianController extends BaseController
 {
@@ -193,6 +194,7 @@ class SuratKematianController extends BaseController
             'jam' => $detail['jam'],
             'tempat' => $detail['tempat'],
             'penyebab' => $detail['penyebab'],
+             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Render HTML ke PDF

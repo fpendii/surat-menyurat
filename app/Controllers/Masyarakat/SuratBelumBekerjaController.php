@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CodeIgniter\I18n\Time;
 
 class SuratBelumBekerjaController extends BaseController
 {
@@ -195,6 +196,7 @@ class SuratBelumBekerjaController extends BaseController
             'status_pekerjaan' => $detail['status_pekerjaan'],
             'warga_negara' => $detail['warga_negara'],
             'alamat' => $detail['alamat'],
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Render HTML dari view

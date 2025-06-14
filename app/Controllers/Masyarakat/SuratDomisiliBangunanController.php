@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CodeIgniter\I18n\Time;
 
 class SuratDomisiliBangunanController extends BaseController
 {
@@ -24,7 +25,6 @@ class SuratDomisiliBangunanController extends BaseController
             'ketua'           => $this->request->getPost('ketua'),
             'sekretaris'      => $this->request->getPost('sekretaris'),
             'bendahara'       => $this->request->getPost('bendahara'),
-
         ];
 
         $path = FCPATH . 'img/logo.png'; // pastikan path benar
@@ -189,6 +189,7 @@ class SuratDomisiliBangunanController extends BaseController
             'ketua' => $detail['ketua'],
             'sekretaris' => $detail['sekretaris'],
             'bendahara' => $detail['bendahara'],
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Render HTML ke PDF

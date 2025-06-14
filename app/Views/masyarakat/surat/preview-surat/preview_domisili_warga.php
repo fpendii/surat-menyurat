@@ -158,7 +158,7 @@
         <!-- Tanda Tangan -->
         <div class="ttd">
             <p>Dikeluarkan di Handil Suruk</p>
-            <p>Pada Tanggal: 26 Agustus 2024</p>
+            <p>Pada Tanggal: <?php echo $created_at; ?></p>
             <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>

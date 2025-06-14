@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CodeIgniter\I18n\Time;
 
 class SuratKehilanganController extends BaseController
 {
@@ -193,7 +194,8 @@ class SuratKehilanganController extends BaseController
             'agama' => $kehilangan['agama'],
             'alamat' => $kehilangan['alamat'],
             'barang_hilang' => $kehilangan['barang_hilang'],
-            'keperluan' => $kehilangan['keperluan']
+            'keperluan' => $kehilangan['keperluan'],
+             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Ambil dan encode logo

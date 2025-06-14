@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CodeIgniter\I18n\Time;
 
 class SuratKelompokTaniController extends BaseController
 {
@@ -165,7 +166,7 @@ class SuratKelompokTaniController extends BaseController
             'sekretaris'       => $domisili['sekretaris'],
             'bendahara'        => $domisili['bendahara'],
             'no_surat' => $surat['no_surat'],
-
+             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Logo

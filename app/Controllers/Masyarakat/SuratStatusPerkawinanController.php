@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CodeIgniter\I18n\Time;
 
 class SuratStatusPerkawinanController extends BaseController
 {
@@ -187,6 +188,7 @@ class SuratStatusPerkawinanController extends BaseController
             'agama' => $detail['agama'],
             'alamat' => $detail['alamat'],
             'status' => $detail['status'],
+             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Render view surat jadi HTML

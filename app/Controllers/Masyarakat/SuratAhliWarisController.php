@@ -9,6 +9,7 @@ use Dompdf\Options;
 use App\Models\SuratModel;
 use App\Models\SuratAhliWarisModel;
 use App\Models\AhliWarisModel;
+use CodeIgniter\I18n\Time;
 
 class SuratAhliWarisController extends BaseController
 {
@@ -193,7 +194,8 @@ class SuratAhliWarisController extends BaseController
             'nik_ahli_waris' => array_column($dataAhliWaris, 'nik'),
             'ttl_ahli_waris' => array_column($dataAhliWaris, 'ttl'),
             'hubungan_ahli_waris' => array_column($dataAhliWaris, 'hubungan'),
-            'logo' => FCPATH . 'assets/logo.png' // sesuaikan path logo
+            'logo' => FCPATH . 'assets/logo.png' ,
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Logo

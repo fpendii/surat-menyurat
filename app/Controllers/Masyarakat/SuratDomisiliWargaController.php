@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CodeIgniter\I18n\Time;
 
 class SuratDomisiliWargaController extends BaseController
 {
@@ -197,6 +198,7 @@ class SuratDomisiliWargaController extends BaseController
             'kabupaten' => $domisiliWarga['kabupaten'],
             'provinsi' => $domisiliWarga['provinsi'],
             'no_surat' => $surat['no_surat'],
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ]);
 
         // Konfigurasi Dompdf
