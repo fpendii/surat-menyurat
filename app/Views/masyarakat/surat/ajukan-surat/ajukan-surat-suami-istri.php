@@ -15,7 +15,7 @@
         </div>
     <?php endif ?>
 
-    <form action="<?= site_url('masyarakat/surat/suami-istri/ajukan') ?>"  method="POST">
+    <form action="<?= site_url('masyarakat/surat/suami-istri/ajukan') ?>" enctype="multipart/form-data"  method="POST">
         <?= csrf_field() ?>
 
         <h5 class="mt-4">Data Suami</h5>
@@ -105,6 +105,17 @@
         <div class="form-group">
             <label for="alamat_istri">Alamat Istri <span class="text-danger">*</span></label>
             <textarea class="form-control" id="alamat_istri" name="alamat_istri" rows="3" required><?= old('alamat_istri') ?></textarea>
+        </div>
+
+        <!-- Input file hanya satu kali di bawah form -->
+        <div class="form-group">
+            <label>Upload KTP <span class="text-danger">*</span></label>
+            <input type="file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
+        </div>
+
+        <div class="form-group">
+            <label>Upload KK <span class="text-danger">*</span></label>
+            <input type="file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>

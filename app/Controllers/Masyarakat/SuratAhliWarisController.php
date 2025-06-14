@@ -141,7 +141,10 @@ class SuratAhliWarisController extends BaseController
 
         $jenisSurat = 'Surat Ahli Waris Baru';
         // Load view email
-        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+       $view = view('email/notifikasi', [
+    'nomorSurat' => $nomorSurat,
+    'jenisSurat' => $jenisSurat
+]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);

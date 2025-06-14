@@ -80,13 +80,25 @@ class SuratKelompokTaniController extends BaseController
         // 3. Gabungkan semua jadi nomor surat
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
+         // Upload file KTP
+        $ktpFile = $this->request->getFile('ktp');
+        $ktpName = $ktpFile->getRandomName();
+        $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
+
+        // Upload file KK
+        $kkFile = $this->request->getFile('kk');
+        $kkName = $kkFile->getRandomName();
+        $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
+
         // Simpan data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
         $idSurat = $suratModel->insert([
             'id_user' => session()->get('user_id'), // Ganti sesuai session user login kalau sudah implementasi login
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'domisili_kelompok_tani',
-            'status' => 'diajukan'
+            'status' => 'diajukan',
+            'ktp' => $ktpName,
+            'kk' => $kkName,
         ], true);
 
         // Simpan data ke tabel surat_domisili_kelompok_tani
@@ -108,7 +120,10 @@ class SuratKelompokTaniController extends BaseController
 
         $jenisSurat = 'Surat Keterangan Domisili Kelompok Tani';
         // Load view email
-        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+       $view = view('email/notifikasi', [
+    'nomorSurat' => $nomorSurat,
+    'jenisSurat' => $jenisSurat
+]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);

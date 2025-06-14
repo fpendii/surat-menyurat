@@ -129,7 +129,10 @@ class SuratDomisiliBangunanController extends BaseController
 
          $jenisSurat = 'Surat Domisili Bangunan';
         // Load view email
-        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+        $view = view('email/notifikasi', [
+    'nomorSurat' => $nomorSurat,
+    'jenisSurat' => $jenisSurat
+]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);

@@ -11,7 +11,7 @@
         </div>
     <?php endif ?>
 
-    <form action="<?= site_url('masyarakat/surat/status-perkawinan/ajukan') ?>"  method="POST">
+    <form action="<?= site_url('masyarakat/surat/status-perkawinan/ajukan') ?>" enctype="multipart/form-data" method="POST">
         <?= csrf_field() ?>
 
         <div class="form-group">
@@ -118,6 +118,17 @@
                     <?= $validation->getError('status') ?>
                 </div>
             <?php endif ?>
+        </div>
+
+         <!-- Input file hanya satu kali di bawah form -->
+        <div class="form-group">
+            <label>Upload KTP <span class="text-danger">*</span></label>
+            <input type="file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
+        </div>
+
+        <div class="form-group">
+            <label>Upload KK <span class="text-danger">*</span></label>
+            <input type="file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>

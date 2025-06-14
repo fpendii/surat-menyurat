@@ -89,14 +89,26 @@ class SuratKematianController extends BaseController
         // 3. Gabungkan semua jadi nomor surat
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
+        // Upload file KTP
+        $ktpFile = $this->request->getFile('ktp');
+        $ktpName = $ktpFile->getRandomName();
+        $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
+
+        // Upload file KK
+        $kkFile = $this->request->getFile('kk');
+        $kkName = $kkFile->getRandomName();
+        $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
+
         // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
-        $idUser = session()->get('id_user'); // Pastikan user login dan ada session
+        $idUser = session()->get('user_id'); // Pastikan user login dan ada session
         $idSurat = $suratModel->insert([
             'id_user' => $idUser,
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'kematian',
-            'status' => 'diajukan'
+            'status' => 'diajukan',
+            'ktp' => $ktpName,
+            'kk' => $kkName,
         ]);
 
         // Simpan ke tabel `surat_kematian`
@@ -119,7 +131,10 @@ class SuratKematianController extends BaseController
 
         $jenisSurat = 'Surat Kematian';
         // Load view email
-        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+        $view = view('email/notifikasi', [
+    'nomorSurat' => $nomorSurat,
+    'jenisSurat' => $jenisSurat
+]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);

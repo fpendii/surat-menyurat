@@ -6,7 +6,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Pengantar KK dan KTP</h2>
 
-    <form action="<?= site_url('masyarakat/surat/pengantar-kk-ktp/ajukan') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/pengantar-kk-ktp/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <div id="form-container">
@@ -39,6 +39,17 @@
                     <input type="number" name="data[0][jumlah]" class="form-control" required>
                 </div>
             </div>
+        </div>
+
+        <!-- Input file hanya satu kali di bawah form -->
+        <div class="form-group">
+            <label>Upload KTP <span class="text-danger">*</span></label>
+            <input type="file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
+        </div>
+
+        <div class="form-group">
+            <label>Upload KK <span class="text-danger">*</span></label>
+            <input type="file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <button type="button" class="btn btn-success mb-3" onclick="addPerson()">+ Tambah Orang</button>

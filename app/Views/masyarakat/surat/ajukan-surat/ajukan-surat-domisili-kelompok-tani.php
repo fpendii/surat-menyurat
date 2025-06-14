@@ -43,15 +43,16 @@
       <input type="text" class="form-control" id="bendahara" name="bendahara" required>
     </div>
 
-    <div class="form-group mb-2">
-      <label for="ktp">Unggah KTP Ketua <span class="text-danger">*</span></label>
-      <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-    </div>
+   <!-- Input file hanya satu kali di bawah form -->
+        <div class="form-group">
+            <label>Upload KTP <span class="text-danger">*</span></label>
+            <input type="file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
+        </div>
 
-    <div class="form-group mb-2">
-      <label for="kk">Unggah Kartu Keluarga <span class="text-danger">*</span></label>
-      <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
-    </div>
+        <div class="form-group">
+            <label>Upload KK <span class="text-danger">*</span></label>
+            <input type="file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
+        </div>
 
     <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
   </form>

@@ -89,6 +89,15 @@ class SuratStatusPerkawinanController extends BaseController
         // 3. Gabungkan semua jadi nomor surat
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
+        // Upload file KTP
+        $ktpFile = $this->request->getFile('ktp');
+        $ktpName = $ktpFile->getRandomName();
+        $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
+
+        // Upload file KK
+        $kkFile = $this->request->getFile('kk');
+        $kkName = $kkFile->getRandomName();
+        $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
         // Simpan data ke tabel surat
        
         $suratData = [
@@ -96,6 +105,8 @@ class SuratStatusPerkawinanController extends BaseController
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'status_perkawinan',
             'status' => 'diajukan',
+            'ktp' => $ktpName,
+            'kk' => $kkName,
         ];
         $suratModel->insert($suratData);
         $idSurat = $suratModel->getInsertID();
@@ -124,7 +135,10 @@ class SuratStatusPerkawinanController extends BaseController
 
          $jenisSurat = 'Surat Status Perkawinan';
         // Load view email
-        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+        $view = view('email/notifikasi', [
+    'nomorSurat' => $nomorSurat,
+    'jenisSurat' => $jenisSurat
+]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);

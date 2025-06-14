@@ -106,20 +106,15 @@ class SuratKehilanganController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat.');
         }
 
-        // Upload file
-        $uploadPath = WRITEPATH . 'uploads/surat_kehilangan/';
-        if (!is_dir($uploadPath)) {
-            mkdir($uploadPath, 0777, true);
-        }
+         // Upload file KTP
+        $ktpFile = $this->request->getFile('ktp');
+        $ktpName = $ktpFile->getRandomName();
+        $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
 
-        $ktp = $this->request->getFile('ktp');
-        $kk = $this->request->getFile('kk');
-
-        $ktpName = $ktp->getRandomName();
-        $kkName = $kk->getRandomName();
-
-        $ktp->move($uploadPath, $ktpName);
-        $kk->move($uploadPath, $kkName);
+        // Upload file KK
+        $kkFile = $this->request->getFile('kk');
+        $kkName = $kkFile->getRandomName();
+        $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
 
         // Simpan data ke tabel kehilangan
         $kehilanganData = [
@@ -148,8 +143,10 @@ class SuratKehilanganController extends BaseController
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
          $jenisSurat = 'Surat Keterangan Kehilangan';
-        // Load view email
-        $view = view('email/notifikasi', ['nomorSurat' => $nomorSurat], ['jenisSurat' => $jenisSurat]);
+       $view = view('email/notifikasi', [
+    'nomorSurat' => $nomorSurat,
+    'jenisSurat' => $jenisSurat
+]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
