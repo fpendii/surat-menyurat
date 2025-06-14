@@ -14,6 +14,7 @@ class DisposisiModel extends Model
     protected $useSoftDeletes   = false;
 
     protected $allowedFields    = [
+        'id_surat_masuk',
         'surat_dari',
         'nomor_surat',
         'tanggal_surat',

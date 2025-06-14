@@ -10,10 +10,14 @@ class CreateDisposisiTable extends Migration
     {
         $this->forge->addField([
             'id_disposisi' => [
-                'type'           => 'INT',
+                'type'           => 'INT', 
                 'constraint'     => 11,
                 'unsigned'       => true,
                 'auto_increment' => true,
+            ],
+            'id_surat_masuk' => [
+                'type'       => 'INT',
+                'constraint' => 11,
             ],
             'surat_dari' => [
                 'type'       => 'VARCHAR',
@@ -63,6 +67,7 @@ class CreateDisposisiTable extends Migration
 
         $this->forge->addKey('id_disposisi', true);
         $this->forge->addForeignKey('diteruskan_kepada', 'users', 'id_user', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_surat_masuk', 'surat_masuk', 'id_surat_masuk', 'CASCADE', 'CASCADE');
         $this->forge->createTable('disposisi');
     }
 

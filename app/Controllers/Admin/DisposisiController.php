@@ -5,16 +5,20 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\DisposisiModel;
 use App\Models\UserModel;
+use App\Models\SuratMasukModel; // Pastikan model ini ada jika ingin digunakan
+
 
 class DisposisiController extends BaseController
 {
     protected $disposisiModel;
     protected $userModel;
+    protected $SuratMasukModel;
 
     public function __construct()
     {
         $this->disposisiModel = new DisposisiModel();
         $this->userModel = new UserModel();
+        $this->SuratMasukModel = new SuratMasukModel(); // Jika ingin menggunakan model SuratMasuk
     }
 
     public function index()
@@ -34,40 +38,42 @@ class DisposisiController extends BaseController
 
         $data = [
             'pegawaiList' => $pegawai,
+            'suratMasukList' => $this->SuratMasukModel->findAll(), // Jika ada daftar surat masuk yang ingin ditampilkan
         ];
         return view('admin/disposisi/tambah', $data);
     }
 
-    public function store()
-    {
-        if (!$this->validate([
-            'surat_dari'        => 'required',
-            'no_surat'          => 'required',
-            'tgl_surat'         => 'required|valid_date',
-            'tgl_diterima'      => 'required|valid_date',
-            'no_agenda'         => 'required',
-            'sifat'             => 'required|in_list[Biasa,Penting,Rahasia]',
-            'perihal'           => 'required',
-            'diteruskan_kepada' => 'required',
-            'catatan'           => 'permit_empty',
-        ])) {
-            return redirect()->back()->withInput()->with('error', 'Validasi gagal.');
-        }
+    // public function store()
+    // {
+    //     if (!$this->validate([
+    //         'surat_dari'        => 'required',
+    //         'no_surat'          => 'required',
+    //         'tgl_surat'         => 'required|valid_date',
+    //         'tgl_diterima'      => 'required|valid_date',
+    //         'no_agenda'         => 'required',
+    //         'sifat'             => 'required|in_list[Biasa,Penting,Rahasia]',
+    //         'perihal'           => 'required',
+    //         'diteruskan_kepada' => 'required',
+    //         'catatan'           => 'permit_empty',
+    //     ])) {
+    //         return redirect()->back()->withInput()->with('error', 'Validasi gagal.');
+    //     }
 
-        $this->disposisiModel->save([
-            'surat_dari'        => $this->request->getPost('surat_dari'),
-            'no_surat'          => $this->request->getPost('no_surat'),
-            'tgl_surat'         => $this->request->getPost('tgl_surat'),
-            'tgl_diterima'      => $this->request->getPost('tgl_diterima'),
-            'no_agenda'         => $this->request->getPost('no_agenda'),
-            'sifat'             => $this->request->getPost('sifat'),
-            'perihal'           => $this->request->getPost('perihal'),
-            'diteruskan_kepada' => $this->request->getPost('diteruskan_kepada'),
-            'catatan'           => $this->request->getPost('catatan'),
-        ]);
+    //     $this->disposisiModel->save([
+            
+    //         'surat_dari'        => $this->request->getPost('surat_dari'),
+    //         'no_surat'          => $this->request->getPost('no_surat'),
+    //         'tgl_surat'         => $this->request->getPost('tgl_surat'),
+    //         'tgl_diterima'      => $this->request->getPost('tgl_diterima'),
+    //         'no_agenda'         => $this->request->getPost('no_agenda'),
+    //         'sifat'             => $this->request->getPost('sifat'),
+    //         'perihal'           => $this->request->getPost('perihal'),
+    //         'diteruskan_kepada' => $this->request->getPost('diteruskan_kepada'),
+    //         'catatan'           => $this->request->getPost('catatan'),
+    //     ]);
 
-        return redirect()->to('/admin/disposisi')->with('success', 'Disposisi berhasil ditambahkan.');
-    }
+    //     return redirect()->to('/admin/disposisi')->with('success', 'Disposisi berhasil ditambahkan.');
+    // }
 
     // Tambahan edit/delete bisa disediakan nanti jika dibutuhkan
 
@@ -92,8 +98,8 @@ class DisposisiController extends BaseController
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('error', $validation->listErrors());
         }
-
         $data = [
+            'id_surat_masuk'    => $this->request->getPost('id_surat_masuk'),
             'surat_dari'        => $this->request->getPost('surat_dari'),
             'nomor_surat'       => $this->request->getPost('nomor_surat'),
             'tanggal_surat'     => $this->request->getPost('tanggal_surat'),
@@ -176,6 +182,7 @@ class DisposisiController extends BaseController
         $data = [
             'disposisi' => $disposisi,
             'pegawaiList' => $pegawai,
+            
         ];
         return view('admin/disposisi/edit', $data);
     }

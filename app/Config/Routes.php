@@ -176,6 +176,7 @@ $routes->group('admin', function ($routes) {
     $routes->post('kirim-surat/(:num)', 'Admin\PengajuanSuratController::kirimSurat/$1');
 
     $routes->get('surat-masuk', 'Admin\SuratMasukController::index');
+    $routes->post('surat-masuk/disposisi/(:num)', 'Admin\SuratMasukController::disposisi/$1');
     $routes->get('surat-masuk/tambah', 'Admin\SuratMasukController::tambah');
     $routes->post('surat-masuk/simpan', 'Admin\SuratMasukController::simpan');
     $routes->post('surat-masuk/hapus/(:num)', 'Admin\SuratMasukController::hapus/$1');
@@ -199,4 +200,5 @@ $routes->group('pegawai', function ($routes) {
     $routes->get('dashboard', 'Pegawai\PegawaiDashboardController::index');
     
     $routes->get('disposisi', 'Pegawai\DisposisiController::index');
+    $routes->get('disposisi/(:num)', 'Pegawai\DisposisiController::detail/$1');
 });

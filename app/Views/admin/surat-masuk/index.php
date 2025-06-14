@@ -29,6 +29,10 @@
                             <?= csrf_field() ?>
                             <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                         </form>
+                        <form action="<?= site_url('admin/surat-masuk/disposisi/' . $surat['id_surat_masuk']) ?>" method="POST">
+                            <?= csrf_field() ?>
+                            <button type="submit" class="btn btn-primary btn-sm">Disposisi</button>
+                        </form>
                     </td>
                 </tr>
             <?php endforeach ?>

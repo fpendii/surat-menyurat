@@ -6,9 +6,20 @@
 
 <div class="container mt-4">
     <h2>Ajukan Surat Domisili Warga</h2>
+    
+    <?php if (session()->getFlashdata('errors')): ?>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                    <li><?= esc($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/domisili-warga/ajukan') ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/domisili-warga/ajukan') ?>" enctype="multipart/form-data" method="POST">
         <?= csrf_field() ?>
+
 
         <h5 class="mt-3">Data Pejabat (Yang Bertanda Tangan)</h5>
         <div class="form-group">
@@ -39,7 +50,9 @@
 
         <div class="form-group">
             <label for="nik">NIK <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
+            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16"
+                pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')"
+                placeholder="Masukkan 16 digit NIK">
             <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
 
@@ -66,6 +79,16 @@
         <div class="form-group">
             <label for="provinsi">Provinsi <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="provinsi" name="provinsi" required>
+        </div>
+
+        <div class="form-group mb-2">
+            <label for="ktp">Unggah KTP Ketua <span class="text-danger">*</span></label>
+            <input type="file" class="form-control" id="ktp" name="ktp"  required>
+        </div>
+
+        <div class="form-group mb-2">
+            <label for="kk">Unggah Kartu Keluarga <span class="text-danger">*</span></label>
+            <input type="file" class="form-control" id="kk" name="kk" required>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
