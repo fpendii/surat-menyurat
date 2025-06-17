@@ -9,12 +9,12 @@
     <?= csrf_field() ?>
 
     <div class="form-group">
-      <label for="nama_gapoktan">Nama Gapoktan <span class="text-danger">*</span></label>
+      <label for="nama_gapoktan">Nama Kelompok Tani <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="nama_gapoktan" name="nama_gapoktan" required>
     </div>
 
     <div class="form-group">
-      <label for="tgl_pembentukan">Tanggal Pembentukan <span class="text-danger">*</span></label>
+      <label for="tgl_pembentukan">Tanggal Pembentukan Kelompok Tani <span class="text-danger">*</span></label>
       <input type="date" class="form-control" id="tgl_pembentukan" name="tgl_pembentukan" required>
     </div>
 

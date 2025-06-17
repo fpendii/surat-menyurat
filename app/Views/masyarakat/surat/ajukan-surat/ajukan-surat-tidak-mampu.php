@@ -17,7 +17,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/tidak-mampu/ajukan') ?>"  method="POST" enctype="multipart/form-data">
+    <form action="<?= site_url('masyarakat/surat/tidak-mampu/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <div class="form-group">
@@ -90,22 +90,26 @@
         </div>
 
         <div class="form-group">
-            <label for="keperluan">Keperluan Pembuatan Surat <span class="text-danger">*</span></label>
+            <label for="keperluan">Keperluan <span class="text-danger">*</span></label>
             <textarea class="form-control" id="keperluan" name="keperluan" rows="2" required><?= old('keperluan') ?></textarea>
             <small class="form-text text-muted">Tuliskan alasan atau keperluan pengajuan surat.</small>
         </div>
 
+
         <div class="form-group">
-            <label for="ktp">Upload KTP <span class="text-danger">*</span></label>
+            <label for="kk">Kartu Keluarga <span class="text-danger">*</span></label>
+            <input type="file" class="form-control-file" id="kk" name="kk" required>
+            <small class="form-text text-muted">Unggah salinan KK dalam format JPG atau PDF.</small>
+        </div>
+
+
+        <div class="form-group">
+            <label for="ktp">Kartu Tanda Penduduk <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="ktp" name="ktp" required>
             <small class="form-text text-muted">Unggah salinan KTP dalam format JPG atau PDF.</small>
         </div>
 
-        <div class="form-group">
-            <label for="kk">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file" id="kk" name="kk" required>
-            <small class="form-text text-muted">Unggah salinan KK dalam format JPG atau PDF.</small>
-        </div>
+
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
     </form>

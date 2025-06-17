@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <h2>Ajukan Surat Pindah</h2>
 
-    <form action="<?= site_url('masyarakat/surat/pindah/ajukan') ?>"  method="POST" enctype="multipart/form-data">
+    <form action="<?= site_url('masyarakat/surat/pindah/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <!-- Data Pemohon -->
@@ -147,19 +147,15 @@
         <h5>Upload Berkas</h5>
 
         <div class="form-group">
-            <label for="file_kk">Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+            <label for="file_kk">Kartu Keluarga <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="file_kk" name="file_kk" accept=".pdf,.jpg,.jpeg,.png" required>
         </div>
 
         <div class="form-group">
-            <label for="file_ktp">KTP <span class="text-danger">*</span></label>
+            <label for="file_ktp">Kartu Tnda Penduduk <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="file_ktp" name="file_ktp" accept=".pdf,.jpg,.jpeg,.png" required>
         </div>
 
-        <div class="form-group">
-            <label for="file_f1">Form F1 <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file" id="file_f1" name="file_f1" accept=".pdf,.jpg,.jpeg,.png" required>
-        </div>
 
         <button type="button" class="btn btn-secondary mb-3" id="tambah-pengikut">+ Tambah Pengikut</button>
         <br>

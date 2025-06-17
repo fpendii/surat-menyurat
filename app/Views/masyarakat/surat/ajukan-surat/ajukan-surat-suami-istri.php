@@ -15,7 +15,7 @@
         </div>
     <?php endif ?>
 
-    <form action="<?= site_url('masyarakat/surat/suami-istri/ajukan') ?>" enctype="multipart/form-data"  method="POST">
+    <form action="<?= site_url('masyarakat/surat/suami-istri/ajukan') ?>" enctype="multipart/form-data" method="POST">
         <?= csrf_field() ?>
 
         <h5 class="mt-4">Data Suami</h5>
@@ -109,12 +109,12 @@
 
         <!-- Input file hanya satu kali di bawah form -->
         <div class="form-group">
-            <label>Upload KTP <span class="text-danger">*</span></label>
+            <label>Kartu Tanda Penduduk <span class="text-danger">*</span></label>
             <input type="file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <div class="form-group">
-            <label>Upload KK <span class="text-danger">*</span></label>
+            <label>Kartu Keluarga <span class="text-danger">*</span></label>
             <input type="file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 

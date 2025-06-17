@@ -69,7 +69,7 @@
         </div>
 
         <button type="button" class="btn btn-success mb-3" onclick="addPerson()">+ Tambah Orang</button>
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        <button type="submit" class="btn btn-primary">Ajukan</button>
     </form>
 </div>
 

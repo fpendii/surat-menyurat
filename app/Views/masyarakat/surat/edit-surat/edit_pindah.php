@@ -135,21 +135,16 @@
 
         <h5>Upload Berkas Baru (Opsional)</h5>
         <div class="form-group">
-            <label>Kartu Keluarga (KK)</label>
+            <label>Kartu Keluarga</label>
             <input type="file" class="form-control-file" name="file_kk" accept=".pdf,.jpg,.jpeg,.png">
         </div>
 
         <div class="form-group">
-            <label>KTP</label>
+            <label>Kartu Tanda Penduduk</label>
             <input type="file" class="form-control-file" name="file_ktp" accept=".pdf,.jpg,.jpeg,.png">
         </div>
 
-        <div class="form-group">
-            <label>Form F1</label>
-            <input type="file" class="form-control-file" name="file_f1" accept=".pdf,.jpg,.jpeg,.png">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        <button type="submit" class="btn btn-primary">Ajukan</button>
     </form>
 </div>
 

@@ -15,7 +15,7 @@
         </div>
     <?php endif ?>
 
-    <form action="<?= site_url('masyarakat/surat/usaha/ajukan') ?>"  method="POST" enctype="multipart/form-data">
+    <form action="<?= site_url('masyarakat/surat/usaha/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <div class="form-group">
@@ -127,7 +127,7 @@
         </div>
 
         <div class="form-group">
-            <label for="kk">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+            <label for="kk">Kartu Keluarga <span class="text-danger">*</span></label>
             <input type="file"
                 class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>"
                 id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
@@ -136,7 +136,7 @@
         </div>
 
         <div class="form-group">
-            <label for="ktp">Upload Kartu Tanda Penduduk (KTP) <span class="text-danger">*</span></label>
+            <label for="ktp"> Kartu Tanda Penduduk<span class="text-danger">*</span></label>
             <input type="file"
                 class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>"
                 id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>

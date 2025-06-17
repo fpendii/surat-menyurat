@@ -85,7 +85,7 @@
             </div>
         </div>
 
-        
+
 
         <div class="form-group">
             <label for="hari_tanggal">Hari / Tanggal Meninggal</label>
@@ -143,7 +143,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
+        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
     </form>
 </div>
 
