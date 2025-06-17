@@ -86,6 +86,8 @@
                                         <i class="fa fa-envelope"></i> Pengajuan Surat
                                     </a>
                                 </li>
+                                <li><a href="/admin/disposisi"><i class="fa fa-share"></i> Disposisi </a>
+                                </li>
                                 <li>
                                     <a href="/logout">
                                         <i class="fa fa-sign-out"></i> Logout

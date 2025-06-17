@@ -57,6 +57,8 @@ class PenggunaController extends BaseController
             'created_at' => date('Y-m-d H:i:s'),
         ];
 
+        // dd($data);
+
         $userModel = new UserModel();
         $userModel->insert($data);
 
