@@ -43,16 +43,16 @@
       <input type="text" class="form-control" id="bendahara" name="bendahara" required>
     </div>
 
-   <!-- Input file hanya satu kali di bawah form -->
-        <div class="form-group">
-            <label>Upload KTP <span class="text-danger">*</span></label>
-            <input type="file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
-        </div>
+    <!-- Input file hanya satu kali di bawah form -->
+    <div class="form-group">
+      <label> Kartu Tanda Penduduk (Ketua) <span class="text-danger">*</span></label>
+      <input type="file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
+    </div>
 
-        <div class="form-group">
-            <label>Upload KK <span class="text-danger">*</span></label>
-            <input type="file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
-        </div>
+    <div class="form-group">
+      <label> Kartu Keluarga (Ketua) <span class="text-danger">*</span></label>
+      <input type="file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
+    </div>
 
     <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
   </form>
@@ -85,7 +85,7 @@
 
 <!-- Script Konfirmasi dan Submit -->
 <script>
-  document.getElementById('ajukanForm').addEventListener('submit', function (e) {
+  document.getElementById('ajukanForm').addEventListener('submit', function(e) {
     e.preventDefault(); // Cegah form langsung submit
 
     const nama = document.getElementById('nama_gapoktan').value;
@@ -106,7 +106,7 @@
     modal.show();
   });
 
-  document.getElementById('konfirmasiSubmit').addEventListener('click', function () {
+  document.getElementById('konfirmasiSubmit').addEventListener('click', function() {
     const form = document.getElementById('ajukanForm');
     form.setAttribute('action', "<?= site_url('masyarakat/surat/domisili-kelompok-tani/ajukan') ?>");
     form.setAttribute('method', "POST");

@@ -48,12 +48,12 @@
         <div class="form-group">
             <label for="nik">NIK <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= session('errors.nik') ? 'is-invalid' : '' ?>"
-                   id="nik" name="nik"
-                   value="<?= old('nik') ?>"
-                   required minlength="16" maxlength="16"
-                   pattern="\d{16}"
-                   oninput="this.value = this.value.replace(/\D/g, '')">
+                class="form-control <?= session('errors.nik') ? 'is-invalid' : '' ?>"
+                id="nik" name="nik"
+                value="<?= old('nik') ?>"
+                required minlength="16" maxlength="16"
+                pattern="\d{16}"
+                oninput="this.value = this.value.replace(/\D/g, '')">
             <small class="form-text text-muted">Masukkan Nomor Induk Kependudukan (16 digit angka).</small>
             <div class="invalid-feedback"><?= session('errors.nik') ?></div>
         </div>
@@ -93,20 +93,20 @@
         </div>
 
         <div class="form-group">
-            <label for="kk">Unggah Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+            <label for="kk">Kartu Keluarga <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">Unggah scan atau foto KK (format: JPG, PNG, atau PDF).</small>
+            <small class="form-text text-muted"> (format: JPG, PNG, atau PDF).</small>
             <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="ktp">Unggah KTP <span class="text-danger">*</span></label>
+            <label for="ktp"> Kartu Tanda Penduduk <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">Unggah scan atau foto KTP (format: JPG, PNG, atau PDF).</small>
+            <small class="form-text text-muted"> (format: JPG, PNG, atau PDF).</small>
             <div class="invalid-feedback d-block"><?= session('errors.ktp') ?></div>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Ajukan Surat Kehilangan</button>
+        <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
     </form>
 </div>
 

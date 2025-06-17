@@ -6,7 +6,7 @@
 
 <div class="container mt-4">
     <h2>Ajukan Surat Domisili Warga</h2>
-    
+
     <?php if (session()->getFlashdata('errors')): ?>
         <div class="alert alert-danger">
             <ul class="mb-0">
@@ -82,12 +82,12 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="ktp">Unggah KTP Ketua <span class="text-danger">*</span></label>
-            <input type="file" class="form-control" id="ktp" name="ktp"  required>
+            <label for="ktp"> Kartu Tanda Penduduk <span class="text-danger">*</span></label>
+            <input type="file" class="form-control" id="ktp" name="ktp" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk">Unggah Kartu Keluarga <span class="text-danger">*</span></label>
+            <label for="kk">Kartu Keluarga <span class="text-danger">*</span></label>
             <input type="file" class="form-control" id="kk" name="kk" required>
         </div>
 

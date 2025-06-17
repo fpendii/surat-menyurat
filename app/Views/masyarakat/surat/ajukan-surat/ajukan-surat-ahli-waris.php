@@ -25,7 +25,7 @@
         <div class="form-group mt-2">
             <label for="surat_nikah">Upload Surat Nikah Pemilik Harta <span class="text-danger">*</span></label>
             <input type="file" class="form-control" id="surat_nikah" name="surat_nikah" accept=".pdf,.jpg,.jpeg,.png" required>
-            <small class="form-text text-muted">Unggah salinan surat nikah untuk membuktikan status pernikahan.</small>
+            <small class="form-text text-muted">Upload salinan surat nikah untuk membuktikan status pernikahan.</small>
         </div>
 
         <hr>
@@ -41,13 +41,13 @@
                 <div class="form-group">
                     <label>NIK <span class="text-danger">*</span></label>
                     <input type="text"
-                           class="form-control"
-                           name="nik_ahli_waris[]"
-                           required
-                           minlength="16"
-                           maxlength="16"
-                           pattern="\d{16}"
-                           oninput="this.value = this.value.replace(/\D/g, '')">
+                        class="form-control"
+                        name="nik_ahli_waris[]"
+                        required
+                        minlength="16"
+                        maxlength="16"
+                        pattern="\d{16}"
+                        oninput="this.value = this.value.replace(/\D/g, '')">
                 </div>
                 <div class="form-group">
                     <label>Tempat/Tanggal Lahir <span class="text-danger">*</span></label>
@@ -60,15 +60,15 @@
                     <small class="form-text text-muted">Contoh: Anak, Istri, Suami, Saudara kandung, dll.</small>
                 </div>
                 <div class="form-group">
-                    <label>Upload KTP <span class="text-danger">*</span></label>
+                    <label> Kartu Tanda Penduduk <span class="text-danger">*</span></label>
                     <input type="file" class="form-control" name="ktp_ahli_waris[]" accept=".pdf,.jpg,.jpeg,.png" required>
                 </div>
                 <div class="form-group">
-                    <label>Upload KK <span class="text-danger">*</span></label>
+                    <label> Kartu Keluarga <span class="text-danger">*</span></label>
                     <input type="file" class="form-control" name="kk_ahli_waris[]" accept=".pdf,.jpg,.jpeg,.png" required>
                 </div>
                 <div class="form-group">
-                    <label>Upload Akta Lahir <span class="text-danger">*</span></label>
+                    <label> Akta Lahir <span class="text-danger">*</span></label>
                     <input type="file" class="form-control" name="akta_lahir_ahli_waris[]" accept=".pdf,.jpg,.jpeg,.png" required>
                 </div>
                 <button type="button" class="btn btn-danger btn-sm mt-2 remove-ahli-waris">Hapus</button>
@@ -81,7 +81,7 @@
 </div>
 
 <script>
-    document.getElementById('tambah-ahli-waris').addEventListener('click', function () {
+    document.getElementById('tambah-ahli-waris').addEventListener('click', function() {
         const wrapper = document.getElementById('ahli-waris-wrapper');
         const clone = wrapper.firstElementChild.cloneNode(true);
 
@@ -91,7 +91,7 @@
         wrapper.appendChild(clone);
     });
 
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', function(e) {
         if (e.target && e.target.classList.contains('remove-ahli-waris')) {
             const groups = document.querySelectorAll('.ahli-waris-group');
             if (groups.length > 1) {

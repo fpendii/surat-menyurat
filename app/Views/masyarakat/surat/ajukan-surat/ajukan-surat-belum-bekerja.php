@@ -72,13 +72,13 @@
         </div>
 
         <div class="form-group">
-            <label for="ktp">Upload KTP <span class="text-danger">*</span></label>
+            <label for="ktp"> Kartu Tanda Penduduk <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
             <small class="form-text text-muted">File harus berupa JPG, PNG, atau PDF.</small>
         </div>
 
         <div class="form-group">
-            <label for="kk">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+            <label for="kk"> Kartu Keluarga <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
             <small class="form-text text-muted">File harus berupa JPG, PNG, atau PDF.</small>
         </div>

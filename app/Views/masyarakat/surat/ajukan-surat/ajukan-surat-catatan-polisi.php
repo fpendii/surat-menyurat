@@ -94,33 +94,27 @@
 
         <!-- File Uploads -->
         <div class="form-group mt-4">
-            <label for="kk">Upload Kartu Keluarga (KK) <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
+            <label for="kk"> Kartu Keluarga <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
             <input type="file" class="form-control-file <?= (session('errors.kk')) ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".pdf,.jpg,.jpeg,.png" required>
             <div class="invalid-feedback"><?= session('errors.kk') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="ktp">Upload KTP <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
+            <label for="ktp"> Kartu Tanda Penduduk <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
             <input type="file" class="form-control-file <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".pdf,.jpg,.jpeg,.png" required>
             <div class="invalid-feedback"><?= session('errors.ktp') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="akta_lahir">Upload Akta Lahir <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
+            <label for="akta_lahir"> Akta Lahir <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
             <input type="file" class="form-control-file <?= (session('errors.akta_lahir')) ? 'is-invalid' : '' ?>" id="akta_lahir" name="akta_lahir" accept=".pdf,.jpg,.jpeg,.png" required>
             <div class="invalid-feedback"><?= session('errors.akta_lahir') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="ijazah">Upload Ijazah <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
+            <label for="ijazah"> Ijazah <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
             <input type="file" class="form-control-file <?= (session('errors.ijazah')) ? 'is-invalid' : '' ?>" id="ijazah" name="ijazah" accept=".pdf,.jpg,.jpeg,.png" required>
             <div class="invalid-feedback"><?= session('errors.ijazah') ?></div>
-        </div>
-
-        <div class="form-group">
-            <label for="foto_latar_belakang">Upload Foto Latar Belakang Merah <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file <?= (session('errors.foto_latar_belakang')) ? 'is-invalid' : '' ?>" id="foto_latar_belakang" name="foto_latar_belakang" accept=".pdf,.jpg,.jpeg,.png,.zip" required>
-            <div class="invalid-feedback"><?= session('errors.foto_latar_belakang') ?></div>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
