@@ -117,7 +117,7 @@
             <textarea class="form-control" id="alamat_istri" name="alamat_istri" rows="3" required><?= old('alamat_istri', $detail['alamat_istri']) ?></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
+        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
     </form>
 </div>
 

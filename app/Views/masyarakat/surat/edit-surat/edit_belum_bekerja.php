@@ -90,7 +90,7 @@
             <textarea class="form-control" id="alamat" name="alamat" rows="3" required><?= old('alamat', $detail['alamat']) ?></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>
+        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
     </form>
 </div>
 

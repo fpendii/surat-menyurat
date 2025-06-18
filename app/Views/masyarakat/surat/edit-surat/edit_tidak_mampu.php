@@ -82,21 +82,21 @@
         </div>
 
         <div class="form-group">
-            <label for="keperluan">Keperluan Pembuatan Surat</label>
+            <label for="keperluan">Keperluan </label>
             <textarea class="form-control" id="keperluan" name="keperluan" rows="2" required><?= old('keperluan', $detail['keperluan']) ?></textarea>
         </div>
 
         <div class="form-group">
-            <label for="ktp">Upload KTP (abaikan jika tidak diubah)</label>
+            <label for="ktp"> Kartu Keluarga (abaikan jika tidak diubah)</label>
             <input type="file" class="form-control-file" id="ktp" name="ktp">
         </div>
 
         <div class="form-group">
-            <label for="kk">Upload KK (abaikan jika tidak diubah)</label>
+            <label for="kk"> Kartu Tanda Penduduk (abaikan jika tidak diubah)</label>
             <input type="file" class="form-control-file" id="kk" name="kk">
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>
+        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
     </form>
 </div>
 

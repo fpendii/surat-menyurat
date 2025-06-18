@@ -94,18 +94,18 @@
         </div>
 
         <div class="form-group">
-            <label for="kk">Unggah Kartu Keluarga (KK) <small class="text-muted">(Abaikan jika tidak ingin mengganti)</small></label>
+            <label for="kk">Kartu Keluarga<small class="text-muted">(Abaikan jika tidak ingin mengganti)</small></label>
             <input type="file" class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
             <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="ktp">Unggah KTP <small class="text-muted">(Abaikan jika tidak ingin mengganti)</small></label>
+            <label for="ktp">Kartu Tanda Penduduk <small class="text-muted">(Abaikan jika tidak ingin mengganti)</small></label>
             <input type="file" class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf">
             <div class="invalid-feedback d-block"><?= session('errors.ktp') ?></div>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>
+        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
     </form>
 </div>
 

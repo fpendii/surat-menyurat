@@ -55,7 +55,7 @@
             <input type="text" value="<?= $detail['bendahara'] ?>" class="form-control" id="bendahara" name="bendahara" required>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
+        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
     </form>
 </div>
 

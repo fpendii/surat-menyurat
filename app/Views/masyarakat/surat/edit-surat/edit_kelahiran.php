@@ -27,13 +27,13 @@
 
         <div class="form-group">
             <label for="nama">Nama Lengkap</label>
-            <input type="text" class="form-control" id="nama" name="nama" 
+            <input type="text" class="form-control" id="nama" name="nama"
                 value="<?= old('nama', isset($nama) ? $nama : '') ?>" required>
         </div>
 
         <div class="form-group">
             <label for="ttl">Tempat / Tanggal Lahir</label>
-            <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Bandung, 12 Mei 2023" 
+            <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Bandung, 12 Mei 2023"
                 value="<?= old('ttl', isset($ttl) ? $ttl : '') ?>" required>
         </div>
 
@@ -48,7 +48,7 @@
 
         <div class="form-group">
             <label for="pekerjaan">Pekerjaan</label>
-            <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" 
+            <input type="text" class="form-control" id="pekerjaan" name="pekerjaan"
                 value="<?= old('pekerjaan', isset($pekerjaan) ? $pekerjaan : '') ?>" required>
         </div>
 
@@ -59,23 +59,23 @@
 
         <div class="form-group">
             <label for="nama_ayah">Nama Ayah Kandung</label>
-            <input type="text" class="form-control" id="nama_ayah" name="nama_ayah" 
+            <input type="text" class="form-control" id="nama_ayah" name="nama_ayah"
                 value="<?= old('nama_ayah', isset($nama_ayah) ? $nama_ayah : '') ?>" required>
         </div>
 
         <div class="form-group">
             <label for="nama_ibu">Nama Ibu Kandung</label>
-            <input type="text" class="form-control" id="nama_ibu" name="nama_ibu" 
+            <input type="text" class="form-control" id="nama_ibu" name="nama_ibu"
                 value="<?= old('nama_ibu', isset($nama_ibu) ? $nama_ibu : '') ?>" required>
         </div>
 
         <div class="form-group">
             <label for="anak_ke">Anak Ke-</label>
-            <input type="number" class="form-control" id="anak_ke" name="anak_ke" min="1" 
+            <input type="number" class="form-control" id="anak_ke" name="anak_ke" min="1"
                 value="<?= old('anak_ke', isset($anak_ke) ? $anak_ke : '') ?>" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Ajukan Surat</button>
+        <button type="submit" class="btn btn-primary">Ajukan</button>
     </form>
 </div>
 

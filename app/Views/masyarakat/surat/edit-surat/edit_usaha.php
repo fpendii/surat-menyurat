@@ -117,7 +117,7 @@
         </div>
 
         <div class="form-group">
-            <label for="kk">Upload Kartu Keluarga (KK)</label>
+            <label for="kk">Kartu Keluarga</label>
             <input type="file" class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>"
                 id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
             <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
@@ -127,7 +127,7 @@
         </div>
 
         <div class="form-group">
-            <label for="ktp">Upload KTP</label>
+            <label for="ktp">Kartu Tanda Penduduk</label>
             <input type="file" class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>"
                 id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf">
             <div class="invalid-feedback d-block"><?= session('errors.ktp') ?></div>
@@ -136,7 +136,7 @@
             <?php endif ?>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>
+        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
     </form>
 </div>
 
