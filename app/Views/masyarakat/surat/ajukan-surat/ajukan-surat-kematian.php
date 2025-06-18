@@ -15,10 +15,10 @@
         </div>
     <?php endif ?>
 
-    <form action="<?= site_url('masyarakat/surat/kematian/ajukan') ?>" enctype="multipart/form-data" method="POST">
+    <form id="formKematian" action="<?= site_url('masyarakat/surat/kematian/ajukan') ?>" enctype="multipart/form-data" method="POST">
         <?= csrf_field() ?>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
             <input
                 type="text"
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select
                 class="form-control <?= (session('errors.jenis_kelamin')) ? 'is-invalid' : '' ?>"
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input
                 type="text"
@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="agama">Agama <span class="text-danger">*</span></label>
             <input
                 type="text"
@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea
                 class="form-control <?= (session('errors.alamat')) ? 'is-invalid' : '' ?>"
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="hari_tanggal">Hari / Tanggal Meninggal <span class="text-danger">*</span></label>
             <input
                 type="text"
@@ -105,7 +105,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="jam">Jam Meninggal <span class="text-danger">*</span></label>
             <input
                 type="time"
@@ -119,7 +119,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="tempat">Tempat Meninggal <span class="text-danger">*</span></label>
             <input
                 type="text"
@@ -133,7 +133,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="penyebab">Penyebab Kematian <span class="text-danger">*</span></label>
             <textarea
                 class="form-control <?= (session('errors.penyebab')) ? 'is-invalid' : '' ?>"
@@ -146,19 +146,81 @@
             </div>
         </div>
 
-        <!-- Input file hanya satu kali di bawah form -->
-        <div class="form-group">
-            <label>Upload KTP <span class="text-danger">*</span></label>
-            <input type="file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
+        <div class="form-group mb-2">
+            <label for="ktp">Upload KTP <span class="text-danger">*</span></label>
+            <input type="file" id="ktp" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
-        <div class="form-group">
-            <label>Upload KK <span class="text-danger">*</span></label>
-            <input type="file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
+        <div class="form-group mb-2">
+            <label for="kk">Upload KK <span class="text-danger">*</span></label>
+            <input type="file" id="kk" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
+        <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
 </div>
+
+<div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Keterangan Kematian</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <h6><strong>Detail Data Almarhum/Almarhumah</strong></h6>
+                <p><strong>Nama Lengkap:</strong> <span id="preview_nama"></span></p>
+                <p><strong>Jenis Kelamin:</strong> <span id="preview_jenis_kelamin"></span></p>
+                <p><strong>Tempat / Tanggal Lahir:</strong> <span id="preview_ttl"></span></p>
+                <p><strong>Agama:</strong> <span id="preview_agama"></span></p>
+                <p><strong>Alamat:</strong> <span id="preview_alamat"></span></p>
+                <p><strong>Hari / Tanggal Meninggal:</strong> <span id="preview_hari_tanggal"></span></p>
+                <p><strong>Jam Meninggal:</strong> <span id="preview_jam"></span></p>
+                <p><strong>Tempat Meninggal:</strong> <span id="preview_tempat"></span></p>
+                <p><strong>Penyebab Kematian:</strong> <span id="preview_penyebab"></span></p>
+
+                <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
+                <p><strong>KTP:</strong> <span id="preview_ktp_file"></span></p>
+                <p><strong>KK:</strong> <span id="preview_kk_file"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showConfirmationModal() {
+        // Populate the modal with form data
+        document.getElementById('preview_nama').textContent = document.getElementById('nama').value;
+        
+        const jenisKelaminValue = document.getElementById('jenis_kelamin').value;
+        document.getElementById('preview_jenis_kelamin').textContent = jenisKelaminValue === 'L' ? 'Laki-laki' : (jenisKelaminValue === 'P' ? 'Perempuan' : 'Belum dipilih');
+
+        document.getElementById('preview_ttl').textContent = document.getElementById('ttl').value;
+        document.getElementById('preview_agama').textContent = document.getElementById('agama').value;
+        document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;
+        document.getElementById('preview_hari_tanggal').textContent = document.getElementById('hari_tanggal').value;
+        document.getElementById('preview_jam').textContent = document.getElementById('jam').value;
+        document.getElementById('preview_tempat').textContent = document.getElementById('tempat').value;
+        document.getElementById('preview_penyebab').textContent = document.getElementById('penyebab').value;
+
+        const ktpFile = document.getElementById('ktp').files[0];
+        const kkFile = document.getElementById('kk').files[0];
+        document.getElementById('preview_ktp_file').textContent = ktpFile ? ktpFile.name : 'Belum ada file dipilih';
+        document.getElementById('preview_kk_file').textContent = kkFile ? kkFile.name : 'Belum ada file dipilih';
+
+        // Show the modal
+        const confirmModal = new bootstrap.Modal(document.getElementById('konfirmasiModal'));
+        confirmModal.show();
+    }
+
+    function submitForm() {
+        // Submit the form
+        document.getElementById('formKematian').submit();
+    }
+</script>
 
 <?= $this->endSection() ?>

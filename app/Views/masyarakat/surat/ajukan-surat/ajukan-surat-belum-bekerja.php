@@ -1,5 +1,4 @@
 <?= $this->extend('komponen/template-admin') ?>
-
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
@@ -15,7 +14,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/belum-bekerja/ajukan') ?>" method="POST" enctype="multipart/form-data">
+    <form id="formBelumBekerja" action="<?= site_url('masyarakat/surat/belum-bekerja/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <div class="form-group">
@@ -26,7 +25,6 @@
         <div class="form-group">
             <label for="nik">NIK <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
-            <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
 
         <div class="form-group">
@@ -74,17 +72,60 @@
         <div class="form-group">
             <label for="ktp">Upload KTP <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">File harus berupa JPG, PNG, atau PDF.</small>
         </div>
 
         <div class="form-group">
             <label for="kk">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">File harus berupa JPG, PNG, atau PDF.</small>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
+        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#konfirmasiModal">Ajukan Surat</button>
     </form>
 </div>
+
+<!-- Modal Konfirmasi -->
+<div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Konfirmasi Pengajuan Surat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nama:</strong> <span id="preview_nama"></span></p>
+        <p><strong>NIK:</strong> <span id="preview_nik"></span></p>
+        <p><strong>TTL:</strong> <span id="preview_ttl"></span></p>
+        <p><strong>Jenis Kelamin:</strong> <span id="preview_jk"></span></p>
+        <p><strong>Agama:</strong> <span id="preview_agama"></span></p>
+        <p><strong>Status Pekerjaan:</strong> <span id="preview_pekerjaan"></span></p>
+        <p><strong>Warga Negara:</strong> <span id="preview_wni"></span></p>
+        <p><strong>Alamat:</strong> <span id="preview_alamat"></span></p>
+        <p class="text-danger">Pastikan semua data sudah benar sebelum dikirim!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
+        <button type="button" class="btn btn-success" id="submitForm">Ya, Ajukan!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script Preview dan Submit Modal -->
+<script>
+document.getElementById('submitForm').addEventListener('click', function () {
+    document.getElementById('formBelumBekerja').submit();
+});
+
+document.querySelector('[data-bs-target="#konfirmasiModal"]').addEventListener('click', function () {
+    document.getElementById('preview_nama').innerText = document.getElementById('nama').value;
+    document.getElementById('preview_nik').innerText = document.getElementById('nik').value;
+    document.getElementById('preview_ttl').innerText = document.getElementById('ttl').value;
+    document.getElementById('preview_jk').innerText = document.getElementById('jenis_kelamin').value;
+    document.getElementById('preview_agama').innerText = document.getElementById('agama').value;
+    document.getElementById('preview_pekerjaan').innerText = document.getElementById('status_pekerjaan').value;
+    document.getElementById('preview_wni').innerText = document.getElementById('warga_negara').value;
+    document.getElementById('preview_alamat').innerText = document.getElementById('alamat').value;
+});
+</script>
 
 <?= $this->endSection() ?>

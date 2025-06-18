@@ -1,5 +1,3 @@
-<!-- app/Views/ajukan_surat_tidak_mampu.php -->
-
 <?= $this->extend('komponen/template-admin') ?>
 
 <?= $this->section('content') ?>
@@ -17,35 +15,34 @@
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/tidak-mampu/ajukan') ?>"  method="POST" enctype="multipart/form-data">
+    <form id="formSuratTidakMampu" action="<?= site_url('masyarakat/surat/tidak-mampu/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nama" name="nama" value="<?= old('nama') ?>" required>
             <small class="form-text text-muted">Masukkan nama lengkap sesuai KTP.</small>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="bin_binti">Bin/Binti <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="bin_binti" name="bin_binti" value="<?= old('bin_binti') ?>" required>
             <small class="form-text text-muted">Tulis nama ayah kandung.</small>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="nik">NIK <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
+            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK" value="<?= old('nik') ?>">
             <small class="form-text text-muted">NIK harus 16 digit angka.</small>
         </div>
 
-
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Bandung, 1 Januari 2000" value="<?= old('ttl') ?>" required>
             <small class="form-text text-muted">Isi dengan format Tempat, Tanggal Lahir.</small>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
                 <option value="">-- Pilih --</option>
@@ -55,10 +52,10 @@
             <small class="form-text text-muted">Pilih jenis kelamin Anda.</small>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="agama">Agama <span class="text-danger">*</span></label>
             <select
-                class="form-control <?= (isset($validation) && $validation->hasError('agama')) ? 'is-invalid' : '' ?>"
+                class="form-control <?= (session()->has('errors.agama')) ? 'is-invalid' : '' ?>"
                 id="agama"
                 name="agama"
                 required>
@@ -70,45 +67,105 @@
                 <option value="Budha" <?= old('agama') == 'Budha' ? 'selected' : '' ?>>Budha</option>
                 <option value="Konghucu" <?= old('agama') == 'Konghucu' ? 'selected' : '' ?>>Konghucu</option>
             </select>
-            <?php if (isset($validation) && $validation->hasError('agama')) : ?>
+            <?php if (session()->has('errors.agama')) : ?>
                 <div class="invalid-feedback">
-                    <?= $validation->getError('agama') ?>
+                    <?= session('errors.agama') ?>
                 </div>
             <?php endif ?>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="pekerjaan">Pekerjaan <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" value="<?= old('pekerjaan') ?>" required>
             <small class="form-text text-muted">Tuliskan pekerjaan Anda saat ini.</small>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea class="form-control" id="alamat" name="alamat" rows="2" required><?= old('alamat') ?></textarea>
             <small class="form-text text-muted">Masukkan alamat tempat tinggal lengkap.</small>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="keperluan">Keperluan Pembuatan Surat <span class="text-danger">*</span></label>
             <textarea class="form-control" id="keperluan" name="keperluan" rows="2" required><?= old('keperluan') ?></textarea>
             <small class="form-text text-muted">Tuliskan alasan atau keperluan pengajuan surat.</small>
         </div>
 
-        <div class="form-group">
-            <label for="ktp">Upload KTP <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file" id="ktp" name="ktp" required>
+        <div class="form-group mb-2">
+            <label for="ktp_file">Upload KTP <span class="text-danger">*</span></label>
+            <input type="file" class="form-control-file" id="ktp_file" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
             <small class="form-text text-muted">Unggah salinan KTP dalam format JPG atau PDF.</small>
         </div>
 
-        <div class="form-group">
-            <label for="kk">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file" id="kk" name="kk" required>
+        <div class="form-group mb-2">
+            <label for="kk_file">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+            <input type="file" class="form-control-file" id="kk_file" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
             <small class="form-text text-muted">Unggah salinan KK dalam format JPG atau PDF.</small>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Ajukan Surat</button>
+        <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
 </div>
+
+<div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Keterangan Tidak Mampu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <h6><strong>Detail Data Pemohon</strong></h6>
+                <p><strong>Nama Lengkap:</strong> <span id="preview_nama"></span></p>
+                <p><strong>Bin/Binti:</strong> <span id="preview_bin_binti"></span></p>
+                <p><strong>NIK:</strong> <span id="preview_nik"></span></p>
+                <p><strong>Tempat / Tanggal Lahir:</strong> <span id="preview_ttl"></span></p>
+                <p><strong>Jenis Kelamin:</strong> <span id="preview_jenis_kelamin"></span></p>
+                <p><strong>Agama:</strong> <span id="preview_agama"></span></p>
+                <p><strong>Pekerjaan:</strong> <span id="preview_pekerjaan"></span></p>
+                <p><strong>Alamat:</strong> <span id="preview_alamat"></span></p>
+                <p><strong>Keperluan:</strong> <span id="preview_keperluan"></span></p>
+
+                <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
+                <p><strong>KTP:</strong> <span id="preview_ktp_file"></span></p>
+                <p><strong>Kartu Keluarga (KK):</strong> <span id="preview_kk_file"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showConfirmationModal() {
+        // Populate the modal with form data
+        document.getElementById('preview_nama').textContent = document.getElementById('nama').value;
+        document.getElementById('preview_bin_binti').textContent = document.getElementById('bin_binti').value;
+        document.getElementById('preview_nik').textContent = document.getElementById('nik').value;
+        document.getElementById('preview_ttl').textContent = document.getElementById('ttl').value;
+        document.getElementById('preview_jenis_kelamin').textContent = document.getElementById('jenis_kelamin').options[document.getElementById('jenis_kelamin').selectedIndex].text;
+        document.getElementById('preview_agama').textContent = document.getElementById('agama').value;
+        document.getElementById('preview_pekerjaan').textContent = document.getElementById('pekerjaan').value;
+        document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;
+        document.getElementById('preview_keperluan').textContent = document.getElementById('keperluan').value;
+
+        const ktpFile = document.getElementById('ktp_file').files[0];
+        const kkFile = document.getElementById('kk_file').files[0];
+        document.getElementById('preview_ktp_file').textContent = ktpFile ? ktpFile.name : 'Belum ada file dipilih';
+        document.getElementById('preview_kk_file').textContent = kkFile ? kkFile.name : 'Belum ada file dipilih';
+
+        // Show the modal
+        const confirmModal = new bootstrap.Modal(document.getElementById('konfirmasiModal'));
+        confirmModal.show();
+    }
+
+    function submitForm() {
+        // Submit the form
+        document.getElementById('formSuratTidakMampu').submit();
+    }
+</script>
 
 <?= $this->endSection() ?>

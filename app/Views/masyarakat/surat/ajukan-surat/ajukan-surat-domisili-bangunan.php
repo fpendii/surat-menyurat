@@ -1,54 +1,93 @@
 <?= $this->extend('komponen/template-admin') ?>
-
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
   <h2>Ajukan Surat Domisili Bangunan</h2>
+
+  <?php if (session()->getFlashdata('errors')): ?>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <?php foreach (session()->getFlashdata('errors') as $error): ?>
+          <li><?= esc($error) ?></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  <?php endif; ?>
 
   <form id="domisiliForm" action="<?= site_url('masyarakat/surat/domisili-bangunan/ajukan') ?>" method="POST" enctype="multipart/form-data">
     <?= csrf_field() ?>
 
     <div class="form-group">
       <label for="nama_gapoktan">Nama Gapoktan <span class="text-danger">*</span></label>
-      <input type="text" class="form-control" id="nama_gapoktan" name="nama_gapoktan" required>
+      <input type="text"
+             class="form-control <?= (session('errors.nama_gapoktan')) ? 'is-invalid' : '' ?>"
+             id="nama_gapoktan" name="nama_gapoktan"
+             value="<?= old('nama_gapoktan') ?>" required>
+      <div class="invalid-feedback"><?= session('errors.nama_gapoktan') ?></div>
     </div>
 
     <div class="form-group">
       <label for="tgl_pembentukan">Tanggal Pembentukan <span class="text-danger">*</span></label>
-      <input type="date" class="form-control" id="tgl_pembentukan" name="tgl_pembentukan" required>
+      <input type="date"
+             class="form-control <?= (session('errors.tgl_pembentukan')) ? 'is-invalid' : '' ?>"
+             id="tgl_pembentukan" name="tgl_pembentukan"
+             value="<?= old('tgl_pembentukan') ?>" required>
+      <div class="invalid-feedback"><?= session('errors.tgl_pembentukan') ?></div>
     </div>
 
     <div class="form-group">
       <label for="alamat">Alamat Lengkap <span class="text-danger">*</span></label>
-      <input type="text" class="form-control" id="alamat" name="alamat" required>
+      <input type="text"
+             class="form-control <?= (session('errors.alamat')) ? 'is-invalid' : '' ?>"
+             id="alamat" name="alamat"
+             value="<?= old('alamat') ?>" required>
+      <div class="invalid-feedback"><?= session('errors.alamat') ?></div>
     </div>
 
     <div class="form-group">
       <label for="ketua">Nama Ketua <span class="text-danger">*</span></label>
-      <input type="text" class="form-control" id="ketua" name="ketua" required>
+      <input type="text"
+             class="form-control <?= (session('errors.ketua')) ? 'is-invalid' : '' ?>"
+             id="ketua" name="ketua"
+             value="<?= old('ketua') ?>" required>
+      <div class="invalid-feedback"><?= session('errors.ketua') ?></div>
     </div>
 
     <div class="form-group">
       <label for="sekretaris">Nama Sekretaris <span class="text-danger">*</span></label>
-      <input type="text" class="form-control" id="sekretaris" name="sekretaris" required>
+      <input type="text"
+             class="form-control <?= (session('errors.sekretaris')) ? 'is-invalid' : '' ?>"
+             id="sekretaris" name="sekretaris"
+             value="<?= old('sekretaris') ?>" required>
+      <div class="invalid-feedback"><?= session('errors.sekretaris') ?></div>
     </div>
 
     <div class="form-group">
       <label for="bendahara">Nama Bendahara <span class="text-danger">*</span></label>
-      <input type="text" class="form-control" id="bendahara" name="bendahara" required>
+      <input type="text"
+             class="form-control <?= (session('errors.bendahara')) ? 'is-invalid' : '' ?>"
+             id="bendahara" name="bendahara"
+             value="<?= old('bendahara') ?>" required>
+      <div class="invalid-feedback"><?= session('errors.bendahara') ?></div>
     </div>
 
     <div class="form-group">
       <label for="ktp">Upload KTP <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
-      <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
+      <input type="file"
+             class="form-control <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>"
+             id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
+      <div class="invalid-feedback"><?= session('errors.ktp') ?></div>
     </div>
 
     <div class="form-group">
       <label for="kk">Upload KK <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
-      <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
+      <input type="file"
+             class="form-control <?= (session('errors.kk')) ? 'is-invalid' : '' ?>"
+             id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
+      <div class="invalid-feedback"><?= session('errors.kk') ?></div>
     </div>
 
-    <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat Domisili</button>
+    <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
   </form>
 </div>
 
@@ -78,7 +117,6 @@
   </div>
 </div>
 
-<!-- JavaScript Konfirmasi -->
 <script>
   function showConfirmationModal() {
     document.getElementById('preview_nama_gapoktan').textContent = document.getElementById('nama_gapoktan').value;
