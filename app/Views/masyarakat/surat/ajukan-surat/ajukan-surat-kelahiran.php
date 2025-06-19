@@ -18,7 +18,7 @@
         <?= csrf_field() ?>
 
         <div class="form-group mb-2">
-            <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
+            <label for="nama">Nama<span class="text-danger">*</span></label>
             <input type="text" class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>" id="nama" name="nama" value="<?= old('nama') ?>" required>
             <div class="invalid-feedback"><?= session('errors.nama') ?></div>
         </div>
@@ -70,12 +70,12 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="ktp">Upload KTP <span class="text-danger">*</span></label>
+            <label for="ktp">Upload KTP <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" id="ktp" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk">Upload KK <span class="text-danger">*</span></label>
+            <label for="kk">Upload KK <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" id="kk" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
@@ -120,11 +120,11 @@
         // Populate the modal with form data
         document.getElementById('preview_nama').textContent = document.getElementById('nama').value;
         document.getElementById('preview_ttl').textContent = document.getElementById('ttl').value;
-        
+
         // Convert gender code to full text for preview
         const jenisKelaminValue = document.getElementById('jenis_kelamin').value;
         document.getElementById('preview_jenis_kelamin').textContent = jenisKelaminValue === 'L' ? 'Laki-laki' : (jenisKelaminValue === 'P' ? 'Perempuan' : 'Belum dipilih');
-        
+
         document.getElementById('preview_pekerjaan').textContent = document.getElementById('pekerjaan').value;
         document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;
         document.getElementById('preview_nama_ayah').textContent = document.getElementById('nama_ayah').value;

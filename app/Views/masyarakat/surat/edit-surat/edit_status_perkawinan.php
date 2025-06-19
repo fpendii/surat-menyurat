@@ -1,9 +1,8 @@
 <?= $this->extend('komponen/template-admin') ?>
-
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
-    <h2>Ajukan Surat Keterangan Kawin</h2>
+    <h2>Edit Surat Keterangan Kawin</h2>
 
     <?php if (session()->getFlashdata('error')) : ?>
         <div class="alert alert-danger">
@@ -19,11 +18,11 @@
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/status-perkawinan/update/' . $detail['id_surat']) ?>" method="POST">
+    <form action="<?= site_url('masyarakat/surat/status-perkawinan/update/' . $detail['id_surat']) ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <div class="form-group">
-            <label for="nama">Nama</label>
+            <label for="nama">Nama <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (isset($validation) && $validation->hasError('nama')) ? 'is-invalid' : '' ?>"
@@ -32,14 +31,12 @@
                 value="<?= old('nama', $detail['nama']) ?>"
                 required>
             <?php if (isset($validation) && $validation->hasError('nama')) : ?>
-                <div class="invalid-feedback">
-                    <?= $validation->getError('nama') ?>
-                </div>
+                <div class="invalid-feedback"><?= $validation->getError('nama') ?></div>
             <?php endif ?>
         </div>
 
         <div class="form-group">
-            <label for="nik">NIK</label>
+            <label for="nik">NIK <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (isset($validation) && $validation->hasError('nik')) ? 'is-invalid' : '' ?>"
@@ -52,15 +49,12 @@
                 title="NIK harus terdiri dari 16 digit angka"
                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,16);">
             <?php if (isset($validation) && $validation->hasError('nik')) : ?>
-                <div class="invalid-feedback">
-                    <?= $validation->getError('nik') ?>
-                </div>
+                <div class="invalid-feedback"><?= $validation->getError('nik') ?></div>
             <?php endif ?>
         </div>
 
-
         <div class="form-group">
-            <label for="ttl">Tempat / Tanggal Lahir</label>
+            <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (isset($validation) && $validation->hasError('ttl')) ? 'is-invalid' : '' ?>"
@@ -70,14 +64,12 @@
                 value="<?= old('ttl', $detail['ttl']) ?>"
                 required>
             <?php if (isset($validation) && $validation->hasError('ttl')) : ?>
-                <div class="invalid-feedback">
-                    <?= $validation->getError('ttl') ?>
-                </div>
+                <div class="invalid-feedback"><?= $validation->getError('ttl') ?></div>
             <?php endif ?>
         </div>
 
         <div class="form-group">
-            <label for="agama">Agama</label>
+            <label for="agama">Agama <span class="text-danger">*</span></label>
             <select
                 class="form-control <?= (isset($validation) && $validation->hasError('agama')) ? 'is-invalid' : '' ?>"
                 id="agama"
@@ -93,14 +85,12 @@
                 <?php endforeach ?>
             </select>
             <?php if (isset($validation) && $validation->hasError('agama')) : ?>
-                <div class="invalid-feedback">
-                    <?= $validation->getError('agama') ?>
-                </div>
+                <div class="invalid-feedback"><?= $validation->getError('agama') ?></div>
             <?php endif ?>
         </div>
 
         <div class="form-group">
-            <label for="alamat">Alamat</label>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea
                 class="form-control <?= (isset($validation) && $validation->hasError('alamat')) ? 'is-invalid' : '' ?>"
                 id="alamat"
@@ -108,16 +98,14 @@
                 rows="3"
                 required><?= old('alamat', $detail['alamat']) ?></textarea>
             <?php if (isset($validation) && $validation->hasError('alamat')) : ?>
-                <div class="invalid-feedback">
-                    <?= $validation->getError('alamat') ?>
-                </div>
+                <div class="invalid-feedback"><?= $validation->getError('alamat') ?></div>
             <?php endif ?>
         </div>
 
         <div class="form-group">
-            <label for="status">Status</label>
+            <label for="status">Status <span class="text-danger">*</span></label>
             <?php
-            $statusList = ['Belum Kawin', 'Sudah Kawin', 'Cerai Hidup', 'Cerai Mati'];
+            $statusList = ['Kawin', 'Belum Kawin', 'Cerai Hidup', 'Cerai Mati'];
             $selectedStatus = old('status', $detail['status']);
             ?>
             <select
@@ -131,10 +119,19 @@
                 <?php endforeach ?>
             </select>
             <?php if (isset($validation) && $validation->hasError('status')) : ?>
-                <div class="invalid-feedback">
-                    <?= $validation->getError('status') ?>
-                </div>
+                <div class="invalid-feedback"><?= $validation->getError('status') ?></div>
             <?php endif ?>
+        </div>
+
+
+        <div class="form-group">
+            <label for="ktp">Upload KTP <small class="text-muted"></small> <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
+            <input type="file" class="form-control-file" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf">
+        </div>
+
+        <div class="form-group">
+            <label for="kk">Upload KK <small class="text-muted"></small> <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
+            <input type="file" class="form-control-file" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan</button>

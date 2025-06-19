@@ -27,10 +27,12 @@
         <div class="form-group mb-2">
             <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
+                <option value="" disabled <?= old('jenis_kelamin') ? '' : 'selected' ?>>-- Pilih --</option>
                 <option value="L" <?= old('jenis_kelamin') == 'L' ? 'selected' : '' ?>>Laki-laki</option>
                 <option value="P" <?= old('jenis_kelamin') == 'P' ? 'selected' : '' ?>>Perempuan</option>
             </select>
         </div>
+
 
         <div class="form-group mb-2">
             <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
@@ -86,8 +88,8 @@
 
         <div class="form-group mb-2">
             <label for="nik">NIK <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK" value="<?= old('nik') ?>">
-            <small class="form-text text-muted">NIK harus 16 digit angka.</small>
+            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="" value="<?= old('nik') ?>">
+            <small class="form-text text-muted"></small>
         </div>
 
         <div class="form-group mb-2">
@@ -158,21 +160,16 @@
         <br>
 
         <h5 class="mt-4">Upload Berkas</h5>
-
         <div class="form-group mb-2">
-            <label for="file_kk">Kartu Keluarga (KK) <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file" id="file_kk" name="file_kk" accept=".pdf,.jpg,.jpeg,.png" required>
+            <label for="file_ktp">Upload KTP <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
+            <input type="file" class="form-control-file" id="file_ktp" name="file_ktp" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="file_ktp">KTP <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file" id="file_ktp" name="file_ktp" accept=".pdf,.jpg,.jpeg,.png" required>
+            <label for="file_kk">Upload KK<span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
+            <input type="file" class="form-control-file" id="file_kk" name="file_kk" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
-        <div class="form-group mb-2">
-            <label for="file_f1">Form F1 <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file" id="file_f1" name="file_f1" accept=".pdf,.jpg,.jpeg,.png" required>
-        </div>
 
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
@@ -182,11 +179,11 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Pindah</h5>
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body" id="modal-body-content">
-                </div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
@@ -330,7 +327,6 @@
             <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
             <p><strong>Kartu Keluarga (KK):</strong> ${fileKk ? fileKk.name : 'Belum ada file dipilih'}</p>
             <p><strong>KTP:</strong> ${fileKtp ? fileKtp.name : 'Belum ada file dipilih'}</p>
-            <p><strong>Form F1:</strong> ${fileF1 ? fileF1.name : 'Belum ada file dipilih'}</p>
         `;
 
         // Show the modal

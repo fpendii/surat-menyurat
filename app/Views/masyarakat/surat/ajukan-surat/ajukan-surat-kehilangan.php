@@ -20,7 +20,7 @@
         <div class="form-group mb-2">
             <label for="nama">Nama <span class="text-danger">*</span></label>
             <input type="text" class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>" id="nama" name="nama" value="<?= old('nama') ?>" required>
-            <small class="form-text text-muted">Masukkan nama lengkap sesuai KTP.</small>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.nama') ?></div>
         </div>
 
@@ -31,23 +31,23 @@
                 <option value="Laki-laki" <?= old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
                 <option value="Perempuan" <?= old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
             </select>
-            <small class="form-text text-muted">Pilih jenis kelamin Anda.</small>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.jenis_kelamin') ?></div>
         </div>
 
         <div class="form-group mb-2">
             <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
-            <input type="text" class="form-control <?= session('errors.ttl') ? 'is-invalid' : '' ?>" id="ttl" name="ttl" value="<?= old('ttl') ?>" required>
-            <small class="form-text text-muted">Tulis tempat dan tanggal lahir sesuai dokumen resmi.</small>
+            <input type="text" class="form-control <?= session('errors.ttl') ? 'is-invalid' : '' ?>" id="ttl" name="ttl" placeholder="Contoh: Bandung, 1 Januari 2000" value="<?= old('ttl') ?>" required>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.ttl') ?></div>
         </div>
 
         <div class="form-group mb-2">
             <label for="nik">NIK <span class="text-danger">*</span></label>
             <input type="text" class="form-control <?= session('errors.nik') ? 'is-invalid' : '' ?>" id="nik" name="nik"
-                   value="<?= old('nik') ?>" required minlength="16" maxlength="16"
-                   pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')">
-            <small class="form-text text-muted">Masukkan Nomor Induk Kependudukan (16 digit angka).</small>
+                value="<?= old('nik') ?>" required minlength="16" maxlength="16"
+                pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')">
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.nik') ?></div>
         </div>
 
@@ -60,14 +60,14 @@
                     <option value="<?= $agama ?>" <?= old('agama') == $agama ? 'selected' : '' ?>><?= $agama ?></option>
                 <?php endforeach ?>
             </select>
-            <small class="form-text text-muted">Pilih agama yang sesuai dengan identitas Anda.</small>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.agama') ?></div>
         </div>
 
         <div class="form-group mb-2">
             <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea class="form-control <?= session('errors.alamat') ? 'is-invalid' : '' ?>" id="alamat" name="alamat" rows="3" required><?= old('alamat') ?></textarea>
-            <small class="form-text text-muted">Tulis alamat tempat tinggal lengkap Anda.</small>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.alamat') ?></div>
         </div>
 
@@ -86,17 +86,17 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk">Unggah Kartu Keluarga (KK) <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">Unggah scan atau foto KK (format: JPG, PNG, atau PDF).</small>
-            <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
+            <label for="ktp">Upload KTP <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
+            <input type="file" class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
+            <small class="form-text text-muted"></small>
+            <div class="invalid-feedback d-block"><?= session('errors.ktp') ?></div>
         </div>
 
         <div class="form-group mb-2">
-            <label for="ktp">Unggah KTP <span class="text-danger">*</span></label>
-            <input type="file" class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">Unggah scan atau foto KTP (format: JPG, PNG, atau PDF).</small>
-            <div class="invalid-feedback d-block"><?= session('errors.ktp') ?></div>
+            <label for="kk">Upload KK<span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
+            <input type="file" class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
+            <small class="form-text text-muted"></small>
+            <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
         </div>
 
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">
@@ -109,7 +109,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Kehilangan</h5>
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">

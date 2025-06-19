@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
-    <h2>Ajukan Surat Keterangan Suami Istri</h2>
+    <h2>Edit Surat Keterangan Suami Istri</h2>
 
     <?php if (session()->getFlashdata('errors')) : ?>
         <div class="alert alert-danger">

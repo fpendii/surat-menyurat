@@ -21,25 +21,25 @@
         <div class="form-group mb-2">
             <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nama" name="nama" value="<?= old('nama') ?>" required>
-            <small class="form-text text-muted">Masukkan nama lengkap sesuai KTP.</small>
+            <small class="form-text text-muted"></small>
         </div>
 
         <div class="form-group mb-2">
             <label for="bin_binti">Bin/Binti <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="bin_binti" name="bin_binti" value="<?= old('bin_binti') ?>" required>
-            <small class="form-text text-muted">Tulis nama ayah kandung.</small>
+            <small class="form-text text-muted"></small>
         </div>
 
         <div class="form-group mb-2">
             <label for="nik">NIK <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK" value="<?= old('nik') ?>">
-            <small class="form-text text-muted">NIK harus 16 digit angka.</small>
+            <input type="text" class="form-control" id="nik" name="nik" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="" value="<?= old('nik') ?>">
+            <small class="form-text text-muted"></small>
         </div>
 
         <div class="form-group mb-2">
             <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Bandung, 1 Januari 2000" value="<?= old('ttl') ?>" required>
-            <small class="form-text text-muted">Isi dengan format Tempat, Tanggal Lahir.</small>
+            <small class="form-text text-muted"></small>
         </div>
 
         <div class="form-group mb-2">
@@ -49,7 +49,7 @@
                 <option value="L" <?= old('jenis_kelamin') == 'L' ? 'selected' : '' ?>>Laki-laki</option>
                 <option value="P" <?= old('jenis_kelamin') == 'P' ? 'selected' : '' ?>>Perempuan</option>
             </select>
-            <small class="form-text text-muted">Pilih jenis kelamin Anda.</small>
+            <small class="form-text text-muted"></small>
         </div>
 
         <div class="form-group mb-2">
@@ -93,15 +93,15 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="ktp_file">Upload KTP <span class="text-danger">*</span></label>
+            <label for="ktp_file">Upload KTP <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" class="form-control-file" id="ktp_file" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">Unggah salinan KTP dalam format JPG atau PDF.</small>
+            <small class="form-text text-muted"></small>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk_file">Upload Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+            <label for="kk_file">Upload KK<span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" class="form-control-file" id="kk_file" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">Unggah salinan KK dalam format JPG atau PDF.</small>
+            <small class="form-text text-muted"></small>
         </div>
 
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
@@ -112,7 +112,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Keterangan Tidak Mampu</h5>
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">

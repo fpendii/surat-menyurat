@@ -1,151 +1,101 @@
-<?= $this->extend('komponen/template-admin') ?>
+<!-- app/Views/edit_surat_domisili_bangunan.php -->
 
+<?= $this->extend('komponen/template-admin') ?>
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
-    <h2>Edit Surat Pindah</h2>
+    <h2>Edit Surat Domisili Bangunan</h2>
 
-    <!-- Catatan dari Kepala Desa -->
-    <?php if (!empty($surat['catatan'])): ?>
-        <div class="alert alert-warning">
-            <strong>Catatan dari Kepala Desa:</strong><br>
-            <?= nl2br(esc($surat['catatan'])) ?>
+    <?php if (session()->getFlashdata('errors')): ?>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                    <li><?= esc($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/pindah/update/' . $surat['id_surat']) ?>" method="POST" enctype="multipart/form-data">
+    <form id="domisiliForm" action="<?= site_url('masyarakat/data-surat/domisili_bangunan/update/' . $detail['id_surat']) ?>" method="POST">
         <?= csrf_field() ?>
         <input type="hidden" name="_method" value="PUT">
         <input type="hidden" name="no_surat" value="<?= esc($surat['no_surat']) ?>">
-        <!-- Data Pemohon -->
-        <h5>Data Pemohon</h5>
-        <div class="form-group">
-            <label>Nama</label>
-            <input type="text" class="form-control" name="nama" value="<?= esc($suratPindah['nama']) ?>" required>
+
+        <div class="form-group mb-2">
+            <label for="nama_gapoktan">Nama Bangunan <span class="text-danger">*</span></label>
+            <input type="text" value="<?= esc($detail['nama_gapoktan']) ?>" class="form-control" id="nama_gapoktan" name="nama_gapoktan" required>
         </div>
 
-        <div class="form-group">
-            <label>Jenis Kelamin</label>
-            <select class="form-control" name="jenis_kelamin" required>
-                <option value="L" <?= $suratPindah['jenis_kelamin'] === 'L' ? 'selected' : '' ?>>Laki-laki</option>
-                <option value="P" <?= $suratPindah['jenis_kelamin'] === 'P' ? 'selected' : '' ?>>Perempuan</option>
-            </select>
+        <div class="form-group mb-2">
+            <label for="tgl_pembentukan">Tanggal Berdiri <span class="text-danger">*</span></label>
+            <input type="date" value="<?= esc($detail['tgl_pembentukan']) ?>" class="form-control" id="tgl_pembentukan" name="tgl_pembentukan" required>
         </div>
 
-        <div class="form-group">
-            <label>Tempat / Tanggal Lahir</label>
-            <input type="text" class="form-control" name="ttl" value="<?= esc($suratPindah['ttl']) ?>" required>
+        <div class="form-group mb-2">
+            <label for="alamat">Alamat Lengkap <span class="text-danger">*</span></label>
+            <input type="text" value="<?= esc($detail['alamat']) ?>" class="form-control" id="alamat" name="alamat" required>
         </div>
 
-        <div class="form-group">
-            <label>Kewarganegaraan</label>
-            <input type="text" class="form-control" name="kewarganegaraan" value="<?= esc($suratPindah['kewarganegaraan']) ?>" required>
+        <div class="form-group mb-2">
+            <label for="ketua">Penanggung Jawab <span class="text-danger">*</span></label>
+            <input type="text" value="<?= esc($detail['ketua']) ?>" class="form-control" id="ketua" name="ketua" required>
         </div>
 
-        <div class="form-group">
-            <label>Agama</label>
-            <input type="text" class="form-control" name="agama" value="<?= esc($suratPindah['agama']) ?>" required>
+        <div class="form-group mb-2">
+            <label for="sekretaris">Sekretaris <span class="text-danger">*</span></label>
+            <input type="text" value="<?= esc($detail['sekretaris']) ?>" class="form-control" id="sekretaris" name="sekretaris" required>
         </div>
 
-        <div class="form-group">
-            <label>Status Perkawinan</label>
-            <input type="text" class="form-control" name="status_perkawinan" value="<?= esc($suratPindah['status_perkawinan']) ?>" required>
+        <div class="form-group mb-2">
+            <label for="bendahara">Bendahara <span class="text-danger">*</span></label>
+            <input type="text" value="<?= esc($detail['bendahara']) ?>" class="form-control" id="bendahara" name="bendahara" required>
         </div>
 
-        <div class="form-group">
-            <label>Pekerjaan</label>
-            <input type="text" class="form-control" name="pekerjaan" value="<?= esc($suratPindah['pekerjaan']) ?>" required>
-        </div>
-
-        <div class="form-group">
-            <label>Pendidikan</label>
-            <input type="text" class="form-control" name="pendidikan" value="<?= esc($suratPindah['pendidikan']) ?>" required>
-        </div>
-
-        <div class="form-group">
-            <label>Alamat Asal</label>
-            <textarea class="form-control" name="alamat_asal" required><?= esc($suratPindah['alamat_asal']) ?></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>NIK</label>
-            <input
-                type="text"
-                class="form-control"
-                name="nik"
-                value="<?= esc($suratPindah['nik']) ?>"
-                required
-                maxlength="16"
-                pattern="\d{16}"
-                title="NIK harus terdiri dari 16 digit angka"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,16);">
-        </div>
-
-
-        <div class="form-group">
-            <label>Tujuan Pindah</label>
-            <input type="text" class="form-control" name="tujuan_pindah" value="<?= esc($suratPindah['tujuan_pindah']) ?>" required>
-        </div>
-
-        <div class="form-group">
-            <label>Alasan Pindah</label>
-            <input type="text" class="form-control" name="alasan_pindah" value="<?= esc($suratPindah['alasan_pindah']) ?>" required>
-        </div>
-
-        <div class="form-group">
-            <label>Jumlah Pengikut</label>
-            <input type="number" class="form-control" id="jumlah_pengikut" name="jumlah_pengikut" min="1" value="<?= count($pengikutList) ?>" required>
-        </div>
-
-        <h5>Data Pengikut</h5>
-        <div id="pengikut-wrapper">
-            <?php foreach ($pengikutList as $i => $pengikut): ?>
-                <div class="pengikut-group border p-3 rounded mb-3">
-                    <h5>Data Pengikut <?= $i + 1 ?></h5>
-                    <div class="form-group">
-                        <label>Nama Pengikut</label>
-                        <input type="text" class="form-control" name="nama_pengikut[]" value="<?= esc($pengikut['nama']) ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Jenis Kelamin</label>
-                        <select class="form-control" name="jenis_kelamin_pengikut[]" required>
-                            <option value="L" <?= $pengikut['jenis_kelamin'] === 'L' ? 'selected' : '' ?>>Laki-laki</option>
-                            <option value="P" <?= $pengikut['jenis_kelamin'] === 'P' ? 'selected' : '' ?>>Perempuan</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Umur</label>
-                        <input type="number" class="form-control" name="umur_pengikut[]" value="<?= esc($pengikut['umur']) ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Status Perkawinan</label>
-                        <input type="text" class="form-control" name="status_perkawinan_pengikut[]" value="<?= esc($pengikut['status_perkawinan']) ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Pendidikan</label>
-                        <input type="text" class="form-control" name="pendidikan_pengikut[]" value="<?= esc($pengikut['pendidikan']) ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label>No. KTP</label>
-                        <input type="text" class="form-control" name="no_ktp_pengikut[]" value="<?= esc($pengikut['no_ktp']) ?>" required>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-
-        <h5>Upload Berkas Baru (Opsional)</h5>
-        <div class="form-group">
-            <label>Kartu Keluarga</label>
-            <input type="file" class="form-control-file" name="file_kk" accept=".pdf,.jpg,.jpeg,.png">
-        </div>
-
-        <div class="form-group">
-            <label>Kartu Tanda Penduduk</label>
-            <input type="file" class="form-control-file" name="file_ktp" accept=".pdf,.jpg,.jpeg,.png">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Ajukan</button>
+        <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Simpan Perubahan</button>
     </form>
 </div>
+
+<!-- Modal Konfirmasi -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Konfirmasi Data Domisili Bangunan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Nama Bangunan:</strong> <span id="preview_nama_gapoktan"></span></p>
+                <p><strong>Tanggal Berdiri:</strong> <span id="preview_tgl_pembentukan"></span></p>
+                <p><strong>Alamat:</strong> <span id="preview_alamat"></span></p>
+                <p><strong>Penanggung Jawab:</strong> <span id="preview_ketua"></span></p>
+                <p><strong>Sekretaris:</strong> <span id="preview_sekretaris"></span></p>
+                <p><strong>Bendahara:</strong> <span id="preview_bendahara"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button class="btn btn-success" onclick="submitForm()">Ya, Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script untuk Preview Modal -->
+<script>
+    function showConfirmationModal() {
+        document.getElementById('preview_nama_gapoktan').textContent = document.getElementById('nama_gapoktan').value;
+        document.getElementById('preview_tgl_pembentukan').textContent = document.getElementById('tgl_pembentukan').value;
+        document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;
+        document.getElementById('preview_ketua').textContent = document.getElementById('ketua').value;
+        document.getElementById('preview_sekretaris').textContent = document.getElementById('sekretaris').value;
+        document.getElementById('preview_bendahara').textContent = document.getElementById('bendahara').value;
+
+        const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        modal.show();
+    }
+
+    function submitForm() {
+        document.getElementById('domisiliForm').submit();
+    }
+</script>
 
 <?= $this->endSection() ?>

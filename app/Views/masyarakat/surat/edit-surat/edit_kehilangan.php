@@ -26,13 +26,13 @@
         <?= csrf_field() ?>
 
         <div class="form-group">
-            <label for="nama">Nama</label>
+            <label for="nama">Nama <span class="text-danger">*</span></label>
             <input type="text" class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>" id="nama" name="nama" value="<?= old('nama', $kehilangan['nama']) ?>" required>
             <div class="invalid-feedback"><?= session('errors.nama') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="jenis_kelamin">Jenis Kelamin</label>
+            <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select class="form-control <?= session('errors.jenis_kelamin') ? 'is-invalid' : '' ?>" id="jenis_kelamin" name="jenis_kelamin" required>
                 <option value="">-- Pilih --</option>
                 <option value="Laki-laki" <?= old('jenis_kelamin', $kehilangan['jenis_kelamin']) == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
@@ -42,13 +42,13 @@
         </div>
 
         <div class="form-group">
-            <label for="ttl">Tempat / Tanggal Lahir</label>
+            <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input type="text" class="form-control <?= session('errors.ttl') ? 'is-invalid' : '' ?>" id="ttl" name="ttl" value="<?= old('ttl', $kehilangan['ttl']) ?>" required>
             <div class="invalid-feedback"><?= session('errors.ttl') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="nik">NIK</label>
+            <label for="nik">NIK <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= session('errors.nik') ? 'is-invalid' : '' ?>"
@@ -64,7 +64,7 @@
         </div>
 
         <div class="form-group">
-            <label for="agama">Agama</label>
+            <label for="agama">Agama <span class="text-danger">*</span></label>
             <select class="form-control <?= session('errors.agama') ? 'is-invalid' : '' ?>" id="agama" name="agama" required>
                 <option value="">-- Pilih --</option>
                 <?php $list_agama = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu']; ?>
@@ -76,33 +76,34 @@
         </div>
 
         <div class="form-group">
-            <label for="alamat">Alamat</label>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea class="form-control <?= session('errors.alamat') ? 'is-invalid' : '' ?>" id="alamat" name="alamat" rows="3" required><?= old('alamat', $kehilangan['alamat']) ?></textarea>
             <div class="invalid-feedback"><?= session('errors.alamat') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="barang_hilang">Barang yang Hilang</label>
+            <label for="barang_hilang">Barang yang Hilang <span class="text-danger">*</span></label>
             <input type="text" class="form-control <?= session('errors.barang_hilang') ? 'is-invalid' : '' ?>" id="barang_hilang" name="barang_hilang" value="<?= old('barang_hilang', $kehilangan['barang_hilang']) ?>" required>
             <div class="invalid-feedback"><?= session('errors.barang_hilang') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="keperluan">Keperluan Barang Hilang</label>
+            <label for="keperluan">Keperluan Barang Hilang <span class="text-danger">*</span></label>
             <textarea class="form-control <?= session('errors.keperluan') ? 'is-invalid' : '' ?>" id="keperluan" name="keperluan" rows="3" required><?= old('keperluan', $kehilangan['keperluan']) ?></textarea>
             <div class="invalid-feedback"><?= session('errors.keperluan') ?></div>
         </div>
 
+
         <div class="form-group">
-            <label for="kk">Kartu Keluarga<small class="text-muted">(Abaikan jika tidak ingin mengganti)</small></label>
-            <input type="file" class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
-            <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
+            <label for="ktp">Upload KTP<small class="text-muted"></small> <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
+            <input type="file" class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf">
+            <div class="invalid-feedback d-block"><?= session('errors.ktp') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="ktp">Kartu Tanda Penduduk <small class="text-muted">(Abaikan jika tidak ingin mengganti)</small></label>
-            <input type="file" class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf">
-            <div class="invalid-feedback d-block"><?= session('errors.ktp') ?></div>
+            <label for="kk">Upload KK <small class="text-muted"></small> <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
+            <input type="file" class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
+            <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan</button>

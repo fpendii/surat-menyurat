@@ -10,7 +10,7 @@
             <?= session()->getFlashdata('error') ?>
         </div>
     <?php endif ?>
-    
+
     <?php if (session()->getFlashdata('errors')) : ?>
         <div class="alert alert-danger">
             <ul class="mb-0">
@@ -49,7 +49,7 @@
                 id="nik"
                 name="nik"
                 value="<?= old('nik') ?>"
-                required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
+                required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="">
             <?php if (session()->has('errors.nik')) : ?>
                 <div class="invalid-feedback">
                     <?= session('errors.nik') ?>
@@ -135,12 +135,12 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="ktp_file">Upload KTP <span class="text-danger">*</span></label>
+            <label for="ktp_file">Upload KTP <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" id="ktp_file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk_file">Upload KK <span class="text-danger">*</span></label>
+            <label for="kk_file">Upload KK <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" id="kk_file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
@@ -152,7 +152,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Keterangan Kawin</h5>
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">

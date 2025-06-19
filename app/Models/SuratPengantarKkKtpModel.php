@@ -18,5 +18,5 @@ class SuratPengantarKkKtpModel extends Model
         'jumlah',
     ];
 
-    public $useTimestamps = false; // Tidak menggunakan created_at dan updated_at
+    public $useTimestamps = false; 
 }

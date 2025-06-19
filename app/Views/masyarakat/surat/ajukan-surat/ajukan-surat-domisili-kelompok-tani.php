@@ -59,13 +59,13 @@
     </div>
 
     <div class="form-group mb-2">
-      <label for="ktp">Upload KTP <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+      <label for="ktp">Upload KTP Ketua <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
       <input type="file" class="form-control <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
       <div class="invalid-feedback"><?= session('errors.ktp') ?></div>
     </div>
 
     <div class="form-group mb-2">
-      <label for="kk">Upload KK <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+      <label for="kk">Upload KK Ketua <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
       <input type="file" class="form-control <?= (session('errors.kk')) ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
       <div class="invalid-feedback"><?= session('errors.kk') ?></div>
     </div>

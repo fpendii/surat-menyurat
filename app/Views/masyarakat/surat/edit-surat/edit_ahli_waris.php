@@ -27,7 +27,7 @@
 
         <!-- Data Pemilik Harta -->
         <div class="form-group">
-            <label for="pemilik_harta">Nama Pemilik Harta (Almarhum/ah)</label>
+            <label for="pemilik_harta">Nama Pemilik Harta (Almarhum/ah) <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="pemilik_harta" name="pemilik_harta" value="<?= esc($suratAhliWaris['pemilik_harta']) ?>" required>
         </div>
 
@@ -39,11 +39,11 @@
             <?php foreach ($dataAhliWaris as $index => $aw) : ?>
                 <div class="ahli-waris-group border p-3 rounded mb-3">
                     <div class="form-group">
-                        <label>Nama Ahli Waris</label>
+                        <label>Nama Ahli Waris <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="nama_ahli_waris[]" value="<?= esc($aw['nama']) ?>" required>
                     </div>
                     <div class="form-group">
-                        <label>NIK</label>
+                        <label>NIK <span class="text-danger">*</span></label>
                         <input
                             type="text"
                             class="form-control"
@@ -57,11 +57,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Tempat/Tanggal Lahir</label>
+                        <label>Tempat/Tanggal Lahir <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="ttl_ahli_waris[]" value="<?= esc($aw['ttl']) ?>" required>
                     </div>
                     <div class="form-group">
-                        <label>Hubungan dengan Almarhum</label>
+                        <label>Hubungan dengan Almarhum <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="hubungan_ahli_waris[]" value="<?= esc($aw['hubungan']) ?>" required>
                     </div>
                     <button type="button" class="btn btn-danger btn-sm mt-2 remove-ahli-waris">Hapus</button>

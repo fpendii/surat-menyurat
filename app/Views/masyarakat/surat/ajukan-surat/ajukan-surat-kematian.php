@@ -19,7 +19,7 @@
         <?= csrf_field() ?>
 
         <div class="form-group mb-2">
-            <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
+            <label for="nama">Nama <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.nama')) ? 'is-invalid' : '' ?>"
@@ -55,7 +55,7 @@
                 class="form-control <?= (session('errors.ttl')) ? 'is-invalid' : '' ?>"
                 id="ttl"
                 name="ttl"
-                placeholder="Contoh: Bandung, 10 Januari 1960"
+                placeholder="Contoh: Bandung, 10 Januari 2000"
                 value="<?= old('ttl') ?>"
                 required>
             <div class="invalid-feedback">
@@ -65,17 +65,24 @@
 
         <div class="form-group mb-2">
             <label for="agama">Agama <span class="text-danger">*</span></label>
-            <input
-                type="text"
+            <select
                 class="form-control <?= (session('errors.agama')) ? 'is-invalid' : '' ?>"
                 id="agama"
                 name="agama"
-                value="<?= old('agama') ?>"
                 required>
+                <option value="">-- Pilih --</option>
+                <option value="Islam" <?= old('agama') == 'Islam' ? 'selected' : '' ?>>Islam</option>
+                <option value="Kristen" <?= old('agama') == 'Kristen' ? 'selected' : '' ?>>Kristen</option>
+                <option value="Katolik" <?= old('agama') == 'Katolik' ? 'selected' : '' ?>>Katolik</option>
+                <option value="Hindu" <?= old('agama') == 'Hindu' ? 'selected' : '' ?>>Hindu</option>
+                <option value="Budha" <?= old('agama') == 'Budha' ? 'selected' : '' ?>>Budha</option>
+                <option value="Konghucu" <?= old('agama') == 'Konghucu' ? 'selected' : '' ?>>Konghucu</option>
+            </select>
             <div class="invalid-feedback">
                 <?= session('errors.agama') ?>
             </div>
         </div>
+
 
         <div class="form-group mb-2">
             <label for="alamat">Alamat <span class="text-danger">*</span></label>
@@ -147,12 +154,12 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="ktp">Upload KTP <span class="text-danger">*</span></label>
+            <label for="ktp">Upload KTP yang Meninggal <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" id="ktp" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk">Upload KK <span class="text-danger">*</span></label>
+            <label for="kk">Upload KK yang Meninggal<span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" id="kk" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
@@ -164,7 +171,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Keterangan Kematian</h5>
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
@@ -195,7 +202,7 @@
     function showConfirmationModal() {
         // Populate the modal with form data
         document.getElementById('preview_nama').textContent = document.getElementById('nama').value;
-        
+
         const jenisKelaminValue = document.getElementById('jenis_kelamin').value;
         document.getElementById('preview_jenis_kelamin').textContent = jenisKelaminValue === 'L' ? 'Laki-laki' : (jenisKelaminValue === 'P' ? 'Perempuan' : 'Belum dipilih');
 

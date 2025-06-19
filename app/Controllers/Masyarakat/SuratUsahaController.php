@@ -79,7 +79,7 @@ class SuratUsahaController extends BaseController
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
-         // 1. Tentukan kode klasifikasi dan lokasi
+        // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.10.5.4';
         $lokasi = 'Handil Suruk';
         $tahun = date('Y');
@@ -139,12 +139,12 @@ class SuratUsahaController extends BaseController
         $email = \Config\Services::email();
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id'];
 
-         $jenisSurat = 'Surat Pengantar Usaha Baru';
+        $jenisSurat = 'Surat Pengantar Usaha Baru';
         // Load view email
         $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
@@ -195,7 +195,7 @@ class SuratUsahaController extends BaseController
             'alamat_usaha' => $usaha['alamat_usaha'],
             'sejak_tahun' => $usaha['sejak_tahun'],
             'no_surat' => $surat['no_surat'],
-             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Ambil dan encode logo

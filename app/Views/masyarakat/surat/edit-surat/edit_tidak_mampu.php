@@ -28,17 +28,17 @@
         <input type="hidden" name="_method" value="PUT">
 
         <div class="form-group">
-            <label for="nama">Nama Lengkap</label>
+            <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="nama" name="nama" value="<?= old('nama', $detail['nama']) ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="bin_binti">Bin/Binti</label>
+            <label for="bin_binti">Bin/Binti <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="bin_binti" name="bin_binti" value="<?= old('bin_binti', $detail['bin_binti']) ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="nik">NIK</label>
+            <label for="nik">NIK <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control"
@@ -53,12 +53,12 @@
         </div>
 
         <div class="form-group">
-            <label for="ttl">Tempat / Tanggal Lahir</label>
+            <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="ttl" name="ttl" value="<?= old('ttl', $detail['ttl']) ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="jenis_kelamin">Jenis Kelamin</label>
+            <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
                 <option value="">-- Pilih --</option>
                 <option value="L" <?= old('jenis_kelamin', $detail['jenis_kelamin']) == 'L' ? 'selected' : '' ?>>Laki-laki</option>
@@ -67,33 +67,33 @@
         </div>
 
         <div class="form-group">
-            <label for="agama">Agama</label>
+            <label for="agama">Agama <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="agama" name="agama" value="<?= old('agama', $detail['agama']) ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="pekerjaan">Pekerjaan</label>
+            <label for="pekerjaan">Pekerjaan <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" value="<?= old('pekerjaan', $detail['pekerjaan']) ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="alamat">Alamat</label>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea class="form-control" id="alamat" name="alamat" rows="2" required><?= old('alamat', $detail['alamat']) ?></textarea>
         </div>
 
         <div class="form-group">
-            <label for="keperluan">Keperluan </label>
+            <label for="keperluan">Keperluan <span class="text-danger">*</span></label>
             <textarea class="form-control" id="keperluan" name="keperluan" rows="2" required><?= old('keperluan', $detail['keperluan']) ?></textarea>
         </div>
 
         <div class="form-group">
-            <label for="ktp"> Kartu Keluarga (abaikan jika tidak diubah)</label>
-            <input type="file" class="form-control-file" id="ktp" name="ktp">
+            <label for="kk">Upload KTP <span class="text-danger">*</span></label>
+            <input type="file" class="form-control-file" id="kk" name="kk" required>
         </div>
 
         <div class="form-group">
-            <label for="kk"> Kartu Tanda Penduduk (abaikan jika tidak diubah)</label>
-            <input type="file" class="form-control-file" id="kk" name="kk">
+            <label for="ktp">Upload KK <span class="text-danger">*</span></label>
+            <input type="file" class="form-control-file" id="ktp" name="ktp" required>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan</button>

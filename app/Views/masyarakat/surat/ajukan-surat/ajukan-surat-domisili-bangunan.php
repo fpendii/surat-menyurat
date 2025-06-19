@@ -14,77 +14,71 @@
     </div>
   <?php endif; ?>
 
-  <form id="domisiliForm" action="<?= site_url('masyarakat/surat/domisili-bangunan/ajukan') ?>" method="POST" enctype="multipart/form-data">
+  <form id="bangunanForm" action="<?= site_url('masyarakat/surat/domisili-bangunan/ajukan') ?>" method="POST" enctype="multipart/form-data">
     <?= csrf_field() ?>
 
-    <div class="form-group">
-      <label for="nama_gapoktan">Nama Gapoktan <span class="text-danger">*</span></label>
-      <input type="text"
-             class="form-control <?= (session('errors.nama_gapoktan')) ? 'is-invalid' : '' ?>"
-             id="nama_gapoktan" name="nama_gapoktan"
-             value="<?= old('nama_gapoktan') ?>" required>
-      <div class="invalid-feedback"><?= session('errors.nama_gapoktan') ?></div>
+    <h5 class="mt-3">Data Kepala Desa</h5>
+    <div class="form-group mb-2">
+      <label for="nama_pejabat">Nama Kepala Desa <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="nama_pejabat" name="nama_pejabat" value="<?= old('nama_pejabat') ?>" required>
     </div>
 
-    <div class="form-group">
-      <label for="tgl_pembentukan">Tanggal Pembentukan <span class="text-danger">*</span></label>
-      <input type="date"
-             class="form-control <?= (session('errors.tgl_pembentukan')) ? 'is-invalid' : '' ?>"
-             id="tgl_pembentukan" name="tgl_pembentukan"
-             value="<?= old('tgl_pembentukan') ?>" required>
-      <div class="invalid-feedback"><?= session('errors.tgl_pembentukan') ?></div>
+    <div class="form-group mb-2">
+      <label for="jabatan">Jabatan <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="jabatan" name="jabatan" value="<?= old('jabatan') ?>" required>
     </div>
 
-    <div class="form-group">
-      <label for="alamat">Alamat Lengkap <span class="text-danger">*</span></label>
-      <input type="text"
-             class="form-control <?= (session('errors.alamat')) ? 'is-invalid' : '' ?>"
-             id="alamat" name="alamat"
-             value="<?= old('alamat') ?>" required>
-      <div class="invalid-feedback"><?= session('errors.alamat') ?></div>
+    <div class="form-group mb-2">
+      <label for="kecamatan_pejabat">Kecamatan <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="kecamatan_pejabat" name="kecamatan_pejabat" value="<?= old('kecamatan_pejabat') ?>" required>
     </div>
 
-    <div class="form-group">
-      <label for="ketua">Nama Ketua <span class="text-danger">*</span></label>
-      <input type="text"
-             class="form-control <?= (session('errors.ketua')) ? 'is-invalid' : '' ?>"
-             id="ketua" name="ketua"
-             value="<?= old('ketua') ?>" required>
-      <div class="invalid-feedback"><?= session('errors.ketua') ?></div>
+    <div class="form-group mb-2">
+      <label for="kabupaten_pejabat">Kabupaten <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="kabupaten_pejabat" name="kabupaten_pejabat" value="<?= old('kabupaten_pejabat') ?>" required>
     </div>
 
-    <div class="form-group">
-      <label for="sekretaris">Nama Sekretaris <span class="text-danger">*</span></label>
-      <input type="text"
-             class="form-control <?= (session('errors.sekretaris')) ? 'is-invalid' : '' ?>"
-             id="sekretaris" name="sekretaris"
-             value="<?= old('sekretaris') ?>" required>
-      <div class="invalid-feedback"><?= session('errors.sekretaris') ?></div>
+    <h5 class="mt-3">Data Bangunan</h5>
+    <div class="form-group mb-2">
+      <label for="nama_kantor"> Kantor <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="nama_kantor" name="nama_kantor" value="<?= old('nama_kantor') ?>" required>
     </div>
 
-    <div class="form-group">
-      <label for="bendahara">Nama Bendahara <span class="text-danger">*</span></label>
-      <input type="text"
-             class="form-control <?= (session('errors.bendahara')) ? 'is-invalid' : '' ?>"
-             id="bendahara" name="bendahara"
-             value="<?= old('bendahara') ?>" required>
-      <div class="invalid-feedback"><?= session('errors.bendahara') ?></div>
+
+    <div class="form-group mb-2">
+      <label for="alamat_kantor">Alamat <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="alamat_kantor" name="alamat_kantor" value="<?= old('alamat_kantor') ?>" required>
     </div>
 
-    <div class="form-group">
-      <label for="ktp">Upload KTP <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
-      <input type="file"
-             class="form-control <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>"
-             id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-      <div class="invalid-feedback"><?= session('errors.ktp') ?></div>
+    <div class="form-group mb-2">
+      <label for="desa">Desa <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="desa" name="desa" value="<?= old('desa') ?>" required>
     </div>
 
-    <div class="form-group">
-      <label for="kk">Upload KK <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
-      <input type="file"
-             class="form-control <?= (session('errors.kk')) ? 'is-invalid' : '' ?>"
-             id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
-      <div class="invalid-feedback"><?= session('errors.kk') ?></div>
+    <div class="form-group mb-2">
+      <label for="kecamatan">Kecamatan <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="kecamatan" name="kecamatan" value="<?= old('kecamatan') ?>" required>
+    </div>
+
+    <div class="form-group mb-2">
+      <label for="kabupaten">Kabupaten <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="kabupaten" name="kabupaten" value="<?= old('kabupaten') ?>" required>
+    </div>
+
+    <div class="form-group mb-2">
+      <label for="provinsi">Provinsi <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="provinsi" name="provinsi" value="<?= old('provinsi') ?>" required>
+    </div>
+
+    <h5 class="mt-4">Upload Berkas</h5>
+    <div class="form-group mb-2">
+      <label for="ktp">Upload KTP Penanggung Jawab <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+      <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
+    </div>
+
+    <div class="form-group mb-2">
+      <label for="kk">Upload KK Penanggung Jawab <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+      <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
     </div>
 
     <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
@@ -93,25 +87,32 @@
 
 <!-- Modal Konfirmasi -->
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Data</h5>
+        <h5 class="modal-title">Konfirmasi Data Pengajuan Surat Domisili Bangunan</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
       </div>
       <div class="modal-body">
-        <p><strong>Nama Gapoktan:</strong> <span id="preview_nama_gapoktan"></span></p>
-        <p><strong>Tanggal Pembentukan:</strong> <span id="preview_tgl_pembentukan"></span></p>
-        <p><strong>Alamat:</strong> <span id="preview_alamat"></span></p>
-        <p><strong>Nama Ketua:</strong> <span id="preview_ketua"></span></p>
-        <p><strong>Nama Sekretaris:</strong> <span id="preview_sekretaris"></span></p>
-        <p><strong>Nama Bendahara:</strong> <span id="preview_bendahara"></span></p>
-        <p><strong>File KTP:</strong> <span id="preview_ktp"></span></p>
-        <p><strong>File KK:</strong> <span id="preview_kk"></span></p>
+        <h6><strong>Data Kepala Desa</strong></h6>
+        <p><strong>Nama:</strong> <span id="preview_nama_pejabat"></span></p>
+        <p><strong>Jabatan:</strong> <span id="preview_jabatan"></span></p>
+        <p><strong>Kecamatan:</strong> <span id="preview_kecamatan_pejabat"></span></p>
+        <p><strong>Kabupaten:</strong> <span id="preview_kabupaten_pejabat"></span></p>
+
+        <h6 class="mt-4"><strong>Data Bangunan</strong></h6>
+        <p><strong>Kantor:</strong> <span id="preview_nama_kantor"></span></p>
+        <p><strong>Alamat:</strong> <span id="preview_alamat_kantor"></span></p>
+        <p><strong>Desa:</strong> <span id="preview_desa"></span></p>
+        <p><strong>Kecamatan:</strong> <span id="preview_kecamatan"></span></p>
+        <p><strong>Kabupaten:</strong> <span id="preview_kabupaten"></span></p>
+        <p><strong>Provinsi:</strong> <span id="preview_provinsi"></span></p>
+        <p><strong>KTP:</strong> <span id="preview_ktp"></span></p>
+        <p><strong>KK:</strong> <span id="preview_kk"></span></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-        <button type="button" class="btn btn-success" onclick="submitForm()">Ya, Ajukan</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+        <button class="btn btn-success" onclick="submitForm()">Ya, Ajukan</button>
       </div>
     </div>
   </div>
@@ -119,27 +120,34 @@
 
 <script>
   function showConfirmationModal() {
-    document.getElementById('preview_nama_gapoktan').textContent = document.getElementById('nama_gapoktan').value;
-    document.getElementById('preview_tgl_pembentukan').textContent = document.getElementById('tgl_pembentukan').value;
-    document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;
-    document.getElementById('preview_ketua').textContent = document.getElementById('ketua').value;
-    document.getElementById('preview_sekretaris').textContent = document.getElementById('sekretaris').value;
-    document.getElementById('preview_bendahara').textContent = document.getElementById('bendahara').value;
+    // Data Kepala Desa
+    document.getElementById('preview_nama_pejabat').textContent = document.getElementById('nama_pejabat').value;
+    document.getElementById('preview_jabatan').textContent = document.getElementById('jabatan').value;
+    document.getElementById('preview_kecamatan_pejabat').textContent = document.getElementById('kecamatan_pejabat').value;
+    document.getElementById('preview_kabupaten_pejabat').textContent = document.getElementById('kabupaten_pejabat').value;
 
-    const ktpFile = document.getElementById('ktp').files[0];
-    const kkFile = document.getElementById('kk').files[0];
-    document.getElementById('preview_ktp').textContent = ktpFile ? ktpFile.name : 'Belum dipilih';
-    document.getElementById('preview_kk').textContent = kkFile ? kkFile.name : 'Belum dipilih';
+    // Data Kantor
+    document.getElementById('preview_nama_kantor').textContent = document.getElementById('nama_kantor').value;
+    document.getElementById('preview_nik').textContent = document.getElementById('nik').value;
+    document.getElementById('preview_alamat_kantor').textContent = document.getElementById('alamat_kantor').value;
+    document.getElementById('preview_desa').textContent = document.getElementById('desa').value;
+    document.getElementById('preview_kecamatan').textContent = document.getElementById('kecamatan').value;
+    document.getElementById('preview_kabupaten').textContent = document.getElementById('kabupaten').value;
+    document.getElementById('preview_provinsi').textContent = document.getElementById('provinsi').value;
 
-    const myModal = new bootstrap.Modal(document.getElementById('confirmModal'), {
-      backdrop: 'static',
-      keyboard: false
-    });
-    myModal.show();
+    // File
+    const ktp = document.getElementById('ktp').files[0];
+    const kk = document.getElementById('kk').files[0];
+    document.getElementById('preview_ktp').textContent = ktp ? ktp.name : 'Belum dipilih';
+    document.getElementById('preview_kk').textContent = kk ? kk.name : 'Belum dipilih';
+
+    // Tampilkan modal
+    const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+    modal.show();
   }
 
   function submitForm() {
-    document.getElementById('domisiliForm').submit();
+    document.getElementById('bangunanForm').submit();
   }
 </script>
 

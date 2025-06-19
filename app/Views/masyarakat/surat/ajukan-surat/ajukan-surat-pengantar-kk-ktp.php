@@ -28,13 +28,20 @@
 
                 <div class="form-group mb-2">
                     <label>No Kartu Keluarga <span class="text-danger">*</span></label>
-                    <input type="text" name="data[0][no_kk]" class="form-control" required>
+                    <input type="text" name="data[0][no_kk]" class="form-control" required
+                        maxlength="16" minlength="16" pattern="\d{16}"
+                        oninput="this.value = this.value.replace(/\D/g, '')"
+                        placeholder="Masukkan 16 digit KK">
+                    <small class="form-text text-muted"></small>
                 </div>
 
                 <div class="form-group mb-2">
                     <label for="nik_0">NIK <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="nik_0" name="data[0][nik]" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
-                    <small class="form-text text-muted">NIK harus 16 digit angka.</small>
+                    <input type="text" class="form-control" id="nik_0" name="data[0][nik]" required
+                        maxlength="16" minlength="16" pattern="\d{16}"
+                        oninput="this.value = this.value.replace(/\D/g, '')"
+                        placeholder="Masukkan 16 digit NIK">
+                    <small class="form-text text-muted"></small>
                 </div>
 
                 <div class="form-group mb-2">
@@ -50,12 +57,12 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="ktp_file">Upload KTP <span class="text-danger">*</span></label>
+            <label for="ktp_file">Upload KTP <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" id="ktp_file" name="ktp" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk_file">Upload KK <span class="text-danger">*</span></label>
+            <label for="kk_file">Upload KK <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" id="kk_file" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
@@ -64,15 +71,15 @@
     </form>
 </div>
 
+<!-- Modal Konfirmasi -->
 <div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Pengantar KK dan KTP</h5>
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
-            <div class="modal-body" id="modal-body-content">
-                </div>
+            <div class="modal-body" id="modal-body-content"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
@@ -98,12 +105,19 @@
 
             <div class="form-group mb-2">
                 <label>No Kartu Keluarga <span class="text-danger">*</span></label>
-                <input type="text" name="data[${count}][no_kk]" class="form-control" required>
+                <input type="text" name="data[${count}][no_kk]" class="form-control" required
+                       maxlength="16" minlength="16" pattern="\\d{16}"
+                       oninput="this.value = this.value.replace(/\\D/g, '')"
+                       placeholder="Masukkan 16 digit KK">
+                <small class="form-text text-muted">Nomor KK harus 16 digit angka.</small>
             </div>
 
             <div class="form-group mb-2">
                 <label>NIK <span class="text-danger">*</span></label>
-                <input type="text" name="data[${count}][nik]" class="form-control" required maxlength="16" minlength="16" pattern="\\d{16}" oninput="this.value = this.value.replace(/\\D/g, '')" placeholder="Masukkan 16 digit NIK">
+                <input type="text" name="data[${count}][nik]" class="form-control" required
+                       maxlength="16" minlength="16" pattern="\\d{16}"
+                       oninput="this.value = this.value.replace(/\\D/g, '')"
+                       placeholder="Masukkan 16 digit NIK">
                 <small class="form-text text-muted">NIK harus 16 digit angka.</small>
             </div>
 
@@ -125,20 +139,20 @@
 
     function showConfirmationModal() {
         const modalBody = document.getElementById('modal-body-content');
-        modalBody.innerHTML = ''; // Clear previous content
+        modalBody.innerHTML = '';
 
         const personForms = document.querySelectorAll('.form-person');
         personForms.forEach((form, index) => {
-            const nama = form.querySelector('[name="data[' + index + '][nama]"]').value;
-            const no_kk = form.querySelector('[name="data[' + index + '][no_kk]"]').value;
-            const nik = form.querySelector('[name="data[' + index + '][nik]"]').value;
-            const keterangan = form.querySelector('[name="data[' + index + '][keterangan]"]').value;
-            const jumlah = form.querySelector('[name="data[' + index + '][jumlah]"]').value;
+            const nama = form.querySelector(`[name="data[${index}][nama]"]`).value;
+            const no_kk = form.querySelector(`[name="data[${index}][no_kk]"]`).value;
+            const nik = form.querySelector(`[name="data[${index}][nik]"]`).value;
+            const keterangan = form.querySelector(`[name="data[${index}][keterangan]"]`).value;
+            const jumlah = form.querySelector(`[name="data[${index}][jumlah]"]`).value;
 
             modalBody.innerHTML += `
                 <h6><strong>Data Orang ${index + 1}</strong></h6>
                 <p><strong>Nama:</strong> ${nama}</p>
-                <p><strong>No Kartu Keluarga:</strong> ${no_kk}</p>
+                <p><strong>No KK:</strong> ${no_kk}</p>
                 <p><strong>NIK:</strong> ${nik}</p>
                 <p><strong>Keterangan:</strong> ${keterangan}</p>
                 <p><strong>Jumlah:</strong> ${jumlah}</p>
@@ -146,7 +160,6 @@
             `;
         });
 
-        // Add file uploads to the modal body
         const ktpFile = document.getElementById('ktp_file').files[0];
         const kkFile = document.getElementById('kk_file').files[0];
 
@@ -156,13 +169,11 @@
             <p><strong>KK:</strong> ${kkFile ? kkFile.name : 'Belum ada file dipilih'}</p>
         `;
 
-        // Show the modal
         const confirmModal = new bootstrap.Modal(document.getElementById('konfirmasiModal'));
         confirmModal.show();
     }
 
     function submitForm() {
-        // Submit the form
         document.getElementById('formKKKTP').submit();
     }
 </script>

@@ -74,7 +74,7 @@ class SuratStatusPerkawinanController extends BaseController
         // Transaksi agar data konsisten
         $db->transStart();
 
-         // 1. Tentukan kode klasifikasi dan lokasi
+        // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.12.3.2';
         $lokasi = 'Handil Suruk';
         $tahun = date('Y');
@@ -82,7 +82,7 @@ class SuratStatusPerkawinanController extends BaseController
         // 2. Hitung nomor urut surat dari database berdasarkan tahun
         $suratModel = new \App\Models\SuratModel();
         $jumlahSuratTahunIni = $suratModel
-            ->whereIn('jenis_surat', ['status_perkawinan','suami_istri'])
+            ->whereIn('jenis_surat', ['status_perkawinan', 'suami_istri'])
             ->where('YEAR(created_at)', $tahun)
             ->countAllResults();
         $nomorUrut = $jumlahSuratTahunIni + 1;
@@ -100,7 +100,7 @@ class SuratStatusPerkawinanController extends BaseController
         $kkName = $kkFile->getRandomName();
         $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
         // Simpan data ke tabel surat
-       
+
         $suratData = [
             'id_user' => session()->get('user_id'),
             'no_surat' => $nomorSurat,
@@ -134,12 +134,12 @@ class SuratStatusPerkawinanController extends BaseController
         $email = \Config\Services::email();
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
-         $jenisSurat = 'Surat Status Perkawinan';
+        $jenisSurat = 'Surat Status Perkawinan';
         // Load view email
         $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
@@ -188,7 +188,7 @@ class SuratStatusPerkawinanController extends BaseController
             'agama' => $detail['agama'],
             'alamat' => $detail['alamat'],
             'status' => $detail['status'],
-             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Render view surat jadi HTML

@@ -1,11 +1,11 @@
-<!-- app/Views/ajukan_surat_domisili.php -->
+<!-- app/Views/ajukan_surat_domisili_bangunan.php -->
 
 <?= $this->extend('komponen/template-admin') ?>
 
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
-  <h2>Ajukan Surat Domisili Bangunan</h2>
+  <h2>Edit Surat Domisili Bangunan</h2>
 
   <!-- Catatan dari Kepala Desa -->
   <?php if (!empty($surat['catatan'])): ?>
@@ -15,98 +15,78 @@
     </div>
   <?php endif; ?>
 
-  <!-- Catatan dari Kepala Desa -->
-  <?php if (!empty($surat['catatan'])): ?>
-    <div class="alert alert-warning">
-      <strong>Catatan dari Kepala Desa:</strong><br>
-      <?= nl2br(esc($surat['catatan'])) ?>
-    </div>
-  <?php endif; ?>
+  <form action="<?= site_url('masyarakat/surat/domisili-bangunan/update/' . $surat['id_surat']) ?>" method="POST" enctype="multipart/form-data">
+    <?= csrf_field() ?>
 
-  <form id="domisiliForm" action="<?= site_url('masyarakat/data-surat/domisili_bangunan/update/' . $detail['id_surat']) ?>" method="POST"">
-        <?= csrf_field() ?>
+    <h5 class="mt-3">Data Kepala Desa</h5>
+    <input type="hidden" value="<?= $surat['no_surat'] ?>" class="form-control" id="no_surat" name="no_surat">
 
-        <input type=" text" name="no_surat" value="<?= $surat['no_surat'] ?>" hidden>
-    <div class="form-group">
-      <label for="nama_gapoktan">Nama Gapoktan</label>
-      <input type="text" value="<?= $detail['nama_gapoktan'] ?>" class="form-control" id="nama_gapoktan" name="nama_gapoktan" required>
+    <div class="form-group mb-2">
+      <label for="nama_pejabat">Nama <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['nama_pejabat'] ?>" class="form-control" id="nama_pejabat" name="nama_pejabat" required>
     </div>
 
-    <div class="form-group">
-      <label for="tgl_pembentukan">Tanggal Pembentukan</label>
-      <input type="date" value="<?= $detail['tgl_pembentukan'] ?>" class="form-control" id="tgl_pembentukan" name="tgl_pembentukan" required>
+    <div class="form-group mb-2">
+      <label for="jabatan">Jabatan <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['jabatan'] ?>" class="form-control" id="jabatan" name="jabatan" required>
     </div>
 
-    <div class="form-group">
-      <label for="alamat">Alamat Lengkap</label>
-      <input type="text" value="<?= $detail['alamat'] ?>" class="form-control" id="alamat" name="alamat" required>
+    <div class="form-group mb-2">
+      <label for="kecamatan_pejabat">Kecamatan <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['kecamatan_pejabat'] ?>" class="form-control" id="kecamatan_pejabat" name="kecamatan_pejabat" required>
     </div>
 
-    <div class="form-group">
-      <label for="ketua">Nama Ketua</label>
-      <input type="text" value="<?= $detail['ketua'] ?>" class="form-control" id="ketua" name="ketua" required>
+    <div class="form-group mb-2">
+      <label for="kabupaten_pejabat">Kabupaten <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['kabupaten_pejabat'] ?>" class="form-control" id="kabupaten_pejabat" name="kabupaten_pejabat" required>
     </div>
 
-    <div class="form-group">
-      <label for="sekretaris">Nama Sekretaris</label>
-      <input type="text" value="<?= $detail['sekretaris'] ?>" class="form-control" id="sekretaris" name="sekretaris" required>
+    <h5 class="mt-4">Data Bangunan</h5>
+
+    <div class="form-group mb-2">
+      <label for="nama_bangunan">Nama Bangunan <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['nama_bangunan'] ?? '' ?>" class="form-control" id="nama_bangunan" name="nama_bangunan" required>
     </div>
 
-    <div class="form-group">
-      <label for="bendahara">Nama Bendahara</label>
-      <input type="text" value="<?= $detail['bendahara'] ?>" class="form-control" id="bendahara" name="bendahara" required>
+    <div class="form-group mb-2">
+      <label for="penanggung_jawab">Penanggung Jawab <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['penanggung_jawab'] ?? '' ?>" class="form-control" id="penanggung_jawab" name="penanggung_jawab" required>
     </div>
 
-    <!-- Tombol trigger modal -->
-    <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan</button>
+    <div class="form-group mb-2">
+      <label for="alamat">Alamat Bangunan <span class="text-danger">*</span></label>
+      <textarea class="form-control" id="alamat" name="alamat" rows="2" required><?= $detail['alamat'] ?? '' ?></textarea>
+    </div>
+
+    <div class="form-group mb-2">
+      <label for="desa">Desa <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['desa'] ?>" class="form-control" id="desa" name="desa" required>
+    </div>
+
+    <div class="form-group mb-2">
+      <label for="kecamatan">Kecamatan <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['kecamatan'] ?>" class="form-control" id="kecamatan" name="kecamatan" required>
+    </div>
+
+    <div class="form-group mb-2">
+      <label for="kabupaten">Kabupaten <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['kabupaten'] ?>" class="form-control" id="kabupaten" name="kabupaten" required>
+    </div>
+
+    <div class="form-group mb-2">
+      <label for="provinsi">Provinsi <span class="text-danger">*</span></label>
+      <input type="text" value="<?= $detail['provinsi'] ?>" class="form-control" id="provinsi" name="provinsi" required>
+    </div>
+
+    <!-- Optional upload berkas (jika ingin ditambahkan)
+        <div class="form-group mb-2">
+            <label for="dokumen_pendukung">Upload Dokumen Pendukung (opsional)</label>
+            <input type="file" class="form-control" id="dokumen_pendukung" name="dokumen_pendukung" accept=".pdf,.jpg,.jpeg,.png">
+        </div>
+        -->
+
+    <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
   </form>
 </div>
-
-<!-- Modal Konfirmasi -->
-<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Data</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Nama Gapoktan:</strong> <span id="preview_nama_gapoktan"></span></p>
-        <p><strong>Tanggal Pembentukan:</strong> <span id="preview_tgl_pembentukan"></span></p>
-        <p><strong>Alamat:</strong> <span id="preview_alamat"></span></p>
-        <p><strong>Ketua:</strong> <span id="preview_ketua"></span></p>
-        <p><strong>Sekretaris:</strong> <span id="preview_sekretaris"></span></p>
-        <p><strong>Bendahara:</strong> <span id="preview_bendahara"></span></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-        <button type="button" class="btn btn-success" onclick="submitForm()">Ya, Ajukan</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- JavaScript Konfirmasi -->
-<script>
-  function showConfirmationModal() {
-    document.getElementById('preview_nama_gapoktan').textContent = document.getElementById('nama_gapoktan').value;
-    document.getElementById('preview_tgl_pembentukan').textContent = document.getElementById('tgl_pembentukan').value;
-    document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;
-    document.getElementById('preview_ketua').textContent = document.getElementById('ketua').value;
-    document.getElementById('preview_sekretaris').textContent = document.getElementById('sekretaris').value;
-    document.getElementById('preview_bendahara').textContent = document.getElementById('bendahara').value;
-
-    // Tampilkan modal
-    const myModal = new bootstrap.Modal(document.getElementById('confirmModal'), {
-      backdrop: 'static',
-      keyboard: false
-    });
-    myModal.show();
-  }
-
-  function submitForm() {
-    document.getElementById('domisiliForm').submit();
-  }
-</script>
 
 <?= $this->endSection() ?>

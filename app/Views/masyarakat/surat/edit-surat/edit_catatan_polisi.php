@@ -29,7 +29,7 @@
 
         <!-- Form input dasar -->
         <div class="form-group">
-            <label for="nama">Nama</label>
+            <label for="nama">Nama <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.nama')) ? 'is-invalid' : '' ?>"
@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-            <label for="jenis_kelamin">Jenis Kelamin</label>
+            <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select
                 class="form-control <?= (session('errors.jenis_kelamin')) ? 'is-invalid' : '' ?>"
                 id="jenis_kelamin" name="jenis_kelamin"
@@ -53,7 +53,7 @@
         </div>
 
         <div class="form-group">
-            <label for="tempat_tanggal_lahir">Tempat, Tanggal Lahir</label>
+            <label for="tempat_tanggal_lahir">Tempat, Tanggal Lahir <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.tempat_tanggal_lahir')) ? 'is-invalid' : '' ?>"
@@ -65,22 +65,22 @@
         </div>
 
         <div class="form-group">
-            <label for="status_perkawinan">Status Perkawinan</label>
+            <label for="status_perkawinan">Status Perkawinan <span class="text-danger">*</span></label>
             <select
                 class="form-control <?= (session('errors.status_perkawinan')) ? 'is-invalid' : '' ?>"
                 id="status_perkawinan" name="status_perkawinan"
                 required>
                 <option value="">-- Pilih --</option>
-                <option value="Belum Kawin" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Belum Kawin') ? 'selected' : '' ?>>Janda</option>
-                <option value="Kawin" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Kawin') ? 'selected' : '' ?>>Duda</option>
-                <option value="Cerai Hidup" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Cerai Hidup') ? 'selected' : '' ?>>Perjaka</option>
+                <option value="Belum Kawin" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Belum Kawin') ? 'selected' : '' ?>>Belum Kawin</option>
+                <option value="Kawin" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Kawin') ? 'selected' : '' ?>>Kawin</option>
+                <option value="Cerai Hidup" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Cerai Hidup') ? 'selected' : '' ?>>Cerai Hidup</option>
                 <option value="Cerai Mati" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Cerai Mati') ? 'selected' : '' ?>>Cerai Mati</option>
             </select>
             <div class="invalid-feedback"><?= session('errors.status_perkawinan') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="kewarganegaraan">Kewarganegaraan</label>
+            <label for="kewarganegaraan">Kewarganegaraan <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.kewarganegaraan')) ? 'is-invalid' : '' ?>"
@@ -91,7 +91,7 @@
         </div>
 
         <div class="form-group">
-            <label for="agama">Agama</label>
+            <label for="agama">Agama <span class="text-danger">*</span></label>
             <select
                 class="form-control <?= (session('errors.agama')) ? 'is-invalid' : '' ?>"
                 id="agama" name="agama"
@@ -108,7 +108,7 @@
         </div>
 
         <div class="form-group">
-            <label for="pekerjaan">Pekerjaan</label>
+            <label for="pekerjaan">Pekerjaan <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.pekerjaan')) ? 'is-invalid' : '' ?>"
@@ -119,7 +119,7 @@
         </div>
 
         <div class="form-group">
-            <label for="nik">NIK</label>
+            <label for="nik">NIK <span class="text-danger">*</span></label>
             <input
                 type="text"
                 class="form-control <?= (session('errors.nik')) ? 'is-invalid' : '' ?>"
@@ -130,7 +130,7 @@
         </div>
 
         <div class="form-group">
-            <label for="alamat">Alamat</label>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea
                 class="form-control <?= (session('errors.alamat')) ? 'is-invalid' : '' ?>"
                 id="alamat" name="alamat" rows="3"
@@ -140,46 +140,48 @@
 
         <!-- File Uploads -->
         <div class="form-group mt-4">
-            <label for="kk">Kartu Keluarga <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
+            <label for="kk">Upload KK <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
             <input
                 type="file"
                 class="form-control-file <?= (session('errors.kk')) ? 'is-invalid' : '' ?>"
                 id="kk" name="kk"
-                accept=".pdf,.jpg,.jpeg,.png">
+                accept=".pdf,.jpg,.jpeg,.png"
+                required>
             <div class="invalid-feedback"><?= session('errors.kk') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="ktp">Kartu Tanda Penduduk <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
+            <label for="ktp">Upload KTP<span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
             <input
                 type="file"
                 class="form-control-file <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>"
                 id="ktp" name="ktp"
-                accept=".pdf,.jpg,.jpeg,.png">
+                accept=".pdf,.jpg,.jpeg,.png"
+                required>
             <div class="invalid-feedback"><?= session('errors.ktp') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="akta_lahir">Akta Lahir <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
+            <label for="akta_lahir">Upload Akta Lahir <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
             <input
                 type="file"
                 class="form-control-file <?= (session('errors.akta_lahir')) ? 'is-invalid' : '' ?>"
                 id="akta_lahir" name="akta_lahir"
-                accept=".pdf,.jpg,.jpeg,.png">
+                accept=".pdf,.jpg,.jpeg,.png"
+                required>
             <div class="invalid-feedback"><?= session('errors.akta_lahir') ?></div>
         </div>
 
         <div class="form-group">
-            <label for="ijazah">Ijazah <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
+            <label for="ijazah">Upload Ijazah Terakhir<span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
             <input
                 type="file"
                 class="form-control-file <?= (session('errors.ijazah')) ? 'is-invalid' : '' ?>"
                 id="ijazah" name="ijazah"
-                accept=".pdf,.jpg,.jpeg,.png">
+                accept=".pdf,.jpg,.jpeg,.png"
+                required>
             <div class="invalid-feedback"><?= session('errors.ijazah') ?></div>
         </div>
-
-
 
         <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
     </form>

@@ -24,7 +24,7 @@
                 class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>"
                 id="nama" name="nama"
                 value="<?= old('nama') ?>" required>
-            <small class="form-text text-muted">Masukkan nama lengkap sesuai KTP.</small>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.nama') ?></div>
         </div>
 
@@ -37,15 +37,15 @@
                 required minlength="16" maxlength="16"
                 pattern="\d{16}"
                 oninput="this.value=this.value.replace(/\D/g,'')">
-            <small class="form-text text-muted">Masukkan 16 digit angka.</small>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.nik') ?></div>
         </div>
 
         <div class="form-group mb-2">
-            <label for="alamat">Alamat Tempat Tinggal <span class="text-danger">*</span></label>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
             <textarea class="form-control <?= session('errors.alamat') ? 'is-invalid' : '' ?>"
                 id="alamat" name="alamat" rows="2" required><?= old('alamat') ?></textarea>
-            <small class="form-text text-muted">Tulis alamat sesuai KTP.</small>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.alamat') ?></div>
         </div>
 
@@ -56,7 +56,7 @@
                 id="rt_rw" name="rt_rw"
                 placeholder="Contoh: 02/03"
                 value="<?= old('rt_rw') ?>" required>
-            <small class="form-text text-muted">Masukkan format RT/RW dengan benar.</small>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.rt_rw') ?></div>
         </div>
 
@@ -126,21 +126,21 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk_file">Kartu Keluarga <span class="text-danger">*</span></label>
-            <input type="file"
-                class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>"
-                id="kk_file" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">Unggah file KK dalam format JPG, JPEG, PNG, atau PDF (maksimal 2MB).</small>
-            <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
-        </div>
-
-        <div class="form-group mb-2">
-            <label for="ktp_file">Kartu Tanda Penduduk<span class="text-danger">*</span></label>
+            <label for="ktp_file">Upload KTP<span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file"
                 class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>"
                 id="ktp_file" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-            <small class="form-text text-muted">Unggah file KTP dalam format JPG, JPEG, PNG, atau PDF (maksimal 2MB).</small>
+            <small class="form-text text-muted"></small>
             <div class="invalid-feedback d-block"><?= session('errors.ktp') ?></div>
+        </div>
+
+        <div class="form-group mb-2">
+            <label for="kk_file">Upload KK <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
+            <input type="file"
+                class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>"
+                id="kk_file" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
+            <small class="form-text text-muted"></small>
+            <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
         </div>
 
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
@@ -151,7 +151,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Keterangan Usaha</h5>
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
@@ -171,8 +171,9 @@
                 <p><strong>Sejak Tahun:</strong> <span id="preview_sejak_tahun"></span></p>
 
                 <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
-                <p><strong>Kartu Keluarga (KK):</strong> <span id="preview_kk_file"></span></p>
-                <p><strong>Kartu Tanda Penduduk (KTP):</strong> <span id="preview_ktp_file"></span></p>
+                <p><strong>Kartu Tanda Penduduk:</strong> <span id="preview_ktp_file"></span></p>
+                <p><strong>Kartu Keluarga:</strong> <span id="preview_kk_file"></span></p>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>

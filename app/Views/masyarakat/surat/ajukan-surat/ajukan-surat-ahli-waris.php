@@ -67,35 +67,35 @@
 
 <!-- Modal Konfirmasi -->
 <div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Konfirmasi Pengajuan Surat</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Nama Pemilik Harta:</strong> <span id="preview_pemilik_harta"></span></p>
-        <div id="preview_ahli_waris"></div>
-        <p class="text-danger mt-3">Apakah Anda yakin semua data sudah benar?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
-        <button type="button" class="btn btn-success" id="konfirmasiSubmit">Ya, Ajukan!</button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Konfirmasi Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Nama Pemilik Harta:</strong> <span id="preview_pemilik_harta"></span></p>
+                <div id="preview_ahli_waris"></div>
+                <p class="text-danger mt-3">Apakah Anda yakin semua data sudah benar?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
+                <button type="button" class="btn btn-success" id="konfirmasiSubmit">Ya, Ajukan!</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Script Dynamic Input dan Modal Preview -->
 <script>
-    document.getElementById('tambah-ahli-waris').addEventListener('click', function () {
+    document.getElementById('tambah-ahli-waris').addEventListener('click', function() {
         const wrapper = document.getElementById('ahli-waris-wrapper');
         const clone = wrapper.firstElementChild.cloneNode(true);
         clone.querySelectorAll('input').forEach(input => input.value = '');
         wrapper.appendChild(clone);
     });
 
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-ahli-waris')) {
             const groups = document.querySelectorAll('.ahli-waris-group');
             if (groups.length > 1) {
@@ -106,7 +106,7 @@
         }
     });
 
-    document.querySelector('[data-bs-target="#konfirmasiModal"]').addEventListener('click', function () {
+    document.querySelector('[data-bs-target="#konfirmasiModal"]').addEventListener('click', function() {
         document.getElementById('preview_pemilik_harta').innerText = document.getElementById('pemilik_harta').value;
 
         const container = document.getElementById('preview_ahli_waris');
@@ -132,7 +132,7 @@
         });
     });
 
-    document.getElementById('konfirmasiSubmit').addEventListener('click', function () {
+    document.getElementById('konfirmasiSubmit').addEventListener('click', function() {
         document.getElementById('formAhliWaris').submit();
     });
 </script>
