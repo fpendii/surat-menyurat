@@ -14,31 +14,53 @@ class SuratDomisiliBangunan extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'id_surat'            => [
+            'id_surat' => [
                 'type' => 'INT',
                 'null' => true
             ],
-            'nama_gapoktan' => [
+            'nama_instansi' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '255',
+                'comment'    => 'Contoh: "Taman Kanak-Kanak SARTIKA"',
             ],
-            'tgl_pembentukan' => [
-                'type' => 'DATE',
-            ],
-            'alamat' => [
+            'alamat_instansi' => [
                 'type'       => 'TEXT',
+                'comment'    => 'Contoh: "Handil Suruk RT 003 RW 001"',
             ],
-            'ketua' => [
+            'desa_instansi' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
+                'comment'    => 'Contoh: "Handil Suruk"',
             ],
-            'sekretaris' => [
+            'kecamatan_instansi' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
+                'comment'    => 'Contoh: "Bumi Makmur"',
             ],
-            'bendahara' => [
+            'kabupaten_instansi' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
+                'comment'    => 'Contoh: "Tanah Laut"',
+            ],
+            'provinsi_instansi' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '100',
+                'comment'    => 'Contoh: "Kalimantan Selatan"',
+            ],
+            'nama_pejabat' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '100',
+                'comment'    => 'Contoh: "Khalikul Bashir"',
+            ],
+            'jabatan_pejabat' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '100',
+                'comment'    => 'Contoh: "Kepala Desa"',
+            ],
+            'desa_pejabat' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '100',
+                'comment'    => 'Contoh: "Handil Suruk"',
             ],
         ]);
 
