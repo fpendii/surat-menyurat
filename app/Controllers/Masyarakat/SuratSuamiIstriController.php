@@ -29,7 +29,7 @@ class SuratSuamiIstriController extends BaseController
             'ttl_istri' => $this->request->getPost('ttl_istri'),
             'agama_istri' => $this->request->getPost('agama_istri'),
             'alamat_istri' => $this->request->getPost('alamat_istri'),
-            
+
         ];
 
         $path = FCPATH . 'img/logo.png'; // pastikan path benar
@@ -83,7 +83,7 @@ class SuratSuamiIstriController extends BaseController
         $db = \Config\Database::connect();
         $db->transStart();
 
-         // 1. Tentukan kode klasifikasi dan lokasi
+        // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.12.3.2';
         $lokasi = 'Handil Suruk';
         $tahun = date('Y');
@@ -91,7 +91,7 @@ class SuratSuamiIstriController extends BaseController
         // 2. Hitung nomor urut surat dari database berdasarkan tahun
         $suratModel = new \App\Models\SuratModel();
         $jumlahSuratTahunIni = $suratModel
-            ->whereIn('jenis_surat', ['status_perkawinan','suami_istri'])
+            ->whereIn('jenis_surat', ['status_perkawinan', 'suami_istri'])
             ->where('YEAR(created_at)', $tahun)
             ->countAllResults();
         $nomorUrut = $jumlahSuratTahunIni + 1;
@@ -99,7 +99,7 @@ class SuratSuamiIstriController extends BaseController
         // 3. Gabungkan semua jadi nomor surat
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
-         // Upload file KTP
+        // Upload file KTP
         $ktpFile = $this->request->getFile('ktp');
         $ktpName = $ktpFile->getRandomName();
         $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
@@ -154,10 +154,10 @@ class SuratSuamiIstriController extends BaseController
 
         $jenisSurat = 'Surat Suami Istri';
         // Load view email
-       $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+        $view = view('email/notifikasi', [
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
@@ -173,7 +173,7 @@ class SuratSuamiIstriController extends BaseController
             $email->clear();
         }
 
-        return redirect()->to('/masyarakat/surat/')->with('success', 'Pengajuan surat suami istri berhasil diajukan.');
+        return redirect()->to('/masyarakat/surat/')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
 
     public function downloadSurat($id)
@@ -218,7 +218,7 @@ class SuratSuamiIstriController extends BaseController
             'ttl_istri' => $detail['ttl_istri'],
             'agama_istri' => $detail['agama_istri'],
             'alamat_istri' => $detail['alamat_istri'],
-             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
             // tanggal_nikah dan tempat_nikah bisa ditambahkan jika perlu
         ];
 

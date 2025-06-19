@@ -164,7 +164,7 @@
 
     <div class="ttd">
         <p>Dikeluarkan di Handil Suruk</p>
-        <p>Pada Tanggal: <?= date('d F Y', strtotime($tgl_pembentukan ?? date('Y-m-d'))) ?></p>
+        <p>Pada Tanggal: <?php echo $created_at ?></p>
         <p>Kepala Desa Handil Suruk</p>
         <br><br><br>
         <p class="bold"><?= $nama ?? '...' ?></p>

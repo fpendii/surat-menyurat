@@ -67,6 +67,7 @@
         </div>
 
         <button type="button" class="btn btn-success mb-3" onclick="addPerson()">+ Tambah Orang</button>
+        <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="button" class="btn btn-primary" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
 </div>

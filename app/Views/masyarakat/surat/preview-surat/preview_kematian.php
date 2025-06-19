@@ -128,7 +128,7 @@
 
         <!-- Tanda Tangan -->
         <div class="ttd">
-            <p>Handil Suruk, <?= date('d F Y') ?></p>
+           <p>Pada Tanggal: <?php echo $created_at ?></p>
             <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>

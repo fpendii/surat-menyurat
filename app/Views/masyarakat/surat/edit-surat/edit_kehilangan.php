@@ -105,8 +105,8 @@
             <input type="file" class="form-control-file <?= session('errors.kk') ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
             <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
         </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
+        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="submit" class="btn btn-primary mt-3">Simpan</button>
     </form>
 </div>
 

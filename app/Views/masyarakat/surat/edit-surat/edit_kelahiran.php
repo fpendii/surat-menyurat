@@ -88,8 +88,8 @@
             <small class="form-text text-muted"></small>
             <div class="invalid-feedback"><?= session('errors.kk') ?></div>
         </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
+        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="submit" class="btn btn-primary mt-3">Simpan</button>
     </form>
 </div>
 

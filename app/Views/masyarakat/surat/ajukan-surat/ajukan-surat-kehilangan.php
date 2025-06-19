@@ -86,6 +86,13 @@
         </div>
 
         <div class="form-group mb-2">
+            <label for="deskripsi_barang">Deskripsi Barang <span class="text-danger">*</span></label>
+            <textarea class="form-control <?= session('errors.deskripsi_barang') ? 'is-invalid' : '' ?>" id="deskripsi_barang" name="deskripsi_barang" rows="3" required><?= old('deskripsi_barang') ?></textarea>
+            <small class="form-text text-muted">Tuliskan  deskripsi barang yang hilang.</small>
+            <div class="invalid-feedback"><?= session('errors.deskripsi_barang') ?></div>
+        </div>
+
+        <div class="form-group mb-2">
             <label for="ktp">Upload KTP <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" class="form-control-file <?= session('errors.ktp') ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
             <small class="form-text text-muted"></small>

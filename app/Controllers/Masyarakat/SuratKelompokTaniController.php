@@ -140,7 +140,7 @@ class SuratKelompokTaniController extends BaseController
             $email->clear();
         }
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan dan notifikasi telah dikirim.');
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
 
 

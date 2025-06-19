@@ -135,6 +135,7 @@
             </div>
         <?php endforeach; ?>
 
+        <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <!-- Tombol buka modal -->
         <button type="button" class="btn btn-primary mt-3"
             data-bs-toggle="modal" data-bs-target="#konfirmasiModal">
@@ -162,13 +163,13 @@
                 <p><strong>NIK:</strong> <span id="preview_nik"></span></p>
                 <p><strong>Alamat:</strong> <span id="preview_alamat"></span></p>
                 <hr>
-                <h6 class="mb-2">Nama Berkas Ter‑upload</h6>
+                <h6 class="mb-2">Berkas Persyaratan</h6>
                 <ul class="mb-0" style="list-style:disc;padding-left:20px;">
                     <?php foreach ($files as $id => $label): ?>
                         <li><?= $label ?>: <span id="file_<?= $id ?>"></span></li>
                     <?php endforeach; ?>
                 </ul>
-                <p class="text-danger mt-3">Pastikan semua data sudah benar sebelum dikirim!</p>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>

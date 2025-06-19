@@ -71,7 +71,8 @@
 
         <button type="button" class="btn btn-secondary mb-3" id="tambah-ahli-waris">+ Tambah Ahli Waris</button>
         <br>
-        <button type="submit" class="btn btn-primary">Ajukan</button>
+        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>
 

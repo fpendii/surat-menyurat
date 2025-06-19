@@ -98,8 +98,8 @@
             <label for="kk">Upload KK <small class="text-muted"></small> <span class="text-danger">*</span></label>
             <input type="file" class="form-control-file" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
         </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
+        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="submit" class="btn btn-primary mt-3">Simpan</button>
     </form>
 </div>
 

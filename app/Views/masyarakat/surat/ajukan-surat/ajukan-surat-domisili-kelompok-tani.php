@@ -14,7 +14,7 @@
     </div>
   <?php endif; ?>
 
-  <form id="domisiliForm" action="<?= site_url('masyarakat/surat/domisili-bangunan/ajukan') ?>" method="POST" enctype="multipart/form-data">
+  <form id="domisiliForm" action="<?= site_url('masyarakat/surat/domisili-kelompok-tani/ajukan') ?>" method="POST" enctype="multipart/form-data">
     <?= csrf_field() ?>
 
     <div class="form-group mb-2">
@@ -35,7 +35,7 @@
     </script>
 
     <div class="form-group mb-2">
-      <label for="alamat">Alamat Lengkap <span class="text-danger">*</span></label>
+      <label for="alamat">Alamat Sekretariat <span class="text-danger">*</span></label>
       <input type="text" class="form-control <?= (session('errors.alamat')) ? 'is-invalid' : '' ?>" id="alamat" name="alamat" value="<?= old('alamat') ?>" required>
       <div class="invalid-feedback"><?= session('errors.alamat') ?></div>
     </div>
@@ -70,6 +70,7 @@
       <div class="invalid-feedback"><?= session('errors.kk') ?></div>
     </div>
 
+    <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
     <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
   </form>
 </div>
@@ -89,8 +90,8 @@
         <p><strong>Nama Ketua:</strong> <span id="preview_ketua"></span></p>
         <p><strong>Nama Sekretaris:</strong> <span id="preview_sekretaris"></span></p>
         <p><strong>Nama Bendahara:</strong> <span id="preview_bendahara"></span></p>
-        <p><strong>File KTP:</strong> <span id="preview_ktp"></span></p>
-        <p><strong>File KK:</strong> <span id="preview_kk"></span></p>
+        <p><strong>KTP:</strong> <span id="preview_ktp"></span></p>
+        <p><strong>KK:</strong> <span id="preview_kk"></span></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>

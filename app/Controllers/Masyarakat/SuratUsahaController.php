@@ -160,7 +160,7 @@ class SuratUsahaController extends BaseController
             $email->clear();
         }
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat berhasil diajukan.');
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
 
 
@@ -220,7 +220,7 @@ class SuratUsahaController extends BaseController
         $dompdf->render();
 
         // Unduh PDF
-        $dompdf->stream('Surat_Keterangan_Usaha_' . $usaha['nama'] . '.pdf', ['Attachment' => true]);
+        $dompdf->stream('Surat_Keterangan_Usaha_' . $usaha['nama'] . '.pdf', ['Attachment' => false]);
     }
 
     public function editSurat($id)

@@ -87,6 +87,7 @@
       <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
     </div>
 
+    <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
     <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
   </form>
 </div>

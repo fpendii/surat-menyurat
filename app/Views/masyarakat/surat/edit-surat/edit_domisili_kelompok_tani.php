@@ -54,8 +54,8 @@
             <label for="bendahara">Nama Bendahara</label>
             <input type="text" value="<?= $detail['bendahara'] ?>" class="form-control" id="bendahara" name="bendahara" required>
         </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
+        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="submit" class="btn btn-primary mt-3">Simpan</button>
     </form>
 </div>
 
