@@ -142,7 +142,7 @@
             <small class="form-text text-muted"></small>
             <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
         </div>
-
+        <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
 </div>
@@ -171,8 +171,8 @@
                 <p><strong>Sejak Tahun:</strong> <span id="preview_sejak_tahun"></span></p>
 
                 <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
-                <p><strong>Kartu Tanda Penduduk:</strong> <span id="preview_ktp_file"></span></p>
-                <p><strong>Kartu Keluarga:</strong> <span id="preview_kk_file"></span></p>
+                <p><strong>KTP :</strong> <span id="preview_ktp_file"></span></p>
+                <p><strong>KK :</strong> <span id="preview_kk_file"></span></p>
 
             </div>
             <div class="modal-footer">

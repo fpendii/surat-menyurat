@@ -129,7 +129,7 @@ class SuratPengantarKKKTPController extends BaseController
             $email->clear();
         }
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan surat pengantar KK dan KTP berhasil diajukan.');
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
 
 

@@ -148,7 +148,7 @@ class SuratDomisiliBangunanController extends BaseController
             $email->clear();
         }
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Surat Domisili Bangunan berhasil diajukan dan notifikasi dikirim.');
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
 
     public function downloadSurat($id)

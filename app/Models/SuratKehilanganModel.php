@@ -20,7 +20,8 @@ class SuratKehilanganModel extends Model
         'barang_hilang',
         'keperluan',
         'ktp',
-        'kk'
+        'kk',
+        'deskripsi_barang'
     ];
 
     protected $useTimestamps    = false;

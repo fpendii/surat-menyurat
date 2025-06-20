@@ -116,18 +116,6 @@
         desa/kelurahan sesuai Peraturan pemerintah Republik Indonesia Nomor 102 Tahun 2012 Tentang Perubahan atas
         Peraturan Pemerintah Nomor 37 Tahun 2007 Pelaksanaan Undang-Undang Nomor 23 tahun 2006 berikut dokumen
         Kependudukan yang dimohon :</p>
-    <table style="margin-left: 40px; margin-bottom: 20px; width: 100%; border-collapse: collapse;">
-        <tr>
-            <td style="border: none; padding: 6px 0;">1. Dokumen Kartu Keluarga : 1</td>
-        </tr>
-        <tr>
-            <td style="border: none; padding: 6px 0;">2. Dokumen E_KTP : 1</td>
-        </tr>
-        <tr>
-            <td style="border: none; padding: 6px 0;">3. Akta Kematian : 1</td>
-        </tr>
-    </table>
-
 
     <table>
 
@@ -156,10 +144,10 @@
     <p>
         Demikian disampaikan kiranya dapat digunakan sebagaimana mestinya, sebelum dan sesudahnya kami ucapkan terimakasih.
     </p>
-     <p style="text-align: center; margin-top: 50px;">
+    <p style="text-align: center; margin-top: 50px;">
         Mengetahui, <br>
-     </p>       
-    <table  style="margin-top: 30px; width: 100%; border-collapse: collapse;">
+    </p>
+    <table style="margin-top: 30px; width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
                 <td style="text-align: center; vertical-align: middle; border: none;">Kepala Desa Handil Suruk</td>

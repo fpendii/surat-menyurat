@@ -27,10 +27,13 @@ class DataSuratController extends BaseController
         $dataSurat = $this->suratModel
             ->where('status_surat !=', 'selesai')
             ->where('id_user', session()->get('user_id'))
+            ->orderBy('id_surat', 'DESC') // Urut dari bawah
             ->findAll();
+
         $data = [
             'dataSurat' => $dataSurat,
         ];
+
 
         return view('masyarakat/data-surat/data-surat', $data);
     }

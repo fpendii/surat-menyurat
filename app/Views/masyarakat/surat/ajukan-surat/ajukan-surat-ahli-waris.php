@@ -61,6 +61,7 @@
 
         <button type="button" class="btn btn-secondary my-2" id="tambah-ahli-waris">+ Tambah Ahli Waris</button>
         <br>
+        <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#konfirmasiModal">Ajukan Surat</button>
     </form>
 </div>

@@ -45,7 +45,7 @@
 
         .ttd {
             text-align: right;
-            margin-top: 50px;
+
         }
     </style>
 </head>
@@ -131,18 +131,18 @@
                 </tr>
             </table>
 
-            <p>Berdasarkan data yang ada pada kantor desa kami, yang bersangkutan <strong> pernah terlibat dalam kegiatan kriminal atau tindakan melanggar hukum </strong>, serta berkelakuan baik di lingkungan masyarakat.</p>
+            <p>Orang tersebut diatas adalah benar penduduk Desa Kami yang berdomisili di alamat diatas serta kami menerangkan bahwa orang tersebut benar <strong> berkelakuan baik </strong> dan <strong> belum pernah tersangkut perkara Polisi </strong>. Surat keterangan ini kami berikan untuk memenuhi salah satu persyaratan <strong> Melamar Pekerjaan </strong> Demikian Surat Keterangan ini dibuat, kepada yang bersangkutan harap maklum serta menjadikan bahan seperlunya.</p>
 
-            <p>Surat keterangan ini dibuat untuk dipergunakan sebagai persyaratan administratif dan keperluan lainnya yang sah.</p>
+            <p></p>
 
-            <p>Demikian surat keterangan ini dibuat dengan sebenarnya agar dapat digunakan sebagaimana mestinya.</p>
+            <p></p>
         </div>
 
         <!-- Tanda Tangan -->
         <div class="ttd">
             <p>Dikeluarkan di Handil Suruk</p>
-            <p>Pada Tanggal: <?= date("d F Y") ?></p>
-            <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
+            <p>Pada Tanggal: <?php echo $created_at ?></p>
+            <p style="margin-bottom: 80px;">Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
 

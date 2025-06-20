@@ -50,8 +50,8 @@
             <label for="bendahara">Bendahara <span class="text-danger">*</span></label>
             <input type="text" value="<?= esc($detail['bendahara']) ?>" class="form-control" id="bendahara" name="bendahara" required>
         </div>
-
-        <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Simpan Perubahan</button>
+        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Simpan</button>
     </form>
 </div>
 

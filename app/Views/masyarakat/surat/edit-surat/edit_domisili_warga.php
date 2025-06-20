@@ -87,8 +87,8 @@
             <label for="provinsi">Provinsi <span class="text-danger">*</span></label>
             <input type="text" value="<?= $detail['provinsi'] ?>" class="form-control" id="provinsi" name="provinsi" required>
         </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
+        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="submit" class="btn btn-primary mt-3">Simpan</button>
     </form>
 </div>
 

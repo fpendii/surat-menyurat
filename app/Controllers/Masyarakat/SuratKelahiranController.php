@@ -152,7 +152,7 @@ class SuratKelahiranController extends BaseController
             $email->clear();
         }
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Surat Kelahiran berhasil diajukan.');
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
 
     public function downloadSurat($id)

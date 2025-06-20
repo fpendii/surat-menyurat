@@ -65,7 +65,6 @@ class SuratCatatanPolisiController extends BaseController
             'ktp' => 'uploaded[ktp]|max_size[ktp,2048]|mime_in[ktp,image/jpg,image/jpeg,image/png,application/pdf]',
             'akta_lahir' => 'uploaded[akta_lahir]|max_size[akta_lahir,2048]|mime_in[akta_lahir,image/jpg,image/jpeg,image/png,application/pdf]',
             'ijazah' => 'uploaded[ijazah]|max_size[ijazah,2048]|mime_in[ijazah,image/jpg,image/jpeg,image/png,application/pdf]',
-            'foto_latar_belakang' => 'uploaded[foto_latar_belakang]|max_size[foto_latar_belakang,2048]|mime_in[foto_latar_belakang,image/jpg,image/jpeg,image/png]'
         ]);
 
         if (!$valid) {
@@ -80,7 +79,7 @@ class SuratCatatanPolisiController extends BaseController
         // 2. Hitung nomor urut surat dari database berdasarkan tahun
         $suratModel = new \App\Models\SuratModel();
         $jumlahSuratTahunIni = $suratModel
-            ->whereIn('jenis_surat', ['catatan_polisi','kehilangan'])
+            ->whereIn('jenis_surat', ['catatan_polisi', 'kehilangan'])
             ->where('YEAR(created_at)', $tahun)
             ->countAllResults();
         $nomorUrut = $jumlahSuratTahunIni + 1;
@@ -89,7 +88,7 @@ class SuratCatatanPolisiController extends BaseController
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
         // Simpan dulu data surat umum ke tabel surat dan dapatkan id_surat
-       
+
         $suratData = [
             'id_user' => $userId,
             'no_surat' => $nomorSurat,
@@ -126,9 +125,6 @@ class SuratCatatanPolisiController extends BaseController
         $ijazahName = $ijazahFile->getRandomName();
         $ijazahFile->move($berkasPath, $ijazahName);
 
-        $fotoFile = $this->request->getFile('foto_latar_belakang');
-        $fotoName = $fotoFile->getRandomName();
-        $fotoFile->move($berkasPath, $fotoName);
 
         $catatanPolisiData = [
             'id_surat' => $idSurat,
@@ -145,7 +141,6 @@ class SuratCatatanPolisiController extends BaseController
             'ktp' => $ktpName,
             'akta_lahir' => $aktaName,
             'ijazah' => $ijazahName,
-            'foto_latar_belakang' => $fotoName,
         ];
 
         $catatanPolisiModel = new \App\Models\CatatanPolisiModel();
@@ -163,9 +158,9 @@ class SuratCatatanPolisiController extends BaseController
         $jenisSurat = 'Surat Catatan Polisi';
         // Load view email
         $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
@@ -181,7 +176,7 @@ class SuratCatatanPolisiController extends BaseController
             $email->clear();
         }
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Surat Catatan Polisi berhasil diajukan.');
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
 
     public function downloadSurat($idSurat)

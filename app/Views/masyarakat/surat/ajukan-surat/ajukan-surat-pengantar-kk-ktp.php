@@ -206,7 +206,27 @@
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
 
+        <button type="button" class="btn btn-success mb-3" onclick="addPerson()">+ Tambah Orang</button>
+        <button type="button" class="btn btn-primary" onclick="showConfirmationModal()">Ajukan Surat</button>
+    </form>
+</div>
+
+<!-- Modal Konfirmasi -->
+<div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body" id="modal-body-content"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
+            </div>
+        </div>
     </div>
+</div>
 
 </body>
 

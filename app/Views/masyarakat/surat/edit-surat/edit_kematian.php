@@ -105,8 +105,8 @@
             <input type="file" class="form-control-file <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".pdf,.jpg,.jpeg,.png">
             <div class="invalid-feedback"><?= session('errors.ktp') ?></div>
         </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
+        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="submit" class="btn btn-primary mt-3">Simpan</button>
     </form>
 </div>
 

@@ -33,7 +33,6 @@
             </select>
         </div>
 
-
         <div class="form-group mb-2">
             <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Bandung, 01 Januari 1990" value="<?= old('ttl') ?>" required>
@@ -108,7 +107,6 @@
             <small class="form-text text-muted">Isi 0 jika tidak ada pengikut.</small>
         </div>
 
-
         <h5 class="mt-4">Data Pengikut <small>(Opsional, isi jika jumlah pengikut > 0)</small></h5>
         <div id="pengikut-wrapper">
             <?php if (old('nama_pengikut') && is_array(old('nama_pengikut'))) : ?>
@@ -170,7 +168,12 @@
             <input type="file" class="form-control-file" id="file_kk" name="file_kk" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
+        <div class="form-group mb-2">
+            <label for="file_f1">Upload F1 (Opsional)(jpg, jpeg, png, pdf)</label>
+            <input type="file" class="form-control-file" id="file_f1" name="file_f1" accept=".jpg,.jpeg,.png,.pdf">
+        </div>
 
+        <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
 </div>
@@ -193,23 +196,24 @@
 </div>
 
 <script>
+    // Initialize pengikutCount based on old data or 0
     let pengikutCount = <?= old('nama_pengikut') ? count(old('nama_pengikut')) : 0 ?>;
 
-    // Adjust initial display based on old data
+    // Adjust initial display based on old data and ensure jumlah_pengikut reflects it
     document.addEventListener('DOMContentLoaded', () => {
         if (pengikutCount > 0) {
             document.getElementById('jumlah_pengikut').value = pengikutCount;
+        } else {
+            // Ensure the input is 0 if no old data exists or old data is empty
+            document.getElementById('jumlah_pengikut').value = 0;
         }
     });
 
     document.getElementById('tambah-pengikut').addEventListener('click', function() {
-        const jumlahPengikutInput = document.getElementById('jumlah_pengikut');
-        const currentJumlahPengikut = parseInt(jumlahPengikutInput.value);
-
-        // Increment the number of followers displayed in the input field
-        jumlahPengikutInput.value = currentJumlahPengikut + 1;
-        pengikutCount = currentJumlahPengikut + 1; // Update global counter
-
+        // Increment the internal counter first
+        pengikutCount++;
+        // Update the 'Jumlah Pengikut' input field
+        document.getElementById('jumlah_pengikut').value = pengikutCount;
         addPengikutForm(pengikutCount);
     });
 
@@ -218,7 +222,7 @@
         if (wrapper.children.length > 0) {
             wrapper.removeChild(wrapper.lastElementChild);
             pengikutCount--; // Decrement global counter
-            document.getElementById('jumlah_pengikut').value = pengikutCount;
+            document.getElementById('jumlah_pengikut').value = pengikutCount; // Update input field
         }
     });
 
@@ -296,7 +300,8 @@
             modalBody.innerHTML += `<h6><strong>Data Pengikut</strong></h6>`;
             pengikutForms.forEach((form, index) => {
                 const nama_pengikut = form.querySelector('[name="nama_pengikut[]"]').value;
-                const jenis_kelamin_pengikut = form.querySelector('[name="jenis_kelamin_pengikut[]"]').options[form.querySelector('[name="jenis_kelamin_pengikut[]"]').selectedIndex].text;
+                const jenis_kelamin_pengikut_select = form.querySelector('[name="jenis_kelamin_pengikut[]"]');
+                const jenis_kelamin_pengikut = jenis_kelamin_pengikut_select ? jenis_kelamin_pengikut_select.options[jenis_kelamin_pengikut_select.selectedIndex].text : '';
                 const umur_pengikut = form.querySelector('[name="umur_pengikut[]"]').value;
                 const status_perkawinan_pengikut = form.querySelector('[name="status_perkawinan_pengikut[]"]').value;
                 const pendidikan_pengikut = form.querySelector('[name="pendidikan_pengikut[]"]').value;
@@ -319,14 +324,15 @@
 
 
         // Add uploaded files
-        const fileKk = document.getElementById('file_kk').files[0];
         const fileKtp = document.getElementById('file_ktp').files[0];
-        const fileF1 = document.getElementById('file_f1').files[0];
+        const fileKk = document.getElementById('file_kk').files[0];
+        const fileF1 = document.getElementById('file_f1').files[0]; // Now this element exists
 
         modalBody.innerHTML += `
             <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
             <p><strong>Kartu Keluarga (KK):</strong> ${fileKk ? fileKk.name : 'Belum ada file dipilih'}</p>
             <p><strong>KTP:</strong> ${fileKtp ? fileKtp.name : 'Belum ada file dipilih'}</p>
+            <p><strong>F1:</strong> ${fileF1 ? fileF1.name : 'Tidak ada file diupload'}</p>
         `;
 
         // Show the modal

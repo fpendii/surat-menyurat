@@ -162,7 +162,7 @@
             <label for="kk">Upload KK yang Meninggal<span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
             <input type="file" id="kk" name="kk" class="form-control-file" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
-
+        <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
 </div>

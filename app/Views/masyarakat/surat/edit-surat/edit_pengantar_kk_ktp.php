@@ -69,7 +69,8 @@
         </div>
 
         <button type="button" class="btn btn-success mb-3" onclick="addPerson()">+ Tambah Orang</button>
-        <button type="submit" class="btn btn-primary">Ajukan</button>
+        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>
 

@@ -116,7 +116,7 @@
                 </tr>
             </table>
 
-            <p>Adalah benar warga Desa Handil Suruk Kecamatan Bumi Makmur yang telah melaporkan kehilangan barang berupa <strong><?= $barang_hilang ?></strong>.</p>
+            <p>Adalah benar warga Desa Handil Suruk Kecamatan Bumi Makmur yang telah melaporkan kehilangan barang berupa <strong><?= $barang_hilang ?></strong>. Dengan deskripsi barang <?= $deskripsi_barang ?></strong></p>
 
             <p>Surat keterangan ini dibuat sebagai kelengkapan administrasi untuk keperluan <strong><?= $keperluan ?></strong>.</p>
 
@@ -126,7 +126,7 @@
         <!-- Tanda Tangan -->
         <div class="ttd">
             <p>Dikeluarkan di Handil Suruk</p>
-            <p>Pada Tanggal: <?= date("d F Y") ?></p>
+            <p>Pada Tanggal: <?php echo $created_at ?></p>
             <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>

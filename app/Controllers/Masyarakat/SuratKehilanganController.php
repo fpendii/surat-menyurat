@@ -94,7 +94,7 @@ class SuratKehilanganController extends BaseController
 
         // Simpan data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
-        
+
         $suratData = [
             'id_user' => $userId,
             'no_surat' => $nomorSurat,
@@ -107,7 +107,7 @@ class SuratKehilanganController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat.');
         }
 
-         // Upload file KTP
+        // Upload file KTP
         $ktpFile = $this->request->getFile('ktp');
         $ktpName = $ktpFile->getRandomName();
         $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
@@ -128,6 +128,7 @@ class SuratKehilanganController extends BaseController
             'alamat' => $this->request->getPost('alamat'),
             'barang_hilang' => $this->request->getPost('barang_hilang'),
             'keperluan' => $this->request->getPost('keperluan'),
+            'deskripsi_barang' => $this->request->getPost('deskripsi_barang'),
             'ktp' => $ktpName,
             'kk' => $kkName,
         ];
@@ -143,11 +144,11 @@ class SuratKehilanganController extends BaseController
         $email = \Config\Services::email();
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
-         $jenisSurat = 'Surat Keterangan Kehilangan';
-       $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+        $jenisSurat = 'Surat Keterangan Kehilangan';
+        $view = view('email/notifikasi', [
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
@@ -163,7 +164,7 @@ class SuratKehilanganController extends BaseController
             $email->clear();
         }
 
-        return redirect()->to('/masyarakat/surat')->with('success', 'Surat Keterangan Kehilangan berhasil diajukan.');
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
 
 
@@ -195,7 +196,8 @@ class SuratKehilanganController extends BaseController
             'alamat' => $kehilangan['alamat'],
             'barang_hilang' => $kehilangan['barang_hilang'],
             'keperluan' => $kehilangan['keperluan'],
-             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+            'deskripsi_barang' => $kehilangan['deskripsi_barang'],
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
         ];
 
         // Ambil dan encode logo
