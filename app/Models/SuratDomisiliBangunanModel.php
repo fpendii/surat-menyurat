@@ -13,11 +13,15 @@ class SuratDomisiliBangunanModel extends Model
 
     protected $allowedFields = [
         'id_surat',
-        'nama_gapoktan',
-        'tgl_pembentukan',
+        'nama_kepala_desa',
+        'jabatan',
+        'kecamatan',
+        'kabupaten',
+        'kantor',
         'alamat',
-        'ketua',
-        'sekretaris',
-        'bendahara',
+        'desa',
+        'kecamatan_desa',
+        'kabupaten_desa',
+        'provinsi'
     ];
 }

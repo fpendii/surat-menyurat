@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Surat Keterangan Domisili</title>
+    <title>Surat Keterangan Domisili Bangunan</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -80,7 +80,9 @@
 <body>
 
     <div class="header clearfix">
-        <img src="<?= $logo ?>" alt="Logo" style="width: 70px;">
+        <?php if (isset($logo) && $logo) : ?>
+            <img src="<?= $logo ?>" alt="Logo" style="width: 70px;">
+        <?php endif; ?>
         <div style="text-align: center;">
             <h3>PEMERINTAH KABUPATEN TANAH LAUT</h3>
             <h3>KECAMATAN BUMI MAKMUR</h3>
@@ -92,7 +94,7 @@
 
     <hr>
 
-    <div class="title">SURAT KETERANGAN DOMISILI</div>
+    <div class="title">SURAT KETERANGAN DOMISILI BANGUNAN</div>
     <div class="number">Nomor : <?= $no_surat ?? '...' ?></div>
 
     <p>Yang Bertanda Tangan di bawah ini:</p>
@@ -100,7 +102,7 @@
         <tr>
             <td>Nama</td>
             <td>:</td>
-            <td class="bold"><?= $nama ?? '...' ?></td>
+            <td class="bold"><?= $nama_kepala_desa ?? '...' ?></td>
         </tr>
         <tr>
             <td>Jabatan</td>
@@ -110,12 +112,12 @@
         <tr>
             <td>Kecamatan</td>
             <td>:</td>
-            <td><?= $kecamatan_yangbertanda ?? '...' ?></td>
+            <td><?= $kecamatan_pejabat ?? '...' ?></td>
         </tr>
         <tr>
             <td>Kabupaten</td>
             <td>:</td>
-            <td><?= $kabupaten_yangbertanda ?? '...' ?></td>
+            <td><?= $kabupaten_pejabat ?? '...' ?></td>
         </tr>
     </table>
 
@@ -124,12 +126,12 @@
         <tr>
             <td>Kantor</td>
             <td>:</td>
-            <td><?= $nama_gapoktan ?? '...' ?></td>
+            <td><?= $nama_kantor ?? '...' ?></td>
         </tr>
         <tr>
             <td>Alamat</td>
             <td>:</td>
-            <td><?= $alamat ?? '...' ?></td>
+            <td><?= $alamat_kantor ?? '...' ?></td>
         </tr>
         <tr>
             <td>Desa</td>
@@ -155,7 +157,7 @@
 
     <p>
         Bahwa Kantor tersebut di atas pada saat ini benar-benar berdomisili di
-        <?= $alamat ?? '...' ?>, Kec. <?= $kecamatan ?? '...' ?>, Kab. <?= $kabupaten ?? '...' ?> Prov.
+        <?= $alamat_kantor ?? '...' ?>, Desa <?= $desa ?? '...' ?>, Kec. <?= $kecamatan ?? '...' ?>, Kab. <?= $kabupaten ?? '...' ?> Prov.
         <?= $provinsi ?? '...' ?>.
     </p>
     <p>
@@ -164,10 +166,10 @@
 
     <div class="ttd">
         <p>Dikeluarkan di Handil Suruk</p>
-        <p>Pada Tanggal: <?php echo $created_at ?></p>
+        <p>Pada Tanggal: <?= $tanggal ?? date('d F Y') ?></p>
         <p>Kepala Desa Handil Suruk</p>
         <br><br><br>
-        <p class="bold"><?= $nama ?? '...' ?></p>
+        <strong><u>KHALIKUL BASIR</u></strong>
     </div>
 
 </body>
