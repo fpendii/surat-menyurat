@@ -30,9 +30,6 @@ class AuthController extends BaseController
 
         if ($user) {
             // Tambahkan cek is_active di sini
-            if ($user['is_active'] == 0) {
-                return redirect()->to('/login')->with('error', 'Akun belum aktif. Silakan cek email untuk aktivasi.');
-            }
 
             if (password_verify($password, $user['password'])) {
                 $session->set([

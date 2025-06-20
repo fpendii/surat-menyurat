@@ -19,7 +19,7 @@ class SuratDomisiliKelompokTaniModel extends Model
         'bendahara',
     ];
 
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $createdField  = 'created_at';
     protected $updatedField  = ''; // kosong karena tidak pakai updated_at
 
