@@ -14,53 +14,48 @@ class SuratDomisiliBangunan extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'id_surat' => [
+            'id_surat'            => [
                 'type' => 'INT',
                 'null' => true
             ],
-            'nama_instansi' => [
+            'nama_kepala_desa' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'comment'    => 'Contoh: "Taman Kanak-Kanak SARTIKA"',
+                'constraint' => 100,
             ],
-            'alamat_instansi' => [
-                'type'       => 'TEXT',
-                'comment'    => 'Contoh: "Handil Suruk RT 003 RW 001"',
-            ],
-            'desa_instansi' => [
+            'jabatan' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '100',
-                'comment'    => 'Contoh: "Handil Suruk"',
+                'constraint' => 50,
             ],
-            'kecamatan_instansi' => [
+            'kecamatan' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '100',
-                'comment'    => 'Contoh: "Bumi Makmur"',
+                'constraint' => 100,
             ],
-            'kabupaten_instansi' => [
+            'kabupaten' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '100',
-                'comment'    => 'Contoh: "Tanah Laut"',
+                'constraint' => 100,
             ],
-            'provinsi_instansi' => [
+            'kantor' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '100',
-                'comment'    => 'Contoh: "Kalimantan Selatan"',
+                'constraint' => 150,
             ],
-            'nama_pejabat' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '100',
-                'comment'    => 'Contoh: "Khalikul Bashir"',
+            'alamat' => [
+                'type' => 'TEXT',
             ],
-            'jabatan_pejabat' => [
+            'desa' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '100',
-                'comment'    => 'Contoh: "Kepala Desa"',
+                'constraint' => 100,
             ],
-            'desa_pejabat' => [
+            'kecamatan_desa' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '100',
-                'comment'    => 'Contoh: "Handil Suruk"',
+                'constraint' => 100,
+            ],
+            'kabupaten_desa' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+            ],
+            'provinsi' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
             ],
         ]);
 
