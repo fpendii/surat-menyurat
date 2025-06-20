@@ -85,7 +85,7 @@
 
         <!-- Isi Surat -->
         <div class="text-isi">
-            <p>Yang Bertanda Tangan di bawah ini Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, Menerangkan dengan sebenarnya bahwa:</p>
+            <p>Yang Bertanda Tangan di bawah ini:</p>
 
             <table style="width: 100%; margin-bottom: 10px;">
                 <tr>
@@ -110,7 +110,7 @@
                 </tr>
             </table>
 
-            <p>Yang Bertanda Tangan di bawah ini Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, Menerangkan dengan sebenarnya bahwa:</p>
+            <p>Menerangkan dengan Sebenarnya bahwa:</p>
 
             <table style="width: 100%; margin-bottom: 10px;">
                 <tr>
@@ -151,7 +151,7 @@
             </table>
 
             <p>
-                Demikian Surat Keterangan Domisili ini diberikan untuk dapat diketahui dan dipergunakan sebagaimana mestinya.
+               Bahwa “<?php echo $nama_warga; ?>” tersebut di atas pada saat ini benar- benar berdomisili di Desa Handil Suruk RT 04 RW 02 Kec. Bumi Makmur, Kab. Tanah Laut Prov. Kalimantan Selatan
             </p>
         </div>
 

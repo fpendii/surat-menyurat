@@ -14,7 +14,7 @@
     </div>
   <?php endif; ?>
 
-  <form id="domisiliForm" action="<?= site_url('masyarakat/surat/domisili-bangunan/ajukan') ?>" method="POST" enctype="multipart/form-data">
+  <form id="domisiliForm" action="<?= site_url('masyarakat/surat/domisili-warga/ajukan') ?>" method="POST" enctype="multipart/form-data">
     <?= csrf_field() ?>
 
     <h5 class="mt-3">Data Kepala Desa</h5>
