@@ -12,8 +12,8 @@ class UserSeeder extends Seeder
             
             [
                 'id_user'  => 1,
-                'name'      => 'Warga Biasa',
-                'email'     => 'warga@desa.id',
+                'name'      => 'amah',
+                'email'     => 'norrahmah57@gmail.com',
                 'password'  => password_hash('123', PASSWORD_DEFAULT),
                 'role'      => 'masyarakat',
                 'phone'     => '089998887777',
