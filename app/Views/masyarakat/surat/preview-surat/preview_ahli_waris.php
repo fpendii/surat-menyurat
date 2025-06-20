@@ -111,6 +111,7 @@
                         <th>Nama</th>
                         <th>NIK</th>
                         <th>Tempat Tanggal Lahir</th>
+                        <th>Alamat</th>
                         <th>Hubungan</th>
                     </tr>
                 </thead>
@@ -122,6 +123,7 @@
                         echo '<td>' . htmlspecialchars($nama) . '</td>';
                         echo '<td>' . htmlspecialchars($nik_ahli_waris[$i]) . '</td>';
                         echo '<td>' . htmlspecialchars($ttl_ahli_waris[$i]) . '</td>';
+                        echo '<td>' . htmlspecialchars($alamat[$i]) . '</td>';
                         echo '<td>' . htmlspecialchars($hubungan_ahli_waris[$i]) . '</td>';
                         echo '</tr>';
                     }

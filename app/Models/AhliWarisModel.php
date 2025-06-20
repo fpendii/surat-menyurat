@@ -15,6 +15,7 @@ class AhliWarisModel extends Model
         'nama',
         'nik',
         'ttl',
+        'alamat',
         'hubungan',
         'file_ktp',
         'file_kk',

@@ -94,7 +94,7 @@
 
     <hr>
 
-    <div class="title">SURAT KETERANGAN DOMISILI BANGUNAN</div>
+    <div class="title">SURAT KETERANGAN DOMISILI</div>
     <div class="number">Nomor : <?= $no_surat ?? '...' ?></div>
 
     <p>Yang Bertanda Tangan di bawah ini:</p>

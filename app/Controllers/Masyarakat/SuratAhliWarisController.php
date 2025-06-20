@@ -62,6 +62,7 @@ class SuratAhliWarisController extends BaseController
         $namaAhliWaris = $this->request->getPost('nama_ahli_waris');
         $nikAhliWaris = $this->request->getPost('nik_ahli_waris');
         $ttlAhliWaris = $this->request->getPost('ttl_ahli_waris');
+        $alamat = $this->request->getPost('alamat');
         $hubunganAhliWaris = $this->request->getPost('hubungan_ahli_waris');
 
         // Upload surat nikah
@@ -70,6 +71,14 @@ class SuratAhliWarisController extends BaseController
         if ($suratNikah && $suratNikah->isValid() && !$suratNikah->hasMoved()) {
             $namaFileNikah = $suratNikah->getRandomName();
             $suratNikah->move(FCPATH . 'uploads/ahli_waris', $namaFileNikah);
+        }
+
+        // Upload surat kematian
+        $suratKematian = $this->request->getFile('surat_kematian');
+        $namaFileNikah = null;
+        if ($suratKematian && $suratKematian->isValid() && !$suratKematian->hasMoved()) {
+            $namaFileNikah = $suratKematian->getRandomName();
+            $suratKematian->move(FCPATH . 'uploads/ahli_waris', $namaFileNikah);
         }
 
         // 1. Tentukan kode klasifikasi dan lokasi
@@ -104,6 +113,7 @@ class SuratAhliWarisController extends BaseController
             'id_surat' => $suratId,
             'pemilik_harta' => $pemilikHarta,
             'surat_nikah' => $namaFileNikah,
+            'surat_kematian' => $namaFileNikah,
             'status' => 'diproses'
         ]);
 
@@ -129,6 +139,7 @@ class SuratAhliWarisController extends BaseController
                 'nama' => $namaAhliWaris[$i],
                 'nik' => $nikAhliWaris[$i],
                 'ttl' => $ttlAhliWaris[$i],
+                'alamat' => $alamat[$i],
                 'hubungan' => $hubunganAhliWaris[$i],
                 'file_ktp' => $ktpName,
                 'file_kk' => $kkName,
@@ -193,6 +204,7 @@ class SuratAhliWarisController extends BaseController
             'nama_ahli_waris' => array_column($dataAhliWaris, 'nama'),
             'nik_ahli_waris' => array_column($dataAhliWaris, 'nik'),
             'ttl_ahli_waris' => array_column($dataAhliWaris, 'ttl'),
+            'alamat' => array_column($dataAhliWaris, 'alamat'),
             'hubungan_ahli_waris' => array_column($dataAhliWaris, 'hubungan'),
             'logo' => FCPATH . 'assets/logo.png' ,
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
@@ -272,6 +284,7 @@ class SuratAhliWarisController extends BaseController
         $namaWaris = $this->request->getPost('nama_ahli_waris');
         $nikWaris = $this->request->getPost('nik_ahli_waris');
         $ttlWaris = $this->request->getPost('ttl_ahli_waris');
+        $alamatWaris = $this->request->getPost('alamat_ahli_waris');
         $hubunganWaris = $this->request->getPost('hubungan_ahli_waris');
 
         // Update pemilik harta
@@ -294,6 +307,7 @@ class SuratAhliWarisController extends BaseController
                 'nama' => $nama,
                 'nik' => $nikWaris[$i],
                 'ttl' => $ttlWaris[$i],
+                'alamat' => $alamatWaris[$i],
                 'hubungan' => $hubunganWaris[$i],
             ]);
         }

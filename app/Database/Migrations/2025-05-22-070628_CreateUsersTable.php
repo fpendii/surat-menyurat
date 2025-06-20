@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
             ],
             'role'           => [
                 'type'       => 'ENUM',
-                'constraint' => ['admin', 'masyarakat', 'kepala_desa' ],
+                'constraint' => ['admin', 'masyarakat', 'kepala_desa','pegawai' ],
                 'default'    => 'masyarakat',
             ],
             'phone'          => [

@@ -65,7 +65,7 @@
 
         <div class="form-group mb-2">
             <label for="anak_ke">Anak Ke- <span class="text-danger">*</span></label>
-            <input type="number" class="form-control <?= session('errors.anak_ke') ? 'is-invalid' : '' ?>" id="anak_ke" name="anak_ke" min="1" value="<?= old('anak_ke') ?>" required>
+            <input type="text" class="form-control <?= session('errors.anak_ke') ? 'is-invalid' : '' ?>" id="anak_ke" name="anak_ke" min="1" value="<?= old('anak_ke') ?>" required>
             <div class="invalid-feedback"><?= session('errors.anak_ke') ?></div>
         </div>
 
@@ -87,7 +87,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Kelahiran</h5>
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
@@ -123,7 +123,7 @@
 
         // Convert gender code to full text for preview
         const jenisKelaminValue = document.getElementById('jenis_kelamin').value;
-        document.getElementById('preview_jenis_kelamin').textContent = jenisKelaminValue === 'L' ? 'Laki-laki' : (jenisKelaminValue === 'P' ? 'Perempuan' : 'Belum dipilih');
+        document.getElementById('preview_jenis_kelamin').textContent = jenisKelaminValue === 'Laki-laki' ? 'Laki-laki' : (jenisKelaminValue === 'Perempuan' ? 'Perempuan' : 'Belum dipilih');
 
         document.getElementById('preview_pekerjaan').textContent = document.getElementById('pekerjaan').value;
         document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;

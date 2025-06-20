@@ -66,7 +66,7 @@ class SuratKelahiranController extends BaseController
             'alamat'       => 'required',
             'nama_ayah'    => 'required',
             'nama_ibu'     => 'required',
-            'anak_ke'      => 'required|numeric',
+            'anak_ke'      => 'required',
         ];
 
         if (!$this->validate($rules)) {

@@ -37,7 +37,8 @@
             text-align: justify;
         }
 
-        table tr td:first-child {
+        /* Adjusted width for data tables for better alignment */
+        .data-table td:first-child {
             width: 200px;
         }
 
@@ -51,11 +52,12 @@
 <body>
 
 <div class="surat">
-    <!-- Header -->
     <table style="width: 100%;">
         <tr>
             <td style="width: 90px; text-align: center;">
-                <img src="<?= $logo ?>" alt="Logo" style="width: 70px;">
+                <?php if (isset($logo) && $logo) : ?>
+                    <img src="<?= $logo ?>" alt="Logo" style="width: 70px;">
+                <?php endif; ?>
             </td>
             <td class="kop-text">
                 <h5><strong>PEMERINTAH KABUPATEN TANAH LAUT</strong></h5>
@@ -71,45 +73,52 @@
 
     <div class="kop-border"></div>
 
-    <!-- Judul -->
     <div style="text-align: center; margin-bottom: 20px;">
         <h5><u><strong>SURAT KETERANGAN SUAMI ISTRI</strong></u></h5>
         <p>Nomor : <?= $no_surat ?? '...' ?></p>
     </div>
 
-    <!-- Isi Surat -->
     <div class="text-isi">
         <p>Yang bertanda tangan di bawah ini, Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, dengan ini menerangkan bahwa:</p>
 
-        <p><strong>Data Suami:</strong></p>
-        <table>
-            <tr><td>Nama</td><td>: <?= $nama_suami ?></td></tr>
-            <tr><td>NIK</td><td>: <?= $nik_suami ?></td></tr>
-            <tr><td>Tempat / Tgl Lahir</td><td>: <?= $ttl_suami ?></td></tr>
-            <tr><td>Agama</td><td>: <?= $agama_suami ?></td></tr>
-            <tr><td>Alamat</td><td>: <?= $alamat_suami ?></td></tr>
+        <p style="margin-top: 15px;"><strong>Data Suami:</strong></p>
+        <table class="data-table" style="margin-left: 30px; margin-bottom: 10px;">
+            <tr><td>Nama</td><td>: <?= $nama_suami ?? '...' ?></td></tr>
+            <tr><td>Tempat / Tgl Lahir</td><td>: <?= $ttl_suami ?? '...' ?></td></tr>
+            <tr><td>Agama</td><td>: <?= $agama_suami ?? '...' ?></td></tr>
+            <tr><td>Status Sebelum Nikah</td><td>: <?= $status_sebelum_nikah_suami ?? '...' ?></td></tr>
+            <tr><td>Alamat</td><td>: <?= $alamat_suami ?? '...' ?></td></tr>
         </table>
 
-        <p><strong>Data Istri:</strong></p>
-        <table>
-            <tr><td>Nama</td><td>: <?= $nama_istri ?></td></tr>
-            <tr><td>NIK</td><td>: <?= $nik_istri ?></td></tr>
-            <tr><td>Tempat / Tgl Lahir</td><td>: <?= $ttl_istri ?></td></tr>
-            <tr><td>Agama</td><td>: <?= $agama_istri ?></td></tr>
-            <tr><td>Alamat</td><td>: <?= $alamat_istri ?></td></tr>
+        <p style="margin-top: 15px;"><strong>Data Istri:</strong></p>
+        <table class="data-table" style="margin-left: 30px; margin-bottom: 10px;">
+            <tr><td>Nama</td><td>: <?= $nama_istri ?? '...' ?></td></tr>
+            <tr><td>Tempat / Tgl Lahir</td><td>: <?= $ttl_istri ?? '...' ?></td></tr>
+            <tr><td>Agama</td><td>: <?= $agama_istri ?? '...' ?></td></tr>
+            <tr><td>Status Sebelum Nikah</td><td>: <?= $status_sebelum_nikah_istri ?? '...' ?></td></tr>
+            <tr><td>Alamat</td><td>: <?= $alamat_istri ?? '...' ?></td></tr>
         </table>
 
-        <p>Adalah benar pasangan suami istri yang telah menikah secara sah menurut hukum dan tercatat sebagai warga Desa Handil Suruk.</p>
+        <p style="margin-top: 15px;">Adalah benar pasangan suami istri yang telah melangsungkan pernikahan dengan detail sebagai berikut:</p>
+        <table class="data-table" style="margin-left: 30px; margin-bottom: 10px;">
+            <tr><td>Hari Nikah</td><td>: <?= $hari_nikah ?? '...' ?></td></tr>
+            <tr><td>Tanggal / Bulan / Tahun Nikah</td><td>: <?= $tbt_nikah ?? '...' ?></td></tr>
+            <tr><td>Tempat Akta Nikah</td><td>: <?= $tempat_akat_nikah ?? '...' ?></td></tr>
+            <tr><td>Wali Nikah</td><td>: <?= $wali_nikah ?? '...' ?></td></tr>
+            <tr><td>Mahar</td><td>: <?= $mahar ?? '...' ?></td></tr>
+            <tr><td>Saksi Nikah</td><td>: <?= $saksi_nikah ?? '...' ?></td></tr>
+            <tr><td>Jumlah Anak</td><td>: <?= $jumlah_anak ?? '...' ?> orang</td></tr>
+        </table>
 
-        <p>Demikian surat ini dibuat untuk digunakan sebagaimana mestinya.</p>
+        <p style="margin-top: 15px;">Dan tercatat sebagai warga Desa Handil Suruk, Kecamatan Bumi Makmur, Kabupaten Tanah Laut.</p>
+        <p>Demikian surat keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.</p>
     </div>
 
-    <!-- Tanda Tangan -->
     <div class="ttd">
-      <p>Pada Tanggal: <?php echo $created_at ?></p>
+        <p>Dikeluarkan di Handil Suruk</p>
+        <p>Pada Tanggal: <?= $tanggal ?? date('d F Y') ?></p>
         <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
-        <strong><u>KHALIKUL BASIR</u></strong>
-    </div>
+        <strong><u>KHALIKUL BASIR</u></strong> </div>
 </div>
 
 </body>

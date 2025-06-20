@@ -15,6 +15,7 @@ class SuratAhliWarisModel extends Model
         'id_surat',
         'pemilik_harta',
         'surat_nikah',
+        'surat_kematian',
     ];
 
     protected $useTimestamps = false;
