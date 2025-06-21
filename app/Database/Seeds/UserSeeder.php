@@ -55,6 +55,7 @@ class UserSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
         ];
+        
 
         $this->db->table('users')->insertBatch($users);
     }
