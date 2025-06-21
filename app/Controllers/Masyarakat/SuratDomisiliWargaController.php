@@ -267,7 +267,7 @@ class SuratDomisiliWargaController extends BaseController
         ])->update();
 
         $suratModel->update($idSurat, [
-            'no_surat' => $this->request->getPost('no_surat'),
+            // 'no_surat' => $this->request->getPost('no_surat'),
             'status' => 'diajukan',
         ]);
 

@@ -33,14 +33,14 @@ $routes->group('masyarakat', function ($routes) {
     $routes->post('surat/domisili-kelompok-tani/preview', 'Masyarakat\SuratKelompokTaniController::previewDomisiliKelompokTani');
     $routes->get('data-surat/domisili_kelompok_tani/download/(:num)', 'Masyarakat\SuratKelompokTaniController::downloadSurat/$1');
     $routes->get('data-surat/domisili_kelompok_tani/edit/(:num)', 'Masyarakat\SuratKelompokTaniController::editSurat/$1');
-    $routes->post('surat/domisili_kelompok_tani/update/(:num)', 'Masyarakat\SuratKelompokTaniController::updateSurat/$1');
+    $routes->put('surat/domisili-kelompok-tani/update/(:num)', 'Masyarakat\SuratKelompokTaniController::updateSurat/$1');
 
     $routes->get('surat/domisili-bangunan', 'Masyarakat\SuratDomisiliBangunanController::domisiliBangunan');
     $routes->post('surat/domisili-bangunan/ajukan', 'Masyarakat\SuratDomisiliBangunanController::ajukanDomisiliBangunan');
     $routes->post('surat/domisili-bangunan/preview', 'Masyarakat\SuratDomisiliBangunanController::previewDomisiliBangunan');
     $routes->get('data-surat/domisili_bangunan/download/(:num)', 'Masyarakat\SuratDomisiliBangunanController::downloadSurat/$1');
     $routes->get('data-surat/domisili_bangunan/edit/(:num)', 'Masyarakat\SuratDomisiliBangunanController::editSurat/$1');
-    $routes->post('data-surat/domisili_bangunan/update/(:num)', 'Masyarakat\SuratDomisiliBangunanController::updateSurat/$1');
+    $routes->put('surat/domisili-bangunan/update/(:num)', 'Masyarakat\SuratDomisiliBangunanController::updateSurat/$1');
 
 
     $routes->get('surat/domisili-warga', 'Masyarakat\SuratDomisiliWargaController::domisiliWarga');
@@ -48,7 +48,7 @@ $routes->group('masyarakat', function ($routes) {
     $routes->post('surat/domisili-warga/preview', 'Masyarakat\SuratDomisiliWargaController::previewDomisiliWarga');
     $routes->get('data-surat/domisili_warga/download/(:num)', 'Masyarakat\SuratDomisiliWargaController::downloadSurat/$1');
     $routes->get('data-surat/domisili_warga/edit/(:num)', 'Masyarakat\SuratDomisiliWargaController::editSurat/$1');
-    $routes->post('surat/domisili-warga/update/(:num)', 'Masyarakat\SuratDomisiliWargaController::updateSurat/$1');
+    $routes->put('surat/domisili-warga/update/(:num)', 'Masyarakat\SuratDomisiliWargaController::updateSurat/$1');
 
     $routes->get('surat/pindah', 'Masyarakat\SuratPindahController::pindah');
     $routes->post('surat/pindah/ajukan', 'Masyarakat\SuratPindahController::ajukanPindah');
@@ -69,7 +69,7 @@ $routes->group('masyarakat', function ($routes) {
     $routes->post('surat/pengantar-kk-ktp/preview', 'Masyarakat\SuratPengantarKKKTPController::previewPengantarKKKTP');
     $routes->get('data-surat/pengantar_kk_ktp/download/(:num)', 'Masyarakat\SuratPengantarKKKTPController::downloadSurat/$1');
     $routes->get('data-surat/pengantar_kk_ktp/edit/(:num)', 'Masyarakat\SuratPengantarKKKTPController::editSurat/$1');
-    $routes->post('surat/pengantar-kk-ktp/update/(:num)', 'Masyarakat\SuratPengantarKKKTPController::updateSurat/$1');
+    $routes->put('surat/pengantar-kk-ktp/update/(:num)', 'Masyarakat\SuratPengantarKKKTPController::updateSurat/$1');
 
     $routes->get('surat/tidak-mampu', 'Masyarakat\SuratTidakMampuController::tidakMampu');
     $routes->post('surat/tidak-mampu/ajukan', 'Masyarakat\SuratTidakMampuController::ajukanTidakMampu');
@@ -90,35 +90,35 @@ $routes->group('masyarakat', function ($routes) {
     $routes->post('surat/kehilangan/preview', 'Masyarakat\SuratKehilanganController::previewKehilangan');
     $routes->get('data-surat/kehilangan/download/(:num)', 'Masyarakat\SuratKehilanganController::downloadSurat/$1');
     $routes->get('data-surat/kehilangan/edit/(:num)', 'Masyarakat\SuratKehilanganController::editSurat/$1');
-    $routes->post('surat/kehilangan/update/(:num)', 'Masyarakat\SuratKehilanganController::updateSurat/$1');
+    $routes->put('surat/kehilangan/update/(:num)', 'Masyarakat\SuratKehilanganController::updateSurat/$1');
 
     $routes->get('surat/catatan-polisi', 'Masyarakat\SuratCatatanPolisiController::catatanPolisi');
     $routes->post('surat/catatan-polisi/ajukan', 'Masyarakat\SuratCatatanPolisiController::ajukanCatatanPolisi');
     $routes->post('surat/catatan-polisi/preview', 'Masyarakat\SuratCatatanPolisiController::previewCatatanPolisi');
     $routes->get('data-surat/catatan_polisi/download/(:num)', 'Masyarakat\SuratCatatanPolisiController::downloadSurat/$1');
     $routes->get('data-surat/catatan_polisi/edit/(:num)', 'Masyarakat\SuratCatatanPolisiController::editSurat/$1');
-    $routes->post('surat/catatan-polisi/update/(:num)', 'Masyarakat\SuratCatatanPolisiController::updateSurat/$1');
+    $routes->put('surat/catatan-polisi/update/(:num)', 'Masyarakat\SuratCatatanPolisiController::updateSurat/$1');
 
     $routes->get('surat/kelahiran', 'Masyarakat\SuratKelahiranController::kelahiran');
     $routes->post('surat/kelahiran/ajukan', 'Masyarakat\SuratKelahiranController::ajukanKelahiran');
     $routes->post('surat/kelahiran/preview', 'Masyarakat\SuratKelahiranController::previewKelahiran');
     $routes->get('data-surat/kelahiran/download/(:num)', 'Masyarakat\SuratKelahiranController::downloadSurat/$1');
     $routes->get('data-surat/kelahiran/edit/(:num)', 'Masyarakat\SuratKelahiranController::editSurat/$1');
-    $routes->post('surat/kelahiran/update/(:num)', 'Masyarakat\SuratKelahiranController::updateSurat/$1');
+    $routes->put('surat/kelahiran/update/(:num)', 'Masyarakat\SuratKelahiranController::updateSurat/$1');
 
     $routes->get('surat/kematian', 'Masyarakat\SuratKematianController::kematian');
     $routes->post('surat/kematian/ajukan', 'Masyarakat\SuratKematianController::ajukanKematian');
     $routes->post('surat/kematian/preview', 'Masyarakat\SuratKematianController::previewKematian');
     $routes->get('data-surat/kematian/download/(:num)', 'Masyarakat\SuratKematianController::downloadSurat/$1');
     $routes->get('data-surat/kematian/edit/(:num)', 'Masyarakat\SuratKematianController::editSurat/$1');
-    $routes->post('surat/kematian/update/(:num)', 'Masyarakat\SuratKematianController::updateSurat/$1');
+    $routes->put('surat/kematian/update/(:num)', 'Masyarakat\SuratKematianController::updateSurat/$1');
 
     $routes->get('surat/ahli-waris', 'Masyarakat\SuratAhliWarisController::ahliWaris');
     $routes->post('surat/ahli-waris/ajukan', 'Masyarakat\SuratAhliWarisController::ajukanAhliWaris');
     $routes->post('surat/ahli-waris/preview', 'Masyarakat\SuratAhliWarisController::previewAhliWaris');
     $routes->get('data-surat/ahli_waris/download/(:num)', 'Masyarakat\SuratAhliWarisController::downloadSurat/$1');
     $routes->get('data-surat/ahli_waris/edit/(:num)', 'Masyarakat\SuratAhliWarisController::editSurat/$1');
-    $routes->post('surat/ahli-waris/update/(:num)', 'Masyarakat\SuratAhliWarisController::updateSurat/$1');
+    $routes->put('surat/ahli-waris/update/(:num)', 'Masyarakat\SuratAhliWarisController::updateSurat/$1');
 
 
     $routes->get('surat/suami-istri', 'Masyarakat\SuratSuamiIstriController::suamiIstri');
@@ -133,7 +133,7 @@ $routes->group('masyarakat', function ($routes) {
     $routes->post('surat/status-perkawinan/preview', 'Masyarakat\SuratStatusPerkawinanController::previewStatusPerkawinan');
     $routes->get('data-surat/status_perkawinan/download/(:num)', 'Masyarakat\SuratStatusPerkawinanController::downloadSurat/$1');
     $routes->get('data-surat/status_perkawinan/edit/(:num)', 'Masyarakat\SuratStatusPerkawinanController::editSurat/$1');
-    $routes->post('surat/status-perkawinan/update/(:num)', 'Masyarakat\SuratStatusPerkawinanController::updateSurat/$1');
+    $routes->put('surat/status-perkawinan/update/(:num)', 'Masyarakat\SuratStatusPerkawinanController::updateSurat/$1');
 
 
     // Data Surat

@@ -278,6 +278,10 @@ class SuratBelumBekerjaController extends BaseController
             return redirect()->back()->with('error', 'Data detail surat tidak ditemukan.');
         }
 
+        $suratModel->update($id, [
+            'status_surat' => 'diajukan'
+        ]);
+
         // Data update
         $updateData = [
             'nama' => $this->request->getPost('nama'),

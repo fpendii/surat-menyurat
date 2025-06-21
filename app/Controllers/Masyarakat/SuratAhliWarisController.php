@@ -104,7 +104,7 @@ class SuratAhliWarisController extends BaseController
             'id_user' => $userId,
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'ahli_waris',
-            'status' => 'diajukan'
+            'status_surat' => 'diajukan'
         ]);
 
         // Simpan ke tabel surat_ahli_waris
@@ -114,7 +114,6 @@ class SuratAhliWarisController extends BaseController
             'pemilik_harta' => $pemilikHarta,
             'surat_nikah' => $namaFileNikah,
             'surat_kematian' => $namaFileNikah,
-            'status' => 'diproses'
         ]);
 
         // Simpan data ahli waris

@@ -230,7 +230,6 @@ class SuratKelompokTaniController extends BaseController
         // Update data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
         $suratModel->update($idSurat, [
-            'no_surat' => $this->request->getPost('no_surat'),
             'status_surat' => 'diajukan'
         ]);
 

@@ -74,7 +74,7 @@ class SuratDomisiliBangunanController extends BaseController
         'kk'               => 'uploaded[kk]|max_size[kk,2048]|ext_in[kk,jpg,jpeg,png,pdf]',
     ]);
 
-   
+    
 
     if (!$validation->withRequest($this->request)->run()) {
         return redirect()->back()->withInput()->with('errors', $validation->getErrors());
@@ -111,7 +111,7 @@ class SuratDomisiliBangunanController extends BaseController
         'id_user'     => session()->get('user_id'),
         'no_surat'    => $nomorSurat,
         'jenis_surat' => 'domisili_bangunan',
-        'status'      => 'diajukan',
+        'status_surat'      => 'diajukan',
         'ktp'         => $ktpName,
         'kk'          => $kkName,
     ], true);
@@ -283,10 +283,10 @@ class SuratDomisiliBangunanController extends BaseController
         ];
 
         // Tambahkan aturan validasi untuk file hanya jika file diupload
-        if ($this->request->getFile('ktp') && $this->request->getFile('ktp')->isValid() && !$this->request->getFile('ktp')->hasMoved()) {
+        if ($this->request->getFile('ktp')->isValid() && !$this->request->getFile('ktp')->hasMoved()) {
             $rules['ktp'] = 'uploaded[ktp]|max_size[ktp,2048]|ext_in[ktp,jpg,jpeg,png,pdf]';
         }
-        if ($this->request->getFile('kk') && $this->request->getFile('kk')->isValid() && !$this->request->getFile('kk')->hasMoved()) {
+        if ($this->request->getFile('kk')->isValid() && !$this->request->getFile('kk')->hasMoved()) {
             $rules['kk'] = 'uploaded[kk]|max_size[kk,2048]|ext_in[kk,jpg,jpeg,png,pdf]';
         }
 
@@ -321,25 +321,15 @@ class SuratDomisiliBangunanController extends BaseController
         }
 
         // 3. Update Data Surat (tabel 'surat')
-        // Pastikan 'id' yang digunakan untuk update adalah id dari tabel surat
         $suratData = [
-            // 'no_surat' => $this->request->getPost('no_surat'), // no_surat tidak perlu diupdate jika sudah digenerate
-            // 'jenis_surat' => 'domisili_bangunan', // ini juga tidak perlu diupdate
-            'status' => 'diajukan', // Setel ulang status menjadi 'diajukan' setelah di-edit
+            'status_surat' => 'diajukan', // Setel ulang status menjadi 'diajukan' setelah di-edit
             'ktp'    => $ktpName,
             'kk'     => $kkName,
         ];
-
-        // Jika Anda menggunakan hidden input untuk no_surat di form, Anda bisa menyertakannya jika perlu diperbarui.
-        // Tapi umumnya no_surat tidak berubah setelah surat dibuat.
-        // Jika status_surat bisa berubah, pastikan ada logika untuk itu, saat ini saya set ke 'diajukan'.
-        // Saya asumsikan $surat['id'] adalah primary key untuk SuratModel
         $suratModel->update($id, $suratData);
 
 
         // 4. Update Data Detail Domisili Bangunan (tabel 'surat_domisili_bangunan')
-        // Pastikan Anda mendapatkan id_detail_domisili_bangunan atau update berdasarkan id_surat
-        // Menggunakan id_surat untuk update record di detail table
         $domisiliBangunanData = [
             'nama_kepala_desa' => $this->request->getPost('nama_kepala_desa'),
             'jabatan'          => $this->request->getPost('jabatan'),
@@ -353,13 +343,32 @@ class SuratDomisiliBangunanController extends BaseController
             'provinsi'         => $this->request->getPost('provinsi'),
         ];
         
-        // Asumsi bahwa $detail['id'] adalah primary key dari tabel surat_domisili_bangunan
-        $domisiliBangunanModel->update($detail['id'], $domisiliBangunanData);
+        $domisiliBangunanModel->update($detail['id_surat_domisili_bangunan'], $domisiliBangunanData);
 
+        // Kirim email notifikasi setelah update
+        $email = \Config\Services::email();
+        $recipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id'];
+        $jenisSurat = 'Surat Domisili Bangunan';
 
-        // Opsional: Kirim email notifikasi setelah update jika diperlukan
-        // log_message('info', 'Surat Domisili Bangunan ' . $id . ' berhasil diperbarui.');
+        $view = view('email/notifikasi', [ // Buat view baru untuk notifikasi update jika pesan berbeda
+            'nomorSurat' => $surat['no_surat'],
+            'jenisSurat' => $jenisSurat
+        ]);
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat Domisili Bangunan berhasil diperbarui.');
+        foreach ($recipients as $recipient) {
+            $email->setTo($recipient);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Update Pengajuan Surat Domisili Bangunan');
+            $email->setMessage($view);
+            $email->setMailType('html');
+
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email update ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
+
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat Domisili Bangunan berhasil diperbarui dan notifikasi dikirim.');
     }
 }

@@ -261,6 +261,9 @@ class SuratKehilanganController extends BaseController
         if (!$surat || $surat['jenis_surat'] !== 'kehilangan') {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat kehilangan');
         }
+        $suratModel->update($idSurat, [
+            'status_surat' => 'diajukan'
+        ]);
 
         // Ambil data kehilangan
         $kehilangan = $kehilanganModel->where('id_surat', $idSurat)->first();
