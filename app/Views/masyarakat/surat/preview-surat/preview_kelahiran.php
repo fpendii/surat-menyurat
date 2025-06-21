@@ -138,6 +138,35 @@
         </div>
     </div>
 
+    <?php if (session('role') === 'kepala_desa') : ?>
+            <div class="requirements">
+                <h4>Data Persyaratan:</h4>
+                <ul>
+                    <?php
+                    // Assuming 'ktp_file' and 'kk_file' are passed for this specific letter type
+                    // You might need to retrieve these from the 'surat' table or a specific 'surat_domisili_gapoktan' table
+                    // if they are not already available in the $data array passed to this view.
+                    // For example, if your SuratModel has 'ktp' and 'kk' columns.
+                    // If not, you'd need to add them to the controller function that loads this view.
+                    ?>
+                    <?php if (isset($ktp_file) && $ktp_file) : ?>
+                        <li>KTP Ketua: <a href="<?= base_url('uploads/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a></li>
+                    <?php else : ?>
+                        <li>KTP Ketua: Tidak tersedia</li>
+                    <?php endif; ?>
+
+                    <?php if (isset($kk_file) && $kk_file) : ?>
+                        <li>KK Ketua: <a href="<?= base_url('uploads/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                    <?php else : ?>
+                        <li>KK Ketua: Tidak tersedia</li>
+                    <?php endif; ?>
+
+                    
+
+                    <li>Dokumen Pendukung Lainnya (jika ada): ...</li>
+                </ul>
+            </div>
+        <?php endif; ?>
 </body>
 
 </html>

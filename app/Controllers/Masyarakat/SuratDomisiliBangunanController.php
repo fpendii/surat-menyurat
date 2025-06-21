@@ -201,6 +201,8 @@ class SuratDomisiliBangunanController extends BaseController
             'kecamatan'         => $detail['kecamatan_desa'], // 'kecamatan_desa' in ajukan function
             'kabupaten'         => $detail['kabupaten_desa'], // 'kabupaten_desa' in ajukan function
             'provinsi'          => $detail['provinsi'],
+            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
             // KTP dan KK tidak langsung dimasukkan ke PDF, hanya sebagai referensi di form
             // Jika Anda perlu menampilkannya, Anda mungkin ingin menyimpan nama file asli atau URL
         ];

@@ -273,6 +273,8 @@ class SuratSuamiIstriController extends BaseController
             'mahar'                      => $detail['mahar'],
             'saksi_nikah'                => $detail['saksi_nikah'],
             'jumlah_anak'                => $detail['jumlah_anak'],
+             'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
 
         // Render HTML ke PDF

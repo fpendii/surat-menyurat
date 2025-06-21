@@ -146,6 +146,32 @@
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
 
+        <?php if (session('role') === 'kepala_desa') : ?>
+            <div class="requirements">
+                <h4>Data Persyaratan:</h4>
+                <ul>
+                    <?php
+                    // Pastikan $ktp_file dan $kk_file diteruskan dari controller yang memuat view ini.
+                    // Jika tidak ada di controller, Anda harus menambahkannya.
+                    ?>
+                    <?php if (isset($ktp_file) && $ktp_file) : ?>
+                        <li>KTP: <a href="<?= base_url('uploads/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a></li>
+                    <?php else : ?>
+                        <li>KTP: Tidak tersedia</li>
+                    <?php endif; ?>
+
+                    <?php if (isset($kk_file) && $kk_file) : ?>
+                        <li>KK: <a href="<?= base_url('uploads/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                    <?php else : ?>
+                        <li>KK: Tidak tersedia</li>
+                    <?php endif; ?>
+
+                    <li>Surat Pengantar RT/RW (jika ada): ...</li>
+                    <li>Dokumen Pendukung Lainnya (jika ada): ...</li>
+                </ul>
+            </div>
+        <?php endif; ?>
+
     </div>
 
 </body>

@@ -195,6 +195,8 @@ class SuratKematianController extends BaseController
             'tempat' => $detail['tempat'],
             'penyebab' => $detail['penyebab'],
              'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+              'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
 
         // Render HTML ke PDF

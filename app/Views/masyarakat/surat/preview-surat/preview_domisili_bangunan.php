@@ -74,6 +74,31 @@
             display: block;
             clear: both;
         }
+
+        /* Gaya baru untuk bagian persyaratan */
+        .requirements {
+            margin-top: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .requirements h4 {
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+        .requirements ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .requirements li {
+            margin-bottom: 5px;
+        }
+        .requirements a {
+            color: blue;
+            text-decoration: none;
+        }
+        .requirements a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -164,6 +189,8 @@
         Demikian Surat Keterangan ini dibuat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya.
     </p>
 
+   
+
     <div class="ttd">
         <p>Dikeluarkan di Handil Suruk</p>
         <p>Pada Tanggal: <?= $tanggal ?? date('d F Y') ?></p>
@@ -171,6 +198,27 @@
         <br><br><br>
         <strong><u>KHALIKUL BASIR</u></strong>
     </div>
+
+     <?php if (session('role') === 'kepala_desa') : ?>
+        <div class="requirements">
+            <h4>Data Persyaratan:</h4>
+            <ul>
+                <?php if (isset($ktp_file) && $ktp_file) : ?>
+                    <li>KTP: <a href="<?= $ktp_file ?>" target="_blank"><?= $ktp_file ?></a></li>
+                <?php else : ?>
+                    <li>KTP: Tidak tersedia</li>
+                <?php endif; ?>
+
+                <?php if (isset($kk_file) && $kk_file) : ?>
+                    <li>KK: <a href="<?= $kk_file ?>" target="_blank"><?= $kk_file ?></a></li>
+                <?php else : ?>
+                    <li>KK: Tidak tersedia</li>
+                <?php endif; ?>
+
+                <li>Dokumen Pendukung Lain (jika ada): ...</li>
+            </ul>
+        </div>
+    <?php endif; ?>
 
 </body>
 

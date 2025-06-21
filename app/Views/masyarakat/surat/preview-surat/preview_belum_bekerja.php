@@ -47,13 +47,37 @@
             text-align: right;
             margin-top: 50px;
         }
+
+        /* Gaya baru untuk bagian persyaratan */
+        .requirements {
+            margin-top: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .requirements h4 {
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+        .requirements ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .requirements li {
+            margin-bottom: 5px;
+        }
+        .requirements a {
+            color: blue;
+            text-decoration: none;
+        }
+        .requirements a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="surat">
-        <!-- Header dan Logo -->
         <table style="width: 100%;">
             <tr>
                 <td style="width: 90px; text-align: center;">
@@ -73,13 +97,11 @@
 
         <div class="kop-border"></div>
 
-        <!-- Judul -->
         <div style="text-align: center; margin-bottom: 20px;">
             <h5><u><strong>SURAT KETERANGAN BELUM BEKERJA</strong></u></h5>
             <p>Nomor : <?= $no_surat ?? '...' ?></p>
         </div>
 
-        <!-- Isi Surat -->
         <div class="text-isi">
             <p>Yang bertanda tangan di bawah ini Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, menerangkan bahwa:</p>
 
@@ -87,42 +109,42 @@
                 <tr>
                     <td>Nama</td>
                     <td>:</td>
-                    <td><strong><?= $nama ?></strong></td>
+                    <td><strong><?= $nama ?? '...' ?></strong></td>
                 </tr>
                 <tr>
                     <td>NIK</td>
                     <td>:</td>
-                    <td><?= $nik ?></td>
+                    <td><?= $nik ?? '...' ?></td>
                 </tr>
                 <tr>
                     <td>Tempat/Tgl Lahir</td>
                     <td>:</td>
-                    <td><?= $ttl ?></td>
+                    <td><?= $ttl ?? '...' ?></td>
                 </tr>
                 <tr>
                     <td>Jenis Kelamin</td>
                     <td>:</td>
-                    <td><?= $jenis_kelamin ?></td>
+                    <td><?= $jenis_kelamin ?? '...' ?></td>
                 </tr>
                 <tr>
                     <td>Agama</td>
                     <td>:</td>
-                    <td><?= $agama ?></td>
+                    <td><?= $agama ?? '...' ?></td>
                 </tr>
                 <tr>
                     <td>Status Pekerjaan</td>
                     <td>:</td>
-                    <td><strong><?= $status_pekerjaan ?></strong></td>
+                    <td><strong><?= $status_pekerjaan ?? '...' ?></strong></td>
                 </tr>
                 <tr>
                     <td>Warga Negara</td>
                     <td>:</td>
-                    <td><?= $warga_negara ?></td>
+                    <td><?= $warga_negara ?? '...' ?></td>
                 </tr>
                 <tr>
                     <td>Alamat</td>
                     <td>:</td>
-                    <td><?= $alamat ?></td>
+                    <td><?= $alamat ?? '...' ?></td>
                 </tr>
             </table>
 
@@ -131,7 +153,12 @@
             <p>Demikian surat keterangan ini dibuat untuk dapat digunakan sebagaimana mestinya.</p>
         </div>
 
-        <!-- Tanda Tangan -->
+     
+
+        
+
+
+
         <div class="ttd">
             <p>Dikeluarkan di Handil Suruk</p>
             <p>Pada Tanggal: <?php echo $created_at ?></p>
@@ -139,6 +166,31 @@
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
 
+        <?php if (session('role') === 'kepala_desa') : ?>
+            <div class="requirements">
+                <h4>Data Persyaratan:</h4>
+                <ul>
+                    <?php
+                    // Pastikan $ktp_file dan $kk_file diteruskan dari controller yang memuat view ini.
+                    // Jika tidak ada di controller, Anda harus menambahkannya.
+                    ?>
+                    <?php if (isset($ktp_file) && $ktp_file) : ?>
+                        <li>KTP: <a href="<?= base_url('uploads/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a></li>
+                    <?php else : ?>
+                        <li>KTP: Tidak tersedia</li>
+                    <?php endif; ?>
+
+                    <?php if (isset($kk_file) && $kk_file) : ?>
+                        <li>KK: <a href="<?= base_url('uploads/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                    <?php else : ?>
+                        <li>KK: Tidak tersedia</li>
+                    <?php endif; ?>
+
+                    <li>Surat Pengantar RT/RW (jika ada): ...</li>
+                    <li>Dokumen Pendukung Lainnya (jika ada): ...</li>
+                </ul>
+            </div>
+        <?php endif; ?>
     </div>
 
 </body>

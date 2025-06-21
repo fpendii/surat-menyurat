@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Surat Keterangan Domisili</title>
+    <title>Surat Keterangan Domisili Kelompok Tani</title>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -18,7 +18,6 @@
             margin: 30px auto;
             max-width: 800px;
         }
-
 
         .kop-border {
             border-top: 4px solid black;
@@ -53,13 +52,37 @@
             text-align: right;
             margin-top: 50px;
         }
+
+        /* Gaya baru untuk bagian persyaratan */
+        .requirements {
+            margin-top: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .requirements h4 {
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+        .requirements ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .requirements li {
+            margin-bottom: 5px;
+        }
+        .requirements a {
+            color: blue;
+            text-decoration: none;
+        }
+        .requirements a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="surat">
-        <!-- Header dan Logo -->
         <table style="width: 100%;">
             <tr>
                 <td style="width: 90px; text-align: center;">
@@ -79,13 +102,11 @@
 
         <div class="kop-border"></div>
 
-        <!-- Judul -->
         <div style="text-align: center; margin-bottom: 20px;">
             <h5><u><strong>SURAT KETERANGAN DOMISILI</strong></u></h5>
             <p>Nomor : <?= $no_surat ?? '...' ?></p>
         </div>
 
-        <!-- Isi Surat -->
         <div class="text-isi">
             <p>Yang Bertanda Tangan di bawah ini Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, Menerangkan dengan sebenarnya bahwa:</p>
 
@@ -134,7 +155,7 @@
             </p>
         </div>
 
-        <!-- Tanda Tangan -->
+        
         <div class="ttd">
             <p>Dikeluarkan di Handil Suruk</p>
             <p>Pada Tanggal: <?php echo $created_at ?></p>
@@ -142,6 +163,35 @@
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
 
+        <?php if (session('role') === 'kepala_desa') : ?>
+            <div class="requirements">
+                <h4>Data Persyaratan:</h4>
+                <ul>
+                    <?php
+                    // Assuming 'ktp_file' and 'kk_file' are passed for this specific letter type
+                    // You might need to retrieve these from the 'surat' table or a specific 'surat_domisili_gapoktan' table
+                    // if they are not already available in the $data array passed to this view.
+                    // For example, if your SuratModel has 'ktp' and 'kk' columns.
+                    // If not, you'd need to add them to the controller function that loads this view.
+                    ?>
+                    <?php if (isset($ktp_file) && $ktp_file) : ?>
+                        <li>KTP Ketua: <a href="<?= base_url('uploads/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a></li>
+                    <?php else : ?>
+                        <li>KTP Ketua: Tidak tersedia</li>
+                    <?php endif; ?>
+
+                    <?php if (isset($kk_file) && $kk_file) : ?>
+                        <li>KK Ketua: <a href="<?= base_url('uploads/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                    <?php else : ?>
+                        <li>KK Ketua: Tidak tersedia</li>
+                    <?php endif; ?>
+
+                    
+
+                    <li>Dokumen Pendukung Lainnya (jika ada): ...</li>
+                </ul>
+            </div>
+        <?php endif; ?>
 
     </div>
 
