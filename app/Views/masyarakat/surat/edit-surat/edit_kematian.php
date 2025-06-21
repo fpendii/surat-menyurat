@@ -2,19 +2,18 @@
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
-    <h2>Edit Surat Keterangan Kematian</h2>
+    <h2>Edit Surat Kematian</h2>
 
-    <?php if (session()->getFlashdata('errors')) : ?>
+    <?php if (session()->getFlashdata('errors')): ?>
         <div class="alert alert-danger">
             <ul class="mb-0">
-                <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                <?php foreach (session()->getFlashdata('errors') as $error): ?>
                     <li><?= esc($error) ?></li>
-                <?php endforeach ?>
+                <?php endforeach; ?>
             </ul>
         </div>
-    <?php endif ?>
+    <?php endif; ?>
 
-    <!-- Catatan dari Kepala Desa -->
     <?php if (!empty($surat['catatan'])): ?>
         <div class="alert alert-warning">
             <strong>Catatan dari Kepala Desa:</strong><br>
@@ -22,91 +21,77 @@
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('masyarakat/surat/kematian/update/' . $surat['id_surat']) ?>" method="POST" enctype="multipart/form-data">
+    <form id="kematianForm" action="<?= site_url('masyarakat/surat/kematian/update/' . $surat['id_surat']) ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
-
-        <div class="form-group">
+        <input type="hidden" name="_method" value="PUT"> <h5 class="mt-3">Data Almarhum/Almarhumah</h5>
+        <div class="form-group mb-2">
             <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
-            <input type="text" class="form-control <?= (session('errors.nama')) ? 'is-invalid' : '' ?>" id="nama" name="nama"
-                value="<?= old('nama', $detail['nama']) ?>" required>
-            <div class="invalid-feedback"><?= session('errors.nama') ?></div>
+            <input type="text" class="form-control" id="nama" name="nama" value="<?= old('nama', $detail['nama'] ?? '') ?>" required>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
-            <select class="form-control <?= (session('errors.jenis_kelamin')) ? 'is-invalid' : '' ?>" id="jenis_kelamin" name="jenis_kelamin" required>
-                <option value="">-- Pilih --</option>
-                <option value="L" <?= (old('jenis_kelamin', $detail['jenis_kelamin']) == 'L') ? 'selected' : '' ?>>Laki-laki</option>
-                <option value="P" <?= (old('jenis_kelamin', $detail['jenis_kelamin']) == 'P') ? 'selected' : '' ?>>Perempuan</option>
+            <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
+                <option value="">Pilih Jenis Kelamin</option>
+                <option value="Laki-laki" <?= (old('jenis_kelamin', $detail['jenis_kelamin'] ?? '') == 'Laki-laki') ? 'selected' : '' ?>>Laki-laki</option>
+                <option value="Perempuan" <?= (old('jenis_kelamin', $detail['jenis_kelamin'] ?? '') == 'Perempuan') ? 'selected' : '' ?>>Perempuan</option>
             </select>
-            <div class="invalid-feedback"><?= session('errors.jenis_kelamin') ?></div>
         </div>
 
-        <div class="form-group">
-            <label for="ttl">Tempat / Tanggal Lahir <span class="text-danger">*</span></label>
-            <input type="text" class="form-control <?= (session('errors.ttl')) ? 'is-invalid' : '' ?>" id="ttl" name="ttl"
-                placeholder="Contoh: Bandung, 10 Januari 1960"
-                value="<?= old('ttl', $detail['ttl']) ?>" required>
-            <div class="invalid-feedback"><?= session('errors.ttl') ?></div>
+        <div class="form-group mb-2">
+            <label for="ttl">Tempat, Tanggal Lahir <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="ttl" name="ttl" value="<?= old('ttl', $detail['ttl'] ?? '') ?>" placeholder="Contoh: Banjarmasin, 17 Agustus 1945" required>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="agama">Agama <span class="text-danger">*</span></label>
-            <select class="form-control <?= (session('errors.agama')) ? 'is-invalid' : '' ?>" id="agama" name="agama" required>
-                <option value="">-- Pilih Agama --</option>
-                <option value="Islam" <?= old('agama', $detail['agama']) == 'Islam' ? 'selected' : '' ?>>Islam</option>
-                <option value="Kristen" <?= old('agama', $detail['agama']) == 'Kristen' ? 'selected' : '' ?>>Kristen</option>
-                <option value="Katolik" <?= old('agama', $detail['agama']) == 'Katolik' ? 'selected' : '' ?>>Katolik</option>
-                <option value="Hindu" <?= old('agama', $detail['agama']) == 'Hindu' ? 'selected' : '' ?>>Hindu</option>
-                <option value="Budha" <?= old('agama', $detail['agama']) == 'Budha' ? 'selected' : '' ?>>Budha</option>
-                <option value="Konghucu" <?= old('agama', $detail['agama']) == 'Konghucu' ? 'selected' : '' ?>>Konghucu</option>
-            </select>
-            <div class="invalid-feedback"><?= session('errors.agama') ?></div>
+            <input type="text" class="form-control" id="agama" name="agama" value="<?= old('agama', $detail['agama'] ?? '') ?>" required>
         </div>
 
-        <div class="form-group">
-            <label for="hari_tanggal">Hari / Tanggal Meninggal <span class="text-danger">*</span></label>
-            <input type="text" class="form-control <?= (session('errors.hari_tanggal')) ? 'is-invalid' : '' ?>" id="hari_tanggal" name="hari_tanggal"
-                placeholder="Contoh: Senin, 1 Januari 2024"
-                value="<?= old('hari_tanggal', $detail['hari_tanggal']) ?>" required>
-            <div class="invalid-feedback"><?= session('errors.hari_tanggal') ?></div>
+        <h5 class="mt-3">Detail Kematian</h5>
+        <div class="form-group mb-2">
+            <label for="hari_tanggal">Hari, Tanggal Kematian <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="hari_tanggal" name="hari_tanggal" value="<?= old('hari_tanggal', $detail['hari_tanggal'] ?? '') ?>" placeholder="Contoh: Jumat, 10 Juni 2025" required>
         </div>
 
-        <div class="form-group">
-            <label for="jam">Jam Meninggal <span class="text-danger">*</span></label>
-            <input type="time" class="form-control <?= (session('errors.jam')) ? 'is-invalid' : '' ?>" id="jam" name="jam"
-                value="<?= old('jam', $detail['jam']) ?>" required>
-            <div class="invalid-feedback"><?= session('errors.jam') ?></div>
+        <div class="form-group mb-2">
+            <label for="jam">Jam Kematian <span class="text-danger">*</span></label>
+            <input type="time" class="form-control" id="jam" name="jam" value="<?= old('jam', $detail['jam'] ?? '') ?>" required>
         </div>
 
-        <div class="form-group">
-            <label for="tempat">Tempat Meninggal <span class="text-danger">*</span></label>
-            <input type="text" class="form-control <?= (session('errors.tempat')) ? 'is-invalid' : '' ?>" id="tempat" name="tempat"
-                value="<?= old('tempat', $detail['tempat']) ?>" required>
-            <div class="invalid-feedback"><?= session('errors.tempat') ?></div>
+        <div class="form-group mb-2">
+            <label for="tempat">Tempat Kematian <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="tempat" name="tempat" value="<?= old('tempat', $detail['tempat'] ?? '') ?>" required>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label for="penyebab">Penyebab Kematian <span class="text-danger">*</span></label>
-            <textarea class="form-control <?= (session('errors.penyebab')) ? 'is-invalid' : '' ?>" id="penyebab" name="penyebab" rows="2" required><?= old('penyebab', $detail['penyebab']) ?></textarea>
-            <div class="invalid-feedback"><?= session('errors.penyebab') ?></div>
+            <textarea class="form-control" id="penyebab" name="penyebab" rows="3" required><?= old('penyebab', $detail['penyebab'] ?? '') ?></textarea>
         </div>
 
-        <!-- Upload KK -->
-        <div class="form-group mt-4">
-            <label for="kk">Upload KK yang Meninggal<small class="text-muted"></small> <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
-            <input type="file" class="form-control-file <?= (session('errors.kk')) ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".pdf,.jpg,.jpeg,.png">
-            <div class="invalid-feedback"><?= session('errors.kk') ?></div>
+        <h5 class="mt-4">Upload Berkas</h5>
+        <div class="form-group mb-2">
+            <label for="ktp">Upload KTP Penanggung Jawab <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf">
+            <?php if (!empty($surat['ktp'])): ?>
+                <small class="form-text text-muted">File saat ini: <a href="<?= base_url('uploads/ktp/' . $surat['ktp']) ?>" target="_blank"><?= esc($surat['ktp']) ?></a> (Kosongkan jika tidak ingin mengubah)</small>
+            <?php else: ?>
+                <small class="form-text text-muted">Belum ada file diunggah. Harap unggah file baru.</small>
+            <?php endif; ?>
         </div>
 
-        <!-- Upload KTP -->
-        <div class="form-group">
-            <label for="ktp">Upload KTP yang Meninggal <small class="text-muted"></small> <span class="text-danger">*</span>(jpg, jpeg, png, pdf)</label>
-            <input type="file" class="form-control-file <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".pdf,.jpg,.jpeg,.png">
-            <div class="invalid-feedback"><?= session('errors.ktp') ?></div>
+        <div class="form-group mb-2">
+            <label for="kk">Upload KK Penanggung Jawab <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
+            <?php if (!empty($surat['kk'])): ?>
+                <small class="form-text text-muted">File saat ini: <a href="<?= base_url('uploads/kk/' . $surat['kk']) ?>" target="_blank"><?= esc($surat['kk']) ?></a> (Kosongkan jika tidak ingin mengubah)</small>
+            <?php else: ?>
+                <small class="form-text text-muted">Belum ada file diunggah. Harap unggah file baru.</small>
+            <?php endif; ?>
         </div>
+
         <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
-        <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+        <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>
     </form>
 </div>
 

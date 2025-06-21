@@ -67,10 +67,12 @@
                 id="status_perkawinan" name="status_perkawinan"
                 required>
                 <option value="">-- Pilih --</option>
-                <option value="Belum Kawin" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Belum Kawin') ? 'selected' : '' ?>>Belum Kawin</option>
-                <option value="Kawin" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Kawin') ? 'selected' : '' ?>>Kawin</option>
-                <option value="Cerai Hidup" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Cerai Hidup') ? 'selected' : '' ?>>Cerai Hidup</option>
-                <option value="Cerai Mati" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == 'Cerai Mati') ? 'selected' : '' ?>>Cerai Mati</option>
+                <?php
+                $statuses = ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati'];
+                foreach ($statuses as $s):
+                ?>
+                    <option value="<?= $s ?>" <?= (old('status_perkawinan', $catatanPolisi['status_perkawinan'] ?? '') == $s) ? 'selected' : '' ?>><?= $s ?></option>
+                <?php endforeach; ?>
             </select>
             <div class="invalid-feedback"><?= session('errors.status_perkawinan') ?></div>
         </div>
@@ -93,12 +95,12 @@
                 id="agama" name="agama"
                 required>
                 <option value="">-- Pilih --</option>
-                <option value="Islam" <?= (old('agama', $catatanPolisi['agama'] ?? '') == 'Islam') ? 'selected' : '' ?>>Islam</option>
-                <option value="Kristen" <?= (old('agama', $catatanPolisi['agama'] ?? '') == 'Kristen') ? 'selected' : '' ?>>Kristen</option>
-                <option value="Katolik" <?= (old('agama', $catatanPolisi['agama'] ?? '') == 'Katolik') ? 'selected' : '' ?>>Katolik</option>
-                <option value="Hindu" <?= (old('agama', $catatanPolisi['agama'] ?? '') == 'Hindu') ? 'selected' : '' ?>>Hindu</option>
-                <option value="Budha" <?= (old('agama', $catatanPolisi['agama'] ?? '') == 'Budha') ? 'selected' : '' ?>>Budha</option>
-                <option value="Konghucu" <?= (old('agama', $catatanPolisi['agama'] ?? '') == 'Konghucu') ? 'selected' : '' ?>>Konghucu</option>
+                <?php
+                $agamas = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu'];
+                foreach ($agamas as $a):
+                ?>
+                    <option value="<?= $a ?>" <?= (old('agama', $catatanPolisi['agama'] ?? '') == $a) ? 'selected' : '' ?>><?= $a ?></option>
+                <?php endforeach; ?>
             </select>
             <div class="invalid-feedback"><?= session('errors.agama') ?></div>
         </div>
@@ -148,7 +150,9 @@
         ];
         foreach ($files as $id => $label):
             // Determine the file path based on the file type (assuming a folder structure like uploads/surat_catatan_polisi/)
-            $currentFileName = $catatanPolisi['file_' . $id] ?? null;
+            // We'll use the 'surat' array for the main document uploads associated with the surat entry
+            // and assume the field names match 'kk', 'ktp', 'akta_lahir', 'ijazah' in the $surat array.
+            $currentFileName = $surat[$id] ?? null; // Check in the main surat data for the file name
             $filePath = !empty($currentFileName) ? base_url('uploads/surat_catatan_polisi/' . $currentFileName) : null;
         ?>
             <div class="form-group mb-2">

@@ -1,9 +1,8 @@
 <?= $this->extend('komponen/template-admin') ?>
-
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
-    <h2>Edit Surat Domisili Bangunan</h2>
+    <h2>Ajukan Surat Domisili Bangunan</h2>
 
     <?php if (session()->getFlashdata('errors')): ?>
         <div class="alert alert-danger">
@@ -15,179 +14,139 @@
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($surat['catatan'])): ?>
-        <div class="alert alert-warning">
-            <strong>Catatan dari Kepala Desa:</strong><br>
-            <?= nl2br(esc($surat['catatan'])) ?>
-        </div>
-    <?php endif; ?>
-
-    <form action="<?= site_url('masyarakat/surat/domisili-bangunan/update/' . $surat['id']) ?>" method="POST" enctype="multipart/form-data">
+    <form id="bangunanForm" action="<?= site_url('masyarakat/surat/domisili-bangunan/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
-        <input type="hidden" name="_method" value="PUT">
 
-        <h5 class="mt-3">Data Kepala Desa</h5>
-        <input type="hidden" value="<?= $surat['no_surat'] ?? '' ?>" class="form-control" id="no_surat" name="no_surat">
-
+        <h5 class="mt-3">Data Pejabat</h5>
         <div class="form-group mb-2">
-            <label for="nama_kepala_desa">Nama Kepala Desa <span class="text-danger">*</span></label>
-            <input type="text"
-                   class="form-control <?= (session('errors.nama_kepala_desa')) ? 'is-invalid' : '' ?>"
-                   id="nama_kepala_desa"
-                   name="nama_kepala_desa"
-                   value="<?= old('nama_kepala_desa', $detail['nama_kepala_desa'] ?? '') ?>"
-                   required>
-            <div class="invalid-feedback">
-                <?= session('errors.nama_kepala_desa') ?>
-            </div>
+            <label for="nama_kepala_desa">Nama <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="nama_kepala_desa" name="nama_kepala_desa" value="<?= old('nama_kepala_desa') ?>" required>
         </div>
 
         <div class="form-group mb-2">
             <label for="jabatan">Jabatan <span class="text-danger">*</span></label>
-            <input type="text"
-                   class="form-control <?= (session('errors.jabatan')) ? 'is-invalid' : '' ?>"
-                   id="jabatan"
-                   name="jabatan"
-                   value="<?= old('jabatan', $detail['jabatan'] ?? '') ?>"
-                   required>
-            <div class="invalid-feedback">
-                <?= session('errors.jabatan') ?>
-            </div>
+            <input type="text" class="form-control" id="jabatan" name="jabatan" value="<?= old('jabatan') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kecamatan">Kecamatan Kepala Desa <span class="text-danger">*</span></label>
-            <input type="text"
-                   class="form-control <?= (session('errors.kecamatan')) ? 'is-invalid' : '' ?>"
-                   id="kecamatan"
-                   name="kecamatan"
-                   value="<?= old('kecamatan', $detail['kecamatan'] ?? '') ?>"
-                   required>
-            <div class="invalid-feedback">
-                <?= session('errors.kecamatan') ?>
-            </div>
+            <label for="kecamatan">kecamatan <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="kecamatan" name="kecamatan" value="<?= old('kecamatan') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kabupaten">Kabupaten Kepala Desa <span class="text-danger">*</span></label>
-            <input type="text"
-                   class="form-control <?= (session('errors.kabupaten')) ? 'is-invalid' : '' ?>"
-                   id="kabupaten"
-                   name="kabupaten"
-                   value="<?= old('kabupaten', $detail['kabupaten'] ?? '') ?>"
-                   required>
-            <div class="invalid-feedback">
-                <?= session('errors.kabupaten') ?>
-            </div>
+            <label for="kabupaten">Kabupaten <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="kabupaten" name="kabupaten" value="<?= old('kabupaten') ?>" required>
         </div>
 
-        <h5 class="mt-4">Data Bangunan</h5>
-
+        <h5 class="mt-3">Data Bangunan</h5>
         <div class="form-group mb-2">
-            <label for="kantor">Nama Kantor/Bangunan <span class="text-danger">*</span></label>
-            <input type="text"
-                   class="form-control <?= (session('errors.kantor')) ? 'is-invalid' : '' ?>"
-                   id="kantor"
-                   name="kantor"
-                   value="<?= old('kantor', $detail['kantor'] ?? '') ?>"
-                   required>
-            <div class="invalid-feedback">
-                <?= session('errors.kantor') ?>
-            </div>
+            <label for="kantor"> Kantor <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="kantor" name="kantor" value="<?= old('kantor') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="alamat">Alamat Bangunan <span class="text-danger">*</span></label>
-            <textarea class="form-control <?= (session('errors.alamat')) ? 'is-invalid' : '' ?>"
-                      id="alamat"
-                      name="alamat"
-                      rows="2"
-                      required><?= old('alamat', $detail['alamat'] ?? '') ?></textarea>
-            <div class="invalid-feedback">
-                <?= session('errors.alamat') ?>
-            </div>
+            <label for="alamat">Alamat <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="alamat" name="alamat" value="<?= old('alamat') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="desa">Desa Bangunan <span class="text-danger">*</span></label>
-            <input type="text"
-                   class="form-control <?= (session('errors.desa')) ? 'is-invalid' : '' ?>"
-                   id="desa"
-                   name="desa"
-                   value="<?= old('desa', $detail['desa'] ?? '') ?>"
-                   required>
-            <div class="invalid-feedback">
-                <?= session('errors.desa') ?>
-            </div>
+            <label for="desa">Desa <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="desa" name="desa" value="<?= old('desa') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kecamatan_desa">Kecamatan Bangunan <span class="text-danger">*</span></label>
-            <input type="text"
-                   class="form-control <?= (session('errors.kecamatan_desa')) ? 'is-invalid' : '' ?>"
-                   id="kecamatan_desa"
-                   name="kecamatan_desa"
-                   value="<?= old('kecamatan_desa', $detail['kecamatan_desa'] ?? '') ?>"
-                   required>
-            <div class="invalid-feedback">
-                <?= session('errors.kecamatan_desa') ?>
-            </div>
+            <label for="kecamatan_desa">Kecamatan <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="kecamatan_desa" name="kecamatan_desa" value="<?= old('kecamatan_desa') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kabupaten_desa">Kabupaten Bangunan <span class="text-danger">*</span></label>
-            <input type="text"
-                   class="form-control <?= (session('errors.kabupaten_desa')) ? 'is-invalid' : '' ?>"
-                   id="kabupaten_desa"
-                   name="kabupaten_desa"
-                   value="<?= old('kabupaten_desa', $detail['kabupaten_desa'] ?? '') ?>"
-                   required>
-            <div class="invalid-feedback">
-                <?= session('errors.kabupaten_desa') ?>
-            </div>
+            <label for="kabupaten_desa">Kabupaten <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="kabupaten_desa" name="kabupaten_desa" value="<?= old('kabupaten_desa') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="provinsi">Provinsi Bangunan <span class="text-danger">*</span></label>
-            <input type="text"
-                   class="form-control <?= (session('errors.provinsi')) ? 'is-invalid' : '' ?>"
-                   id="provinsi"
-                   name="provinsi"
-                   value="<?= old('provinsi', $detail['provinsi'] ?? '') ?>"
-                   required>
-            <div class="invalid-feedback">
-                <?= session('errors.provinsi') ?>
-            </div>
+            <label for="provinsi">Provinsi <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="provinsi" name="provinsi" value="<?= old('provinsi') ?>" required>
         </div>
 
         <h5 class="mt-4">Upload Berkas</h5>
-        <p class="text-muted">Isi hanya jika ingin mengganti file.</p>
-
         <div class="form-group mb-2">
-            <label for="ktp">Upload KTP Penanggung Jawab <small>(jpg, jpeg, png, pdf)</small></label>
-            <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf">
-            <?php if (!empty($surat['ktp'])): ?>
-                <small class="form-text text-muted">File saat ini: <a href="<?= base_url('uploads/ktp/' . $surat['ktp']) ?>" target="_blank"><?= esc($surat['ktp']) ?></a></small>
-            <?php endif; ?>
-            <?php if (session('errors.ktp')): ?>
-                <div class="text-danger small mt-1"><?= session('errors.ktp') ?></div>
-            <?php endif; ?>
+            <label for="ktp">Upload KTP Penanggung Jawab <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk">Upload KK Penanggung Jawab <small>(jpg, jpeg, png, pdf)</small></label>
-            <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
-            <?php if (!empty($surat['kk'])): ?>
-                <small class="form-text text-muted">File saat ini: <a href="<?= base_url('uploads/kk/' . $surat['kk']) ?>" target="_blank"><?= esc($surat['kk']) ?></a></small>
-            <?php endif; ?>
-            <?php if (session('errors.kk')): ?>
-                <div class="text-danger small mt-1"><?= session('errors.kk') ?></div>
-            <?php endif; ?>
+            <label for="kk">Upload KK Penanggung Jawab <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
-        <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
-        <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>
+        <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
 </div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Konfirmasi Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <h6><strong>Data Kepala Desa</strong></h6>
+                <p><strong>Nama:</strong> <span id="preview_nama_kepala_desa"></span></p>
+                <p><strong>Jabatan:</strong> <span id="preview_jabatan"></span></p>
+                <p><strong>kecamatan_desa:</strong> <span id="preview_kecamatan"></span></p>
+                <p><strong>Kabupaten_desa:</strong> <span id="preview_kabupaten"></span></p>
+
+                <h6 class="mt-4"><strong>Data Bangunan</strong></h6>
+                <p><strong>Kantor:</strong> <span id="preview_kantor"></span></p>
+                <p><strong>Alamat:</strong> <span id="preview_alamat"></span></p>
+                <p><strong>Desa:</strong> <span id="preview_desa"></span></p>
+                <p><strong>kecamatan_desa:</strong> <span id="preview_kecamatan_desa"></span></p>
+                <p><strong>Kabupaten_desa:</strong> <span id="preview_kabupaten_desa"></span></p>
+                <p><strong>Provinsi:</strong> <span id="preview_provinsi"></span></p>
+                <p><strong>KTP:</strong> <span id="preview_ktp"></span></p>
+                <p><strong>KK:</strong> <span id="preview_kk"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button class="btn btn-success" onclick="submitForm()">Ya, Ajukan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showConfirmationModal() {
+        // Data Kepala Desa
+        document.getElementById('preview_nama_kepala_desa').textContent = document.getElementById('nama_kepala_desa').value;
+        document.getElementById('preview_jabatan').textContent = document.getElementById('jabatan').value;
+        document.getElementById('preview_kecamatan').textContent = document.getElementById('kecamatan').value;
+        document.getElementById('preview_kabupaten').textContent = document.getElementById('kabupaten').value;
+
+        // Data Bangunan
+        document.getElementById('preview_kantor').textContent = document.getElementById('kantor').value;
+        document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;
+        document.getElementById('preview_desa').textContent = document.getElementById('desa').value;
+        document.getElementById('preview_kecamatan_desa').textContent = document.getElementById('kecamatan_desa').value;
+        document.getElementById('preview_kabupaten_desa').textContent = document.getElementById('kabupaten_desa').value;
+        document.getElementById('preview_provinsi').textContent = document.getElementById('provinsi').value;
+
+        // File
+        const ktp = document.getElementById('ktp').files[0];
+        const kk = document.getElementById('kk').files[0];
+        document.getElementById('preview_ktp').textContent = ktp ? ktp.name : 'Belum dipilih';
+        document.getElementById('preview_kk').textContent = kk ? kk.name : 'Belum dipilih';
+
+        // Tampilkan modal
+        const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        modal.show();
+    }
+
+    function submitForm() {
+        document.getElementById('bangunanForm').submit();
+    }
+</script>
 
 <?= $this->endSection() ?>

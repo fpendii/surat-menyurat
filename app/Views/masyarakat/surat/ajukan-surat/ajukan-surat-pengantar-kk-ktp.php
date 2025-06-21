@@ -1,233 +1,181 @@
-<!DOCTYPE html>
-<html lang="id">
+<?= $this->extend('komponen/template-admin') ?>
+<?= $this->section('content') ?>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Surat Keterangan Catatan Kepolisian</title>
-    <style>
-        body {
-            font-family: "Times New Roman", Times, serif;
-            background-color: white;
-            margin: 0;
-            padding: 0;
-        }
+<div class="container mt-4">
+    <h2>Ajukan Surat Pengantar KK dan KTP</h2>
 
-        .surat {
-            padding: 20px 30px; /* Reduced top/bottom padding */
-            margin: 20px auto; /* Reduced top/bottom margin */
-            max-width: 750px; /* Slightly reduced max-width for better fit on common print sizes */
-            box-sizing: border-box; /* Ensures padding is included in the width */
-        }
+    <?php if (session()->getFlashdata('errors')): ?>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                    <li><?= esc($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 
-        .kop-border {
-            border-top: 4px solid black;
-            border-bottom: 1px solid black;
-            margin-top: 8px; /* Slightly reduced margin */
-            margin-bottom: 15px; /* Slightly reduced margin */
-        }
+    <form id="formPengantarKKKTP" action="<?= site_url('masyarakat/surat/pengantar-kk-ktp/ajukan') ?>" method="POST" enctype="multipart/form-data">
+        <?= csrf_field() ?>
 
-        .kop-text {
-            text-align: center;
-        }
+        <h5 class="mt-3">Data Orang yang Diajukan</h5>
+        <div id="data-orang-wrapper">
+            <div class="person-group border p-3 rounded mb-3">
+                <div class="form-group mb-2">
+                    <label for="nama_0">Nama Lengkap <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nama_0" name="data[0][nama]" value="<?= old('data.0.nama') ?>" required>
+                </div>
 
-        .kop-text h5,
-        .kop-text h4 {
-            margin: 0;
-            line-height: 1.2; /* Tighter line spacing for header */
-        }
+                <div class="form-group mb-2">
+                    <label for="no_kk_0">Nomor Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="no_kk_0" name="data[0][no_kk]" value="<?= old('data.0.no_kk') ?>" required minlength="16" maxlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit Nomor KK">
+                </div>
 
-        .kop-text p {
-            font-size: 12px; /* Slightly smaller font for address */
-            margin: 0;
-            line-height: 1.2;
-        }
+                <div class="form-group mb-2">
+                    <label for="nik_0">NIK <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nik_0" name="data[0][nik]" value="<?= old('data.0.nik') ?>" required minlength="16" maxlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
+                </div>
 
-        .surat-title h5,
-        .surat-title p {
-            margin: 0;
-            line-height: 1.2;
-        }
+                <div class="form-group mb-2">
+                    <label for="keterangan_0">Keterangan/Hubungan (misal: Ayah, Ibu, Anak) <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="keterangan_0" name="data[0][keterangan]" value="<?= old('data.0.keterangan') ?>" placeholder="Contoh: Pemohon Utama / Suami / Istri / Anak" required>
+                </div>
 
-        .text-isi {
-            text-align: justify;
-            font-size: 14px; /* Slightly smaller default font size for content */
-        }
+                <div class="form-group mb-2">
+                    <label for="jumlah_0">Jumlah Dokumen yang Diajukan (per orang) <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" id="jumlah_0" name="data[0][jumlah]" value="<?= old('data.0.jumlah') ?? 1 ?>" min="1" required>
+                </div>
 
-        .text-isi p {
-            margin-bottom: 8px; /* Reduced paragraph spacing */
-        }
-
-        table.data-table {
-            width: 100%;
-            margin-bottom: 10px;
-            font-size: 14px; /* Ensure consistent font size within table */
-        }
-
-        table.data-table tr td:first-child {
-            width: 160px; /* Reduced width for the first column */
-            vertical-align: top; /* Align to top for multi-line addresses */
-        }
-        table.data-table tr td {
-            padding-bottom: 2px; /* Reduce padding between table rows */
-        }
-
-
-        .ttd {
-            text-align: right;
-            margin-top: 30px; /* Significantly reduced margin-top */
-        }
-        .ttd p {
-            margin: 0; /* Remove default paragraph margins */
-            line-height: 1.4; /* Adjust line height for TTD block */
-        }
-        .ttd strong {
-            margin-top: 5px; /* Space above the name */
-            display: block; /* Make strong tag behave like a block for margin */
-        }
-
-        /* Print specific adjustments */
-        @media print {
-            body {
-                margin: 0;
-                padding: 0;
-            }
-            .surat {
-                margin: 0; /* No margin when printing to maximize space */
-                padding: 15px 25px; /* Adjust padding for print */
-                max-width: 100%; /* Use full width available in print */
-            }
-            .kop-text h5, .kop-text h4 {
-                line-height: 1.1; /* Even tighter for print */
-            }
-            .kop-text p {
-                font-size: 11px; /* Smaller for print */
-            }
-            .text-isi, table.data-table {
-                font-size: 13px; /* Smaller font for print content */
-            }
-            .ttd {
-                margin-top: 25px; /* Fine-tune margin for print */
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="surat">
-        <table style="width: 100%;">
-            <tr>
-                <td style="width: 90px; text-align: center;">
-                    <img src="<?= $logo ?>" alt="Logo" style="width: 70px;">
-                </td>
-                <td class="kop-text">
-                    <h5><strong>PEMERINTAH KABUPATEN TANAH LAUT</strong></h5>
-                    <h5><strong>KECAMATAN BUMI MAKMUR</strong></h5>
-                    <h4><strong>DESA HANDIL SURUK</strong></h4>
-                    <p>
-                        Alamat: Jl. Suka Damai Rt 04 Rw 02 Desa Handil Suruk Kec. Bumi Makmur Kode Pos 70853<br>
-                        Email : desahandilsuruk@gmail.com
-                    </p>
-                </td>
-            </tr>
-        </table>
-
-        <div class="kop-border"></div>
-
-        <div style="text-align: center; margin-bottom: 15px;" class="surat-title">
-            <h5><u><strong>SURAT KETERANGAN CATATAN KEPOLISIAN</strong></u></h5>
-            <p>Nomor : <?= $no_surat ?? '...' ?></p>
+                <button type="button" class="btn btn-danger btn-sm mt-3 remove-person-group">Hapus Orang Ini</button>
+            </div>
         </div>
 
-        <div class="text-isi">
-            <p>Yang bertanda tangan di bawah ini, Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, dengan ini menerangkan bahwa:</p>
+        <button type="button" class="btn btn-secondary my-2" id="add-person-btn">+ Tambah Orang</button>
 
-            <table class="data-table">
-                <tr>
-                    <td>Nama</td>
-                    <td>:</td>
-                    <td><strong><?= $nama ?></strong></td>
-                </tr>
-                <tr>
-                    <td>Jenis Kelamin</td>
-                    <td>:</td>
-                    <td><?= $jenis_kelamin ?></td>
-                </tr>
-                <tr>
-                    <td>Tempat/Tanggal Lahir</td>
-                    <td>:</td>
-                    <td><?= $tempat_tanggal_lahir ?></td>
-                </tr>
-                <tr>
-                    <td>Status Perkawinan</td>
-                    <td>:</td>
-                    <td><?= $status_perkawinan ?></td>
-                </tr>
-                <tr>
-                    <td>Kewarganegaraan</td>
-                    <td>:</td>
-                    <td><?= $kewarganegaraan ?></td>
-                </tr>
-                <tr>
-                    <td>Agama</td>
-                    <td>:</td>
-                    <td><?= $agama ?></td>
-                </tr>
-                <tr>
-                    <td>Pekerjaan</td>
-                    <td>:</td>
-                    <td><?= $pekerjaan ?></td>
-                </tr>
-                <tr>
-                    <td>NIK</td>
-                    <td>:</td>
-                    <td><?= $nik ?></td>
-                </tr>
-                <tr>
-                    <td>Alamat</td>
-                    <td>:</td>
-                    <td><?= $alamat ?></td>
-                </tr>
-            </table>
-
-            <p>Berdasarkan data yang ada pada kantor desa kami, yang bersangkutan <strong> tidak/pernah terlibat dalam kegiatan kriminal atau tindakan melanggar hukum </strong>, serta berkelakuan baik di lingkungan masyarakat.</p>
-            <p style="font-style: italic; font-size: 12px; margin-top: -5px;">(Coret yang tidak perlu pada kalimat yang dicetak tebal)</p>
-
-
-            <p>Surat keterangan ini dibuat untuk dipergunakan sebagai persyaratan administratif dan keperluan lainnya yang sah.</p>
-
-            <p>Demikian surat keterangan ini dibuat dengan sebenarnya agar dapat digunakan sebagaimana mestinya.</p>
+        <h5 class="mt-4">Upload Berkas Pendukung</h5>
+        <div class="form-group mb-2">
+            <label for="ktp">Upload KTP <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control-file <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
+            <div class="invalid-feedback"><?= session('errors.ktp') ?></div>
         </div>
 
-        <div class="ttd">
-            <p>Dikeluarkan di Handil Suruk</p>
-            <p>Pada Tanggal: <?php echo $created_at ?></p>
-            <p style="margin-bottom: 50px;">Kepala Desa Handil Suruk</p>
-            <strong><u>KHALIKUL BASIR</u></strong>
+        <div class="form-group mb-2">
+            <label for="kk">Upload KK <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control-file <?= (session('errors.kk')) ? 'is-invalid' : '' ?>" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
+            <div class="invalid-feedback"><?= session('errors.kk') ?></div>
         </div>
 
-        <button type="button" class="btn btn-success mb-3" onclick="addPerson()">+ Tambah Orang</button>
-        <button type="button" class="btn btn-primary" onclick="showConfirmationModal()">Ajukan Surat</button>
+        <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
+        <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
 </div>
 
-<!-- Modal Konfirmasi -->
 <div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data</h5>
+                <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Data Pengajuan Surat Pengantar KK & KTP</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
-            <div class="modal-body" id="modal-body-content"></div>
+            <div class="modal-body">
+                <h6><strong>Data Orang yang Diajukan</strong></h6>
+                <div id="preview_data_orang">
+                    </div>
+
+                <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
+                <p><strong>KTP:</strong> <span id="preview_ktp_file"></span></p>
+                <p><strong>KK:</strong> <span id="preview_kk_file"></span></p>
+            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
+                <button type="button" class="btn btn-success" onclick="submitForm()">Ya, Ajukan</button>
             </div>
         </div>
     </div>
 </div>
 
-</body>
+<script>
+    let personIndex = 0; // Initialize index for new persons
 
-</html>
+    document.getElementById('add-person-btn').addEventListener('click', function() {
+        personIndex++;
+        const wrapper = document.getElementById('data-orang-wrapper');
+        const newGroup = document.createElement('div');
+        newGroup.classList.add('person-group', 'border', 'p-3', 'rounded', 'mb-3');
+        newGroup.innerHTML = `
+            <div class="form-group mb-2">
+                <label for="nama_${personIndex}">Nama Lengkap <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="nama_${personIndex}" name="data[${personIndex}][nama]" value="" required>
+            </div>
+            <div class="form-group mb-2">
+                <label for="no_kk_${personIndex}">Nomor Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="no_kk_${personIndex}" name="data[${personIndex}][no_kk]" value="" required minlength="16" maxlength="16" pattern="\\d{16}" oninput="this.value = this.value.replace(/\\D/g, '')" placeholder="Masukkan 16 digit Nomor KK">
+            </div>
+            <div class="form-group mb-2">
+                <label for="nik_${personIndex}">NIK <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="nik_${personIndex}" name="data[${personIndex}][nik]" value="" required minlength="16" maxlength="16" pattern="\\d{16}" oninput="this.value = this.value.replace(/\\D/g, '')" placeholder="Masukkan 16 digit NIK">
+            </div>
+            <div class="form-group mb-2">
+                <label for="keterangan_${personIndex}">Keterangan/Hubungan (misal: Ayah, Ibu, Anak) <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="keterangan_${personIndex}" name="data[${personIndex}][keterangan]" value="" placeholder="Contoh: Suami / Istri / Anak" required>
+            </div>
+            <div class="form-group mb-2">
+                <label for="jumlah_${personIndex}">Jumlah Dokumen yang Diajukan (per orang) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="jumlah_${personIndex}" name="data[${personIndex}][jumlah]" value="1" min="1" required>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm mt-3 remove-person-group">Hapus Orang Ini</button>
+        `;
+        wrapper.appendChild(newGroup);
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('remove-person-group')) {
+            const groups = document.querySelectorAll('.person-group');
+            if (groups.length > 1) { // Ensure at least one group remains
+                e.target.closest('.person-group').remove();
+            } else {
+                alert("Minimal harus ada satu orang yang diajukan.");
+            }
+        }
+    });
+
+    function showConfirmationModal() {
+        const previewContainer = document.getElementById('preview_data_orang');
+        previewContainer.innerHTML = ''; // Clear previous preview content
+
+        const personGroups = document.querySelectorAll('.person-group');
+        personGroups.forEach((group, index) => {
+            const nama = group.querySelector(`input[name="data[${index}][nama]"]`).value;
+            const no_kk = group.querySelector(`input[name="data[${index}][no_kk]"]`).value;
+            const nik = group.querySelector(`input[name="data[${index}][nik]"]`).value;
+            const keterangan = group.querySelector(`input[name="data[${index}][keterangan]"]`).value;
+            const jumlah = group.querySelector(`input[name="data[${index}][jumlah]"]`).value;
+
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <hr>
+                <p><strong>Orang #${index + 1}</strong></p>
+                <p><strong>Nama Lengkap:</strong> ${nama || '-'}</p>
+                <p><strong>Nomor KK:</strong> ${no_kk || '-'}</p>
+                <p><strong>NIK:</strong> ${nik || '-'}</p>
+                <p><strong>Keterangan/Hubungan:</strong> ${keterangan || '-'}</p>
+                <p><strong>Jumlah Dokumen:</strong> ${jumlah || '-'}</p>
+            `;
+            previewContainer.appendChild(div);
+        });
+
+        // Populate file names
+        const ktpFile = document.getElementById('ktp').files[0];
+        const kkFile = document.getElementById('kk').files[0];
+        document.getElementById('preview_ktp_file').textContent = ktpFile ? ktpFile.name : 'Belum ada file dipilih';
+        document.getElementById('preview_kk_file').textContent = kkFile ? kkFile.name : 'Belum ada file dipilih';
+
+        // Show the modal
+        new bootstrap.Modal(document.getElementById('konfirmasiModal')).show();
+    }
+
+    function submitForm() {
+        document.getElementById('formPengantarKKKTP').submit();
+    }
+</script>
+
+<?= $this->endSection() ?>
