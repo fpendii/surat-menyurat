@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
-    <h2>Ajukan Surat Domisili Bangunan</h2>
+    <h2>Ajukan Surat Kematian</h2>
 
     <?php if (session()->getFlashdata('errors')): ?>
         <div class="alert alert-danger">
@@ -14,59 +14,53 @@
         </div>
     <?php endif; ?>
 
-    <form id="bangunanForm" action="<?= site_url('masyarakat/surat/domisili-bangunan/ajukan') ?>" method="POST" enctype="multipart/form-data">
+    <form id="kematianForm" action="<?= site_url('masyarakat/surat/kematian/ajukan') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
-        <h5 class="mt-3">Data Kepala Desa</h5>
+        <h5 class="mt-3">Data Almarhum/Almarhumah</h5>
         <div class="form-group mb-2">
-            <label for="nama_kepala_desa">Nama Kepala <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="nama_kepala_desa" name="nama_kepala_desa" value="<?= old('nama_kepala_desa') ?>" required>
+            <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="nama" name="nama" value="<?= old('nama') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="jabatan">Jabatan <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="jabatan" name="jabatan" value="<?= old('jabatan') ?>" required>
+            <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
+            <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
+                <option value="">Pilih Jenis Kelamin</option>
+                <option value="Laki-laki" <?= old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
+                <option value="Perempuan" <?= old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
+            </select>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kecamatan">Kecamatan <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="kecamatan" name="kecamatan" value="<?= old('kecamatan') ?>" required>
+            <label for="ttl">Tempat, Tanggal Lahir <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="ttl" name="ttl" value="<?= old('ttl') ?>" placeholder="Contoh: Banjarmasin, 17 Agustus 1945" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kabupaten">Kabupaten <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="kabupaten" name="kabupaten" value="<?= old('kabupaten') ?>" required>
+            <label for="agama">Agama <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="agama" name="agama" value="<?= old('agama') ?>" required>
         </div>
 
-        <h5 class="mt-3">Data Bangunan</h5>
+        <h5 class="mt-3">Detail Kematian</h5>
         <div class="form-group mb-2">
-            <label for="kantor">Nama Kantor <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="kantor" name="kantor" value="<?= old('kantor') ?>" required>
-        </div>
-
-        <div class="form-group mb-2">
-            <label for="alamat">Alamat <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="alamat" name="alamat" value="<?= old('alamat') ?>" required>
+            <label for="hari_tanggal">Hari, Tanggal Kematian <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="hari_tanggal" name="hari_tanggal" value="<?= old('hari_tanggal') ?>" placeholder="Contoh: Jumat, 10 Juni 2025" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="desa">Desa <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="desa" name="desa" value="<?= old('desa') ?>" required>
+            <label for="jam">Jam Kematian <span class="text-danger">*</span></label>
+            <input type="time" class="form-control" id="jam" name="jam" value="<?= old('jam') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kecamatan">Kecamatan <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="kecamatan" name="kecamatan" value="<?= old('kecamatan') ?>" required>
+            <label for="tempat">Tempat Kematian <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="tempat" name="tempat" value="<?= old('tempat') ?>" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kabupaten">Kabupaten <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="kabupaten" name="kabupaten" value="<?= old('kabupaten') ?>" required>
-        </div>
-
-        <div class="form-group mb-2">
-            <label for="provinsi">Provinsi <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="provinsi" name="provinsi" value="<?= old('provinsi') ?>" required>
+            <label for="penyebab">Penyebab Kematian <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="penyebab" name="penyebab" rows="3" required><?= old('penyebab') ?></textarea>
         </div>
 
         <h5 class="mt-4">Upload Berkas</h5>
@@ -85,32 +79,29 @@
     </form>
 </div>
 
-<!-- Modal Konfirmasi -->
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Data Pengajuan Surat Domisili Bangunan</h5>
+                <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Data Pengajuan Surat Kematian</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
-                <h6><strong>Data Kepala Desa</strong></h6>
-                <p><strong>Nama Kepala Desa:</strong> <span id="preview_nama_kepala_desa"></span></p>
-                <p><strong>Jabatan:</strong> <span id="preview_jabatan"></span></p>
-                <p><strong>Kecamatan:</strong> <span id="preview_kecamatan"></span></p>
-                <p><strong>Kabupaten:</strong> <span id="preview_kabupaten"></span></p>
+                <h6><strong>Data Almarhum/Almarhumah</strong></h6>
+                <p><strong>Nama Lengkap:</strong> <span id="preview_nama"></span></p>
+                <p><strong>Jenis Kelamin:</strong> <span id="preview_jenis_kelamin"></span></p>
+                <p><strong>Tempat, Tanggal Lahir:</strong> <span id="preview_ttl"></span></p>
+                <p><strong>Agama:</strong> <span id="preview_agama"></span></p>
 
-                <h6 class="mt-4"><strong>Data Bangunan</strong></h6>
-                <p><strong>Nama Kantor:</strong> <span id="preview_kantor"></span></p>
-                <p><strong>Alamat Kantor:</strong> <span id="preview_alamat"></span></p>
-                <p><strong>Desa:</strong> <span id="preview_desa"></span></p>
-                <p><strong>Kecamatan:</strong> <span id="preview_kecamatan"></span></p>
-                <p><strong>Kabupaten:</strong> <span id="preview_kabupaten"></span></p>
-                <p><strong>Provinsi:</strong> <span id="preview_provinsi"></span></p>
+                <h6 class="mt-4"><strong>Detail Kematian</strong></h6>
+                <p><strong>Hari, Tanggal Kematian:</strong> <span id="preview_hari_tanggal"></span></p>
+                <p><strong>Jam Kematian:</strong> <span id="preview_jam"></span></p>
+                <p><strong>Tempat Kematian:</strong> <span id="preview_tempat"></span></p>
+                <p><strong>Penyebab Kematian:</strong> <span id="preview_penyebab"></span></p>
 
                 <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
-                <p><strong>KTP:</strong> <span id="preview_ktp_file"></span></p>
-                <p><strong>KK:</strong> <span id="preview_kk_file"></span></p>
+                <p><strong>KTP</strong> <span id="preview_ktp_file"></span></p>
+                <p><strong>KK</strong> <span id="preview_kk_file"></span></p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
@@ -122,19 +113,18 @@
 
 <script>
     function showConfirmationModal() {
-        // Kepala Desa
-        document.getElementById('preview_nama_kepala_desa').textContent = document.getElementById('nama_kepala_desa').value;
-        document.getElementById('preview_jabatan').textContent = document.getElementById('jabatan').value;
-        document.getElementById('preview_kecamatan').textContent = document.getElementById('kecamatan').value;
-        document.getElementById('preview_kabupaten').textContent = document.getElementById('kabupaten').value;
+        // Data Almarhum/Almarhumah
+        document.getElementById('preview_nama').textContent = document.getElementById('nama').value;
+        document.getElementById('preview_jenis_kelamin').textContent = document.getElementById('jenis_kelamin').value;
+        document.getElementById('preview_ttl').textContent = document.getElementById('ttl').value;
+        document.getElementById('preview_agama').textContent = document.getElementById('agama').value;
 
-        // Bangunan
-        document.getElementById('preview_kantor').textContent = document.getElementById('kantor').value;
-        document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;
-        document.getElementById('preview_desa').textContent = document.getElementById('desa').value;
-        document.getElementById('preview_kecamatan').textContent = document.getElementById('kecamatan').value;
-        document.getElementById('preview_kabupaten').textContent = document.getElementById('kabupaten').value;
-        document.getElementById('preview_provinsi').textContent = document.getElementById('provinsi').value;
+        // Detail Kematian
+        document.getElementById('preview_hari_tanggal').textContent = document.getElementById('hari_tanggal').value;
+        document.getElementById('preview_jam').textContent = document.getElementById('jam').value;
+        document.getElementById('preview_tempat').textContent = document.getElementById('tempat').value;
+        document.getElementById('preview_penyebab').textContent = document.getElementById('penyebab').value;
+
 
         // File preview
         const ktpFile = document.getElementById('ktp').files[0];
@@ -147,7 +137,7 @@
     }
 
     function submitForm() {
-        document.getElementById('bangunanForm').submit();
+        document.getElementById('kematianForm').submit();
     }
 </script>
 
