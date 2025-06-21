@@ -126,7 +126,7 @@ $routes->group('masyarakat', function ($routes) {
     $routes->post('surat/suami-istri/preview', 'Masyarakat\SuratSuamiIstriController::previewSuamiIstri');
     $routes->get('data-surat/suami_istri/download/(:num)', 'Masyarakat\SuratSuamiIstriController::downloadSurat/$1');
     $routes->get('data-surat/suami_istri/edit/(:num)', 'Masyarakat\SuratSuamiIstriController::editSurat/$1');
-    $routes->post('surat/suami-istri/update/(:num)', 'Masyarakat\SuratSuamiIstriController::updateSurat/$1');
+    $routes->put('surat/suami-istri/update/(:num)', 'Masyarakat\SuratSuamiIstriController::updateSurat/$1');
 
     $routes->get('surat/status-perkawinan', 'Masyarakat\SuratStatusPerkawinanController::statusPerkawinan');
     $routes->post('surat/status-perkawinan/ajukan', 'Masyarakat\SuratStatusPerkawinanController::ajukanStatusPerkawinan');

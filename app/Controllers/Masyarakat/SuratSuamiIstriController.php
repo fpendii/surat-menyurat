@@ -55,7 +55,6 @@ class SuratSuamiIstriController extends BaseController
         $suratModel = new SuratModel();
         $suamiIstriModel = new SuamiIstriModel();
         $db = \Config\Database::connect();
-
         // --- TAHAP 1: VALIDASI INPUT ---
         try {
             $validationRules = [
@@ -76,8 +75,6 @@ class SuratSuamiIstriController extends BaseController
                 'mahar'                      => 'required',
                 'saksi_nikah'                => 'required',
                 'jumlah_anak'                => 'required|integer|greater_than_equal_to[0]',
-                'ktp'                        => 'uploaded[ktp]|max_size[ktp,2048]|ext_in[ktp,jpg,jpeg,png,pdf]',
-                'kk'                         => 'uploaded[kk]|max_size[kk,2048]|ext_in[kk,jpg,jpeg,png,pdf]',
             ];
 
             if (!$this->validate($validationRules)) {
@@ -85,7 +82,6 @@ class SuratSuamiIstriController extends BaseController
                 return redirect()->to('/masyarakat/surat/suami-istri')->withInput()->with('errors', $this->validator->getErrors());
             }
             log_message('info', 'AJUKAN_SURAT_SUAMI_ISTRI_VALIDATION_SUCCESS.');
-
         } catch (\Exception $e) {
             log_message('critical', 'AJUKAN_SURAT_SUAMI_ISTRI_VALIDATION_CRITICAL_ERROR: ' . $e->getMessage() . ' - Trace: ' . $e->getTraceAsString());
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan sistem saat validasi. Detail: ' . $e->getMessage());
@@ -108,22 +104,22 @@ class SuratSuamiIstriController extends BaseController
             log_message('info', 'AJUKAN_SURAT_SUAMI_ISTRI_NOMOR_SURAT_GENERATED: ' . $nomorSurat);
 
             // 3. Upload File KTP & KK
-            $ktpFile = $this->request->getFile('ktp');
+            $ktpFile = $this->request->getFile('ktp'); // Changed to ktp
             if (!$ktpFile || !$ktpFile->isValid()) {
                 throw new \Exception('File KTP tidak valid atau tidak ditemukan.');
             }
             $ktpName = $ktpFile->getRandomName();
-            if (!$ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName)) {
+            if (!$ktpFile->move(ROOTPATH . 'public/uploads/surat_suami_istri', $ktpName)) { // Assuming common upload folder
                 throw new \Exception('Gagal memindahkan file KTP: ' . $ktpFile->getErrorString());
             }
             log_message('info', 'AJUKAN_SURAT_SUAMI_ISTRI_KTP_UPLOADED: ' . $ktpName);
 
-            $kkFile = $this->request->getFile('kk');
+            $kkFile = $this->request->getFile('kk'); // Changed to kk
             if (!$kkFile || !$kkFile->isValid()) {
                 throw new \Exception('File KK tidak valid atau tidak ditemukan.');
             }
             $kkName = $kkFile->getRandomName();
-            if (!$kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName)) {
+            if (!$kkFile->move(ROOTPATH . 'public/uploads/surat_suami_istri', $kkName)) { // Assuming common upload folder
                 throw new \Exception('Gagal memindahkan file KK: ' . $kkFile->getErrorString());
             }
             log_message('info', 'AJUKAN_SURAT_SUAMI_ISTRI_KK_UPLOADED: ' . $kkName);
@@ -134,8 +130,8 @@ class SuratSuamiIstriController extends BaseController
                 'no_surat'    => $nomorSurat,
                 'jenis_surat' => 'suami_istri',
                 'status'      => 'diajukan',
-                'ktp'         => $ktpName,
-                'kk'          => $kkName,
+                'ktp'         => $ktpName, // Storing file name in 'ktp' field in 'surat' table
+                'kk'          => $kkName,  // Storing file name in 'kk' field in 'surat' table
             ];
             $suratModel->insert($suratData);
             $suratId = $suratModel->getInsertID();
@@ -209,19 +205,18 @@ class SuratSuamiIstriController extends BaseController
             log_message('info', 'AJUKAN_SURAT_SUAMI_ISTRI_EMAIL_SENT.');
 
             return redirect()->to('/masyarakat/surat/')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
-
         } catch (\Exception $e) {
             // Jika ada exception di tahap manapun setelah validasi, lakukan rollback
             $db->transRollback();
             log_message('error', 'AJUKAN_SURAT_SUAMI_ISTRI_PROCESS_FAILED: ' . $e->getMessage() . ' - Trace: ' . $e->getTraceAsString());
-            
+
             // Hapus file yang mungkin sudah terupload jika transaksi gagal
-            if (isset($ktpName) && file_exists(ROOTPATH . 'public/uploads/ktp/' . $ktpName)) {
-                unlink(ROOTPATH . 'public/uploads/ktp/' . $ktpName);
+            if (isset($ktpName) && file_exists(ROOTPATH . 'public/uploads/surat_suami_istri/' . $ktpName)) {
+                unlink(ROOTPATH . 'public/uploads/surat_suami_istri/' . $ktpName);
                 log_message('info', 'AJUKAN_SURAT_SUAMI_ISTRI_KTP_ROLLED_BACK_DELETED: ' . $ktpName);
             }
-            if (isset($kkName) && file_exists(ROOTPATH . 'public/uploads/kk/' . $kkName)) {
-                unlink(ROOTPATH . 'public/uploads/kk/' . $kkName);
+            if (isset($kkName) && file_exists(ROOTPATH . 'public/uploads/surat_suami_istri/' . $kkName)) {
+                unlink(ROOTPATH . 'public/uploads/surat_suami_istri/' . $kkName);
                 log_message('info', 'AJUKAN_SURAT_SUAMI_ISTRI_KK_ROLLED_BACK_DELETED: ' . $kkName);
             }
 
@@ -262,13 +257,11 @@ class SuratSuamiIstriController extends BaseController
             'no_surat'                   => $surat['no_surat'],
             'tanggal'                    => Time::parse($surat['created_at'])->toLocalizedString('d MMMM Y', 'id'), // Menggunakan 'id' untuk bahasa Indonesia
             'nama_suami'                 => $detail['nama_suami'],
-        
             'ttl_suami'                  => $detail['ttl_suami'],
             'agama_suami'                => $detail['agama_suami'],
             'status_sebelum_nikah_suami' => $detail['status_sebelum_nikah_suami'],
             'alamat_suami'               => $detail['alamat_suami'],
             'nama_istri'                 => $detail['nama_istri'],
-    
             'ttl_istri'                  => $detail['ttl_istri'],
             'agama_istri'                => $detail['agama_istri'],
             'status_sebelum_nikah_istri' => $detail['status_sebelum_nikah_istri'],
@@ -380,42 +373,39 @@ class SuratSuamiIstriController extends BaseController
                 return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
             }
             log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_VALIDATION_SUCCESS.');
-
         } catch (\Exception $e) {
             log_message('critical', 'UPDATE_SURAT_SUAMI_ISTRI_VALIDATION_CRITICAL_ERROR: ' . $e->getMessage() . ' - Trace: ' . $e->getTraceAsString());
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan sistem saat validasi update. Detail: ' . $e->getMessage());
         }
 
-        $db->transStart(); // Mulai transaksi database
-
-        try {
+        
             // 2. Penanganan Upload File (jika ada file baru)
             $ktpName = $surat['ktp']; // Pertahankan nama file lama
             $kkName = $surat['kk'];   // Pertahankan nama file lama
 
-            $ktpFile = $this->request->getFile('ktp');
+            $ktpFile = $this->request->getFile('ktp'); // Using ktp as per form
             if ($ktpFile && $ktpFile->isValid() && !$ktpFile->hasMoved()) {
                 // Hapus file lama jika ada
-                if (!empty($ktpName) && file_exists(ROOTPATH . 'public/uploads/ktp/' . $ktpName)) {
-                    unlink(ROOTPATH . 'public/uploads/ktp/' . $ktpName);
+                if (!empty($ktpName) && file_exists(ROOTPATH . 'public/uploads/surat_suami_istri/' . $ktpName)) {
+                    unlink(ROOTPATH . 'public/uploads/surat_suami_istri/' . $ktpName);
                     log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_OLD_KTP_DELETED: ' . $ktpName);
                 }
                 $ktpName = $ktpFile->getRandomName();
-                if (!$ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName)) {
+                if (!$ktpFile->move(ROOTPATH . 'public/uploads/surat_suami_istri', $ktpName)) {
                     throw new \Exception('Gagal memindahkan file KTP: ' . $ktpFile->getErrorString());
                 }
                 log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_NEW_KTP_UPLOADED: ' . $ktpName);
             }
 
-            $kkFile = $this->request->getFile('kk');
+            $kkFile = $this->request->getFile('kk'); // Using kk as per form
             if ($kkFile && $kkFile->isValid() && !$kkFile->hasMoved()) {
                 // Hapus file lama jika ada
-                if (!empty($kkName) && file_exists(ROOTPATH . 'public/uploads/kk/' . $kkName)) {
-                    unlink(ROOTPATH . 'public/uploads/kk/' . $kkName);
+                if (!empty($kkName) && file_exists(ROOTPATH . 'public/uploads/surat_suami_istri/' . $kkName)) {
+                    unlink(ROOTPATH . 'public/uploads/surat_suami_istri/' . $kkName);
                     log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_OLD_KK_DELETED: ' . $kkName);
                 }
                 $kkName = $kkFile->getRandomName();
-                if (!$kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName)) {
+                if (!$kkFile->move(ROOTPATH . 'public/uploads/surat_suami_istri', $kkName)) {
                     throw new \Exception('Gagal memindahkan file KK: ' . $kkFile->getErrorString());
                 }
                 log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_NEW_KK_UPLOADED: ' . $kkName);
@@ -423,7 +413,7 @@ class SuratSuamiIstriController extends BaseController
 
             // 3. Update data `surat`
             $suratData = [
-                'status' => 'diajukan', // Setel ulang status menjadi 'diajukan' setelah di-edit
+                'status_surat' => 'diajukan', // Setel ulang status menjadi 'diajukan' setelah di-edit
                 'ktp'    => $ktpName,
                 'kk'     => $kkName,
             ];
@@ -466,24 +456,34 @@ class SuratSuamiIstriController extends BaseController
             }
             log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_TRANSACTION_COMPLETE_SUCCESS.');
 
-            return redirect()->to('/masyarakat/data-surat/')->with('success', 'Data surat suami istri berhasil diperbarui.');
+            // 5. Kirim email notifikasi bahwa surat telah direvisi/diperbarui
+            $email = \Config\Services::email();
+            $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Sesuaikan dengan email penerima notifikasi
+            $jenisSurat = 'Surat Keterangan Suami Istri';
+            $nomorSurat = $surat['no_surat']; // Ambil nomor surat yang sudah ada
 
-        } catch (\Exception $e) {
-            // Jika ada exception, pastikan transaksi di-rollback
-            $db->transRollback();
-            log_message('error', 'UPDATE_SURAT_SUAMI_ISTRI_PROCESS_FAILED: ' . $e->getMessage() . ' - Trace: ' . $e->getTraceAsString());
-            
-            // Hapus file yang mungkin sudah terupload jika transaksi gagal
-            if (isset($ktpName) && file_exists(ROOTPATH . 'public/uploads/ktp/' . $ktpName)) {
-                unlink(ROOTPATH . 'public/uploads/ktp/' . $ktpName);
-                log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_KTP_ROLLED_BACK_DELETED: ' . $ktpName);
-            }
-            if (isset($kkName) && file_exists(ROOTPATH . 'public/uploads/kk/' . $kkName)) {
-                unlink(ROOTPATH . 'public/uploads/kk/' . $kkName);
-                log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_KK_ROLLED_BACK_DELETED: ' . $kkName);
-            }
+            $viewEmail = view('email/notifikasi', [ // Create a new email template for revisions or reuse 'notifikasi'
+                'nomorSurat' => $nomorSurat,
+                'jenisSurat' => $jenisSurat,
+                'pesan'      => 'Surat Keterangan Suami Istri Anda dengan nomor ' . $nomorSurat . ' telah berhasil direvisi/diperbarui.',
+            ]);
 
-            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui surat. Detail: ' . $e->getMessage());
-        }
+            foreach ($emailRecipients as $recipient) {
+                $email->setTo($recipient);
+                $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+                $email->setSubject('Notifikasi Revisi/Pembaruan Surat ' . $jenisSurat);
+                $email->setMessage($viewEmail);
+                $email->setMailType('html');
+
+                if (!$email->send()) {
+                    log_message('warning', 'UPDATE_SURAT_SUAMI_ISTRI_EMAIL_REVISION_SEND_FAILED: Ke ' . $recipient . ' - ' . $email->printDebugger(['headers']));
+                }
+                $email->clear();
+            }
+            log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_REVISION_EMAIL_SENT.');
+
+
+            return redirect()->to('/masyarakat/data-surat/')->with('success', 'Data surat suami istri berhasil diperbarui dan notifikasi revisi dikirim.');
+        
     }
 }
