@@ -174,6 +174,8 @@ $routes->group('admin', function ($routes) {
     $routes->get('dashboard', 'Admin\AdminDashboardController::index');
     $routes->get('pengajuan-surat', 'Admin\PengajuanSuratController::pengajuanSurat');
     $routes->post('kirim-surat/(:num)', 'Admin\PengajuanSuratController::kirimSurat/$1');
+    $routes->get('arsip-surat', 'Admin\ArsipSuratAdmin::index');
+    
 
     $routes->get('surat-masuk', 'Admin\SuratMasukController::index');
     $routes->post('surat-masuk/disposisi/(:num)', 'Admin\SuratMasukController::disposisi/$1');

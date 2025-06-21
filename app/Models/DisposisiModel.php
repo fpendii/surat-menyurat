@@ -16,7 +16,6 @@ class DisposisiModel extends Model
     protected $allowedFields    = [
         'id_surat_masuk',
         'surat_dari',
-        'nomor_surat',
         'tanggal_surat',
         'tanggal_diterima',
         'nomor_agenda',
