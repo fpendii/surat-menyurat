@@ -17,7 +17,7 @@
                         <i class="fas fa-inbox fa-3x me-3"></i>
                         <div>
                             <h5 class="card-title mb-0">Total Surat Masuk</h5>
-                            <p class="card-text fs-4">XX</p> <!-- Placeholder, nanti bisa diisi dari controller -->
+                            <p class="card-text fs-4"><?php echo $total_surat_masuk; ?></p> <!-- Placeholder, nanti bisa diisi dari controller -->
                         </div>
                     </div>
                     <a href="<?= site_url('admin/surat-masuk') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
@@ -30,28 +30,15 @@
                     <div class="d-flex align-items-center">
                         <i class="fas fa-paper-plane fa-3x me-3"></i>
                         <div>
-                            <h5 class="card-title mb-0">Total Surat Keluar</h5>
-                            <p class="card-text fs-4">YY</p> <!-- Placeholder, nanti bisa diisi dari controller -->
+                            <h5 class="card-title mb-0">Total Pengajuan Surat</h5>
+                            <p class="card-text fs-4"><?php echo $total_surat_keluar; ?></p> <!-- Placeholder, nanti bisa diisi dari controller -->
                         </div>
                     </div>
-                    <a href="<?= site_url('admin/surat-keluar') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
+                    <a href="<?= site_url('admin/pengajuan-surat') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card bg-info text-white shadow-sm rounded-lg">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-file-alt fa-3x me-3"></i>
-                        <div>
-                            <h5 class="card-title mb-0">Total Disposisi</h5>
-                            <p class="card-text fs-4">ZZ</p> <!-- Placeholder, nanti bisa diisi dari controller -->
-                        </div>
-                    </div>
-                    <a href="<?= site_url('admin/disposisi') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
-                </div>
-            </div>
-        </div>
+        
     </div>
 
     <div class="row mt-4">
