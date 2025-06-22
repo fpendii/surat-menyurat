@@ -4,36 +4,57 @@ namespace App\Controllers\KepalaDesa;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\SuratModel; // Import the SuratModel
-use CodeIgniter\I18n\Time; // Import the Time class for date handling
+use App\Models\SuratModel; 
+use CodeIgniter\I18n\Time; 
+use App\Models\SuratMasukModel;
+use App\Models\DisposisiModel; 
 
 class KepalaDesaDashboardController extends BaseController
 {
+     protected $suratMasukModel;
+    protected $suratKeluarModel; // Variabel untuk model Surat Keluar
+    protected $disposisiModel;
+
+    public function __construct()
+    {
+        $this->suratMasukModel = new SuratMasukModel();
+        $this->suratKeluarModel = new SuratModel(); // Asumsi nama model Surat Keluar adalah SuratModel
+        $this->disposisiModel = new DisposisiModel();
+    }
+
     public function index()
     {
-        $suratModel = new SuratModel(); // Create an instance of your SuratModel
+        // Mendapatkan total surat masuk
+        $totalSuratMasuk = $this->suratMasukModel->countAllResults();
 
-        // Get today's date for filtering
-        $today = Time::today('Asia/Makassar')->toDateString(); // Specify timezone for accuracy (WITA is Asia/Makassar)
+        // Mendapatkan total surat keluar
+        $totalSuratKeluar = $this->suratKeluarModel->countAllResults();
 
-        // Total number of applications submitted today
-        $totalSuratDiajukanHariIni = $suratModel
-                                        ->where('created_at >=', $today . ' 00:00:00')
-                                        ->where('created_at <=', $today . ' 23:59:59')
-                                        ->countAllResults();
+        // Mendapatkan jumlah surat masuk yang menunggu disposisi
+        // Logika: Cari ID surat masuk yang SUDAH ada di tabel disposisi
+        $idsDisposed = $this->disposisiModel->select('id_surat_masuk')->findAll();
+        $disposedIdsArray = array_column($idsDisposed, 'id_surat_masuk');
 
-        // Total number of approved applications
-        $totalSuratDiAcc = $suratModel
-                                ->where('status_surat', 'selesai') // Ensure 'disetujui' matches your database status
-                                ->countAllResults();
+        // Kemudian hitung semua surat masuk dan kurangi dengan yang sudah didisposisi
+        // Atau, lebih efisien, hitung surat masuk yang ID-nya TIDAK ada di daftar disposedIdsArray
+        if (empty($disposedIdsArray)) {
+            // Jika belum ada disposisi sama sekali, semua surat masuk dianggap belum didisposisi
+            $suratMenungguDisposisi = $totalSuratMasuk;
+        } else {
+            // Hitung surat masuk yang id_surat_masuk-nya tidak ada di array id yang sudah didisposisi
+            $suratMenungguDisposisi = $this->suratMasukModel
+                                            ->whereNotIn('id_surat_masuk', $disposedIdsArray)
+                                            ->countAllResults();
+        }
 
-        // Prepare data to be sent to the view
+
         $data = [
-            'totalSuratDiajukanHariIni' => $totalSuratDiajukanHariIni,
-            'totalSuratDiAcc' => $totalSuratDiAcc,
+            'title'                 => 'Dashboard Kepala Desa',
+            'total_surat_masuk'     => $totalSuratMasuk,
+            'total_surat_keluar'    => $totalSuratKeluar,
+            'surat_menunggu_disposisi' => $suratMenungguDisposisi,
         ];
 
-        // Load the dashboard view and pass the data
         return view('kepala-desa/dashboard/dashboard', $data);
     }
 }

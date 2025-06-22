@@ -17,11 +17,11 @@
                         <i class="fas fa-inbox fa-3x me-3"></i>
                         <div>
                             <h5 class="card-title mb-0">Total Surat Masuk</h5>
-                            <p class="card-text fs-4">XX</p> <!-- Placeholder, nanti bisa diisi dari controller -->
+                            <p class="card-text fs-4"><?php echo $total_surat_masuk; ?></p>
                         </div>
                     </div>
                     <!-- Link ini mungkin akan mengarah ke daftar surat masuk yang perlu didisposisi oleh kepala desa -->
-                    <a href="<?= site_url('kepala-desa/surat-masuk') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
+                    <a href="#" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
                 </div>
             </div>
         </div>
@@ -32,11 +32,11 @@
                         <i class="fas fa-paper-plane fa-3x me-3"></i>
                         <div>
                             <h5 class="card-title mb-0">Total Surat Keluar</h5>
-                            <p class="card-text fs-4">YY</p> <!-- Placeholder, nanti bisa diisi dari controller -->
+                            <p class="card-text fs-4"><?php echo $total_surat_keluar; ?></p>
                         </div>
                     </div>
                     <!-- Link ini mungkin akan mengarah ke daftar surat keluar yang telah dibuat -->
-                    <a href="<?= site_url('kepala-desa/surat-keluar') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
+                    <a href="<?= site_url('kepala-desa/arsip-surat') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
                 </div>
             </div>
         </div>
@@ -47,11 +47,11 @@
                         <i class="fas fa-file-alt fa-3x me-3"></i>
                         <div>
                             <h5 class="card-title mb-0">Surat Menunggu Disposisi</h5>
-                            <p class="card-text fs-4">ZZ</p> <!-- Placeholder, nanti bisa diisi dari controller -->
+                            <p class="card-text fs-4"><?php echo $surat_menunggu_disposisi; ?></p>
                         </div>
                     </div>
                     <!-- Link ini mungkin akan mengarah ke daftar surat yang menunggu disposisi dari kepala desa -->
-                    <a href="<?= site_url('kepala-desa/disposisi-menunggu') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
+                    <a href="<?= site_url('kepala-desa/disposisi') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
                 </div>
             </div>
         </div>
