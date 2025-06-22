@@ -32,6 +32,7 @@ class UserSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
+            
             [
                 'id_user'  => 3,
                 'name'      => 'Kepala Desa',
