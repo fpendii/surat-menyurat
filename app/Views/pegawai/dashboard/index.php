@@ -19,7 +19,7 @@
                         <i class="fas fa-tasks fa-3x me-3"></i>
                         <div>
                             <h5 class="card-title mb-0">Disposisi Menunggu Tindak Lanjut</h5>
-                            <p class="card-text fs-4">ZZ</p> <!-- Placeholder, isi dari controller -->
+                            <p class="card-text fs-4"><?php echo $totalDisposisi; ?></p> <!-- Placeholder, isi dari controller -->
                         </div>
                     </div>
                     <a href="<?= site_url('pegawai/disposisi') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>

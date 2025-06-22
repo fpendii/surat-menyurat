@@ -9,6 +9,14 @@ class PegawaiDashboardController extends BaseController
 {
     public function index()
     {
-        return view('pegawai/dashboard/index');
+        // Mendapatkan total disposisi yang diterima oleh pegawai
+        $disposisiModel = new \App\Models\DisposisiModel();
+        $userId = session()->get('user_id');
+        $totalDisposisi = $disposisiModel->where('id_user', $userId)->countAllResults();
+
+        $data = [
+            'totalDisposisi' => $totalDisposisi,
+        ];
+        return view('pegawai/dashboard/index', $data);
     }
 }
