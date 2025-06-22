@@ -37,7 +37,7 @@
 
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <strong><i class="bi bi-hash me-1"></i>Nomor Surat:</strong> <?= esc($disposisi['nomor_surat']) ?>
+                            <strong><i class="bi bi-hash me-1"></i>Nomor Surat:</strong> <?= esc($disposisi['no_surat']) ?>
                         </li>
                         <li class="list-group-item">
                             <strong><i class="bi bi-person-fill me-1"></i>Surat Dari:</strong> <?= esc($disposisi['surat_dari']) ?>
@@ -49,7 +49,7 @@
                             <strong><i class="bi bi-calendar-check me-1"></i>Tanggal Diterima:</strong> <?= esc($disposisi['tanggal_diterima']) ?>
                         </li>
                         <li class="list-group-item">
-                            <strong><i class="bi bi-arrow-right-circle me-1"></i>Diteruskan Kepada:</strong> <?= esc($disposisi['diteruskan_kepada']) ?>
+                            <strong><i class="bi bi-arrow-right-circle me-1"></i>Diteruskan Kepada:</strong> <?= esc($disposisi['name']) ?>
                         </li>
                     </ul>
 

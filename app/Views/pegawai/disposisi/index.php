@@ -18,7 +18,7 @@
                             <span class="badge bg-secondary"><?= esc($d['sifat']) ?></span>
 
                             <ul class="list-unstyled mt-3 mb-0">
-                                <li><strong>Nomor Surat:</strong> <?= esc($d['nomor_surat']) ?></li>
+                                <li><strong>Nomor Surat:</strong> <?= esc($d['no_surat']) ?></li>
                                 <li><strong>Surat Dari:</strong> <?= esc($d['surat_dari']) ?></li>
                                 <li><strong>Tgl. Surat:</strong> <?= esc($d['tanggal_surat']) ?></li>
                                 <li><strong>Tgl. Diterima:</strong> <?= esc($d['tanggal_diterima']) ?></li>

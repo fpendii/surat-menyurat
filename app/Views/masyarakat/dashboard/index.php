@@ -17,24 +17,10 @@
                         <i class="fas fa-file-invoice fa-3x me-3"></i>
                         <div>
                             <h5 class="card-title mb-0">Total Surat Diajukan</h5>
-                            <p class="card-text fs-4">XX</p> <!-- Placeholder, isi dari controller -->
+                            <p class="card-text fs-4"><?php echo $totalSuratDiajukanHariIni; ?></p> <!-- Placeholder, isi dari controller -->
                         </div>
                     </div>
-                    <a href="<?= site_url('masyarakat/surat-saya') ?>" class="stretched-link text-white text-decoration-none">Lihat Semua Surat</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card bg-warning text-white shadow-sm rounded-lg">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-hourglass-half fa-3x me-3"></i>
-                        <div>
-                            <h5 class="card-title mb-0">Surat dalam Proses</h5>
-                            <p class="card-text fs-4">YY</p> <!-- Placeholder, isi dari controller -->
-                        </div>
-                    </div>
-                    <a href="<?= site_url('masyarakat/surat-saya?status=proses') ?>" class="stretched-link text-white text-decoration-none">Lihat Surat Proses</a>
+                    <a href="#" class="stretched-link text-white text-decoration-none">Lihat Semua Surat</a>
                 </div>
             </div>
         </div>
@@ -45,10 +31,10 @@
                         <i class="fas fa-edit fa-3x me-3"></i>
                         <div>
                             <h5 class="card-title mb-0">Surat Perlu Revisi</h5>
-                            <p class="card-text fs-4">ZZ</p> <!-- Placeholder, isi dari controller -->
+                            <p class="card-text fs-4"><?php echo $totalSuratDirevisi; ?></p> <!-- Placeholder, isi dari controller -->
                         </div>
                     </div>
-                    <a href="<?= site_url('masyarakat/surat-saya?status=revisi') ?>" class="stretched-link text-white text-decoration-none">Lihat Surat Revisi</a>
+                    <a href="#" class="stretched-link text-white text-decoration-none">Lihat Surat Revisi</a>
                 </div>
             </div>
         </div>

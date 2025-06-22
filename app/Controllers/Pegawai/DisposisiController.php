@@ -14,35 +14,34 @@ class DisposisiController extends BaseController
 
         // misal kolom diteruskan_kepada berisi id_user pegawai
         $data['disposisiList'] = $disposisiModel
-            ->where('diteruskan_kepada', $userId)
+            ->where('id_user', $userId)
+            ->join('surat_masuk', 'surat_masuk.id_surat_masuk = disposisi.id_surat_masuk')
             ->orderBy('tanggal_diterima', 'DESC')
             ->findAll();
-
         return view('pegawai/disposisi/index', $data);
     }
 
     public function detail($id)
-{
-    $disposisiModel = new \App\Models\DisposisiModel();
+    {
+        $disposisiModel = new \App\Models\DisposisiModel();
 
-    $disposisi = $disposisiModel
-       
-        ->join('surat_masuk', 'surat_masuk.id_surat_masuk = disposisi.id_surat_masuk')
-        ->where('disposisi.id_disposisi', $id)
-        ->first();
+        $disposisi = $disposisiModel
+            ->join('users', 'users.id_user = disposisi.id_user')
+            ->join('surat_masuk', 'surat_masuk.id_surat_masuk = disposisi.id_surat_masuk')
+            ->where('disposisi.id_disposisi', $id)
+            ->first();
 
-    if (!$disposisi) {
-        return redirect()->back()->with('error', 'Disposisi tidak ditemukan.');
+        if (!$disposisi) {
+            return redirect()->back()->with('error', 'Disposisi tidak ditemukan.');
+        }
+
+        // Cek apakah disposisi ini ditujukan kepada pegawai ini
+        if ($disposisi['id_user'] != session()->get('user_id')) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki akses ke disposisi ini.');
+        }
+
+        $data['disposisi'] = $disposisi;
+
+        return view('pegawai/disposisi/detail', $data);
     }
-
-    // Cek apakah disposisi ini ditujukan kepada pegawai ini
-    if ($disposisi['diteruskan_kepada'] != session()->get('user_id')) {
-        return redirect()->back()->with('error', 'Anda tidak memiliki akses ke disposisi ini.');
-    }
-
-    $data['disposisi'] = $disposisi;
-
-    return view('pegawai/disposisi/detail', $data);
-}
-
 }
