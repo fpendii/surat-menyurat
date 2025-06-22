@@ -71,22 +71,29 @@
 
                     <br />
 
-                    <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
                             <h3>Sidebar</h3>
                             <ul class="nav side-menu">
                                 <li>
                                     <a href="/kepala-desa/dashboard">
-                                        <i class="fa fa-home"></i> Dashboard
+                                        <i class="fa fa-tachometer"></i> Dashboard
                                     </a>
                                 </li>
                                 <li>
                                     <a href="/kepala-desa/pengajuan-surat">
-                                        <i class="fa fa-envelope"></i> Pengajuan Surat
+                                        <i class="fa fa-pencil-square-o"></i> Pengajuan Surat
                                     </a>
                                 </li>
-                                <li><a href="/kepala-desa/disposisi"><i class="fa fa-share"></i> Disposisi </a>
+                                <li>
+                                    <a href="/kepala-desa/disposisi">
+                                        <i class="fa fa-random"></i> Disposisi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/kepala-desa/arsip-surat">
+                                        <i class="fa fa-archive"></i> Arsip Surat
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="/logout">
@@ -96,6 +103,7 @@
                             </ul>
                         </div>
                     </div>
+
                     <!-- /sidebar menu -->
 
 
