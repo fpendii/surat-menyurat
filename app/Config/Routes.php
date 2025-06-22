@@ -155,6 +155,12 @@ $routes->group('kepala-desa', function ($routes) {
     $routes->post('pengajuan-surat/konfirmasi/(:num)', 'KepalaDesa\PengajuanSuratController::konfirmasiSurat/$1');
     $routes->get('pengajuan-surat/revisi/(:num)', 'KepalaDesa\PengajuanSuratController::revisiSurat/$1');
     $routes->post('pengajuan-surat/kirim-revisi/(:num)', 'KepalaDesa\PengajuanSuratController::kirimRevisi/$1');
+
+    $routes->get('arsip-surat', 'KepalaDesa\ArsipSuratKepalaDesa::index');
+
+    $routes->get('disposisi', 'KepalaDesa\DisposisiControllerKepalaDesa::index');
+    $routes->get('disposisi/form/(:num)', 'KepalaDesa\DisposisiControllerKepalaDesa::form/$1');
+    $routes->post('disposisi/simpan', 'KepalaDesa\DisposisiControllerKepalaDesa::simpan');
 });
 
 // // Group khusus kepala desa
