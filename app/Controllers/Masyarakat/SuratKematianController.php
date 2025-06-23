@@ -128,7 +128,19 @@ class SuratKematianController extends BaseController
 
         // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
+        $userModel = new \App\Models\UserModel();
+
+        // Fetch emails of users with 'kepala_desa' or 'admin' roles
+        $emailRecipients = $userModel->select('email')
+            ->whereIn('role', ['kepala_desa', 'admin'])
+            ->findAll();
+
+        // Extract just the email addresses into a simple array
+        $emailRecipients = array_column($emailRecipients, 'email');
+
+        // Remove any null or empty emails to prevent errors
+        $emailRecipients = array_filter($emailRecipients);
+        // --- End Email Recipient Logic ---
 
         $jenisSurat = 'Surat Kematian';
         // Load view email
@@ -139,7 +151,7 @@ class SuratKematianController extends BaseController
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
             $email->setSubject('Pengajuan Surat Kematian Baru');
             $email->setMessage($view);
             $email->setMailType('html'); // Penting agar HTML ter-render

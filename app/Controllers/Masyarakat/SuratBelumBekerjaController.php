@@ -54,127 +54,127 @@ class SuratBelumBekerjaController extends BaseController
     }
 
     public function ajukanBelumBekerja()
-{
-    $validation = \Config\Services::validation();
-    $validation->setRules([
-        'nama' => 'required',
-        'nik' => 'required|numeric|exact_length[16]',
-        'ttl' => 'required',
-        'jenis_kelamin' => 'required',
-        'agama' => 'required',
-        'status_pekerjaan' => 'required',
-        'warga_negara' => 'required',
-        'alamat' => 'required',
-        'ktp' => 'uploaded[ktp]|max_size[ktp,2048]|mime_in[ktp,image/png,image/jpeg,image/jpg,application/pdf]',
-        'kk' => 'uploaded[kk]|max_size[kk,2048]|mime_in[kk,image/png,image/jpeg,image/jpg,application/pdf]',
-    ]);
+    {
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nama' => 'required',
+            'nik' => 'required|numeric|exact_length[16]',
+            'ttl' => 'required',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'status_pekerjaan' => 'required',
+            'warga_negara' => 'required',
+            'alamat' => 'required',
+            'ktp' => 'uploaded[ktp]|max_size[ktp,2048]|mime_in[ktp,image/png,image/jpeg,image/jpg,application/pdf]',
+            'kk' => 'uploaded[kk]|max_size[kk,2048]|mime_in[kk,image/png,image/jpeg,image/jpg,application/pdf]',
+        ]);
 
-    if (!$validation->withRequest($this->request)->run()) {
-        return redirect()->to('/masyarakat/surat/belum-bekerja')->withInput()->with('errors', $validation->getErrors());
-    }
-
-    // Upload file KTP ke public/uploads/ktp/
-    $ktpFile = $this->request->getFile('ktp');
-    $ktpName = $ktpFile->getRandomName();
-    $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName); // Simpan ke public/uploads/ktp/
-
-    // Upload file KK ke public/uploads/kk/
-    $kkFile = $this->request->getFile('kk');
-    $kkName = $kkFile->getRandomName();
-    $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);    // Simpan ke public/uploads/kk/
-
-    // Ambil data dari form
-    $data = [
-        'nama' => $this->request->getPost('nama'),
-        'nik' => $this->request->getPost('nik'),
-        'ttl' => $this->request->getPost('ttl'),
-        'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
-        'agama' => $this->request->getPost('agama'),
-        'status_pekerjaan' => $this->request->getPost('status_pekerjaan'),
-        'warga_negara' => $this->request->getPost('warga_negara'),
-        'alamat' => $this->request->getPost('alamat'),
-    ];
-
-    // Nomor surat
-    $klasifikasi = '500.15.9.4';
-    $lokasi = 'Handil Suruk';
-    $tahun = date('Y');
-
-    $suratModel = new \App\Models\SuratModel();
-    $jumlahSuratTahunIni = $suratModel
-        ->whereIn('jenis_surat', ['belum_bekerja'])
-        ->where('YEAR(created_at)', $tahun)
-        ->countAllResults();
-
-    $nomorUrut = $jumlahSuratTahunIni + 1;
-    $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
-
-    // Simpan ke tabel `surat`
-    $suratData = [
-        'id_user' => session()->get('user_id'),
-        'no_surat' => $nomorSurat,
-        'jenis_surat' => 'belum_bekerja',
-        'status' => 'diajukan',
-        'ktp' => $ktpName,
-        'kk' => $kkName
-    ];
-    
-    $suratModel->insert($suratData);
-    $idSurat = $suratModel->getInsertID();
-
-    // Simpan ke tabel `surat_belum_bekerja`
-    $detailModel = new \App\Models\SuratBelumBekerjaModel();
-    $data['id_surat'] = $idSurat;
-    $detailModel->insert($data);
-
-    // --- Dynamic Email Recipients ---
-    // Load your User Model (adjust namespace if different)
-    $userModel = new \App\Models\UserModel(); // Assuming your user model is App\Models\UserModel
-
-    // Fetch emails of users with 'kepala_desa' or 'admin' roles
-    $emailRecipients = $userModel->select('email')
-                                 ->whereIn('role', ['kepala_desa', 'admin']) // Targeted roles
-                                 ->findAll();
-
-    // Extract just the email addresses into a simple array
-    $emailRecipients = array_column($emailRecipients, 'email');
-
-    // Remove any null or empty emails if they somehow exist
-    $emailRecipients = array_filter($emailRecipients);
-    // --- End Dynamic Email Recipients ---
-
-    // Kirim email notifikasi
-    $email = \Config\Services::email();
-
-    $jenisSurat = 'Surat Keterangan Belum Bekerja';
-    // Load view email
-    $view = view('email/notifikasi', [
-        'nomorSurat' => $nomorSurat,
-        'jenisSurat' => $jenisSurat
-    ]);
-
-    // Only send if there are recipients
-    if (!empty($emailRecipients)) {
-        foreach ($emailRecipients as $recipient) {
-            $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Belum Bekerja Baru');
-            $email->setMessage($view);
-            $email->setMailType('html'); // Important for HTML rendering
-
-            if (!$email->send()) {
-                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
-            }
-
-            $email->clear(); // Clear for the next iteration
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->to('/masyarakat/surat/belum-bekerja')->withInput()->with('errors', $validation->getErrors());
         }
-    } else {
-        log_message('warning', 'Tidak ada penerima email ditemukan untuk role kepala_desa atau admin.');
+
+        // Upload file KTP ke public/uploads/ktp/
+        $ktpFile = $this->request->getFile('ktp');
+        $ktpName = $ktpFile->getRandomName();
+        $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName); // Simpan ke public/uploads/ktp/
+
+        // Upload file KK ke public/uploads/kk/
+        $kkFile = $this->request->getFile('kk');
+        $kkName = $kkFile->getRandomName();
+        $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);    // Simpan ke public/uploads/kk/
+
+        // Ambil data dari form
+        $data = [
+            'nama' => $this->request->getPost('nama'),
+            'nik' => $this->request->getPost('nik'),
+            'ttl' => $this->request->getPost('ttl'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'agama' => $this->request->getPost('agama'),
+            'status_pekerjaan' => $this->request->getPost('status_pekerjaan'),
+            'warga_negara' => $this->request->getPost('warga_negara'),
+            'alamat' => $this->request->getPost('alamat'),
+        ];
+
+        // Nomor surat
+        $klasifikasi = '500.15.9.4';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['belum_bekerja'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
+        // Simpan ke tabel `surat`
+        $suratData = [
+            'id_user' => session()->get('user_id'),
+            'no_surat' => $nomorSurat,
+            'jenis_surat' => 'belum_bekerja',
+            'status' => 'diajukan',
+            'ktp' => $ktpName,
+            'kk' => $kkName
+        ];
+
+        $suratModel->insert($suratData);
+        $idSurat = $suratModel->getInsertID();
+
+        // Simpan ke tabel `surat_belum_bekerja`
+        $detailModel = new \App\Models\SuratBelumBekerjaModel();
+        $data['id_surat'] = $idSurat;
+        $detailModel->insert($data);
+
+        // --- Dynamic Email Recipients ---
+        // Load your User Model (adjust namespace if different)
+        $userModel = new \App\Models\UserModel(); // Assuming your user model is App\Models\UserModel
+
+        // Fetch emails of users with 'kepala_desa' or 'admin' roles
+        $emailRecipients = $userModel->select('email')
+            ->whereIn('role', ['kepala_desa', 'admin']) // Targeted roles
+            ->findAll();
+
+        // Extract just the email addresses into a simple array
+        $emailRecipients = array_column($emailRecipients, 'email');
+
+        // Remove any null or empty emails if they somehow exist
+        $emailRecipients = array_filter($emailRecipients);
+        // --- End Dynamic Email Recipients ---
+
+        // Kirim email notifikasi
+        $email = \Config\Services::email();
+
+        $jenisSurat = 'Surat Keterangan Belum Bekerja';
+        // Load view email
+        $view = view('email/notifikasi', [
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
+
+        // Only send if there are recipients
+        if (!empty($emailRecipients)) {
+            foreach ($emailRecipients as $recipient) {
+                $email->setTo($recipient);
+                $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
+                $email->setSubject('Pengajuan Surat Belum Bekerja Baru');
+                $email->setMessage($view);
+                $email->setMailType('html'); // Important for HTML rendering
+
+                if (!$email->send()) {
+                    log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+                }
+
+                $email->clear(); // Clear for the next iteration
+            }
+        } else {
+            log_message('warning', 'Tidak ada penerima email ditemukan untuk role kepala_desa atau admin.');
+        }
+
+
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
-
-
-    return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
-}
 
 
     public function downloadSurat($id)
@@ -218,7 +218,7 @@ class SuratBelumBekerjaController extends BaseController
             'warga_negara' => $detail['warga_negara'],
             'alamat' => $detail['alamat'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-             'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
             'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
 

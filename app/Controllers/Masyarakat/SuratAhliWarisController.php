@@ -172,7 +172,7 @@ class SuratAhliWarisController extends BaseController
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
             $email->setSubject('Pengajuan Surat Ahli Waris Baru');
             $email->setMessage($view);
             $email->setMailType('html'); // Penting agar HTML ter-render

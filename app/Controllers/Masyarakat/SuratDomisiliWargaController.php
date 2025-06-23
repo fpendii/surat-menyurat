@@ -166,7 +166,7 @@ class SuratDomisiliWargaController extends BaseController
         if (!empty($emailRecipients)) {
             foreach ($emailRecipients as $recipient) {
                 $email->setTo($recipient);
-                $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+                $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
                 $email->setSubject('Pengajuan Surat Domisili Warga Baru');
                 $email->setMessage($view);
                 $email->setMailType('html');

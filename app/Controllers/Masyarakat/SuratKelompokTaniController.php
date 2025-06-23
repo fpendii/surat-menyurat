@@ -117,7 +117,19 @@ class SuratKelompokTaniController extends BaseController
         // Kirim email ke kepala desa dan admin
         $email = \Config\Services::email();
 
-        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti dengan email yang sesuai
+        $userModel = new \App\Models\UserModel();
+
+        // Fetch emails of users with 'kepala_desa' or 'admin' roles
+        $emailRecipients = $userModel->select('email')
+            ->whereIn('role', ['kepala_desa', 'admin'])
+            ->findAll();
+
+        // Extract just the email addresses into a simple array
+        $emailRecipients = array_column($emailRecipients, 'email');
+
+        // Remove any null or empty emails to prevent errors
+        $emailRecipients = array_filter($emailRecipients);
+        // --- End Email Recipient Logic ---
 
         $jenisSurat = 'Surat Keterangan Domisili Kelompok Tani';
         // Load view email
@@ -128,7 +140,7 @@ class SuratKelompokTaniController extends BaseController
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
             $email->setSubject('Pengajuan Surat Domisili Kelompok Tani Baru');
             $email->setMessage($view);
             $email->setMailType('html'); // Penting agar HTML ter-render

@@ -137,7 +137,19 @@ class SuratUsahaController extends BaseController
 
         // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id'];
+        $userModel = new \App\Models\UserModel();
+
+        // Fetch emails of users with 'kepala_desa' or 'admin' roles
+        $emailRecipients = $userModel->select('email')
+            ->whereIn('role', ['kepala_desa', 'admin'])
+            ->findAll();
+
+        // Extract just the email addresses into a simple array
+        $emailRecipients = array_column($emailRecipients, 'email');
+
+        // Remove any null or empty emails to prevent errors
+        $emailRecipients = array_filter($emailRecipients);
+        // --- End Email Recipient Logic ---
 
         $jenisSurat = 'Surat Pengantar Usaha Baru';
         // Load view email
