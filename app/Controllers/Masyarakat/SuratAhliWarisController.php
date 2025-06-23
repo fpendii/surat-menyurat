@@ -75,10 +75,10 @@ class SuratAhliWarisController extends BaseController
 
         // Upload surat kematian
         $suratKematian = $this->request->getFile('surat_kematian');
-        $namaFileNikah = null;
+        $namaFileKematian = null; // Corrected variable name
         if ($suratKematian && $suratKematian->isValid() && !$suratKematian->hasMoved()) {
-            $namaFileNikah = $suratKematian->getRandomName();
-            $suratKematian->move(FCPATH . 'uploads/ahli_waris', $namaFileNikah);
+            $namaFileKematian = $suratKematian->getRandomName();
+            $suratKematian->move(FCPATH . 'uploads/ahli_waris', $namaFileKematian);
         }
 
         // 1. Tentukan kode klasifikasi dan lokasi
@@ -97,9 +97,7 @@ class SuratAhliWarisController extends BaseController
         // 3. Gabungkan semua jadi nomor surat
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
-
         // Simpan surat
-        $suratModel = new SuratModel();
         $suratId = $suratModel->insert([
             'id_user' => $userId,
             'no_surat' => $nomorSurat,
@@ -113,7 +111,7 @@ class SuratAhliWarisController extends BaseController
             'id_surat' => $suratId,
             'pemilik_harta' => $pemilikHarta,
             'surat_nikah' => $namaFileNikah,
-            'surat_kematian' => $namaFileNikah,
+            'surat_kematian' => $namaFileKematian,
         ]);
 
         // Simpan data ahli waris
@@ -146,16 +144,31 @@ class SuratAhliWarisController extends BaseController
             ]);
         }
 
+        // --- Dynamic Email Recipients (Updated) ---
+        // Load your User Model (adjust namespace if different)
+        $userModel = new \App\Models\UserModel(); // Assuming your user model is App\Models\UserModel
+
+        // Fetch emails of users with 'kepala_desa' or 'admin' roles
+        $emailRecipients = $userModel->select('email')
+            ->whereIn('role', ['kepala_desa', 'admin']) // Changed 'pegawai' to 'kepala_desa'
+            ->findAll();
+
+        // Extract just the email addresses into a simple array
+        $emailRecipients = array_column($emailRecipients, 'email');
+
+        // Remove any null or empty emails if they somehow exist
+        $emailRecipients = array_filter($emailRecipients);
+        // --- End Dynamic Email Recipients ---
+
         // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
         $jenisSurat = 'Surat Ahli Waris Baru';
         // Load view email
-       $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+        $view = view('email/notifikasi', [
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
@@ -170,7 +183,6 @@ class SuratAhliWarisController extends BaseController
 
             $email->clear();
         }
-
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
     }
@@ -205,9 +217,9 @@ class SuratAhliWarisController extends BaseController
             'ttl_ahli_waris' => array_column($dataAhliWaris, 'ttl'),
             'alamat' => array_column($dataAhliWaris, 'alamat'),
             'hubungan_ahli_waris' => array_column($dataAhliWaris, 'hubungan'),
-            'logo' => FCPATH . 'assets/logo.png' ,
+            'logo' => FCPATH . 'assets/logo.png',
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-             'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
             'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
 

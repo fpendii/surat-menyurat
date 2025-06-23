@@ -110,12 +110,12 @@ class SuratDomisiliWargaController extends BaseController
 
         // Simpan data ke tabel surat
         $idSurat = $suratModel->insert([
-            'id_user'     => session()->get('user_id'),
-            'no_surat'    => $nomorSurat,
-            'jenis_surat' => 'domisili_warga',
-            'status'      => 'diajukan',
-            'ktp'         => $ktpName,
-            'kk'          => $kkName,
+            'id_user'       => session()->get('user_id'),
+            'no_surat'      => $nomorSurat,
+            'jenis_surat'   => 'domisili_warga',
+            'status'        => 'diajukan',
+            'ktp'           => $ktpName,
+            'kk'            => $kkName,
         ], true); // true agar dapat ID terakhir yang disisipkan
 
         // Simpan data ke tabel surat_domisili_warga
@@ -135,9 +135,25 @@ class SuratDomisiliWargaController extends BaseController
             'provinsi'           => $this->request->getPost('provinsi'),
         ]);
 
+        // --- Start Email Recipient Logic ---
+        // Load your User Model
+        $userModel = new \App\Models\UserModel();
+
+        // Fetch emails of users with 'kepala_desa' or 'admin' roles
+        $emailRecipients = $userModel->select('email')
+            ->whereIn('role', ['kepala_desa', 'admin'])
+            ->findAll();
+
+        // Extract just the email addresses into a simple array
+        $emailRecipients = array_column($emailRecipients, 'email');
+
+        // Remove any null or empty emails to prevent errors
+        $emailRecipients = array_filter($emailRecipients);
+        // --- End Email Recipient Logic ---
+
         // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id'];
+        // $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Replaced with dynamic fetch
         $jenisSurat = 'Surat Domisili Warga';
 
         // Load view email
@@ -146,18 +162,23 @@ class SuratDomisiliWargaController extends BaseController
             'jenisSurat' => $jenisSurat,
         ]);
 
-        foreach ($emailRecipients as $recipient) {
-            $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Domisili Warga Baru');
-            $email->setMessage($view);
-            $email->setMailType('html');
+        // Only send emails if there are recipients found
+        if (!empty($emailRecipients)) {
+            foreach ($emailRecipients as $recipient) {
+                $email->setTo($recipient);
+                $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+                $email->setSubject('Pengajuan Surat Domisili Warga Baru');
+                $email->setMessage($view);
+                $email->setMailType('html');
 
-            if (!$email->send()) {
-                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+                if (!$email->send()) {
+                    log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+                }
+
+                $email->clear();
             }
-
-            $email->clear();
+        } else {
+            log_message('warning', 'Tidak ada penerima email ditemukan untuk role kepala_desa atau admin untuk notifikasi Surat Domisili Warga.');
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
@@ -199,7 +220,7 @@ class SuratDomisiliWargaController extends BaseController
             'provinsi' => $domisiliWarga['provinsi'],
             'no_surat' => $surat['no_surat'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-             'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
             'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ]);
 

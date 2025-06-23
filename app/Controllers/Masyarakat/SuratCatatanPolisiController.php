@@ -56,7 +56,6 @@ class SuratCatatanPolisiController extends BaseController
 
     public function ajukanCatatanPolisi()
     {
-
         $validation = \Config\Services::validation();
         $userId = session()->get('user_id'); // Ambil ID user dari session login
 
@@ -151,9 +150,24 @@ class SuratCatatanPolisiController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat catatan polisi.');
         }
 
+        // --- Start Email Recipient Logic ---
+        // Load your User Model to get user emails based on roles
+        $userModel = new \App\Models\UserModel();
+
+        // Fetch emails of users with 'kepala_desa' or 'admin' roles
+        $emailRecipients = $userModel->select('email')
+            ->whereIn('role', ['kepala_desa', 'admin'])
+            ->findAll();
+
+        // Extract just the email addresses into a simple array
+        $emailRecipients = array_column($emailRecipients, 'email');
+
+        // Remove any null or empty emails to prevent errors
+        $emailRecipients = array_filter($emailRecipients);
+        // --- End Email Recipient Logic ---
+
         // Kirim email notifikasi
         $email = \Config\Services::email();
-        $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
         $jenisSurat = 'Surat Catatan Polisi';
         // Load view email
@@ -162,18 +176,23 @@ class SuratCatatanPolisiController extends BaseController
             'jenisSurat' => $jenisSurat
         ]);
 
-        foreach ($emailRecipients as $recipient) {
-            $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Catatan Polisi Baru');
-            $email->setMessage($view);
-            $email->setMailType('html'); // Penting agar HTML ter-render
+        // Only send emails if there are recipients found
+        if (!empty($emailRecipients)) {
+            foreach ($emailRecipients as $recipient) {
+                $email->setTo($recipient);
+                $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+                $email->setSubject('Pengajuan Surat Catatan Polisi Baru');
+                $email->setMessage($view);
+                $email->setMailType('html'); // Penting agar HTML ter-render
 
-            if (!$email->send()) {
-                log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+                if (!$email->send()) {
+                    log_message('error', 'Gagal mengirim email notifikasi ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+                }
+
+                $email->clear(); // Clear for the next email
             }
-
-            $email->clear();
+        } else {
+            log_message('warning', 'Tidak ada penerima email ditemukan untuk role kepala_desa atau admin untuk notifikasi Surat Catatan Polisi.');
         }
 
         return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
@@ -209,7 +228,7 @@ class SuratCatatanPolisiController extends BaseController
             'alamat' => $catatanPolisi['alamat'],
             'no_surat' => $surat['no_surat'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-             'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
             'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
 

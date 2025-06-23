@@ -40,21 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card bg-info text-white shadow-sm rounded-lg">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-file-alt fa-3x me-3"></i>
-                        <div>
-                            <h5 class="card-title mb-0">Surat Menunggu Disposisi</h5>
-                            <p class="card-text fs-4"><?php echo $surat_menunggu_disposisi; ?></p>
-                        </div>
-                    </div>
-                    <!-- Link ini mungkin akan mengarah ke daftar surat yang menunggu disposisi dari kepala desa -->
-                    <a href="<?= site_url('kepala-desa/disposisi') ?>" class="stretched-link text-white text-decoration-none">Lihat Detail</a>
-                </div>
-            </div>
-        </div>
+       
     </div>
 
     <div class="row mt-4">

@@ -9,7 +9,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         $users = [
-
             [
                 'id_user'  => 1,
                 'name'      => 'amah',
