@@ -56,108 +56,127 @@ class SuratDomisiliBangunanController extends BaseController
     }
 
     public function ajukanDomisiliBangunan()
-{
-    $validation = \Config\Services::validation();
-    // Validasi input
-    $validation->setRules([
-        'nama_kepala_desa' => 'required|min_length[3]',
-        'jabatan'          => 'required|min_length[3]',
-        'kecamatan'        => 'required|min_length[3]',
-        'kabupaten'        => 'required|min_length[3]',
-        'kantor'           => 'required|min_length[3]',
-        'alamat'           => 'required|min_length[5]',
-        'desa'             => 'required|min_length[3]',
-        'kecamatan_desa'   => 'required|min_length[3]',
-        'kabupaten_desa'   => 'required|min_length[3]',
-        'provinsi'         => 'required|min_length[3]',
-        'ktp'              => 'uploaded[ktp]|max_size[ktp,2048]|ext_in[ktp,jpg,jpeg,png,pdf]',
-        'kk'               => 'uploaded[kk]|max_size[kk,2048]|ext_in[kk,jpg,jpeg,png,pdf]',
-    ]);
+    {
+        $validation = \Config\Services::validation();
+        // Validasi input
+        $validation->setRules([
+            'nama_kepala_desa' => 'required|min_length[3]',
+            'jabatan'          => 'required|min_length[3]',
+            'kecamatan'        => 'required|min_length[3]',
+            'kabupaten'        => 'required|min_length[3]',
+            'kantor'           => 'required|min_length[3]',
+            'alamat'           => 'required|min_length[5]',
+            'desa'             => 'required|min_length[3]',
+            'kecamatan_desa'   => 'required|min_length[3]',
+            'kabupaten_desa'   => 'required|min_length[3]',
+            'provinsi'         => 'required|min_length[3]',
+            'ktp'              => 'uploaded[ktp]|max_size[ktp,2048]|ext_in[ktp,jpg,jpeg,png,pdf]',
+            'kk'               => 'uploaded[kk]|max_size[kk,2048]|ext_in[kk,jpg,jpeg,png,pdf]',
+        ]);
 
-    
-
-    if (!$validation->withRequest($this->request)->run()) {
-        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-    }
-
-    // Upload file KTP
-    $ktpFile = $this->request->getFile('ktp');
-    $ktpName = $ktpFile->getRandomName();
-    $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
-
-    // Upload file KK
-    $kkFile = $this->request->getFile('kk');
-    $kkName = $kkFile->getRandomName();
-    $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
-
-    // 1. Tentukan kode klasifikasi dan lokasi
-    $klasifikasi = '400.12.2.2';
-    $lokasi = 'Handil Suruk';
-    $tahun = date('Y');
-
-    // 2. Hitung nomor urut surat dari database berdasarkan tahun
-    $suratModel = new \App\Models\SuratModel();
-    $jumlahSuratTahunIni = $suratModel
-        ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan', 'surat-pindah'])
-        ->where('YEAR(created_at)', $tahun)
-        ->countAllResults();
-    $nomorUrut = $jumlahSuratTahunIni + 1;
-
-    // 3. Buat nomor surat
-    $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
-
-    // Simpan ke tabel surat
-    $idSurat = $suratModel->insert([
-        'id_user'     => session()->get('user_id'),
-        'no_surat'    => $nomorSurat,
-        'jenis_surat' => 'domisili_bangunan',
-        'status_surat'      => 'diajukan',
-        'ktp'         => $ktpName,
-        'kk'          => $kkName,
-    ], true);
-
-    // Simpan ke tabel surat_domisili_bangunan
-    $domisiliModel = new \App\Models\SuratDomisiliBangunanModel();
-    $domisiliModel->insert([
-        'id_surat'         => $idSurat,
-        'nama_kepala_desa' => $this->request->getPost('nama_kepala_desa'),
-        'jabatan'          => $this->request->getPost('jabatan'),
-        'kecamatan'        => $this->request->getPost('kecamatan'),
-        'kabupaten'        => $this->request->getPost('kabupaten'),
-        'kantor'           => $this->request->getPost('kantor'),
-        'alamat'           => $this->request->getPost('alamat'),
-        'desa'             => $this->request->getPost('desa'),
-        'kecamatan_desa'   => $this->request->getPost('kecamatan_desa'),
-        'kabupaten_desa'   => $this->request->getPost('kabupaten_desa'),
-        'provinsi'         => $this->request->getPost('provinsi'),
-    ]);
-
-    // Kirim email
-    $email = \Config\Services::email();
-    $recipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id'];
-    $jenisSurat = 'Surat Domisili Bangunan';
-
-    $view = view('email/notifikasi', [
-        'nomorSurat' => $nomorSurat,
-        'jenisSurat' => $jenisSurat
-    ]);
-
-    foreach ($recipients as $recipient) {
-        $email->setTo($recipient);
-        $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-        $email->setSubject('Pengajuan Surat Domisili Bangunan Baru');
-        $email->setMessage($view);
-        $email->setMailType('html');
-
-        if (!$email->send()) {
-            log_message('error', 'Gagal mengirim email ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
-        $email->clear();
-    }
+        // Upload file KTP
+        $ktpFile = $this->request->getFile('ktp');
+        $ktpName = $ktpFile->getRandomName();
+        $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
 
-    return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
-}
+        // Upload file KK
+        $kkFile = $this->request->getFile('kk');
+        $kkName = $kkFile->getRandomName();
+        $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
+
+        // 1. Tentukan kode klasifikasi dan lokasi
+        $klasifikasi = '400.12.2.2';
+        $lokasi = 'Handil Suruk';
+        $tahun = date('Y');
+
+        // 2. Hitung nomor urut surat dari database berdasarkan tahun
+        $suratModel = new \App\Models\SuratModel();
+        $jumlahSuratTahunIni = $suratModel
+            ->whereIn('jenis_surat', ['domisili_kelompok_tani', 'domisili_warga', 'domisili_bangunan', 'surat-pindah'])
+            ->where('YEAR(created_at)', $tahun)
+            ->countAllResults();
+        $nomorUrut = $jumlahSuratTahunIni + 1;
+
+        // 3. Buat nomor surat
+        $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
+
+        // Simpan ke tabel surat
+        $idSurat = $suratModel->insert([
+            'id_user'       => session()->get('user_id'),
+            'no_surat'      => $nomorSurat,
+            'jenis_surat'   => 'domisili_bangunan',
+            'status_surat'  => 'diajukan',
+            'ktp'           => $ktpName,
+            'kk'            => $kkName,
+        ], true);
+
+        // Simpan ke tabel surat_domisili_bangunan
+        $domisiliModel = new \App\Models\SuratDomisiliBangunanModel();
+        $domisiliModel->insert([
+            'id_surat'         => $idSurat,
+            'nama_kepala_desa' => $this->request->getPost('nama_kepala_desa'),
+            'jabatan'          => $this->request->getPost('jabatan'),
+            'kecamatan'        => $this->request->getPost('kecamatan'),
+            'kabupaten'        => $this->request->getPost('kabupaten'),
+            'kantor'           => $this->request->getPost('kantor'),
+            'alamat'           => $this->request->getPost('alamat'),
+            'desa'             => $this->request->getPost('desa'),
+            'kecamatan_desa'   => $this->request->getPost('kecamatan_desa'),
+            'kabupaten_desa'   => $this->request->getPost('kabupaten_desa'),
+            'provinsi'         => $this->request->getPost('provinsi'),
+        ]);
+
+        // --- Start Email Recipient Logic ---
+        // Load your User Model
+        $userModel = new \App\Models\UserModel();
+
+        // Fetch emails of users with 'kepala_desa' or 'admin' roles
+        $emailRecipients = $userModel->select('email')
+            ->whereIn('role', ['kepala_desa', 'admin'])
+            ->findAll();
+
+        // Extract just the email addresses into a simple array
+        $emailRecipients = array_column($emailRecipients, 'email');
+
+        // Remove any null or empty emails to prevent errors
+        $emailRecipients = array_filter($emailRecipients);
+        // --- End Email Recipient Logic ---
+
+        // Kirim email
+        $email = \Config\Services::email();
+        // $recipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Replaced with dynamic fetch
+        $jenisSurat = 'Surat Domisili Bangunan';
+
+        $view = view('email/notifikasi', [
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
+
+        // Only send emails if there are recipients found
+        if (!empty($emailRecipients)) {
+            foreach ($emailRecipients as $recipient) {
+                $email->setTo($recipient);
+                $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+                $email->setSubject('Pengajuan Surat Domisili Bangunan Baru');
+                $email->setMessage($view);
+                $email->setMailType('html');
+
+                if (!$email->send()) {
+                    log_message('error', 'Gagal mengirim email ke ' . $recipient . ': ' . $email->printDebugger(['headers']));
+                }
+
+                $email->clear();
+            }
+        } else {
+            log_message('warning', 'Tidak ada penerima email ditemukan untuk role kepala_desa atau admin untuk notifikasi Surat Domisili Bangunan.');
+        }
+
+        return redirect()->to('/masyarakat/surat')->with('success', 'Pengajuan Surat Berhasil diajukan dan notifikasi dikirim');
+    }
 
     public function downloadSurat($id)
     {
@@ -344,7 +363,7 @@ class SuratDomisiliBangunanController extends BaseController
             'kabupaten_desa'   => $this->request->getPost('kabupaten_desa'),
             'provinsi'         => $this->request->getPost('provinsi'),
         ];
-        
+
         $domisiliBangunanModel->update($detail['id_surat_domisili_bangunan'], $domisiliBangunanData);
 
         // Kirim email notifikasi setelah update
