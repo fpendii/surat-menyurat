@@ -84,7 +84,7 @@ class SuratTidakMampuController extends BaseController
         $ktpFile->move(WRITEPATH . 'uploads/surat_tidak_mampu/', $ktpName);
         $kkFile->move(WRITEPATH . 'uploads/surat_tidak_mampu/', $kkName);
 
-         // 1. Tentukan kode klasifikasi dan lokasi
+        // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.9.14.5';
         $lokasi = 'Handil Suruk';
         $tahun = date('Y');
@@ -134,17 +134,17 @@ class SuratTidakMampuController extends BaseController
         $email = \Config\Services::email();
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
-         $jenisSurat = 'Surat Tidak Mampu';
+        $jenisSurat = 'Surat Tidak Mampu';
         // Load view email
         $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
+            $email->setSubject('Pengajuan Surat Keterangan Tidak Mampu Baru');
             $email->setMessage($view);
             $email->setMailType('html'); // Penting agar HTML ter-render
 
@@ -186,8 +186,8 @@ class SuratTidakMampuController extends BaseController
             'keperluan' => $suratTidakMampu['keperluan'],
             'tanggal_surat' => $surat['created_at'] ?? date('Y-m-d'),
             'no_surat' => $surat['no_surat'],
-             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-              'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
             'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
 

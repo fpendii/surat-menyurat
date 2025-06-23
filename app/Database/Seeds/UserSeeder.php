@@ -11,7 +11,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'id_user'  => 1,
-                'name'      => 'amah',
+                'name'      => 'Amah',
                 'email'     => 'norrahmah57@gmail.com',
                 'password'  => password_hash('123', PASSWORD_DEFAULT),
                 'role'      => 'masyarakat',
@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             [
                 'id_user'  => 2,
                 'name'      => 'Admin Desa',
-                'email'     => 'norrahmah@mhs.politala.ac.id',
+                'email'     => 'desasuruk.29@gmail.com',
                 'password'  => password_hash('123', PASSWORD_DEFAULT),
                 'role'      => 'admin',
                 'phone'     => '081234567890',
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             [
                 'id_user'  => 4,
                 'name'      => 'Pegawai',
-                'email'     => 'pegawai@gmail.com',
+                'email'     => 'pegawaisuruk@gmail.com',
                 'password'  => password_hash('123', PASSWORD_DEFAULT),
                 'role'      => 'pegawai',
                 'phone'     => '081298765432',
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
         ];
-        
+
 
         $this->db->table('users')->insertBatch($users);
     }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Notifikasi Pengajuan Surat Ahli Waris</title>
@@ -45,13 +46,14 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Pengajuan <?= esc($jenisSurat) ?></h2>
         <div class="content">
             <p>Yth. Petugas Administrasi,</p>
 
-            <p>Ada pengajuan <strong>Surat Ahli Waris</strong> baru melalui sistem layanan desa.</p>
+            <p>Ada pengajuan <strong> <?= esc($jenisSurat) ?></strong> baru melalui sistem layanan desa.</p>
 
             <div class="highlight">
                 <p><strong>Nomor Surat:</strong><br><?= esc($nomorSurat) ?></p>
@@ -67,4 +69,5 @@
         </div>
     </div>
 </body>
+
 </html>

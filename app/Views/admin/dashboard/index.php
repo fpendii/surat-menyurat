@@ -38,23 +38,9 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card shadow-sm rounded-lg">
-                <div class="card-body">
-                    <h5 class="card-title">Informasi Cepat</h5>
-                    <ul>
-                        <li>Gunakan menu navigasi di samping untuk mengakses fitur-fitur lainnya.</li>
-                        <li>Pastikan data arsip selalu diperbarui.</li>
-                        <li>Hubungi dukungan jika ada kendala.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>
 

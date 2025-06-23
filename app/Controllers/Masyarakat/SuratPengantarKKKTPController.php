@@ -117,8 +117,8 @@ class SuratPengantarKKKTPController extends BaseController
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
+            $email->setSubject('Pengajuan Surat Pengantar Kk Ktp Baru');
             $email->setMessage($view);
             $email->setMailType('html'); // Penting agar HTML ter-render
 

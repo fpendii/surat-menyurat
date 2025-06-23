@@ -28,20 +28,7 @@
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card shadow-sm rounded-lg">
-                <div class="card-body">
-                    <h5 class="card-title">Informasi Penting</h5>
-                    <ul>
-                        <li>Gunakan menu navigasi untuk mengakses arsip surat dan disposisi.</li>
-                        <li>Pastikan untuk menindaklanjuti disposisi yang ditujukan kepada Anda.</li>
-                        <li>Laporkan jika ada masalah atau butuh bantuan.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 </div>
 

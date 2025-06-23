@@ -131,17 +131,17 @@ class SuratKelahiranController extends BaseController
         $email = \Config\Services::email();
         $emailRecipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Ganti sesuai kebutuhan
 
-         $jenisSurat = 'Surat Kelahiran';
+        $jenisSurat = 'Surat Kelahiran';
         // Load view email
-       $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+        $view = view('email/notifikasi', [
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
+            $email->setSubject('Pengajuan Surat Kelahiran Baru');
             $email->setMessage($view);
             $email->setMailType('html'); // Penting agar HTML ter-render
 
@@ -195,8 +195,8 @@ class SuratKelahiranController extends BaseController
             'nama_ayah' => $detail['nama_ayah'],
             'nama_ibu' => $detail['nama_ibu'],
             'anak_ke' => $detail['anak_ke'],
-             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-              'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
             'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
 

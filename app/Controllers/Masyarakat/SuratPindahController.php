@@ -102,8 +102,8 @@ class SuratPindahController extends BaseController
             $formF1Name = $formF1->getRandomName();
             $formF1->move('uploads/surat', $formF1Name);
         }
-        
-         // 1. Tentukan kode klasifikasi dan lokasi
+
+        // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.12.2.2';
         $lokasi = 'Handil Suruk';
         $tahun = date('Y');
@@ -185,15 +185,15 @@ class SuratPindahController extends BaseController
 
         $jenisSurat = 'Surat Pindah';
         // Load view email
-       $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+        $view = view('email/notifikasi', [
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setSubject('Pengajuan Surat Pindah Baru');
             $email->setMessage($view);
             $email->setMailType('html'); // Penting agar HTML ter-render
 
@@ -246,11 +246,11 @@ class SuratPindahController extends BaseController
             'status_perkawinan_pengikut' => array_column($pengikutList, 'status_perkawinan'),
             'pendidikan_pengikut' => array_column($pengikutList, 'pendidikan'),
             'no_ktp_pengikut' => array_column($pengikutList, 'no_ktp'),
-             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-              'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
             'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
-        
+
 
         // Logo
         $path = FCPATH . 'img/logo.png';
