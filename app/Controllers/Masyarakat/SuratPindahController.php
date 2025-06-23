@@ -95,13 +95,6 @@ class SuratPindahController extends BaseController
             $ktp->move('uploads/surat', $ktpName);
         }
 
-        // Upload file Form F1
-        $formF1 = $this->request->getFile('file_f1');
-        $formF1Name = null;
-        if ($formF1 && $formF1->isValid() && !$formF1->hasMoved()) {
-            $formF1Name = $formF1->getRandomName();
-            $formF1->move('uploads/surat', $formF1Name);
-        }
         
          // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.12.2.2';
@@ -126,7 +119,6 @@ class SuratPindahController extends BaseController
             'jenis_surat' => 'surat-pindah',
             'kk' => $kkName,
             'ktp' => $ktpName,
-            'form_f1' => $formF1Name,
         ]);
         $suratId = $this->suratModel->getInsertID();
 
@@ -134,7 +126,6 @@ class SuratPindahController extends BaseController
         // Ambil data utama
         $dataSurat = [
             'id_surat' => $suratId,
-
             'nama' => $this->request->getPost('nama'),
             'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
             'ttl' => $this->request->getPost('ttl'),

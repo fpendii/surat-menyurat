@@ -168,10 +168,7 @@
             <input type="file" class="form-control-file" id="file_kk" name="file_kk" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
-        <div class="form-group mb-2">
-            <label for="file_f1">Upload F1 (Opsional)(jpg, jpeg, png, pdf)</label>
-            <input type="file" class="form-control-file" id="file_f1" name="file_f1" accept=".jpg,.jpeg,.png,.pdf">
-        </div>
+       
 
         <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>

@@ -148,7 +148,7 @@ class SuratDomisiliBangunanController extends BaseController
 
         // Kirim email
         $email = \Config\Services::email();
-        // $recipients = ['norrahmah57@gmail.com', 'norrahmah@mhs.politala.ac.id']; // Replaced with dynamic fetch
+        
         $jenisSurat = 'Surat Domisili Bangunan';
 
         $view = view('email/notifikasi', [
