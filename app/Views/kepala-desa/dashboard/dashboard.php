@@ -43,21 +43,7 @@
        
     </div>
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card shadow-sm rounded-lg">
-                <div class="card-body">
-                    <h5 class="card-title">Informasi Penting</h5>
-                    <ul>
-                        <li>Periksa daftar surat masuk secara berkala untuk disposisi.</li>
-                        <li>Pastikan semua surat keluar telah diverifikasi.</li>
-                        <li>Gunakan fitur laporan untuk melihat ringkasan aktivitas surat.</li>
-                        <li>Untuk bantuan, hubungi administrator sistem.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
 </div>
 

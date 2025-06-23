@@ -95,6 +95,13 @@ class SuratPindahController extends BaseController
             $ktp->move('uploads/surat', $ktpName);
         }
 
+        // Upload file Form F1
+        $formF1 = $this->request->getFile('file_f1');
+        $formF1Name = null;
+        if ($formF1 && $formF1->isValid() && !$formF1->hasMoved()) {
+            $formF1Name = $formF1->getRandomName();
+            $formF1->move('uploads/surat', $formF1Name);
+        }
         
          // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.12.2.2';
@@ -172,7 +179,7 @@ class SuratPindahController extends BaseController
 
         // Kirim email notifikasi
         $email = \Config\Services::email();
-       $userModel = new \App\Models\UserModel();
+        $userModel = new \App\Models\UserModel();
 
         // Fetch emails of users with 'kepala_desa' or 'admin' roles
         $emailRecipients = $userModel->select('email')
@@ -188,15 +195,15 @@ class SuratPindahController extends BaseController
 
         $jenisSurat = 'Surat Pindah';
         // Load view email
-       $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+        $view = view('email/notifikasi', [
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
+            $email->setSubject('Pengajuan Surat Pindah Baru');
             $email->setMessage($view);
             $email->setMailType('html'); // Penting agar HTML ter-render
 
@@ -249,11 +256,11 @@ class SuratPindahController extends BaseController
             'status_perkawinan_pengikut' => array_column($pengikutList, 'status_perkawinan'),
             'pendidikan_pengikut' => array_column($pengikutList, 'pendidikan'),
             'no_ktp_pengikut' => array_column($pengikutList, 'no_ktp'),
-             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-              'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
             'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
-        
+
 
         // Logo
         $path = FCPATH . 'img/logo.png';

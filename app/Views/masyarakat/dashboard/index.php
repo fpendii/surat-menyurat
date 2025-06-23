@@ -41,20 +41,6 @@
         <!-- Anda bisa menambahkan kartu lain di sini sesuai kebutuhan -->
     </div>
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card shadow-sm rounded-lg">
-                <div class="card-body">
-                    <h5 class="card-title">Informasi dan Bantuan</h5>
-                    <ul>
-                        <li>Gunakan menu navigasi di atas untuk menjelajahi portal.</li>
-                        <li>Untuk bantuan atau pertanyaan terkait pengajuan surat Anda, silakan hubungi petugas desa.</li>
-                        <li>Pastikan data pribadi Anda aman saat menggunakan layanan.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>
 

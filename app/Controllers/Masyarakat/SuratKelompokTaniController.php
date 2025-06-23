@@ -81,7 +81,7 @@ class SuratKelompokTaniController extends BaseController
         // 3. Gabungkan semua jadi nomor surat
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
-         // Upload file KTP
+        // Upload file KTP
         $ktpFile = $this->request->getFile('ktp');
         $ktpName = $ktpFile->getRandomName();
         $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
@@ -133,15 +133,15 @@ class SuratKelompokTaniController extends BaseController
 
         $jenisSurat = 'Surat Keterangan Domisili Kelompok Tani';
         // Load view email
-       $view = view('email/notifikasi', [
-    'nomorSurat' => $nomorSurat,
-    'jenisSurat' => $jenisSurat
-]);
+        $view = view('email/notifikasi', [
+            'nomorSurat' => $nomorSurat,
+            'jenisSurat' => $jenisSurat
+        ]);
 
         foreach ($emailRecipients as $recipient) {
             $email->setTo($recipient);
-            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
-            $email->setSubject('Pengajuan Surat Ahli Waris Baru');
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
+            $email->setSubject('Pengajuan Surat Domisili Kelompok Tani Baru');
             $email->setMessage($view);
             $email->setMailType('html'); // Penting agar HTML ter-render
 
@@ -178,7 +178,7 @@ class SuratKelompokTaniController extends BaseController
             'sekretaris'       => $domisili['sekretaris'],
             'bendahara'        => $domisili['bendahara'],
             'no_surat' => $surat['no_surat'],
-             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
+            'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
             'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
             'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
         ];
