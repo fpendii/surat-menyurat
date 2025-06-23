@@ -88,7 +88,7 @@
         <div class="form-group mb-2">
             <label for="deskripsi_barang">Deskripsi Barang <span class="text-danger">*</span></label>
             <textarea class="form-control <?= session('errors.deskripsi_barang') ? 'is-invalid' : '' ?>" id="deskripsi_barang" name="deskripsi_barang" rows="3" required><?= old('deskripsi_barang') ?></textarea>
-            <small class="form-text text-muted">Tuliskan  deskripsi barang yang hilang.</small>
+            <small class="form-text text-muted">Tuliskan deskripsi barang yang hilang.</small>
             <div class="invalid-feedback"><?= session('errors.deskripsi_barang') ?></div>
         </div>
 
@@ -133,7 +133,7 @@
                 <p><strong>Kartu Tanda Penduduk (KTP):</strong> <span id="preview_ktp_file"></span></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
             </div>
         </div>

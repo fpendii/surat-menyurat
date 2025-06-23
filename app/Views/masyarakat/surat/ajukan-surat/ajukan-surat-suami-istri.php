@@ -26,11 +26,11 @@
         <div class="form-group mb-2">
             <label for="nama_suami">Nama Suami <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.nama_suami')) ? 'is-invalid' : '' ?>"
-                   id="nama_suami"
-                   name="nama_suami"
-                   value="<?= old('nama_suami') ?>"
-                   required>
+                class="form-control <?= (session('errors.nama_suami')) ? 'is-invalid' : '' ?>"
+                id="nama_suami"
+                name="nama_suami"
+                value="<?= old('nama_suami') ?>"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.nama_suami') ?>
             </div>
@@ -39,12 +39,12 @@
         <div class="form-group mb-2">
             <label for="ttl_suami">Tempat / Tanggal Lahir Suami <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.ttl_suami')) ? 'is-invalid' : '' ?>"
-                   id="ttl_suami"
-                   name="ttl_suami"
-                   value="<?= old('ttl_suami') ?>"
-                   placeholder="Contoh: Surabaya, 14 Februari 1990"
-                   required>
+                class="form-control <?= (session('errors.ttl_suami')) ? 'is-invalid' : '' ?>"
+                id="ttl_suami"
+                name="ttl_suami"
+                value="<?= old('ttl_suami') ?>"
+                placeholder="Contoh: Surabaya, 14 Februari 1990"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.ttl_suami') ?>
             </div>
@@ -53,9 +53,9 @@
         <div class="form-group mb-2">
             <label for="agama_suami">Agama Suami <span class="text-danger">*</span></label>
             <select class="form-control <?= (session('errors.agama_suami')) ? 'is-invalid' : '' ?>"
-                    id="agama_suami"
-                    name="agama_suami"
-                    required>
+                id="agama_suami"
+                name="agama_suami"
+                required>
                 <option value="">-- Pilih --</option>
                 <?php
                 $agama_options = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu'];
@@ -71,12 +71,12 @@
         <div class="form-group mb-2">
             <label for="status_sebelum_nikah_suami">Status Sebelum Nikah (Suami) <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.status_sebelum_nikah_suami')) ? 'is-invalid' : '' ?>"
-                   id="status_sebelum_nikah_suami"
-                   name="status_sebelum_nikah_suami"
-                   value="<?= old('status_sebelum_nikah_suami') ?>"
-                   placeholder="Contoh: Jejaka, Duda"
-                   required>
+                class="form-control <?= (session('errors.status_sebelum_nikah_suami')) ? 'is-invalid' : '' ?>"
+                id="status_sebelum_nikah_suami"
+                name="status_sebelum_nikah_suami"
+                value="<?= old('status_sebelum_nikah_suami') ?>"
+                placeholder="Contoh: Jejaka, Duda"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.status_sebelum_nikah_suami') ?>
             </div>
@@ -85,10 +85,10 @@
         <div class="form-group mb-2">
             <label for="alamat_suami">Alamat Suami <span class="text-danger">*</span></label>
             <textarea class="form-control <?= (session('errors.alamat_suami')) ? 'is-invalid' : '' ?>"
-                      id="alamat_suami"
-                      name="alamat_suami"
-                      rows="3"
-                      required><?= old('alamat_suami') ?></textarea>
+                id="alamat_suami"
+                name="alamat_suami"
+                rows="3"
+                required><?= old('alamat_suami') ?></textarea>
             <div class="invalid-feedback">
                 <?= session('errors.alamat_suami') ?>
             </div>
@@ -100,11 +100,11 @@
         <div class="form-group mb-2">
             <label for="nama_istri">Nama Istri <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.nama_istri')) ? 'is-invalid' : '' ?>"
-                   id="nama_istri"
-                   name="nama_istri"
-                   value="<?= old('nama_istri') ?>"
-                   required>
+                class="form-control <?= (session('errors.nama_istri')) ? 'is-invalid' : '' ?>"
+                id="nama_istri"
+                name="nama_istri"
+                value="<?= old('nama_istri') ?>"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.nama_istri') ?>
             </div>
@@ -113,12 +113,12 @@
         <div class="form-group mb-2">
             <label for="ttl_istri">Tempat / Tanggal Lahir Istri <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.ttl_istri')) ? 'is-invalid' : '' ?>"
-                   id="ttl_istri"
-                   name="ttl_istri"
-                   value="<?= old('ttl_istri') ?>"
-                   placeholder="Contoh: Bandung, 5 Mei 1992"
-                   required>
+                class="form-control <?= (session('errors.ttl_istri')) ? 'is-invalid' : '' ?>"
+                id="ttl_istri"
+                name="ttl_istri"
+                value="<?= old('ttl_istri') ?>"
+                placeholder="Contoh: Bandung, 5 Mei 1992"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.ttl_istri') ?>
             </div>
@@ -127,9 +127,9 @@
         <div class="form-group mb-2">
             <label for="agama_istri">Agama Istri <span class="text-danger">*</span></label>
             <select class="form-control <?= (session('errors.agama_istri')) ? 'is-invalid' : '' ?>"
-                    id="agama_istri"
-                    name="agama_istri"
-                    required>
+                id="agama_istri"
+                name="agama_istri"
+                required>
                 <option value="">-- Pilih --</option>
                 <?php foreach ($agama_options as $opt) : ?>
                     <option value="<?= $opt ?>" <?= old('agama_istri') === $opt ? 'selected' : '' ?>><?= $opt ?></option>
@@ -143,12 +143,12 @@
         <div class="form-group mb-2">
             <label for="status_sebelum_nikah_istri">Status Sebelum Nikah (Istri) <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.status_sebelum_nikah_istri')) ? 'is-invalid' : '' ?>"
-                   id="status_sebelum_nikah_istri"
-                   name="status_sebelum_nikah_istri"
-                   value="<?= old('status_sebelum_nikah_istri') ?>"
-                   placeholder="Contoh: Perawan, Janda"
-                   required>
+                class="form-control <?= (session('errors.status_sebelum_nikah_istri')) ? 'is-invalid' : '' ?>"
+                id="status_sebelum_nikah_istri"
+                name="status_sebelum_nikah_istri"
+                value="<?= old('status_sebelum_nikah_istri') ?>"
+                placeholder="Contoh: Perawan, Janda"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.status_sebelum_nikah_istri') ?>
             </div>
@@ -157,10 +157,10 @@
         <div class="form-group mb-2">
             <label for="alamat_istri">Alamat Istri <span class="text-danger">*</span></label>
             <textarea class="form-control <?= (session('errors.alamat_istri')) ? 'is-invalid' : '' ?>"
-                      id="alamat_istri"
-                      name="alamat_istri"
-                      rows="3"
-                      required><?= old('alamat_istri') ?></textarea>
+                id="alamat_istri"
+                name="alamat_istri"
+                rows="3"
+                required><?= old('alamat_istri') ?></textarea>
             <div class="invalid-feedback">
                 <?= session('errors.alamat_istri') ?>
             </div>
@@ -172,12 +172,12 @@
         <div class="form-group mb-2">
             <label for="hari_nikah">Hari Nikah <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.hari_nikah')) ? 'is-invalid' : '' ?>"
-                   id="hari_nikah"
-                   name="hari_nikah"
-                   value="<?= old('hari_nikah') ?>"
-                   placeholder="Contoh: Minggu"
-                   required>
+                class="form-control <?= (session('errors.hari_nikah')) ? 'is-invalid' : '' ?>"
+                id="hari_nikah"
+                name="hari_nikah"
+                value="<?= old('hari_nikah') ?>"
+                placeholder="Contoh: Minggu"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.hari_nikah') ?>
             </div>
@@ -186,11 +186,11 @@
         <div class="form-group mb-2">
             <label for="tbt_nikah">Tanggal / Bulan / Tahun Nikah <span class="text-danger">*</span></label>
             <input type="date"
-                   class="form-control <?= (session('errors.tbt_nikah')) ? 'is-invalid' : '' ?>"
-                   id="tbt_nikah"
-                   name="tbt_nikah"
-                   value="<?= old('tbt_nikah') ?>"
-                   required>
+                class="form-control <?= (session('errors.tbt_nikah')) ? 'is-invalid' : '' ?>"
+                id="tbt_nikah"
+                name="tbt_nikah"
+                value="<?= old('tbt_nikah') ?>"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.tbt_nikah') ?>
             </div>
@@ -199,11 +199,11 @@
         <div class="form-group mb-2">
             <label for="tempat_akat_nikah">Tempat Akta Nikah <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.tempat_akat_nikah')) ? 'is-invalid' : '' ?>"
-                   id="tempat_akat_nikah"
-                   name="tempat_akat_nikah"
-                   value="<?= old('tempat_akat_nikah') ?>"
-                   required>
+                class="form-control <?= (session('errors.tempat_akat_nikah')) ? 'is-invalid' : '' ?>"
+                id="tempat_akat_nikah"
+                name="tempat_akat_nikah"
+                value="<?= old('tempat_akat_nikah') ?>"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.tempat_akat_nikah') ?>
             </div>
@@ -212,11 +212,11 @@
         <div class="form-group mb-2">
             <label for="wali_nikah">Wali Nikah <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.wali_nikah')) ? 'is-invalid' : '' ?>"
-                   id="wali_nikah"
-                   name="wali_nikah"
-                   value="<?= old('wali_nikah') ?>"
-                   required>
+                class="form-control <?= (session('errors.wali_nikah')) ? 'is-invalid' : '' ?>"
+                id="wali_nikah"
+                name="wali_nikah"
+                value="<?= old('wali_nikah') ?>"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.wali_nikah') ?>
             </div>
@@ -225,11 +225,11 @@
         <div class="form-group mb-2">
             <label for="mahar">Mahar <span class="text-danger">*</span></label>
             <input type="text"
-                   class="form-control <?= (session('errors.mahar')) ? 'is-invalid' : '' ?>"
-                   id="mahar"
-                   name="mahar"
-                   value="<?= old('mahar') ?>"
-                   required>
+                class="form-control <?= (session('errors.mahar')) ? 'is-invalid' : '' ?>"
+                id="mahar"
+                name="mahar"
+                value="<?= old('mahar') ?>"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.mahar') ?>
             </div>
@@ -238,11 +238,11 @@
         <div class="form-group mb-2">
             <label for="saksi_nikah">Saksi Nikah <span class="text-danger">*</span></label>
             <textarea class="form-control <?= (session('errors.saksi_nikah')) ? 'is-invalid' : '' ?>"
-                      id="saksi_nikah"
-                      name="saksi_nikah"
-                      rows="2"
-                      placeholder="Contoh: Nama Saksi 1, Nama Saksi 2"
-                      required><?= old('saksi_nikah') ?></textarea>
+                id="saksi_nikah"
+                name="saksi_nikah"
+                rows="2"
+                placeholder="Contoh: Nama Saksi 1, Nama Saksi 2"
+                required><?= old('saksi_nikah') ?></textarea>
             <div class="invalid-feedback">
                 <?= session('errors.saksi_nikah') ?>
             </div>
@@ -251,12 +251,12 @@
         <div class="form-group mb-2">
             <label for="jumlah_anak">Jumlah Anak <span class="text-danger">*</span></label>
             <input type="number"
-                   class="form-control <?= (session('errors.jumlah_anak')) ? 'is-invalid' : '' ?>"
-                   id="jumlah_anak"
-                   name="jumlah_anak"
-                   value="<?= old('jumlah_anak') ?>"
-                   min="0"
-                   required>
+                class="form-control <?= (session('errors.jumlah_anak')) ? 'is-invalid' : '' ?>"
+                id="jumlah_anak"
+                name="jumlah_anak"
+                value="<?= old('jumlah_anak') ?>"
+                min="0"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.jumlah_anak') ?>
             </div>
@@ -266,11 +266,11 @@
         <div class="form-group mb-2">
             <label for="ktp_file">Upload KTP Suami & Istri (digabungkan) <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
             <input type="file"
-                   id="ktp_file"
-                   name="ktp"
-                   class="form-control-file <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>"
-                   accept=".jpg,.jpeg,.png,.pdf"
-                   required>
+                id="ktp_file"
+                name="ktp"
+                class="form-control-file <?= (session('errors.ktp')) ? 'is-invalid' : '' ?>"
+                accept=".jpg,.jpeg,.png,.pdf"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.ktp') ?>
             </div>
@@ -279,11 +279,11 @@
         <div class="form-group mb-2">
             <label for="kk_file">Upload KK Suami & Istri (digabungkan) <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
             <input type="file"
-                   id="kk_file"
-                   name="kk"
-                   class="form-control-file <?= (session('errors.kk')) ? 'is-invalid' : '' ?>"
-                   accept=".jpg,.jpeg,.png,.pdf"
-                   required>
+                id="kk_file"
+                name="kk"
+                class="form-control-file <?= (session('errors.kk')) ? 'is-invalid' : '' ?>"
+                accept=".jpg,.jpeg,.png,.pdf"
+                required>
             <div class="invalid-feedback">
                 <?= session('errors.kk') ?>
             </div>
@@ -329,7 +329,7 @@
                 <p><strong>KK:</strong> <span id="preview_kk_file"></span></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
             </div>
         </div>

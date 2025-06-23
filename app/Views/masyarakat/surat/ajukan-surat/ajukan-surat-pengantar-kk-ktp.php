@@ -79,7 +79,7 @@
             <div class="modal-body">
                 <h6><strong>Data Orang yang Diajukan</strong></h6>
                 <div id="preview_data_orang">
-                    </div>
+                </div>
 
                 <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
                 <p><strong>KTP:</strong> <span id="preview_ktp_file"></span></p>

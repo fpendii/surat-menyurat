@@ -104,7 +104,7 @@
                 <p><strong>KK</strong> <span id="preview_kk_file"></span></p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
                 <button class="btn btn-success" onclick="submitForm()">Ya, Ajukan</button>
             </div>
         </div>
