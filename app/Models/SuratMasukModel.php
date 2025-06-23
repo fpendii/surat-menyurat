@@ -8,6 +8,6 @@ class SuratMasukModel extends Model
 {
     protected $table = 'surat_masuk';
     protected $primaryKey = 'id_surat_masuk';
-    protected $allowedFields = ['jenis_surat', 'file_surat'];
+    protected $allowedFields = ['jenis_surat', 'file_surat', 'no_surat'];
     protected $useTimestamps = true;
 }

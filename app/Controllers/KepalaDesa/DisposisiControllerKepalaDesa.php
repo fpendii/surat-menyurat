@@ -12,12 +12,14 @@ class DisposisiControllerKepalaDesa extends BaseController
 {
     protected $suratMasukModel;
     protected $disposisiModel;
+    protected $userModel;
     protected $pegawaiModel; // Tambahkan properti untuk PegawaiModel
 
     public function __construct()
     {
         $this->suratMasukModel = new SuratMasukModel();
         $this->disposisiModel = new DisposisiModel();
+        $this->userModel = new UserModel();
         $this->pegawaiModel = new UserModel(); // Inisialisasi model PegawaiModel
     }
 
@@ -47,9 +49,11 @@ class DisposisiControllerKepalaDesa extends BaseController
         return view('kepala-desa/disposisi/index', $data);
     }
 
-     // Menampilkan formulir untuk membuat disposisi baru
-   public function form($id_surat_masuk = null)
+    // Menampilkan formulir untuk membuat disposisi baru
+    public function form($id_surat_masuk = null)
     {
+        $disposisiModel = new \App\Models\DisposisiModel();
+        $userModel = new \App\Models\UserModel();
         if ($id_surat_masuk === null) {
             return redirect()->to(site_url('admin/disposisi'))->with('error', 'ID Surat Masuk tidak ditemukan.');
         }
@@ -65,6 +69,38 @@ class DisposisiControllerKepalaDesa extends BaseController
             'surat' => $surat,
             'daftar_pegawai' => $this->pegawaiModel->where('role', 'pegawai')->findAll(), // <<< AMBIL DAN KIRIM DATA PEGAWAI
         ];
+
+        // Ambil data user untuk email
+        $idUser = $this->request->getPost('diteruskan_kepada');
+        $user = $userModel->find($idUser);
+
+        if ($user && !empty($user['email'])) {
+            $email = \Config\Services::email();
+
+            $email->setTo($user['email']);
+            $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
+            $email->setSubject('Disposisi Surat Baru');
+
+            // Siapkan data untuk view email
+            $dataEmail = [
+                'nama'          => $user['name'],
+                'nomor_surat'   => $data['no_surat'],
+                'surat_dari'    => $data['surat_dari'],
+                'perihal'       => $data['perihal'],
+                'tanggal_surat' => $data['tanggal_surat'],
+            ];
+
+            // Load view sebagai isi email
+            $message = view('email/notifikasi_disposisi', $dataEmail);
+            $email->setMessage($message);
+
+            // Kirim email
+            if (!$email->send()) {
+                log_message('error', 'Gagal mengirim email ke user ID ' . $idUser . ': ' . $email->printDebugger(['headers']));
+            }
+
+            $email->clear();
+        }
 
         return view('kepala-desa/disposisi/tambah', $data); // Pastikan path view sudah benar
     }

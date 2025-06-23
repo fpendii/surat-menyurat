@@ -1,4 +1,6 @@
-<?php namespace App\Controllers\Admin;
+<?php
+
+namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\SuratMasukModel;
@@ -36,6 +38,7 @@ class SuratMasukController extends BaseController
         $rules = [
             'jenis_surat' => 'required|min_length[3]|max_length[255]',
             'file_surat'  => 'uploaded[file_surat]|max_size[file_surat,10240]|ext_in[file_surat,pdf,doc,docx]', // Max 10MB, PDF/DOC/DOCX only
+            'no_surat' => 'required'
         ];
 
         if (! $this->validate($rules)) {
@@ -51,13 +54,14 @@ class SuratMasukController extends BaseController
             $this->suratMasukModel->save([
                 'jenis_surat' => $this->request->getPost('jenis_surat'),
                 'file_surat'  => $newName,
+                'no_surat' => $this->request->getPost('no_surat')
             ]);
 
             // --- Bagian Baru: Mengirim Email Pemberitahuan ---
             $email = Services::email();
 
             // Konfigurasi email penerima (ganti dengan email kepala desa yang sebenarnya)
-            $kepalaDesaEmail = 'norrahmah@mhs.politala.ac.id'; // GANTI DENGAN EMAIL KEPALA DESA YANG VALID!
+            $kepalaDesaEmail = 'kepaladesa.suruk@gmail.com'; // GANTI DENGAN EMAIL KEPALA DESA YANG VALID!
 
             $subject = 'Pemberitahuan: Ada Surat Masuk Baru di Sistem Arsip Desa';
             $message = "Yth. Bapak/Ibu Kepala Desa,\n\n";
@@ -112,5 +116,5 @@ class SuratMasukController extends BaseController
     }
 
     // Handles the disposition action for an incoming letter
-   
+
 }

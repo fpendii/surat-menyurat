@@ -12,6 +12,7 @@
             <tr>
                 <th>No</th>
                 <th>Jenis Surat</th>
+                <th>Nomer Surat</th>
                 <th>File</th>
                 <th>Waktu Upload</th>
                 <th>Aksi</th> <!-- Tambah ini -->
@@ -22,6 +23,7 @@
                 <tr>
                     <td><?= $i + 1 ?></td>
                     <td><?= esc($surat['jenis_surat']) ?></td>
+                    <td><?= esc($surat['no_surat']) ?></td>
                     <td><a href="<?= base_url('uploads/surat_masuk/' . $surat['file_surat']) ?>" target="_blank">Lihat</a></td>
                     <td><?= $surat['created_at'] ?></td>
                     <td>
