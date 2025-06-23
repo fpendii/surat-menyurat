@@ -55,7 +55,6 @@ class CreateSuratTable extends Migration
             'created_at' => [
                 'type'    => 'DATETIME',
                 'null'    => false,
-                'default' => 'CURRENT_TIMESTAMP',
             ],
             'updated_at' => [
                 'type'    => 'DATETIME',
