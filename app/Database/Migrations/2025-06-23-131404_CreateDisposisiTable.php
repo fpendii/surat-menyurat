@@ -18,7 +18,7 @@ class CreateDisposisiTable extends Migration
             'id_surat_masuk' => [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'unsigned'   => false, // int tidak unsigned
+                'unsigned'   => true, // int tidak unsigned
                 'null'       => false, // Sesuai dengan tabel Anda (NO)
             ],
             'surat_dari' => [
@@ -51,7 +51,7 @@ class CreateDisposisiTable extends Migration
             'id_user' => [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'unsigned'   => false, // int tidak unsigned
+                'unsigned'   => true, // int tidak unsigned
                 'null'       => true, // Sesuai dengan tabel Anda (YES)
             ],
             'catatan' => [
@@ -61,12 +61,10 @@ class CreateDisposisiTable extends Migration
             'created_at' => [
                 'type'    => 'DATETIME',
                 'null'    => true,
-                'default' => 'CURRENT_TIMESTAMP',
             ],
             'updated_at' => [
                 'type'    => 'DATETIME',
                 'null'    => true,
-                'default' => 'CURRENT_TIMESTAMP',
                 'on_update' => 'CURRENT_TIMESTAMP',
             ],
         ]);

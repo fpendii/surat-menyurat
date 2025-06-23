@@ -18,7 +18,7 @@ class CreateAhliWarisTable extends Migration
             'id_surat_ahli_waris' => [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'unsigned'   => false, // int tidak unsigned
+                'unsigned'   => true, // int tidak unsigned
                 'null'       => false, // Sesuai dengan tabel Anda (NO)
             ],
             'nama' => [

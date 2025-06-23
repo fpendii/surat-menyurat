@@ -11,14 +11,14 @@ class CreateSuratTable extends Migration
         $this->forge->addField([
             'id_surat' => [
                 'type'           => 'INT',
-                'constraint'     => 11, // Sesuaikan dengan panjang int yang Anda inginkan
-                'unsigned'       => false, // int tidak unsigned
+                'constraint'     => 11, 
+                'unsigned'       => false, 
                 'auto_increment' => true,
             ],
             'id_user' => [
                 'type'       => 'INT',
-                'constraint' => 11, // Sesuaikan dengan panjang int yang Anda inginkan
-                'unsigned'   => false, // int tidak unsigned
+                'constraint' => 11, 
+                'unsigned'   => true, 
                 'null'       => false,
             ],
             'no_surat' => [
@@ -55,13 +55,10 @@ class CreateSuratTable extends Migration
             'created_at' => [
                 'type'    => 'DATETIME',
                 'null'    => false,
-                'default' => 'CURRENT_TIMESTAMP',
             ],
             'updated_at' => [
                 'type'    => 'DATETIME',
                 'null'    => false,
-                'default' => 'CURRENT_TIMESTAMP',
-                'on_update' => 'CURRENT_TIMESTAMP',
             ],
             'catatan' => [
                 'type' => 'TEXT',
@@ -75,8 +72,6 @@ class CreateSuratTable extends Migration
         ]);
 
         $this->forge->addPrimaryKey('id_surat');
-        // Menambahkan foreign key ke tabel 'users'
-        // Pastikan tabel 'users' sudah ada sebelum migration ini dijalankan
         $this->forge->addForeignKey('id_user', 'users', 'id_user', 'CASCADE', 'CASCADE');
         $this->forge->createTable('surat');
     }

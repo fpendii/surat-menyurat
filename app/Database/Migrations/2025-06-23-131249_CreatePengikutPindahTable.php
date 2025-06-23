@@ -18,7 +18,7 @@ class CreatePengikutPindahTable extends Migration
             'id_surat_pindah' => [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'unsigned'   => false, // int tidak unsigned
+                'unsigned'   => true, // int tidak unsigned
                 'null'       => true, // Sesuai dengan tabel Anda (YES)
             ],
             'nama' => [
