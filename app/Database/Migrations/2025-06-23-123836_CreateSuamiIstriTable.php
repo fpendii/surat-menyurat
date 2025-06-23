@@ -15,9 +15,11 @@ class CreateSuamiIstriTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-             'id_surat'            => [
-                'type' => 'INT',
-                'null' => true
+            'id_surat' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => false, // int tidak unsigned
+                'null'       => true, // Sesuai dengan Null = YES
             ],
             'nama_suami' => [
                 'type'       => 'VARCHAR',
@@ -40,8 +42,8 @@ class CreateSuamiIstriTable extends Migration
                 'null'       => false,
             ],
             'alamat_suami' => [
-                'type'       => 'TEXT',
-                'null'       => false,
+                'type' => 'TEXT',
+                'null' => false,
             ],
             'nama_istri' => [
                 'type'       => 'VARCHAR',
@@ -64,22 +66,23 @@ class CreateSuamiIstriTable extends Migration
                 'null'       => false,
             ],
             'alamat_istri' => [
-                'type'       => 'TEXT',
-                'null'       => false,
+                'type' => 'TEXT',
+                'null' => false,
             ],
             'created_at' => [
                 'type'    => 'DATETIME',
-                'null'    => true,
+                'null'    => true, // Sesuai dengan Null = YES
             ],
             'updated_at' => [
                 'type'    => 'DATETIME',
-                'null'    => true,
+                'null'    => true, // Sesuai dengan Null = YES
             ],
         ]);
 
-        $this->forge->addKey('id_suami_istri', true);
+        $this->forge->addPrimaryKey('id_suami_istri');
+        // Menambahkan foreign key ke tabel 'surat'
+        // Pastikan tabel 'surat' sudah ada sebelum migration ini dijalankan
         $this->forge->addForeignKey('id_surat', 'surat', 'id_surat', 'CASCADE', 'CASCADE');
-
         $this->forge->createTable('suami_istri');
     }
 

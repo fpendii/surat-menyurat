@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateSuratBelumBekerja extends Migration
+class CreateSuratBelumBekerjaTable extends Migration
 {
     public function up()
     {
@@ -15,52 +15,64 @@ class CreateSuratBelumBekerja extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'id_surat'            => [
-                'type' => 'INT',
-                'null' => true
+            'id_surat' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => false, // int tidak unsigned
+                'null'       => true, // Sesuai dengan tabel Anda (YES)
             ],
             'nama' => [
                 'type'       => 'VARCHAR',
-                'constraint' => 100,
+                'constraint' => '100',
+                'null'       => false,
             ],
             'nik' => [
                 'type'       => 'VARCHAR',
-                'constraint' => 16,
+                'constraint' => '16',
+                'null'       => false,
             ],
-            'ttl' => [
-                'type' => 'VARCHAR',
-                'constraint' => 100,
+            'ttl' => [ // Tempat Tanggal Lahir
+                'type'       => 'VARCHAR',
+                'constraint' => '100',
+                'null'       => false,
             ],
             'jenis_kelamin' => [
-                'type'       => 'ENUM',
+                'type'    => 'ENUM',
                 'constraint' => ['Laki-laki', 'Perempuan'],
+                'null'    => false,
             ],
             'agama' => [
                 'type'       => 'VARCHAR',
-                'constraint' => 50,
+                'constraint' => '50',
+                'null'       => false,
             ],
             'status_pekerjaan' => [
                 'type'       => 'VARCHAR',
-                'constraint' => 50,
+                'constraint' => '50',
+                'null'       => false,
             ],
             'warga_negara' => [
                 'type'       => 'VARCHAR',
-                'constraint' => 50,
+                'constraint' => '50',
+                'null'       => false,
             ],
             'alamat' => [
                 'type' => 'TEXT',
+                'null' => false,
             ],
             'created_at' => [
                 'type'    => 'DATETIME',
-                'null'    => true,
+                'null'    => true, // Sesuai dengan tabel Anda (YES)
             ],
             'updated_at' => [
                 'type'    => 'DATETIME',
-                'null'    => true,
+                'null'    => true, // Sesuai dengan tabel Anda (YES)
             ],
         ]);
 
-        $this->forge->addKey('id_belum_bekerja', true);
+        $this->forge->addPrimaryKey('id_belum_bekerja');
+        // Menambahkan foreign key ke tabel 'surat'
+        // Pastikan tabel 'surat' sudah ada sebelum migration ini dijalankan
         $this->forge->addForeignKey('id_surat', 'surat', 'id_surat', 'CASCADE', 'CASCADE');
         $this->forge->createTable('surat_belum_bekerja');
     }

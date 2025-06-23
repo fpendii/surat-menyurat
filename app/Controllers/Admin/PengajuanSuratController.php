@@ -16,6 +16,15 @@ class PengajuanSuratController extends BaseController
         $this->suratModel = new SuratModel();
         $this->suratKehilanganModel = new SuratKehilanganModel();
     }
+/*************  ✨ Windsurf Command ⭐  *************/
+    /**
+     * Displays a list of letters with the status 'proses' for the admin view.
+     *
+     * This function retrieves all letters from the database that have their status
+     * set to 'proses' and passes them to the admin view for 'pengajuan-surat'.
+     *
+     * @return \CodeIgniter\HTTP\ResponseInterface The view containing the list of letters.
+/*******  016d696e-5cda-4d70-b609-27c30edb7448  *******/
     public function pengajuanSurat()
     {
         $dataSurat = $this->suratModel->where('status_surat', 'proses')->findAll();

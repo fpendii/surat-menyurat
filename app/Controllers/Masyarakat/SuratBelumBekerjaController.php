@@ -118,6 +118,7 @@ class SuratBelumBekerjaController extends BaseController
         'ktp' => $ktpName,
         'kk' => $kkName
     ];
+    
     $suratModel->insert($suratData);
     $idSurat = $suratModel->getInsertID();
 
