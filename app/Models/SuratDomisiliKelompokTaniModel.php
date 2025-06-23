@@ -23,8 +23,6 @@ class SuratDomisiliKelompokTaniModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = ''; // kosong karena tidak pakai updated_at
 
-   
-
     protected $validationMessages = [];
     protected $skipValidation     = false;
 }

@@ -188,7 +188,7 @@
             <div class="modal-body" id="modal-body-content">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
             </div>
         </div>

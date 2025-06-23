@@ -24,8 +24,8 @@
 
         <div class="form-group mb-2">
             <label for="nik">NIK <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="nik" name="nik" value="<?= old('nik') ?>" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Masukkan 16 digit NIK">
-            <small class="form-text text-muted">NIK harus 16 digit angka.</small>
+            <input type="text" class="form-control" id="nik" name="nik" value="<?= old('nik') ?>" required maxlength="16" minlength="16" pattern="\d{16}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="">
+            <small class="form-text text-muted"></small>
         </div>
 
         <div class="form-group mb-2">
@@ -97,7 +97,7 @@
             <div class="modal-body" id="modal-body-content">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Kembali</button>
                 <button type="button" class="btn btn-success" id="submitForm">Ya, Ajukan!</button>
             </div>
         </div>

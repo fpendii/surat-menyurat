@@ -26,7 +26,7 @@
         <div class="form-group mb-2">
             <label for="jenis_kelamin">Jenis Kelamin <span class="text-danger">*</span></label>
             <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
-                <option value="">Pilih Jenis Kelamin</option>
+                <option value="">--Pilih--</option>
                 <option value="Laki-laki" <?= old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
                 <option value="Perempuan" <?= old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
             </select>
@@ -37,10 +37,23 @@
             <input type="text" class="form-control" id="ttl" name="ttl" value="<?= old('ttl') ?>" placeholder="Contoh: Banjarmasin, 17 Agustus 1945" required>
         </div>
 
+
+
         <div class="form-group mb-2">
             <label for="agama">Agama <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="agama" name="agama" value="<?= old('agama') ?>" required>
+            <select class="form-control" id="agama" name="agama" required>
+                <option value="">-- Pilih --</option>
+                <?php
+                $agamas = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu'];
+                foreach ($agamas as $agama) :
+                ?>
+                    <option value="<?= $agama ?>" <?= old('agama') == $agama ? 'selected' : '' ?>><?= $agama ?></option>
+                <?php endforeach ?>
+            </select>
         </div>
+
+
+
 
         <h5 class="mt-3">Detail Kematian</h5>
         <div class="form-group mb-2">
@@ -65,12 +78,12 @@
 
         <h5 class="mt-4">Upload Berkas</h5>
         <div class="form-group mb-2">
-            <label for="ktp">Upload KTP Penanggung Jawab <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <label for="ktp">Upload KTP <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
             <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
         <div class="form-group mb-2">
-            <label for="kk">Upload KK Penanggung Jawab <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <label for="kk">Upload KK<span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
             <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
@@ -83,7 +96,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Data Pengajuan Surat Kematian</h5>
+                <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
@@ -104,7 +117,7 @@
                 <p><strong>KK</strong> <span id="preview_kk_file"></span></p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
                 <button class="btn btn-success" onclick="submitForm()">Ya, Ajukan</button>
             </div>
         </div>

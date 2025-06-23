@@ -106,6 +106,8 @@
             <div class="invalid-feedback d-block"><?= session('errors.kk') ?></div>
         </div>
 
+
+        <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">
             Ajukan Surat
         </button>
@@ -133,7 +135,7 @@
                 <p><strong>Kartu Tanda Penduduk (KTP):</strong> <span id="preview_ktp_file"></span></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
             </div>
         </div>

@@ -197,7 +197,7 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="tempat_akat_nikah">Tempat Akta Nikah <span class="text-danger">*</span></label>
+            <label for="tempat_akat_nikah">Tempat Akad Nikah <span class="text-danger">*</span></label>
             <input type="text"
                 class="form-control <?= (session('errors.tempat_akat_nikah')) ? 'is-invalid' : '' ?>"
                 id="tempat_akat_nikah"
@@ -329,7 +329,7 @@
                 <p><strong>KK:</strong> <span id="preview_kk_file"></span></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Periksa Kembali</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Ya, Ajukan</button>
             </div>
         </div>
