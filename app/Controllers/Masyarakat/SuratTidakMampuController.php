@@ -144,7 +144,6 @@ class SuratTidakMampuController extends BaseController
 
         // Remove any null or empty emails to prevent errors
         $emailRecipients = array_filter($emailRecipients);
-        // --- End Email Recipient Logic ---
 
         $jenisSurat = 'Surat Tidak Mampu';
         // Load view email

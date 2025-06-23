@@ -52,8 +52,7 @@ class DisposisiControllerKepalaDesa extends BaseController
     // Menampilkan formulir untuk membuat disposisi baru
     public function form($id_surat_masuk = null)
     {
-        $disposisiModel = new \App\Models\DisposisiModel();
-        $userModel = new \App\Models\UserModel();
+        
         if ($id_surat_masuk === null) {
             return redirect()->to(site_url('admin/disposisi'))->with('error', 'ID Surat Masuk tidak ditemukan.');
         }
@@ -70,24 +69,67 @@ class DisposisiControllerKepalaDesa extends BaseController
             'daftar_pegawai' => $this->pegawaiModel->where('role', 'pegawai')->findAll(), // <<< AMBIL DAN KIRIM DATA PEGAWAI
         ];
 
-        // Ambil data user untuk email
-        $idUser = $this->request->getPost('diteruskan_kepada');
-        $user = $userModel->find($idUser);
+        
 
-        if ($user && !empty($user['email'])) {
+        return view('kepala-desa/disposisi/tambah', $data); // Pastikan path view sudah benar
+    }
+
+    // Menyimpan data disposisi dari formulir
+     public function simpan(): ResponseInterface
+    {
+        $rules = [
+            'id_surat_masuk'    => 'required|numeric', // Pastikan id_surat_masuk belum didisposisi
+            'surat_dari'        => 'required|max_length[255]',
+            'tanggal_surat'     => 'required|valid_date',
+            'tanggal_diterima'  => 'required|valid_date',
+            'nomor_agenda'      => 'permit_empty|max_length[100]',
+            'sifat'             => 'required|in_list[Biasa,Penting,Rahasia]',
+            'perihal'           => 'required',
+            'diteruskan_kepada' => 'required|numeric|is_not_unique[users.id_user]', // Pastikan user ada dan valid
+            'catatan'           => 'permit_empty',
+        ];
+
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Siapkan data untuk disimpan ke tabel disposisi
+        $dataDisposisi = [
+            // 'id_disposisi' => $this->request->getPost('id_disposisi'), // ID disposisi akan auto-increment, tidak perlu di set jika ini buat baru
+            'id_surat_masuk'   => $this->request->getPost('id_surat_masuk'),
+            'surat_dari'       => $this->request->getPost('surat_dari'),
+            'tanggal_surat'    => $this->request->getPost('tanggal_surat'),
+            'tanggal_diterima' => $this->request->getPost('tanggal_diterima'),
+            'nomor_agenda'     => $this->request->getPost('nomor_agenda'),
+            'sifat'            => $this->request->getPost('sifat'),
+            'perihal'          => $this->request->getPost('perihal'),
+            'id_user'          => $this->request->getPost('diteruskan_kepada'), // Disimpan ke id_user
+            'catatan'          => $this->request->getPost('catatan'),
+        ];
+
+        // Simpan data disposisi
+        $this->disposisiModel->save($dataDisposisi);
+
+        // Ambil detail surat masuk untuk data email
+        $suratMasukDetail = $this->suratMasukModel->find($this->request->getPost('id_surat_masuk'));
+
+        // Ambil data user yang dituju untuk email notifikasi
+        $idUserPenerima = $this->request->getPost('diteruskan_kepada');
+        $userPenerima = $this->userModel->find($idUserPenerima);
+
+        if ($userPenerima && !empty($userPenerima['email']) && $suratMasukDetail) {
             $email = \Config\Services::email();
-
-            $email->setTo($user['email']);
+            $email->setTo($userPenerima['email']);
             $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil');
             $email->setSubject('Disposisi Surat Baru');
 
             // Siapkan data untuk view email
             $dataEmail = [
-                'nama'          => $user['name'],
-                'nomor_surat'   => $data['no_surat'],
-                'surat_dari'    => $data['surat_dari'],
-                'perihal'       => $data['perihal'],
-                'tanggal_surat' => $data['tanggal_surat'],
+                'nama'          => $userPenerima['name'],
+                'nomor_surat'   => $suratMasukDetail['no_surat'] ?? 'Tidak Ada', // Gunakan no_surat dari SuratMasukModel
+                'surat_dari'    => $suratMasukDetail['jenis_surat'] ?? 'Tidak Diketahui', // Atau dari field 'surat_dari' di Disposisi
+                'perihal'       => $suratMasukDetail['jenis_surat'] ?? 'Tidak Diketahui', // Atau dari field 'perihal' di Disposisi
+                'tanggal_surat' => $suratMasukDetail['created_at'] ?? 'Tidak Diketahui',
             ];
 
             // Load view sebagai isi email
@@ -96,47 +138,18 @@ class DisposisiControllerKepalaDesa extends BaseController
 
             // Kirim email
             if (!$email->send()) {
-                log_message('error', 'Gagal mengirim email ke user ID ' . $idUser . ': ' . $email->printDebugger(['headers']));
+                log_message('error', 'Gagal mengirim email ke user ID ' . $idUserPenerima . ': ' . $email->printDebugger(['headers']));
+            } else {
+                session()->setFlashdata('info', 'Email notifikasi berhasil dikirim ke ' . $userPenerima['email']);
             }
 
             $email->clear();
+        } else {
+            log_message('warning', 'Tidak dapat mengirim email. User atau detail surat masuk tidak ditemukan, atau email tidak valid. User ID: ' . $idUserPenerima);
+            session()->setFlashdata('warning', 'Disposisi berhasil disimpan, tetapi email notifikasi gagal dikirim.');
         }
-
-        return view('kepala-desa/disposisi/tambah', $data); // Pastikan path view sudah benar
-    }
-
-    // Menyimpan data disposisi dari formulir
-    public function simpan()
-    {
-        $rules = [
-            'id_surat_masuk'    => 'required|numeric|is_not_unique[surat_masuk.id_surat_masuk]',
-            'surat_dari'        => 'required|max_length[255]',
-            'tanggal_surat'     => 'required|valid_date',
-            'tanggal_diterima'  => 'required|valid_date',
-            'nomor_agenda'      => 'permit_empty|max_length[100]',
-            'sifat'             => 'required|in_list[Biasa,Penting,Rahasia]',
-            'perihal'           => 'required',
-            'diteruskan_kepada' => 'required',
-            'catatan'           => 'permit_empty',
-        ];
-
-        if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        $this->disposisiModel->save([
-            'id_disposisi'      => $this->request->getPost('id_disposisi'),
-            'id_surat_masuk'    => $this->request->getPost('id_surat_masuk'),
-            'surat_dari'        => $this->request->getPost('surat_dari'),
-            'tanggal_surat'     => $this->request->getPost('tanggal_surat'),
-            'tanggal_diterima'  => $this->request->getPost('tanggal_diterima'),
-            'nomor_agenda'      => $this->request->getPost('nomor_agenda'),
-            'sifat'             => $this->request->getPost('sifat'),
-            'perihal'           => $this->request->getPost('perihal'),
-            'id_user'           => $this->request->getPost('diteruskan_kepada'),
-            'catatan'           => $this->request->getPost('catatan'),
-        ]);
 
         return redirect()->to(site_url('kepala-desa/disposisi'))->with('success', 'Disposisi berhasil disimpan!');
     }
+
 }
