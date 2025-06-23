@@ -126,7 +126,7 @@
                 </tr>
             </table>
 
-            <p>Sepengatahuan kami yang bersangkutan bertempat tinggal didesa kami adalah benar keadaan penghidupan termasuk keluarga KURANG MAMPU, adapun surat keterangan ini dibuat untuk keperluan melengkapi persyaratan untuk <strong><?php echo $keperluan; ?></strong>.</p>
+            <p>Sepengetahuan kami yang bersangkutan bertempat tinggal didesa kami adalah benar keadaan penghidupan termasuk keluarga KURANG MAMPU, adapun surat keterangan ini dibuat untuk keperluan melengkapi persyaratan untuk <strong><?php echo $keperluan; ?></strong>.</p>
 
 
             <p>Demikian surat keterangan ini dibuat agar dapat dipergunakan sebagaimana mestinya.</p>
@@ -135,7 +135,7 @@
         <!-- Tanda Tangan -->
         <div class="ttd">
             <p>Dikeluarkan di Handil Suruk</p>
-           <p>Pada Tanggal: <?php echo $created_at ?></p>
+            <p>Pada Tanggal: <?php echo $created_at ?></p>
             <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
@@ -163,7 +163,7 @@
                         <li>KK Ketua: Tidak tersedia</li>
                     <?php endif; ?>
 
-                    
+
 
                     <li>Dokumen Pendukung Lainnya (jika ada): ...</li>
                 </ul>
