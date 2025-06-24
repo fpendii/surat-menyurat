@@ -5,7 +5,7 @@
 
 <div class="container mt-4">
     <h2>Data Surat Masuk</h2>
-    <a href="<?= site_url('admin/surat-masuk/tambah') ?>" class="btn btn-success mb-3">+ Tambah Surat Masuk</a>
+    <a href="<?= site_url('admin/surat-masuk/tambah') ?>" class="btn btn-success mb-3">Tambah Surat Masuk</a>
 
     <table class="table table-bordered">
         <thead>

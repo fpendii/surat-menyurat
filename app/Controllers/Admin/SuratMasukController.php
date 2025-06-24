@@ -37,13 +37,15 @@ class SuratMasukController extends BaseController
         // Validate input
         $rules = [
             'jenis_surat' => 'required|min_length[3]|max_length[255]',
-            'file_surat'  => 'uploaded[file_surat]|max_size[file_surat,10240]|ext_in[file_surat,pdf,doc,docx]', // Max 10MB, PDF/DOC/DOCX only
+            'file_surat'  => 'uploaded[file_surat]|max_size[file_surat,10240]|ext_in[file_surat,pdf,jpg,jpeg,png]', // Max 10MB, PDF/DOC/DOCX only
             'no_surat' => 'required'
         ];
 
+        
         if (! $this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
+        // dd($this->request->getPost(), $this->request->getFile('file_surat'));
 
         $file = $this->request->getFile('file_surat');
         $newName = $file->getRandomName();
