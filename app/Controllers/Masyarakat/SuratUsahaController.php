@@ -208,8 +208,8 @@ class SuratUsahaController extends BaseController
             'sejak_tahun' => $usaha['sejak_tahun'],
             'no_surat' => $surat['no_surat'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-            'ktp_file'               => $surat['ktp'], // URL untuk KTP
-            'kk_file'                => $surat['kk'], // URL untuk KK
+            'ktp_file'               => $usaha['ktp'], // URL untuk KTP
+            'kk_file'                => $usaha['kk'], // URL untuk KK
         ];
 
         // Ambil dan encode logo
