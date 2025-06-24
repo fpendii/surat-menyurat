@@ -111,6 +111,16 @@ class AuthController extends BaseController
         return redirect()->back()->with('success', 'Registrasi berhasil. Silakan cek email Anda untuk aktivasi akun.');
     }
 
+     public function unauthorized()
+    {
+        // Anda bisa menambahkan pesan khusus dari session jika filter menyediakannya
+        $message = session()->getFlashdata('error') ?? 'Anda tidak memiliki izin untuk mengakses halaman ini.';
+        
+        // Pastikan path view ini benar. 
+        // Jika Anda membuat file di app/Views/errors/html/unauthorized.php, maka cukup 'errors/html/unauthorized'
+        return view('auth/unauthorized', ['message' => $message]); 
+    }
+
     public function aktivasi($code)
     {
         $model = new UserModel();

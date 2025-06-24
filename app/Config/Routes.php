@@ -13,21 +13,19 @@ $routes->post('login/proses', 'AuthController::loginProses');
 $routes->get('register', 'AuthController::register');
 
 $routes->post('register/proses', 'AuthController::registerProses');
-$routes->get('/unauthorized', 'AuthController::unauthorized');
+$routes->get('/unauthorized', 'AuthController::unauthorized'); // Halaman unauthorized
 $routes->get('logout', 'AuthController::logout');
-
-
 
 $routes->get('aktivasi/(:segment)', 'AuthController::aktivasi/$1');
 
 
 // Group khusus masyarakat
-$routes->group('masyarakat', function ($routes) {
+$routes->group('masyarakat', ['filter' => 'auth:masyarakat'], function ($routes) {
     // Dashboard Masyarakat
     $routes->get('dashboard', 'Masyarakat\MasyarakatDashboardController::index');
     $routes->get('surat', 'Masyarakat\SuratController::surat');
 
-    // Surat-surat spesifik
+    // ... (rute-rute masyarakat lainnya) ...
     $routes->get('surat/domisili-kelompok-tani', 'Masyarakat\SuratKelompokTaniController::domisiliKelompokTani');
     $routes->post('surat/domisili-kelompok-tani/ajukan', 'Masyarakat\SuratKelompokTaniController::ajukanDomisiliKelompokTani');
     $routes->post('surat/domisili-kelompok-tani/preview', 'Masyarakat\SuratKelompokTaniController::previewDomisiliKelompokTani');
@@ -75,7 +73,7 @@ $routes->group('masyarakat', function ($routes) {
     $routes->post('surat/tidak-mampu/ajukan', 'Masyarakat\SuratTidakMampuController::ajukanTidakMampu');
     $routes->post('surat/tidak-mampu/preview', 'Masyarakat\SuratTidakMampuController::previewTidakMampu');
     $routes->get('data-surat/tidak_mampu/download/(:num)', 'Masyarakat\SuratTidakMampuController::downloadSurat/$1');
-    $routes->get('data-surat/tidak_mampu/edit/(:num)', 'Masyarakat\SuratTidakMampuController::editSurat/$1');
+    $routes->get('data-surat/tidak_mampu/edit/(:num)', 'Masyarakat\Masyarakat\SuratTidakMampuController::editSurat/$1');
     $routes->put('surat/tidak-mampu/update/(:num)', 'Masyarakat\SuratTidakMampuController::updateSurat/$1');
 
     $routes->get('surat/belum-bekerja', 'Masyarakat\SuratBelumBekerjaController::belumBekerja');
@@ -147,7 +145,7 @@ $routes->group('masyarakat', function ($routes) {
 
 
 // Group khusus kepala desa
-$routes->group('kepala-desa', function ($routes) {
+$routes->group('kepala-desa', ['filter' => 'auth:kepala_desa'], function ($routes) {
     // Dashboard Kepala Desa
     $routes->get('dashboard', 'KepalaDesa\KepalaDesaDashboardController::index');
     $routes->get('pengajuan-surat', 'KepalaDesa\PengajuanSuratController::pengajuanSurat');
@@ -163,23 +161,18 @@ $routes->group('kepala-desa', function ($routes) {
     $routes->post('disposisi/simpan', 'KepalaDesa\DisposisiControllerKepalaDesa::simpan');
 });
 
-$routes->get('lihat-file/(:any)/(:any)', 'FileController::lihat/$1/$2');
-$routes->get('lihat-file-surat-keluar/(:any)', 'FileController::lihatSuratKeluar/$1');
+// Ini harus bisa diakses semua role yang sudah login, atau di-filter secara spesifik jika ada
+// yang hanya bisa melihat file tertentu. Jika 'lihat-file' ini untuk semua user yang login,
+// Anda bisa menempatkannya di luar group atau di group yang diizinkan semua.
+// Untuk saat ini, saya asumsikan hanya admin dan kepala desa yang mengelola file.
+// Jika masyarakat juga melihat, Anda perlu menambahkan 'masyarakat' ke filter ini.
+$routes->get('lihat-file/(:any)/(:any)', 'FileController::lihat/$1/$2', ['filter' => 'auth:admin,kepala-desa,pegawai,masyarakat']); // Contoh jika semua bisa lihat
+$routes->get('lihat-file-surat-keluar/(:any)', 'FileController::lihatSuratKeluar/$1', ['filter' => 'auth:admin,kepala-desa,pegawai']);
 
-// // Group khusus kepala desa
-// $routes->group('kepala-desa', function($routes) {
-//     // Dashboard Kepala Desa
-//     $routes->get('dashboard', 'KepalaDesa\KepalaDesaDashboardController::index');
-//     $routes->get('pengajuan-surat', 'KepalaDesa\PengajuanSuratController::pengajuanSurat');
-//     $routes->get('pengajuan-surat/(:num)', 'KepalaDesa\PengajuanSuratController::detailSurat/$1');
-//     $routes->post('pengajuan-surat/konfirmasi/(:num)', 'KepalaDesa\PengajuanSuratController::konfirmasiSurat/$1');
-//     $routes->get('pengajuan-surat/revisi/(:num)', 'KepalaDesa\PengajuanSuratController::revisiSurat/$1');
-//     $routes->post('pengajuan-surat/kirim-revisi/(:num)', 'KepalaDesa\PengajuanSuratController::kirimRevisi/$1');
-// });
 
 // Group khusus admin
-$routes->group('admin', function ($routes) {
-    // Dashboard Kepala Desa
+$routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
+    // Dashboard Admin
     $routes->get('dashboard', 'Admin\AdminDashboardController::index');
     $routes->get('pengajuan-surat', 'Admin\PengajuanSuratController::pengajuanSurat');
     $routes->post('kirim-surat/(:num)', 'Admin\PengajuanSuratController::kirimSurat/$1');
@@ -207,9 +200,12 @@ $routes->group('admin', function ($routes) {
     $routes->post('pengguna/hapus/(:num)', 'Admin\PenggunaController::hapus/$1');
 });
 
-$routes->group('pegawai', function ($routes) {
+$routes->group('pegawai', ['filter' => 'auth:pegawai'], function ($routes) {
     $routes->get('dashboard', 'Pegawai\PegawaiDashboardController::index');
     
     $routes->get('disposisi', 'Pegawai\DisposisiController::index');
     $routes->get('disposisi/(:num)', 'Pegawai\DisposisiController::detail/$1');
 });
+
+// Contoh rute yang tidak memerlukan login (jika ada)
+// $routes->get('public-page', 'PublicController::index');
