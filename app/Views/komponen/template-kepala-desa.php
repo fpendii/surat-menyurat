@@ -95,8 +95,9 @@
                                         <i class="fa fa-archive"></i> Arsip Surat
                                     </a>
                                 </li>
+                                <!-- Modified Logout Link to trigger modal -->
                                 <li>
-                                    <a href="/logout">
+                                    <a href="javascript:void(0)" onclick="showLogoutConfirmationModal()">
                                         <i class="fa fa-sign-out"></i> Logout
                                     </a>
                                 </li>
@@ -123,6 +124,25 @@
         </div>
     </div>
 
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutConfirmationModal" tabindex="-1" aria-labelledby="logoutConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutConfirmationModalLabel">Konfirmasi Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Logout Confirmation Modal -->
 
 
     <!-- jQuery -->
@@ -168,6 +188,14 @@
 
     <!-- Bootstrap 5 JS Bundle (termasuk Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // JavaScript function to show the logout confirmation modal
+        function showLogoutConfirmationModal() {
+            var logoutModal = new bootstrap.Modal(document.getElementById('logoutConfirmationModal'));
+            logoutModal.show();
+        }
+    </script>
 </body>
 
 </html>

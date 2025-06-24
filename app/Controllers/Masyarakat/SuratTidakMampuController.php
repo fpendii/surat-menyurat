@@ -75,14 +75,15 @@ class SuratTidakMampuController extends BaseController
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
+        // Upload file KTP
         $ktpFile = $this->request->getFile('ktp');
-        $kkFile = $this->request->getFile('kk');
-
         $ktpName = $ktpFile->getRandomName();
-        $kkName = $kkFile->getRandomName();
+        $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
 
-        $ktpFile->move(WRITEPATH . 'uploads/ktp/', $ktpName);
-        $kkFile->move(WRITEPATH . 'uploads/kk/', $kkName);
+        // Upload file KK
+        $kkFile = $this->request->getFile('kk');
+        $kkName = $kkFile->getRandomName();
+        $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
 
         // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.9.14.5';

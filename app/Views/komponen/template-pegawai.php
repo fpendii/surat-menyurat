@@ -33,8 +33,6 @@
     <!-- Custom Theme Style -->
     <link href="/template-admin/build/css/custom.min.css" rel="stylesheet">
 
-    
-
     <style>
         .hover-card {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -56,7 +54,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"> <span>SI Surat Menyurat</span></a>
+                        <a href="index.html" class="site_title"></i> <span>SI Surat Menyurat</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -79,14 +77,14 @@
                             <ul class="nav side-menu">
                                 <li><a href="/pegawai/dashboard"><i class="fa fa-home"></i> Dashboard </a></li>
                                 <li><a href="/pegawai/disposisi"><i class="fa fa-share"></i> Disposisi </a></li>
-                                <li><a href="/logout"><i class="fa fa-power-off"></i> Logout </a></li>
+                                <!-- Modified Logout Link to trigger modal -->
+                                <li><a href="javascript:void(0)" onclick="showLogoutConfirmationModal()"><i class="fa fa-power-off"></i> Logout </a></li>
                             </ul>
                         </div>
                     </div>
+                    <!-- /sidebar menu -->
                 </div>
             </div>
-
-
 
             <!-- page content -->
             <div class="right_col" role="main">
@@ -94,12 +92,28 @@
                 <?= $this->renderSection('content') ?>
             </div>
             <!-- /page content -->
-
-
         </div>
     </div>
 
-
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutConfirmationModal" tabindex="-1" aria-labelledby="logoutConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutConfirmationModalLabel">Konfirmasi Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Logout Confirmation Modal -->
 
     <!-- jQuery -->
     <script src="/template-admin/vendors/jquery/dist/jquery.min.js"></script>
@@ -144,6 +158,14 @@
 
     <!-- Bootstrap 5 JS Bundle (termasuk Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // JavaScript function to show the logout confirmation modal
+        function showLogoutConfirmationModal() {
+            var logoutModal = new bootstrap.Modal(document.getElementById('logoutConfirmationModal'));
+            logoutModal.show();
+        }
+    </script>
 </body>
 
 </html>
