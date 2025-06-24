@@ -183,12 +183,15 @@ class SuratKelompokTaniController extends BaseController
             'kk_file'                => $surat['kk'], // URL untuk KK
         ];
 
-        // Logo
+        // Logo desa (jika ada)
         $path = FCPATH . 'img/logo.png';
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $imageData = file_get_contents($path);
-        $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
-        $data['logo'] = null;
+        $logo = null;
+        if (file_exists($path)) {
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $imageData = file_get_contents($path);
+            $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+        }
+        $data['logo'] = $logo;
 
         // Render view
         $html = view('masyarakat/surat/preview-surat/preview_domisili_kelompok_tani', $data);
