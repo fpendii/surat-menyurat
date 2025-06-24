@@ -168,8 +168,6 @@
             <input type="file" class="form-control-file" id="file_kk" name="file_kk" accept=".jpg,.jpeg,.png,.pdf" required>
         </div>
 
-       
-
         <a href="/masyarakat/surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="button" class="btn btn-primary mt-3" onclick="showConfirmationModal()">Ajukan Surat</button>
     </form>
@@ -319,17 +317,14 @@
             modalBody.innerHTML += `<hr>`;
         }
 
-
-        // Add uploaded files
+        // Add uploaded files (KTP and KK only)
         const fileKtp = document.getElementById('file_ktp').files[0];
         const fileKk = document.getElementById('file_kk').files[0];
-        const fileF1 = document.getElementById('file_f1').files[0]; // Now this element exists
 
         modalBody.innerHTML += `
             <h6 class="mt-4"><strong>Dokumen Pendukung</strong></h6>
             <p><strong>Kartu Keluarga (KK):</strong> ${fileKk ? fileKk.name : 'Belum ada file dipilih'}</p>
             <p><strong>KTP:</strong> ${fileKtp ? fileKtp.name : 'Belum ada file dipilih'}</p>
-            <p><strong>F1:</strong> ${fileF1 ? fileF1.name : 'Tidak ada file diupload'}</p>
         `;
 
         // Show the modal

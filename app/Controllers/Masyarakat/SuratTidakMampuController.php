@@ -81,8 +81,8 @@ class SuratTidakMampuController extends BaseController
         $ktpName = $ktpFile->getRandomName();
         $kkName = $kkFile->getRandomName();
 
-        $ktpFile->move(WRITEPATH . 'uploads/surat_tidak_mampu/', $ktpName);
-        $kkFile->move(WRITEPATH . 'uploads/surat_tidak_mampu/', $kkName);
+        $ktpFile->move(WRITEPATH . 'uploads/ktp/', $ktpName);
+        $kkFile->move(WRITEPATH . 'uploads/kk/', $kkName);
 
         // 1. Tentukan kode klasifikasi dan lokasi
         $klasifikasi = '400.9.14.5';
@@ -198,8 +198,8 @@ class SuratTidakMampuController extends BaseController
             'tanggal_surat' => $surat['created_at'] ?? date('Y-m-d'),
             'no_surat' => $surat['no_surat'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-            'ktp_file'               => $surat['ktp'], // URL untuk KTP
-            'kk_file'                => $surat['kk'], // URL untuk KK
+            'ktp_file'               => $suratTidakMampu['ktp'], // URL untuk KTP
+            'kk_file'                => $suratTidakMampu['kk'], // URL untuk KK
         ];
 
         // Logo

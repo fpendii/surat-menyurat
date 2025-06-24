@@ -210,8 +210,8 @@ class SuratKehilanganController extends BaseController
             'keperluan' => $kehilangan['keperluan'],
             'deskripsi_barang' => $kehilangan['deskripsi_barang'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-            'ktp_file'               => $surat['ktp'], // URL untuk KTP
-            'kk_file'                => $surat['kk'], // URL untuk KK
+            'ktp_file'               => $kehilangan['ktp'], // URL untuk KTP
+            'kk_file'                => $kehilangan['kk'], // URL untuk KK
         ];
 
         // Ambil dan encode logo

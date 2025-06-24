@@ -127,9 +127,9 @@ class SuratAhliWarisController extends BaseController
             $kkName = $kk && $kk->isValid() && !$kk->hasMoved() ? $kk->getRandomName() : null;
             $aktaName = $akta && $akta->isValid() && !$akta->hasMoved() ? $akta->getRandomName() : null;
 
-            if ($ktpName) $ktp->move(FCPATH . 'uploads/ahli_waris', $ktpName);
-            if ($kkName) $kk->move(FCPATH . 'uploads/ahli_waris', $kkName);
-            if ($aktaName) $akta->move(FCPATH . 'uploads/ahli_waris', $aktaName);
+            if ($ktpName) $ktp->move(FCPATH . 'uploads/ktp', $ktpName);
+            if ($kkName) $kk->move(FCPATH . 'uploads/kk', $kkName);
+            if ($aktaName) $akta->move(FCPATH . 'uploads/akta_lahir', $aktaName);
 
             $ahliWarisModel->insert([
                 'id_surat_ahli_waris' => $idSuratAhliWaris,
@@ -219,8 +219,9 @@ class SuratAhliWarisController extends BaseController
             'hubungan_ahli_waris' => array_column($dataAhliWaris, 'hubungan'),
             'logo' => FCPATH . 'assets/logo.png',
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-             'ktp_file'               => $surat['ktp'], // URL untuk KTP
-            'kk_file'                => $surat['kk'], // URL untuk KK
+            'ktp_file'               => array_column($dataAhliWaris, 'file_ktp'), // URL untuk KTP
+            'kk_file'                => array_column($dataAhliWaris, 'file_kk'), // URL untuk KK
+            'akta_file'        => array_column($dataAhliWaris, 'file_akta_lahir'), // URL untuk Akta Lahir
         ];
 
         // Logo

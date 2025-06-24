@@ -84,7 +84,7 @@ class SuratPindahController extends BaseController
         $kkName = null;
         if ($kk && $kk->isValid() && !$kk->hasMoved()) {
             $kkName = $kk->getRandomName();
-            $kk->move('uploads/surat_pindah', $kkName);
+            $kk->move('uploads/kk', $kkName);
         }
 
         // Upload file KTP
@@ -92,7 +92,7 @@ class SuratPindahController extends BaseController
         $ktpName = null;
         if ($ktp && $ktp->isValid() && !$ktp->hasMoved()) {
             $ktpName = $ktp->getRandomName();
-            $ktp->move('uploads/surat', $ktpName);
+            $ktp->move('uploads/ktp', $ktpName);
         }
 
         

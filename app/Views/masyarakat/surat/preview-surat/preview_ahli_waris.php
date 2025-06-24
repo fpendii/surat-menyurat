@@ -60,10 +60,43 @@
         .table-ahli-waris td,
         .table-ahli-waris th {
             padding: 6px;
+            border: 1px solid #000; /* Menambahkan border untuk tabel ahli waris */
         }
 
         .table-ahli-waris th {
             text-align: left;
+        }
+
+        /* Styling for the requirements section for head of village */
+        .requirements {
+            margin-top: 40px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .requirements h4 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .requirements ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .requirements ul li {
+            margin-bottom: 8px;
+        }
+
+        .requirements ul li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .requirements ul li a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -75,6 +108,7 @@
         <table style="width: 100%;">
             <tr>
                 <td style="width: 90px; text-align: center;">
+                    <!-- Memuat logo yang sudah di-encode base64 dari controller -->
                     <img src="<?= $logo ?>" alt="Logo" style="width: 70px;">
                 </td>
                 <td class="kop-text">
@@ -91,10 +125,10 @@
 
         <div class="kop-border"></div>
 
-        <!-- Judul -->
+        <!-- Judul Surat -->
         <div style="text-align: center; margin-bottom: 20px;">
             <h5><u><strong>SURAT KETERANGAN AHLI WARIS</strong></u></h5>
-            <p>Nomor : <?= $no_surat ?? '...' ?></p>
+            <p>Nomor : <?= htmlspecialchars($no_surat ?? '...') ?></p>
         </div>
 
         <!-- Isi Surat -->
@@ -102,10 +136,10 @@
             <p>Yang bertanda tangan di bawah ini, Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, menerangkan dengan sebenarnya bahwa:</p>
 
             <p>
-                <strong><?= $pemilik_harta ?></strong> adalah pemilik harta yang telah meninggal dunia, dan ahli waris dari almarhum/almarhumah tersebut adalah sebagai berikut:
+                <strong><?= htmlspecialchars($pemilik_harta) ?></strong> adalah pemilik harta yang telah meninggal dunia, dan ahli waris dari almarhum/almarhumah tersebut adalah sebagai berikut:
             </p>
 
-            <table class="table-ahli-waris" border="1">
+            <table class="table-ahli-waris">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -118,55 +152,88 @@
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($nama_ahli_waris as $i => $nama) {
-                        echo '<tr>';
-                        echo '<td>' . ($i + 1) . '</td>';
-                        echo '<td>' . htmlspecialchars($nama) . '</td>';
-                        echo '<td>' . htmlspecialchars($nik_ahli_waris[$i]) . '</td>';
-                        echo '<td>' . htmlspecialchars($ttl_ahli_waris[$i]) . '</td>';
-                        echo '<td>' . htmlspecialchars($alamat[$i]) . '</td>';
-                        echo '<td>' . htmlspecialchars($hubungan_ahli_waris[$i]) . '</td>';
-                        echo '</tr>';
+                    // Memastikan data ahli waris ada sebelum looping
+                    if (isset($nama_ahli_waris) && is_array($nama_ahli_waris) && !empty($nama_ahli_waris)) {
+                        foreach ($nama_ahli_waris as $i => $nama) {
+                            echo '<tr>';
+                            echo '<td>' . ($i + 1) . '</td>';
+                            echo '<td>' . htmlspecialchars($nama) . '</td>';
+                            // Menggunakan operator null coalescing untuk menghindari error jika indeks tidak ada
+                            echo '<td>' . htmlspecialchars($nik_ahli_waris[$i] ?? '') . '</td>';
+                            echo '<td>' . htmlspecialchars($ttl_ahli_waris[$i] ?? '') . '</td>';
+                            echo '<td>' . htmlspecialchars($alamat[$i] ?? '') . '</td>';
+                            echo '<td>' . htmlspecialchars($hubungan_ahli_waris[$i] ?? '') . '</td>';
+                            echo '</tr>';
+                        }
+                    } else {
+                        echo '<tr><td colspan="6" style="text-align: center;">Tidak ada data ahli waris yang ditemukan.</td></tr>';
                     }
                     ?>
                 </tbody>
             </table>
 
-            <p>Demikian Surat Keterangan Ahli Waris ini dibuat dengan sebenarnya agar dapat digunakan sebagaimana mestinya.</p>
+            <p style="margin-top: 20px;">Demikian Surat Keterangan Ahli Waris ini dibuat dengan sebenarnya agar dapat digunakan sebagaimana mestinya.</p>
         </div>
 
         <!-- Tanda Tangan -->
         <div class="ttd">
-            <p>Pada Tanggal: <?php echo $created_at ?></p>
+            <!-- Menampilkan tanggal dalam format yang sudah disesuaikan di controller -->
+            <p>Handil Suruk, <?php echo htmlspecialchars($created_at) ?></p>
             <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
 
-         <?php if (session('role') === 'kepala_desa') : ?>
-            <div class="requirements">
+        <?php
+        // Bagian ini hanya ditampilkan jika peran pengguna adalah 'kepala_desa'
+        // Asumsi session('role') sudah diatur dengan benar di aplikasi CodeIgniter Anda
+        ?>
+        <?php if (session('role') === 'kepala_desa') : ?>
+            <div class="">
                 <h4>Data Persyaratan:</h4>
                 <ul>
-                    <?php
-                    // Assuming 'ktp_file' and 'kk_file' are passed for this specific letter type
-                    // You might need to retrieve these from the 'surat' table or a specific 'surat_domisili_gapoktan' table
-                    // if they are not already available in the $data array passed to this view.
-                    // For example, if your SuratModel has 'ktp' and 'kk' columns.
-                    // If not, you'd need to add them to the controller function that loads this view.
-                    ?>
                     <?php if (isset($ktp_file) && $ktp_file) : ?>
-                        <li>KTP:<a href="<?= base_url('lihat-file/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a>
-                        </li>
+                        <?php
+                            // Cek apakah $ktp_file adalah array, jika ya ambil elemen pertama
+                            $display_ktp_file = is_array($ktp_file) ? ($ktp_file[0] ?? null) : $ktp_file;
+                        ?>
+                        <?php if ($display_ktp_file) : ?>
+                            <!-- Menampilkan link ke file KTP. Sesuaikan 'uploads/' dengan direktori file Anda -->
+                            <li>KTP: <a href="<?= base_url('lihat-file/ktp/' . $display_ktp_file) ?>" target="_blank"><?= htmlspecialchars($display_ktp_file) ?></a></li>
+                        <?php else : ?>
+                            <li>KTP: Tidak tersedia</li>
+                        <?php endif; ?>
                     <?php else : ?>
-                        <li>KTP : Tidak tersedia</li>
+                        <li>KTP: Tidak tersedia</li>
                     <?php endif; ?>
 
                     <?php if (isset($kk_file) && $kk_file) : ?>
-                        <li>KK : <a href="<?= base_url('lihat-file/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                        <?php
+                            // Cek apakah $kk_file adalah array, jika ya ambil elemen pertama
+                            $display_kk_file = is_array($kk_file) ? ($kk_file[0] ?? null) : $kk_file;
+                        ?>
+                        <?php if ($display_kk_file) : ?>
+                            <!-- Menampilkan link ke file KK. Sesuaikan 'uploads/' dengan direktori file Anda -->
+                            <li>KK: <a href="<?= base_url('lihat-file/kk/' . $display_kk_file) ?>" target="_blank"><?= htmlspecialchars($display_kk_file) ?></a></li>
+                        <?php else : ?>
+                            <li>KK: Tidak tersedia</li>
+                        <?php endif; ?>
                     <?php else : ?>
-                        <li>KK : Tidak tersedia</li>
+                        <li>KK: Tidak tersedia</li>
                     <?php endif; ?>
-
-
+                    <?php if (isset($akta_file) && $akta_file) : ?>
+                        <?php
+                            // Cek apakah $akta_file adalah array, jika ya ambil elemen pertama
+                            $display_akta_file = is_array($akta_file) ? ($akta_file[0] ?? null) : $akta_file;
+                        ?>
+                        <?php if ($display_akta_file) : ?>
+                            <!-- Menampilkan link ke file Akta. Sesuaikan 'uploads/' dengan direktori file Anda -->
+                            <li>Akta: <a href="<?= base_url('lihat-file/akta_lahir/' . $display_akta_file) ?>" target="_blank"><?= htmlspecialchars($display_akta_file) ?></a></li>
+                        <?php else : ?>
+                            <li>Akta: Tidak tersedia</li>
+                        <?php endif; ?>
+                    <?php else : ?>
+                        <li>Akta: Tidak tersedia</li>
+                    <?php endif; ?>
                 </ul>
             </div>
         <?php endif; ?>

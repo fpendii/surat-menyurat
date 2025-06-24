@@ -110,11 +110,11 @@ class SuratCatatanPolisiController extends BaseController
         // Upload file & simpan nama file-nya saja
         $kkFile = $this->request->getFile('kk');
         $kkName = $kkFile->getRandomName();
-        $kkFile->move($berkasPath, $kkName);
+        $kkFile->move('uploads/kk/', $kkName);
 
         $ktpFile = $this->request->getFile('ktp');
         $ktpName = $ktpFile->getRandomName();
-        $ktpFile->move($berkasPath, $ktpName);
+        $ktpFile->move('uploads/ktp/', $ktpName);
 
         $aktaFile = $this->request->getFile('akta_lahir');
         $aktaName = $aktaFile->getRandomName();
@@ -228,8 +228,8 @@ class SuratCatatanPolisiController extends BaseController
             'alamat' => $catatanPolisi['alamat'],
             'no_surat' => $surat['no_surat'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-            'ktp_file'               => $surat['ktp'], // URL untuk KTP
-            'kk_file'                => $surat['kk'], // URL untuk KK
+            'ktp_file'               => $catatanPolisi['ktp'], // URL untuk KTP
+            'kk_file'                => $catatanPolisi['kk'], // URL untuk KK
         ];
 
         // Ambil dan encode logo

@@ -167,12 +167,13 @@ class SuratPengantarKKKTPController extends BaseController
         $imageData = file_get_contents($path);
         $logo = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
         $data['logo'] = $logo;
-
         // Load view
         $html = view('masyarakat/surat/preview-surat/preview_pengantar_kk_ktp', [
             'surat' => $surat,
             'dataOrang' => $dataOrang,
             'logo' => $logo,
+            'ktp_file' => $surat['ktp'],
+            'kk_file' => $surat['kk'],
         ]);
 
         // Setup Dompdf
