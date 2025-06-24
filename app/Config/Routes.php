@@ -164,6 +164,7 @@ $routes->group('kepala-desa', function ($routes) {
 });
 
 $routes->get('lihat-file/(:any)/(:any)', 'FileController::lihat/$1/$2');
+$routes->get('lihat-file-surat-keluar/(:any)', 'FileController::lihatSuratKeluar/$1');
 
 // // Group khusus kepala desa
 // $routes->group('kepala-desa', function($routes) {

@@ -86,7 +86,7 @@
                                         <td>
                                             <?php if (!empty($surat['file_surat'])): ?>
                                                 <!-- Asumsi path untuk surat keluar sama dengan surat masuk, sesuaikan jika berbeda -->
-                                                <a href="<?= base_url('uploads/surat_keluar/' . $surat['file_surat']) ?>" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                                <a href="<?= base_url('lihat-file-surat-keluar/' . $surat['file_surat']) ?>" target="_blank" class="btn btn-sm btn-info">Lihat</a>
                                             <?php else: ?>
                                                 Tidak ada file
                                             <?php endif; ?>

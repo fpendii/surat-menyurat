@@ -28,7 +28,7 @@ class KepalaDesaDashboardController extends BaseController
         $totalSuratMasuk = $this->suratMasukModel->countAllResults();
 
         // Mendapatkan total surat keluar
-        $totalSuratKeluar = $this->suratKeluarModel->countAllResults();
+        $totalSuratKeluar = $this->suratKeluarModel->where('status_surat', 'selesai')->countAllResults();
 
         // Mendapatkan jumlah surat masuk yang menunggu disposisi
         $idsDisposed = $this->disposisiModel->select('id_surat_masuk')->findAll();

@@ -23,7 +23,7 @@ class ArsipSuratControllerKepalaDesa extends BaseController
         $dataSuratMasuk = $this->suratMasukModel->findAll();
 
         // Ambil semua data surat keluar
-        $dataSuratKeluar = $this->suratKeluarModel->findAll();
+        $dataSuratKeluar = $this->suratKeluarModel->where('status_surat', 'selesai')->findAll();
 
         $data = [
             'title'        => 'Arsip Surat Kepala Desa',
