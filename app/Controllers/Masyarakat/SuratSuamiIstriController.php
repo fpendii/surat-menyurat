@@ -109,7 +109,7 @@ class SuratSuamiIstriController extends BaseController
                 throw new \Exception('File KTP tidak valid atau tidak ditemukan.');
             }
             $ktpName = $ktpFile->getRandomName();
-            if (!$ktpFile->move(ROOTPATH . 'public/uploads/surat_suami_istri', $ktpName)) { // Assuming common upload folder
+            if (!$ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName)) { // Assuming common upload folder
                 throw new \Exception('Gagal memindahkan file KTP: ' . $ktpFile->getErrorString());
             }
             log_message('info', 'AJUKAN_SURAT_SUAMI_ISTRI_KTP_UPLOADED: ' . $ktpName);
@@ -119,7 +119,7 @@ class SuratSuamiIstriController extends BaseController
                 throw new \Exception('File KK tidak valid atau tidak ditemukan.');
             }
             $kkName = $kkFile->getRandomName();
-            if (!$kkFile->move(ROOTPATH . 'public/uploads/surat_suami_istri', $kkName)) { // Assuming common upload folder
+            if (!$kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName)) { // Assuming common upload folder
                 throw new \Exception('Gagal memindahkan file KK: ' . $kkFile->getErrorString());
             }
             log_message('info', 'AJUKAN_SURAT_SUAMI_ISTRI_KK_UPLOADED: ' . $kkName);
@@ -285,8 +285,8 @@ class SuratSuamiIstriController extends BaseController
             'mahar'                      => $detail['mahar'],
             'saksi_nikah'                => $detail['saksi_nikah'],
             'jumlah_anak'                => $detail['jumlah_anak'],
-            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
-            'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
+             'ktp_file'               => $surat['ktp'], // URL untuk KTP
+            'kk_file'                => $surat['kk'], // URL untuk KK
         ];
 
         // Render HTML ke PDF

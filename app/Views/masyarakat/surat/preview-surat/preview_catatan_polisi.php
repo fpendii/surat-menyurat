@@ -151,23 +151,26 @@
                 <h4>Data Persyaratan:</h4>
                 <ul>
                     <?php
-                    // Pastikan $ktp_file dan $kk_file diteruskan dari controller yang memuat view ini.
-                    // Jika tidak ada di controller, Anda harus menambahkannya.
+                    // Assuming 'ktp_file' and 'kk_file' are passed for this specific letter type
+                    // You might need to retrieve these from the 'surat' table or a specific 'surat_domisili_gapoktan' table
+                    // if they are not already available in the $data array passed to this view.
+                    // For example, if your SuratModel has 'ktp' and 'kk' columns.
+                    // If not, you'd need to add them to the controller function that loads this view.
                     ?>
                     <?php if (isset($ktp_file) && $ktp_file) : ?>
-                        <li>KTP: <a href="<?= base_url('uploads/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a></li>
+                        <li>KTP:<a href="<?= base_url('lihat-file/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a>
+                        </li>
                     <?php else : ?>
-                        <li>KTP: Tidak tersedia</li>
+                        <li>KTP : Tidak tersedia</li>
                     <?php endif; ?>
 
                     <?php if (isset($kk_file) && $kk_file) : ?>
-                        <li>KK: <a href="<?= base_url('uploads/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                        <li>KK : <a href="<?= base_url('lihat-file/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
                     <?php else : ?>
-                        <li>KK: Tidak tersedia</li>
+                        <li>KK : Tidak tersedia</li>
                     <?php endif; ?>
 
-                    <li>Surat Pengantar RT/RW (jika ada): ...</li>
-                    <li>Dokumen Pendukung Lainnya (jika ada): ...</li>
+
                 </ul>
             </div>
         <?php endif; ?>

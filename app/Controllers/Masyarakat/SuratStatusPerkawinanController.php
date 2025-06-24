@@ -201,8 +201,8 @@ class SuratStatusPerkawinanController extends BaseController
             'alamat' => $detail['alamat'],
             'status' => $detail['status'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
-            'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
+             'ktp_file'               => $surat['ktp'], // URL untuk KTP
+            'kk_file'                => $surat['kk'], // URL untuk KK
         ];
 
         // Render view surat jadi HTML

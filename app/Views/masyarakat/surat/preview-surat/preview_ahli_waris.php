@@ -57,7 +57,8 @@
             border-collapse: collapse;
         }
 
-        .table-ahli-waris td, .table-ahli-waris th {
+        .table-ahli-waris td,
+        .table-ahli-waris th {
             padding: 6px;
         }
 
@@ -142,25 +143,33 @@
         </div>
 
          <?php if (session('role') === 'kepala_desa') : ?>
-        <div class="requirements">
-            <h4>Data Persyaratan:</h4>
-            <ul>
-                <?php if (isset($ktp_file) && $ktp_file) : ?>
-                    <li>KTP: <a href="<?= $ktp_file ?>" target="_blank"><?= $ktp_file ?></a></li>
-                <?php else : ?>
-                    <li>KTP: Tidak tersedia</li>
-                <?php endif; ?>
+            <div class="requirements">
+                <h4>Data Persyaratan:</h4>
+                <ul>
+                    <?php
+                    // Assuming 'ktp_file' and 'kk_file' are passed for this specific letter type
+                    // You might need to retrieve these from the 'surat' table or a specific 'surat_domisili_gapoktan' table
+                    // if they are not already available in the $data array passed to this view.
+                    // For example, if your SuratModel has 'ktp' and 'kk' columns.
+                    // If not, you'd need to add them to the controller function that loads this view.
+                    ?>
+                    <?php if (isset($ktp_file) && $ktp_file) : ?>
+                        <li>KTP:<a href="<?= base_url('lihat-file/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a>
+                        </li>
+                    <?php else : ?>
+                        <li>KTP : Tidak tersedia</li>
+                    <?php endif; ?>
 
-                <?php if (isset($kk_file) && $kk_file) : ?>
-                    <li>KK: <a href="<?= $kk_file ?>" target="_blank"><?= $kk_file ?></a></li>
-                <?php else : ?>
-                    <li>KK: Tidak tersedia</li>
-                <?php endif; ?>
+                    <?php if (isset($kk_file) && $kk_file) : ?>
+                        <li>KK : <a href="<?= base_url('lihat-file/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                    <?php else : ?>
+                        <li>KK : Tidak tersedia</li>
+                    <?php endif; ?>
 
-                <li>Dokumen Pendukung Lain (jika ada): ...</li>
-            </ul>
-        </div>
-    <?php endif; ?>
+
+                </ul>
+            </div>
+        <?php endif; ?>
     </div>
 
 </body>

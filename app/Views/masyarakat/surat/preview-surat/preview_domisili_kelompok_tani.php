@@ -59,21 +59,26 @@
             border-top: 1px solid #ccc;
             padding-top: 20px;
         }
+
         .requirements h4 {
             margin-bottom: 10px;
             text-decoration: underline;
         }
+
         .requirements ul {
             list-style-type: none;
             padding: 0;
         }
+
         .requirements li {
             margin-bottom: 5px;
         }
+
         .requirements a {
             color: blue;
             text-decoration: none;
         }
+
         .requirements a:hover {
             text-decoration: underline;
         }
@@ -155,7 +160,7 @@
             </p>
         </div>
 
-        
+
         <div class="ttd">
             <p>Dikeluarkan di Handil Suruk</p>
             <p>Pada Tanggal: <?php echo $created_at ?></p>
@@ -175,20 +180,19 @@
                     // If not, you'd need to add them to the controller function that loads this view.
                     ?>
                     <?php if (isset($ktp_file) && $ktp_file) : ?>
-                        <li>KTP Ketua: <a href="<?= base_url('uploads/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a></li>
+                        <li>KTP:<a href="<?= base_url('lihat-file/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a>
+                        </li>
                     <?php else : ?>
-                        <li>KTP Ketua: Tidak tersedia</li>
+                        <li>KTP : Tidak tersedia</li>
                     <?php endif; ?>
 
                     <?php if (isset($kk_file) && $kk_file) : ?>
-                        <li>KK Ketua: <a href="<?= base_url('uploads/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                        <li>KK : <a href="<?= base_url('lihat-file/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
                     <?php else : ?>
-                        <li>KK Ketua: Tidak tersedia</li>
+                        <li>KK : Tidak tersedia</li>
                     <?php endif; ?>
 
-                    
 
-                    <li>Dokumen Pendukung Lainnya (jika ada): ...</li>
                 </ul>
             </div>
         <?php endif; ?>

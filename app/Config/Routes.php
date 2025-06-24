@@ -163,6 +163,8 @@ $routes->group('kepala-desa', function ($routes) {
     $routes->post('disposisi/simpan', 'KepalaDesa\DisposisiControllerKepalaDesa::simpan');
 });
 
+$routes->get('lihat-file/(:any)/(:any)', 'FileController::lihat/$1/$2');
+
 // // Group khusus kepala desa
 // $routes->group('kepala-desa', function($routes) {
 //     // Dashboard Kepala Desa

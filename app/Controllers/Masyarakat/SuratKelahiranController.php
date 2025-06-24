@@ -208,8 +208,8 @@ class SuratKelahiranController extends BaseController
             'nama_ibu' => $detail['nama_ibu'],
             'anak_ke' => $detail['anak_ke'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-            'ktp_file'               => base_url('uploads/ktp/' . $surat['ktp']), // URL untuk KTP
-            'kk_file'                => base_url('uploads/kk/' . $surat['kk']), // URL untuk KK
+            'ktp_file'               => $surat['ktp'], // URL untuk KTP
+            'kk_file'                => $surat['kk'], // URL untuk KK
         ];
 
         // Render HTML ke PDF
