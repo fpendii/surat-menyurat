@@ -181,7 +181,7 @@ class SuratCatatanPolisiController extends BaseController
             foreach ($emailRecipients as $recipient) {
                 $email->setTo($recipient);
                 $email->setFrom('desahandil@gmail.com', 'Sistem Surat Desa Handil Suruk');
-                $email->setSubject('Pengajuan Surat Catatan Polisi Baru');
+                $email->setSubject('Pengajuan Surat Keterangan Catatan Kepolisian Baru');
                 $email->setMessage($view);
                 $email->setMailType('html'); // Penting agar HTML ter-render
 
