@@ -31,7 +31,7 @@
 
         <div class="form-group mt-2 " id="nomer_surat">
             <label for="no_surat">Nomer Surat</label>
-            <input type="text" name="no_surat" id="no_surat" class="form-control" placeholder="Masukkan jenis surat lainnya">
+            <input type="text" name="no_surat" id="no_surat" class="form-control" placeholder="Nomer Surat">
         </div>
 
         <div class="form-group mt-3">
