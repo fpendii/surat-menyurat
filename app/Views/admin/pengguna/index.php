@@ -12,7 +12,7 @@
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
-            <thead class="table-dark">
+            <thead class="table-success">
                 <tr>
                     <th>No</th>
                     <th>Nama Lengkap</th>

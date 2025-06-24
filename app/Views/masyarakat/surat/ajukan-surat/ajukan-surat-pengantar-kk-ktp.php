@@ -36,8 +36,8 @@
                 </div>
 
                 <div class="form-group mb-2">
-                    <label for="keterangan_0">Keterangan/Hubungan (misal: Ayah, Ibu, Anak) <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="keterangan_0" name="data[0][keterangan]" value="<?= old('data.0.keterangan') ?>" placeholder="Contoh: Pemohon Utama / Suami / Istri / Anak" required>
+                    <label for="keterangan_0">Keterangan <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="keterangan_0" name="data[0][keterangan]" value="<?= old('data.0.keterangan') ?>" placeholder="Contoh : Surat ini diajukan oleh suami / istri / anak" required>
                 </div>
 
                 <div class="form-group mb-2">

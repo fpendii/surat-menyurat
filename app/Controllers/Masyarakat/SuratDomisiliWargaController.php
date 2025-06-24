@@ -294,6 +294,6 @@ class SuratDomisiliWargaController extends BaseController
             'status' => 'diajukan',
         ]);
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat berhasil diperbarui.');
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

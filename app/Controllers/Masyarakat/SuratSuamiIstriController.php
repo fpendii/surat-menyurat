@@ -497,6 +497,6 @@ class SuratSuamiIstriController extends BaseController
         log_message('info', 'UPDATE_SURAT_SUAMI_ISTRI_REVISION_EMAIL_SENT.');
 
 
-        return redirect()->to('/masyarakat/data-surat/')->with('success', 'Data surat suami istri berhasil diperbarui dan notifikasi revisi dikirim.');
+        return redirect()->to('/masyarakat/data-surat/')->with('success','Data surat berhasil diperbarui.');
     }
 }

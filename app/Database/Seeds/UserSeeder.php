@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
                 'address'   => 'Dusun 1, Desa Contoh',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
+                'is_active' => 1,
             ],
             [
                 'id_user'  => 2,
@@ -30,6 +31,7 @@ class UserSeeder extends Seeder
                 'address'   => 'Kantor Desa Contoh',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
+                'is_active' => 1,
             ],
             [
                 'id_user'  => 3,
@@ -41,6 +43,7 @@ class UserSeeder extends Seeder
                 'address'   => 'Jl. Raya Desa No. 1',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
+                'is_active' => 1,
             ],
             [
                 'id_user'  => 4,
@@ -52,6 +55,7 @@ class UserSeeder extends Seeder
                 'address'   => 'Jl. Raya Desa No. 1',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
+                'is_active' => 1,
             ],
         ];
 

@@ -49,8 +49,8 @@
                                                 Tidak ada file
                                             <?php endif; ?>
                                         </td>
-                                        <td><?= $surat['created_at'] ?></td>
-                                        
+                                         <td><?= date('d-m-Y', strtotime($surat['created_at'])) ?></td>
+
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>
@@ -92,7 +92,7 @@
                                                 Tidak ada file
                                             <?php endif; ?>
                                         </td>
-                                        <td><?= $surat['created_at'] ?></td>
+                                         <td><?= date('d-m-Y', strtotime($surat['created_at'])) ?></td>
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>

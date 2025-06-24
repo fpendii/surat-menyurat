@@ -261,6 +261,6 @@ class SuratKelompokTaniController extends BaseController
             'bendahara'        => $this->request->getPost('bendahara'),
         ])->update();
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

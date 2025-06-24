@@ -343,6 +343,6 @@ class SuratKehilanganController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Gagal memperbarui data kehilangan.');
         }
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat Keterangan Kehilangan berhasil diperbarui.');
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

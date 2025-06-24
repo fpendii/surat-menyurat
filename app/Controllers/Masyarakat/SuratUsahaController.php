@@ -293,6 +293,6 @@ class SuratUsahaController extends BaseController
             'sejak_tahun' => $this->request->getPost('sejak_tahun')
         ])->update();
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

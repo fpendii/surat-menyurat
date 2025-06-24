@@ -76,11 +76,10 @@
                         <div class="menu_section">
                             <h3>Sidebar</h3>
                             <ul class="nav side-menu">
-                                <li><a href="/masyarakat/dashboard"><i class="fa fa-home"></i> Dashboard </a></li>
-                                <li><a href="/masyarakat/surat"><i class="fa fa-envelope"></i> Surat </a></li>
-                                <li><a href="/masyarakat/data-surat"><i class="fa fa-envelope"></i> Data Surat </a></li>
-                                <li><a href="/masyarakat/arsip-surat"><i class="fa fa-archive"></i> Arsip Surat </a>
-                                </li>
+                                <li><a href="<?= base_url('masyarakat/dashboard') ?>"><i class="fa fa-home"></i> Dashboard </a></li>
+                                <li><a href="<?= base_url('masyarakat/surat') ?>"><i class="fa fa-envelope"></i> Surat </a></li>
+                                <li><a href="<?= base_url('masyarakat/data-surat') ?>"><i class="fa fa-envelope"></i> Data Surat </a></li>
+                                <li><a href="<?= base_url('masyarakat/arsip-surat') ?>"><i class="fa fa-archive"></i> Arsip Surat </a></li>
                                 <!-- Modified Logout Link to trigger modal -->
                                 <li><a href="javascript:void(0)" onclick="showLogoutConfirmationModal()"><i class="fa fa-power-off"></i> Logout </a></li>
                             </ul>

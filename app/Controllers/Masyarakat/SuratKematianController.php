@@ -306,6 +306,6 @@ class SuratKematianController extends BaseController
             'penyebab' => $this->request->getPost('penyebab'),
         ]);
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat kematian berhasil diperbarui.');
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

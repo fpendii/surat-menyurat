@@ -390,6 +390,6 @@ class SuratDomisiliBangunanController extends BaseController
             $email->clear();
         }
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat Domisili Bangunan berhasil diperbarui dan notifikasi dikirim.');
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

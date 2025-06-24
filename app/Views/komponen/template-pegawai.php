@@ -75,8 +75,8 @@
                         <div class="menu_section">
                             <h3>Sidebar</h3>
                             <ul class="nav side-menu">
-                                <li><a href="/pegawai/dashboard"><i class="fa fa-home"></i> Dashboard </a></li>
-                                <li><a href="/pegawai/disposisi"><i class="fa fa-share"></i> Disposisi </a></li>
+                                <li><a href="<?= base_url('pegawai/dashboard') ?>"><i class="fa fa-home"></i> Dashboard </a></li>
+                                <li><a href="<?= base_url('pegawai/disposisi') ?>"><i class="fa fa-share"></i> Disposisi </a></li>
                                 <!-- Modified Logout Link to trigger modal -->
                                 <li><a href="javascript:void(0)" onclick="showLogoutConfirmationModal()"><i class="fa fa-power-off"></i> Logout </a></li>
                             </ul>

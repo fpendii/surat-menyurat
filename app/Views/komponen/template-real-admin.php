@@ -78,23 +78,20 @@
                         <div class="menu_section">
                             <h3>Sidebar</h3>
                             <ul class="nav side-menu">
-                                <li><a href="/admin/dashboard"><i class="fa fa-home"></i> Dashboard </a></li>
+                                <li><a href="<?= base_url('admin/dashboard') ?>"><i class="fa fa-home"></i> Dashboard </a></li>
 
-                                <li><a href="/admin/pengajuan-surat"><i class="fa fa-envelope"></i> Pengajuan Surat </a>
+                                <li><a href="<?= base_url('admin/pengajuan-surat') ?>"><i class="fa fa-envelope"></i> Pengajuan Surat </a>
                                 </li>
 
-                                <li><a href="/admin/surat-masuk"><i class="fa fa-inbox"></i> Surat Masuk </a>
+                                <li><a href="<?= base_url('admin/surat-masuk') ?>"><i class="fa fa-inbox"></i> Surat Masuk </a>
                                 </li>
 
-
-
-
-                                <li><a href="/admin/arsip-surat"><i class="fa fa-archive"></i> Arsip Surat </a>
+                                <li><a href="<?= base_url('admin/arsip-surat') ?>"><i class="fa fa-archive"></i> Arsip Surat </a>
                                 </li>
 
-                                <li><a href="/admin/pengguna"><i class="fa fa-users"></i> Data Pengguna </a></li>
+                                <li><a href="<?= base_url('admin/pengguna') ?>"><i class="fa fa-users"></i> Data Pengguna </a></li>
 
-                                <li><a href="/logout"><i class="fa fa-power-off"></i> Logout </a></li>
+                                <li><a href="<?= base_url('logout') ?>"><i class="fa fa-power-off"></i> Logout </a></li>
                             </ul>
                         </div>
                     </div>

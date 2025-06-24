@@ -373,6 +373,6 @@ class SuratCatatanPolisiController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Gagal memperbarui data catatan polisi.');
         }
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat Catatan Polisi berhasil diperbarui.');
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

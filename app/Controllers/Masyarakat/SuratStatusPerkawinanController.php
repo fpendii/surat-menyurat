@@ -273,6 +273,6 @@ class SuratStatusPerkawinanController extends BaseController
         ];
         $statusModel->set($statusData)->where('id_surat', $idSurat)->update();
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Surat berhasil diperbarui.');
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

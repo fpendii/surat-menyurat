@@ -5,8 +5,22 @@
 
 <div class="container mt-4">
     <h2>Data Surat Masuk</h2>
-    <a href="<?= site_url('admin/surat-masuk/tambah') ?>" class="btn btn-success mb-3">Tambah Surat Masuk</a>
-
+    <a href="<?= base_url('admin/surat-masuk/tambah') ?>" class="btn btn-success mb-3">Tambah Surat Masuk</a>
+    <?php if (session()->getFlashdata('success')) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('success') ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php elseif (session()->getFlashdata('error')) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('error') ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif; ?>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -27,7 +41,7 @@
                     <td><a href="<?= base_url('uploads/surat_masuk/' . $surat['file_surat']) ?>" target="_blank">Lihat</a></td>
                     <td><?= $surat['created_at'] ?></td>
                     <td>
-                        <form action="<?= site_url('admin/surat-masuk/hapus/' . $surat['id_surat_masuk']) ?>" method="POST" onsubmit="return confirm('Yakin ingin menghapus surat ini?')">
+                        <form action="<?= base_url('admin/surat-masuk/hapus/' . $surat['id_surat_masuk']) ?>" method="POST" onsubmit="return confirm('Yakin ingin menghapus surat ini?')">
                             <?= csrf_field() ?>
                             <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                         </form>

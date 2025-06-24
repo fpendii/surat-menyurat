@@ -13,6 +13,21 @@
         </ul>
         <div class="clearfix"></div>
     </div>
+    <?php if (session()->getFlashdata('success')) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('success') ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php elseif (session()->getFlashdata('error')) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('error') ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif; ?>
 
     <div class="x_content">
         <div class="row">

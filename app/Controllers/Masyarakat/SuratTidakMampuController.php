@@ -289,6 +289,6 @@ class SuratTidakMampuController extends BaseController
 
         $tidakMampuModel->update($suratTidakMampu['id_tidak_mampu'], $updateData);
 
-        return redirect()->to('/masyarakat/data-surat')->with('success', 'Pengajuan surat berhasil diperbarui.');
+        return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');
     }
 }

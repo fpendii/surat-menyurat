@@ -54,13 +54,13 @@ class DisposisiControllerKepalaDesa extends BaseController
     {
         
         if ($id_surat_masuk === null) {
-            return redirect()->to(site_url('admin/disposisi'))->with('error', 'ID Surat Masuk tidak ditemukan.');
+            return redirect()->to(base_url('admin/disposisi'))->with('error', 'ID Surat Masuk tidak ditemukan.');
         }
 
         $surat = $this->suratMasukModel->find($id_surat_masuk);
 
         if (!$surat) {
-            return redirect()->to(site_url('admin/disposisi'))->with('error', 'Surat Masuk tidak ditemukan.');
+            return redirect()->to(base_url('admin/disposisi'))->with('error', 'Surat Masuk tidak ditemukan.');
         }
 
         $data = [
@@ -149,7 +149,7 @@ class DisposisiControllerKepalaDesa extends BaseController
             session()->setFlashdata('warning', 'Disposisi berhasil disimpan, tetapi email notifikasi gagal dikirim.');
         }
 
-        return redirect()->to(site_url('kepala-desa/disposisi'))->with('success', 'Disposisi berhasil disimpan!');
+        return redirect()->to(base_url('kepala-desa/disposisi'))->with('success', 'Disposisi berhasil disimpan!');
     }
 
 }

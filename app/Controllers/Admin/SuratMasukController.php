@@ -72,7 +72,7 @@ class SuratMasukController extends BaseController
             $message .= "Jenis Surat: " . esc($this->request->getPost('jenis_surat')) . "\n";
             $message .= "Waktu Upload: " . date('Y-m-d H:i:s') . "\n\n";
             $message .= "Silakan login ke sistem untuk melihat detail lengkap dan melakukan disposisi.\n";
-            $message .= "Link Sistem: " . site_url('login') . " (atau link ke dashboard admin)\n\n";
+            $message .= "Link Sistem: " . base_url('login') . " (atau link ke dashboard admin)\n\n";
             $message .= "Terima kasih.";
 
             $email->setTo($kepalaDesaEmail);
@@ -88,7 +88,7 @@ class SuratMasukController extends BaseController
             }
             // --- Akhir Bagian Baru ---
 
-            return redirect()->to(site_url('admin/surat-masuk'));
+            return redirect()->to(base_url('/admin/surat-masuk'));
         } else {
             return redirect()->back()->withInput()->with('error', 'Gagal mengunggah file.');
         }
@@ -98,7 +98,7 @@ class SuratMasukController extends BaseController
     public function hapus($id = null)
     {
         if ($id === null) {
-            return redirect()->to(site_url('admin/surat-masuk'))->with('error', 'ID surat masuk tidak ditemukan.');
+            return redirect()->to(base_url('admin/surat-masuk'))->with('error', 'ID surat masuk tidak ditemukan.');
         }
 
         // Get the file name before deleting the record
@@ -111,9 +111,9 @@ class SuratMasukController extends BaseController
         }
 
         if ($this->suratMasukModel->delete($id)) {
-            return redirect()->to(site_url('admin/surat-masuk'))->with('success', 'Surat masuk berhasil dihapus!');
+            return redirect()->to(base_url('admin/surat-masuk'))->with('success', 'Surat masuk berhasil dihapus!');
         } else {
-            return redirect()->to(site_url('admin/surat-masuk'))->with('error', 'Gagal menghapus surat masuk.');
+            return redirect()->to(base_url('admin/surat-masuk'))->with('error', 'Gagal menghapus surat masuk.');
         }
     }
 

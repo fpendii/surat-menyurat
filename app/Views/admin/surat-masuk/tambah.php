@@ -1,4 +1,4 @@
-<?= $this->extend('komponen/template-admin') ?>
+<?= $this->extend('komponen/template-real-admin') ?>
 <?= $this->section('content') ?>
 
 <div class="container mt-4">

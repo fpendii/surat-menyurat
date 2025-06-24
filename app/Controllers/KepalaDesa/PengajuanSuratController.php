@@ -26,11 +26,19 @@ class PengajuanSuratController extends BaseController
     public function pengajuanSurat()
     {
         $dataSurat = $this->suratModel->where('status_surat', 'diajukan')->findAll();
+
+        // Format tanggal tanpa jam
+        foreach ($dataSurat as &$surat) {
+            $surat['created_at'] = date('Y-m-d', strtotime($surat['created_at']));
+            $surat['updated_at'] = date('Y-m-d', strtotime($surat['updated_at']));
+        }
+
         $data = [
             'dataSurat' => $dataSurat,
         ];
         return view('kepala-desa/pengajuan-surat/pengajuan-surat', $data);
     }
+
 
     public function konfirmasiSurat($id_surat)
     {
