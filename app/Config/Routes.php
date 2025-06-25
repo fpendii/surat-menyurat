@@ -20,7 +20,7 @@ $routes->get('aktivasi/(:segment)', 'AuthController::aktivasi/$1');
 
 
 // Group khusus masyarakat
-$routes->group('masyarakat', ['filter' => 'auth:masyarakat'], function ($routes) {
+$routes->group('masyarakat', ['filter' => 'auth:masyarakat,kepala_desa'], function ($routes) {
     // Dashboard Masyarakat
     $routes->get('dashboard', 'Masyarakat\MasyarakatDashboardController::index');
     $routes->get('surat', 'Masyarakat\SuratController::surat');
