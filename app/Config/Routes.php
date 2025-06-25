@@ -166,8 +166,8 @@ $routes->group('kepala-desa', ['filter' => 'auth:kepala_desa'], function ($route
 // Anda bisa menempatkannya di luar group atau di group yang diizinkan semua.
 // Untuk saat ini, saya asumsikan hanya admin dan kepala desa yang mengelola file.
 // Jika masyarakat juga melihat, Anda perlu menambahkan 'masyarakat' ke filter ini.
-$routes->get('lihat-file/(:any)/(:any)', 'FileController::lihat/$1/$2', ['filter' => 'auth:admin,kepala-desa,pegawai,masyarakat']); // Contoh jika semua bisa lihat
-$routes->get('lihat-file-surat-keluar/(:any)', 'FileController::lihatSuratKeluar/$1', ['filter' => 'auth:admin,kepala-desa,pegawai']);
+$routes->get('lihat-file/(:any)/(:any)', 'FileController::lihat/$1/$2', ['filter' => 'auth:admin,kepala_desa,pegawai,masyarakat']); // Contoh jika semua bisa lihat
+$routes->get('lihat-file-surat-keluar/(:any)', 'FileController::lihatSuratKeluar/$1', ['filter' => 'auth:admin,kepala_desa,pegawai']);
 
 
 // Group khusus admin
