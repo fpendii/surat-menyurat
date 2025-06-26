@@ -42,7 +42,7 @@
                 <input type="date" class="form-control" id="tanggal_surat" name="tanggal_surat" value="<?= old('tanggal_surat', date('Y-m-d')) ?>" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="tanggal_diterima" class="form-label">Tanggal Diterima</label>
+                <label for="tanggal_diterima" class="form-label">Tanggal Pelaksanaan</label>
                 <input type="date" class="form-control" id="tanggal_diterima" name="tanggal_diterima" value="<?= old('tanggal_diterima', date('Y-m-d')) ?>" required>
             </div>
         </div>

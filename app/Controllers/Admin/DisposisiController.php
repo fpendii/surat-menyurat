@@ -60,7 +60,7 @@ class DisposisiController extends BaseController
     //     }
 
     //     $this->disposisiModel->save([
-            
+
     //         'surat_dari'        => $this->request->getPost('surat_dari'),
     //         'no_surat'          => $this->request->getPost('no_surat'),
     //         'tgl_surat'         => $this->request->getPost('tgl_surat'),
@@ -182,7 +182,7 @@ class DisposisiController extends BaseController
         $data = [
             'disposisi' => $disposisi,
             'pegawaiList' => $pegawai,
-            
+
         ];
         return view('admin/disposisi/edit', $data);
     }

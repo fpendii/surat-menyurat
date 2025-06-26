@@ -52,7 +52,7 @@ class DisposisiControllerKepalaDesa extends BaseController
     // Menampilkan formulir untuk membuat disposisi baru
     public function form($id_surat_masuk = null)
     {
-        
+
         if ($id_surat_masuk === null) {
             return redirect()->to(base_url('admin/disposisi'))->with('error', 'ID Surat Masuk tidak ditemukan.');
         }
@@ -69,13 +69,13 @@ class DisposisiControllerKepalaDesa extends BaseController
             'daftar_pegawai' => $this->pegawaiModel->where('role', 'pegawai')->findAll(), // <<< AMBIL DAN KIRIM DATA PEGAWAI
         ];
 
-        
+
 
         return view('kepala-desa/disposisi/tambah', $data); // Pastikan path view sudah benar
     }
 
     // Menyimpan data disposisi dari formulir
-     public function simpan(): ResponseInterface
+    public function simpan(): ResponseInterface
     {
         $rules = [
             'id_surat_masuk'    => 'required|numeric', // Pastikan id_surat_masuk belum didisposisi
@@ -151,5 +151,4 @@ class DisposisiControllerKepalaDesa extends BaseController
 
         return redirect()->to(base_url('kepala-desa/disposisi'))->with('success', 'Disposisi berhasil disimpan!');
     }
-
 }
