@@ -81,7 +81,7 @@ class DisposisiControllerKepalaDesa extends BaseController
             'id_surat_masuk'    => 'required|numeric', // Pastikan id_surat_masuk belum didisposisi
             'surat_dari'        => 'required|max_length[255]',
             'tanggal_surat'     => 'required|valid_date',
-            'tanggal_diterima'  => 'required|valid_date',
+            'tanggal_pelaksanaan'  => 'required|valid_date',
             'nomor_agenda'      => 'permit_empty|max_length[100]',
             'sifat'             => 'required|in_list[Biasa,Penting,Rahasia]',
             'perihal'           => 'required',
@@ -99,7 +99,7 @@ class DisposisiControllerKepalaDesa extends BaseController
             'id_surat_masuk'   => $this->request->getPost('id_surat_masuk'),
             'surat_dari'       => $this->request->getPost('surat_dari'),
             'tanggal_surat'    => $this->request->getPost('tanggal_surat'),
-            'tanggal_diterima' => $this->request->getPost('tanggal_diterima'),
+            'tanggal_pelaksanaan' => $this->request->getPost('tanggal_pelaksanaan'),
             'nomor_agenda'     => $this->request->getPost('nomor_agenda'),
             'sifat'            => $this->request->getPost('sifat'),
             'perihal'          => $this->request->getPost('perihal'),

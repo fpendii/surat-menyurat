@@ -16,7 +16,7 @@ class DisposisiController extends BaseController
         $data['disposisiList'] = $disposisiModel
             ->where('id_user', $userId)
             ->join('surat_masuk', 'surat_masuk.id_surat_masuk = disposisi.id_surat_masuk')
-            ->orderBy('tanggal_diterima', 'DESC')
+            ->orderBy('id_disposisi', 'DESC')
             ->findAll();
         return view('pegawai/disposisi/index', $data);
     }

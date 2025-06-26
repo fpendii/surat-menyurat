@@ -21,7 +21,7 @@
                                 <li><strong>Nomor Surat:</strong> <?= esc($d['no_surat']) ?></li>
                                 <li><strong>Surat Dari:</strong> <?= esc($d['surat_dari']) ?></li>
                                 <li><strong>Tgl. Surat:</strong> <?= esc($d['tanggal_surat']) ?></li>
-                                <li><strong>Tgl. Diterima:</strong> <?= esc($d['tanggal_diterima']) ?></li>
+                                <li><strong>Tgl. Diterima:</strong> <?= esc($d['tanggal_pelaksanaan']) ?></li>
                             </ul>
 
                             <?php if (!empty($d['catatan'])) : ?>
