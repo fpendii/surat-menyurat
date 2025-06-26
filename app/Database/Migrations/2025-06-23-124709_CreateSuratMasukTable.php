@@ -12,7 +12,7 @@ class CreateSuratMasukTable extends Migration
             'id_surat_masuk' => [
                 'type'           => 'INT',
                 'constraint'     => 11,
-                'unsigned'       => true, // Umumnya ID primary key unsigned jika auto_increment
+                'unsigned'       => true,
                 'auto_increment' => true,
             ],
             'jenis_surat' => [
@@ -25,9 +25,14 @@ class CreateSuratMasukTable extends Migration
                 'constraint' => '255',
                 'null'       => false,
             ],
+            'nama_instansi' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '255',
+                'null'       => false,
+            ],
             'created_at' => [
                 'type'    => 'DATETIME',
-                'null'    => true, // Sesuai dengan tabel Anda (YES)
+                'null'    => true, 
             ],
             'updated_at' => [
                 'type'    => 'DATETIME',

@@ -26,12 +26,13 @@
             <input type="text" name="jenis_surat" class="form-control">
 
         </div>
-
-
-
         <div class="form-group mt-2 " id="nomer_surat">
             <label for="no_surat">Nomer Surat</label>
             <input type="text" name="no_surat" id="no_surat" class="form-control" placeholder="Nomer Surat">
+        </div>
+        <div class="form-group mt-2 " id="nama_instansi">
+            <label for="nama_instansi">Nama Instansi</label>
+            <input type="text" name="nama_instansi" id="nama_instansi" class="form-control" placeholder="Nama Instansi" required>
         </div>
 
         <div class="form-group mt-3">
