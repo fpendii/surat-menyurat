@@ -44,25 +44,57 @@
             text-align: justify;
         }
 
+        /* Penyesuaian lebar kolom pertama tabel data utama */
         table tr td:first-child {
             width: 180px;
         }
 
+        /* Styling untuk bagian tanda tangan */
         .ttd {
             text-align: right;
+            /* Rata kanan untuk seluruh blok tanda tangan */
             margin-top: 50px;
+            /* Jarak dari konten di atasnya */
         }
 
-        /* Gaya baru untuk bagian persyaratan */
+        .ttd p {
+            margin: 0;
+            /* Menghilangkan margin default pada paragraf di dalam ttd */
+        }
+
+        /* Menyesuaikan jarak antara "Kepala Desa Handil Suruk" dan nama */
+        .ttd p:nth-of-type(2) {
+            /* Menargetkan paragraf kedua di dalam .ttd ("Kepala Desa Handil Suruk") */
+            margin-bottom: 80px;
+            /* Atur jarak ini sesuai keinginan Anda, contoh: 80px */
+        }
+
+        /* Gaya untuk bagian persyaratan */
         .requirements {
+            clear: both;
+            /* Penting untuk membersihkan float agar elemen setelah ttd tidak ikut terpengaruh */
             margin-top: 30px;
+            /* Jarak antara bagian ttd dan persyaratan */
             border-top: 1px solid #ccc;
             padding-top: 20px;
+            /* Tambahan gaya untuk konsistensi */
+            padding: 15px;
+            /* Menambah padding di sekitar konten persyaratan */
+            border: 1px solid #ddd;
+            /* Border tipis */
+            background-color: #f9f9f9;
+            /* Latar belakang sedikit abu-abu */
+            border-radius: 5px;
+            /* Sudut membulat */
         }
 
         .requirements h4 {
             margin-bottom: 10px;
             text-decoration: underline;
+            margin-top: 0;
+            /* Menghilangkan margin atas default h4 */
+            color: #333;
+            /* Warna teks yang lebih gelap */
         }
 
         .requirements ul {
@@ -75,7 +107,8 @@
         }
 
         .requirements a {
-            color: blue;
+            color: #007bff;
+            /* Warna biru standar untuk link */
             text-decoration: none;
         }
 
@@ -91,7 +124,7 @@
         <table style="width: 100%;">
             <tr>
                 <td style="width: 90px; text-align: center;">
-                    <img src="<?= $logo ?>" alt="Logo" style="width: 70px;">
+                    <img src="<?= htmlspecialchars($logo ?? '') ?>" alt="Logo" style="width: 70px;">
                 </td>
                 <td class="kop-text">
                     <h5><strong>PEMERINTAH KABUPATEN TANAH LAUT</strong></h5>
@@ -109,7 +142,7 @@
 
         <div style="text-align: center; margin-bottom: 20px;">
             <h5><u><strong>SURAT KETERANGAN DOMISILI</strong></u></h5>
-            <p>Nomor : <?= $no_surat ?? '...' ?></p>
+            <p>Nomor : <?= htmlspecialchars($no_surat ?? '...') ?></p>
         </div>
 
         <div class="text-isi">
@@ -119,17 +152,17 @@
                 <tr>
                     <td>Nama Gapoktan</td>
                     <td>:</td>
-                    <td><strong style="text-transform: uppercase;"><?php echo $nama_gapoktan; ?></strong></td>
+                    <td><strong style="text-transform: uppercase;"><?= htmlspecialchars($nama_gapoktan ?? '...') ?></strong></td>
                 </tr>
                 <tr>
                     <td>Tanggal Pembentukan</td>
                     <td>:</td>
-                    <td><?php echo date("d F Y", strtotime($tgl_pembentukan)); ?></td>
+                    <td><?= htmlspecialchars(date("d F Y", strtotime($tgl_pembentukan ?? date('Y-m-d')))) ?></td>
                 </tr>
                 <tr>
                     <td>Alamat Sekretariat</td>
                     <td>:</td>
-                    <td><?php echo $alamat; ?></td>
+                    <td><?= htmlspecialchars($alamat ?? '...') ?></td>
                 </tr>
             </table>
 
@@ -138,22 +171,22 @@
                 <tr>
                     <td>Ketua</td>
                     <td>:</td>
-                    <td><?php echo $ketua; ?></td>
+                    <td><?= htmlspecialchars($ketua ?? '...') ?></td>
                 </tr>
                 <tr>
                     <td>Sekretaris</td>
                     <td>:</td>
-                    <td><?php echo $sekretaris; ?></td>
+                    <td><?= htmlspecialchars($sekretaris ?? '...') ?></td>
                 </tr>
                 <tr>
                     <td>Bendahara</td>
                     <td>:</td>
-                    <td><?php echo $bendahara; ?></td>
+                    <td><?= htmlspecialchars($bendahara ?? '...') ?></td>
                 </tr>
             </table>
 
             <p>
-                Bahwa adalah benar-benar Gapoktan “<?php echo $nama_gapoktan; ?>” yang berada di Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut.
+                Bahwa adalah benar-benar Gapoktan “<?= htmlspecialchars($nama_gapoktan ?? '...') ?>” yang berada di Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut.
             </p>
             <p>
                 Demikian Surat Keterangan Domisili ini diberikan untuk dapat diketahui dan dipergunakan sebagaimana mestinya.
@@ -162,37 +195,41 @@
 
 
         <div class="ttd">
-            <p>Dikeluarkan di Handil Suruk</p>
-            <p>Pada Tanggal: <?php echo $created_at ?></p>
-            <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
+            <p>Handil Suruk, <?= htmlspecialchars(date('d F Y', strtotime($created_at ?? '2025-06-26'))) ?></p>
+            <p>Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
 
-        <?php if (session('role') === 'kepala_desa') : ?>
+        <?php if (isset($role) && $role === 'kepala_desa') : ?>
             <div class="requirements">
                 <h4>Data Persyaratan:</h4>
                 <ul>
-                    <?php
-                    // Assuming 'ktp_file' and 'kk_file' are passed for this specific letter type
-                    // You might need to retrieve these from the 'surat' table or a specific 'surat_domisili_gapoktan' table
-                    // if they are not already available in the $data array passed to this view.
-                    // For example, if your SuratModel has 'ktp' and 'kk' columns.
-                    // If not, you'd need to add them to the controller function that loads this view.
-                    ?>
                     <?php if (isset($ktp_file) && $ktp_file) : ?>
-                        <li>KTP:<a href="<?= base_url('lihat-file/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a>
-                        </li>
+                        <?php
+                            $display_ktp_file = is_array($ktp_file) ? ($ktp_file[0] ?? null) : $ktp_file;
+                        ?>
+                        <?php if ($display_ktp_file) : ?>
+                            <li>KTP: <a href="<?= base_url('lihat-file/ktp/' . $display_ktp_file) ?>" target="_blank"><?= htmlspecialchars($display_ktp_file) ?></a>
+                            </li>
+                        <?php else : ?>
+                            <li>KTP : Tidak tersedia</li>
+                        <?php endif; ?>
                     <?php else : ?>
                         <li>KTP : Tidak tersedia</li>
                     <?php endif; ?>
 
                     <?php if (isset($kk_file) && $kk_file) : ?>
-                        <li>KK : <a href="<?= base_url('lihat-file/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                        <?php
+                            $display_kk_file = is_array($kk_file) ? ($kk_file[0] ?? null) : $kk_file;
+                        ?>
+                        <?php if ($display_kk_file) : ?>
+                            <li>KK : <a href="<?= base_url('lihat-file/kk/' . $display_kk_file) ?>" target="_blank"><?= htmlspecialchars($display_kk_file) ?></a></li>
+                        <?php else : ?>
+                            <li>KK : Tidak tersedia</li>
+                        <?php endif; ?>
                     <?php else : ?>
                         <li>KK : Tidak tersedia</li>
                     <?php endif; ?>
-
-
                 </ul>
             </div>
         <?php endif; ?>
