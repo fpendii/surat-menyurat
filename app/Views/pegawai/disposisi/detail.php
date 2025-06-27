@@ -46,7 +46,7 @@
                             <strong><i class="bi bi-calendar-event me-1"></i>Tanggal Surat:</strong> <?= esc($disposisi['tanggal_surat']) ?>
                         </li>
                         <li class="list-group-item">
-                            <strong><i class="bi bi-calendar-check me-1"></i>Tanggal Diterima:</strong> <?= esc($disposisi['tanggal_diterima']) ?>
+                            <strong><i class="bi bi-calendar-check me-1"></i>Tanggal Pelaksanaan:</strong> <?= esc($disposisi['tanggal_pelaksanaan']) ?>
                         </li>
                         <li class="list-group-item">
                             <strong><i class="bi bi-arrow-right-circle me-1"></i>Diteruskan Kepada:</strong> <?= esc($disposisi['name']) ?>

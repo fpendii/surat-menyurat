@@ -42,8 +42,13 @@
                 <input type="date" class="form-control" id="tanggal_surat" name="tanggal_surat" value="<?= old('tanggal_surat', date('Y-m-d')) ?>" required>
             </div>
             <div class="col-md-6 mb-3">
+<<<<<<< HEAD
                 <label for="tanggal_diterima" class="form-label">Tanggal Pelaksanaan</label>
                 <input type="date" class="form-control" id="tanggal_diterima" name="tanggal_diterima" value="<?= old('tanggal_diterima', date('Y-m-d')) ?>" required>
+=======
+                <label for="tanggal_pelaksanaan" class="form-label">Tanggal Pelaksanaan</label>
+                <input type="date" class="form-control" id="tanggal_pelaksanaan" name="tanggal_pelaksanaan" value="<?= old('tanggal_diterima', date('Y-m-d')) ?>" required>
+>>>>>>> 90bea7423f29f45855339739fe8f3d87f17e266c
             </div>
         </div>
 

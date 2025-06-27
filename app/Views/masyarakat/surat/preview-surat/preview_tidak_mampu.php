@@ -39,13 +39,30 @@
             text-align: justify;
         }
 
+        /* Penyesuaian lebar kolom pertama tabel isi surat */
         table tr td:first-child {
             width: 180px;
         }
 
+        /* Styling untuk bagian tanda tangan */
         .ttd {
-            text-align: right;
-            margin-top: 50px;
+            text-align: right; /* Rata kanan untuk seluruh blok tanda tangan */
+            margin-top: 50px; /* Jarak dari konten di atasnya */
+        }
+
+        .ttd p {
+            margin: 0; /* Menghilangkan margin default pada paragraf di dalam ttd */
+        }
+
+        /* Menyesuaikan jarak antara "Kepala Desa Handil Suruk" dan nama */
+        .ttd p:nth-of-type(2) { /* Menargetkan paragraf kedua di dalam .ttd ("Kepala Desa Handil Suruk") */
+            margin-bottom: 80px; /* Atur jarak ini sesuai keinginan Anda, contoh: 80px */
+        }
+        
+        /* Penting untuk membersihkan float agar elemen setelah ttd tidak ikut terpengaruh */
+        .requirements {
+            clear: both;
+            margin-top: 50px; /* Jarak antara bagian ttd dan persyaratan */
         }
     </style>
 </head>
@@ -53,11 +70,10 @@
 <body>
 
     <div class="surat">
-        <!-- Kop Surat -->
         <table style="width: 100%;">
             <tr>
                 <td style="width: 90px; text-align: center;">
-                    <img src="<?= $logo ?>" alt="Logo" style="width: 70px;">
+                    <img src="<?= $logo ?? '' ?>" alt="Logo" style="width: 70px;">
                 </td>
                 <td class="kop-text">
                     <h5><strong>PEMERINTAH KABUPATEN TANAH LAUT</strong></h5>
@@ -73,13 +89,11 @@
 
         <div class="kop-border"></div>
 
-        <!-- Judul Surat -->
         <div style="text-align: center; margin-bottom: 20px;">
             <h5><u><strong>SURAT KETERANGAN TIDAK MAMPU</strong></u></h5>
             <p>Nomor : <?= $no_surat ?? '...' ?></p>
         </div>
 
-        <!-- Isi Surat -->
         <div class="text-isi">
             <p>Yang bertanda tangan di bawah ini, Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, dengan ini menerangkan bahwa:</p>
 
@@ -87,70 +101,61 @@
                 <tr>
                     <td>Nama</td>
                     <td>:</td>
-                    <td><strong style="text-transform: uppercase;"><?php echo $nama; ?></strong></td>
+                    <td><strong style="text-transform: uppercase;"><?php echo $nama ?? '...'; ?></strong></td>
                 </tr>
                 <tr>
                     <td>Bin/Binti</td>
                     <td>:</td>
-                    <td><?php echo $bin_binti; ?></td>
+                    <td><?php echo $bin_binti ?? '...'; ?></td>
                 </tr>
                 <tr>
                     <td>NIK</td>
                     <td>:</td>
-                    <td><?php echo $nik; ?></td>
+                    <td><?php echo $nik ?? '...'; ?></td>
                 </tr>
                 <tr>
                     <td>Tempat, Tanggal Lahir</td>
                     <td>:</td>
-                    <td><?php echo $ttl; ?></td>
+                    <td><?php echo $ttl ?? '...'; ?></td>
                 </tr>
                 <tr>
                     <td>Jenis Kelamin</td>
                     <td>:</td>
-                    <td><?php echo $jenis_kelamin; ?></td>
+                    <td><?php echo $jenis_kelamin ?? '...'; ?></td>
                 </tr>
                 <tr>
                     <td>Agama</td>
                     <td>:</td>
-                    <td><?php echo $agama; ?></td>
+                    <td><?php echo $agama ?? '...'; ?></td>
                 </tr>
                 <tr>
                     <td>Pekerjaan</td>
                     <td>:</td>
-                    <td><?php echo $pekerjaan; ?></td>
+                    <td><?php echo $pekerjaan ?? '...'; ?></td>
                 </tr>
                 <tr>
                     <td>Alamat</td>
                     <td>:</td>
-                    <td><?php echo $alamat; ?></td>
+                    <td><?php echo $alamat ?? '...'; ?></td>
                 </tr>
             </table>
 
-            <p>Sepengetahuan kami yang bersangkutan bertempat tinggal didesa kami adalah benar keadaan penghidupan termasuk keluarga KURANG MAMPU, adapun surat keterangan ini dibuat untuk keperluan melengkapi persyaratan untuk <strong><?php echo $keperluan; ?></strong>.</p>
+            <p>Sepengetahuan kami yang bersangkutan bertempat tinggal didesa kami adalah benar keadaan penghidupan termasuk keluarga KURANG MAMPU, adapun surat keterangan ini dibuat untuk keperluan melengkapi persyaratan untuk <strong><?php echo $keperluan ?? '...'; ?></strong>.</p>
 
 
             <p>Demikian surat keterangan ini dibuat agar dapat dipergunakan sebagaimana mestinya.</p>
         </div>
 
-        <!-- Tanda Tangan -->
         <div class="ttd">
-            <p>Dikeluarkan di Handil Suruk</p>
-            <p>Pada Tanggal: <?php echo $created_at ?></p>
-            <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
+            <p>Handil Suruk, <?= date('d F Y', strtotime($created_at ?? date('Y-m-d'))) ?></p>
+            <p>Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
 
-         <?php if (session('role') === 'kepala_desa') : ?>
+        <?php if (isset($role) && $role === 'kepala_desa') : ?>
             <div class="requirements">
                 <h4>Data Persyaratan:</h4>
                 <ul>
-                    <?php
-                    // Assuming 'ktp_file' and 'kk_file' are passed for this specific letter type
-                    // You might need to retrieve these from the 'surat' table or a specific 'surat_domisili_gapoktan' table
-                    // if they are not already available in the $data array passed to this view.
-                    // For example, if your SuratModel has 'ktp' and 'kk' columns.
-                    // If not, you'd need to add them to the controller function that loads this view.
-                    ?>
                     <?php if (isset($ktp_file) && $ktp_file) : ?>
                         <li>KTP:<a href="<?= base_url('lihat-file/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a>
                         </li>
@@ -163,8 +168,6 @@
                     <?php else : ?>
                         <li>KK : Tidak tersedia</li>
                     <?php endif; ?>
-
-
                 </ul>
             </div>
         <?php endif; ?>

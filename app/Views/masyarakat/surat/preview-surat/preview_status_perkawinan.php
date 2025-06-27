@@ -37,13 +37,57 @@
             text-align: justify;
         }
 
+        /* Penyesuaian lebar kolom pertama tabel data utama */
         table tr td:first-child {
             width: 180px;
         }
 
+        /* Styling untuk bagian tanda tangan */
         .ttd {
-            text-align: right;
-            margin-top: 50px;
+            text-align: right; /* Rata kanan untuk seluruh blok tanda tangan */
+            margin-top: 50px; /* Jarak dari konten di atasnya */
+        }
+
+        .ttd p {
+            margin: 0; /* Menghilangkan margin default pada paragraf di dalam ttd */
+        }
+
+        /* Menyesuaikan jarak antara "Kepala Desa Handil Suruk" dan nama */
+        .ttd p:nth-of-type(2) { /* Menargetkan paragraf kedua di dalam .ttd ("Kepala Desa Handil Suruk") */
+            margin-bottom: 80px; /* Atur jarak ini sesuai keinginan Anda, contoh: 80px */
+        }
+        
+        /* Styling for the requirements section for head of village */
+        .requirements {
+            clear: both; /* Penting untuk membersihkan float agar elemen setelah ttd tidak ikut terpengaruh */
+            margin-top: 40px; /* Jarak antara bagian ttd dan persyaratan */
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .requirements h4 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .requirements ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .requirements ul li {
+            margin-bottom: 8px;
+        }
+
+        .requirements ul li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .requirements ul li a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -51,11 +95,10 @@
 <body>
 
 <div class="surat">
-    <!-- Header -->
     <table style="width: 100%;">
         <tr>
             <td style="width: 90px; text-align: center;">
-                <img src="<?= $logo ?>" alt="Logo" style="width: 70px;">
+                <img src="<?= htmlspecialchars($logo ?? '') ?>" alt="Logo" style="width: 70px;">
             </td>
             <td class="kop-text">
                 <h5><strong>PEMERINTAH KABUPATEN TANAH LAUT</strong></h5>
@@ -71,82 +114,84 @@
 
     <div class="kop-border"></div>
 
-    <!-- Judul -->
     <div style="text-align: center; margin-bottom: 20px;">
         <h5><u><strong>SURAT KETERANGAN STATUS PERKAWINAN</strong></u></h5>
-        <p>Nomor : <?= $no_surat ?? '...' ?></p>
+        <p>Nomor : <?= htmlspecialchars($no_surat ?? '...') ?></p>
     </div>
 
-    <!-- Isi Surat -->
     <div class="text-isi">
         <p>Yang bertanda tangan di bawah ini, Kepala Desa Handil Suruk Kecamatan Bumi Makmur Kabupaten Tanah Laut, menerangkan bahwa:</p>
 
         <table>
             <tr>
                 <td>Nama</td>
-                <td>: <?= $nama ?></td>
+                <td>: <?= htmlspecialchars($nama ?? '...') ?></td>
             </tr>
             <tr>
                 <td>NIK</td>
-                <td>: <?= $nik ?></td>
+                <td>: <?= htmlspecialchars($nik ?? '...') ?></td>
             </tr>
             <tr>
                 <td>Tempat / Tgl Lahir</td>
-                <td>: <?= $ttl ?></td>
+                <td>: <?= htmlspecialchars($ttl ?? '...') ?></td>
             </tr>
             <tr>
                 <td>Agama</td>
-                <td>: <?= $agama ?></td>
+                <td>: <?= htmlspecialchars($agama ?? '...') ?></td>
             </tr>
             <tr>
                 <td>Alamat</td>
-                <td>: <?= $alamat ?></td>
+                <td>: <?= htmlspecialchars($alamat ?? '...') ?></td>
             </tr>
             <tr>
                 <td>Status Perkawinan</td>
-                <td>: <?= $status ?></td>
+                <td>: <?= htmlspecialchars($status ?? '...') ?></td>
             </tr>
         </table>
 
-        <p>Adalah benar yang bersangkutan merupakan warga Desa Handil Suruk dan berdasarkan keterangan yang ada pada kami, status perkawinan yang bersangkutan adalah <strong><?= strtoupper($status) ?></strong>.</p>
+        <p>Adalah benar yang bersangkutan merupakan warga Desa Handil Suruk dan berdasarkan keterangan yang ada pada kami, status perkawinan yang bersangkutan adalah <strong><?= htmlspecialchars(strtoupper($status ?? '...')) ?></strong>.</p>
 
         <p>Demikian surat ini dibuat untuk digunakan sebagaimana mestinya.</p>
     </div>
 
-    <!-- Tanda Tangan -->
     <div class="ttd">
-       <p>Pada Tanggal: <?php echo $created_at ?></p>
-        <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
+        <p>Handil Suruk, <?= htmlspecialchars(date('d F Y', strtotime($created_at ?? date('Y-m-d')))) ?></p>
+        <p>Kepala Desa Handil Suruk</p>
         <strong><u>KHALIKUL BASIR</u></strong>
     </div>
-    <?php if (session('role') === 'kepala_desa') : ?>
-            <div class="requirements">
-                <h4>Data Persyaratan:</h4>
-                <ul>
+
+    <?php if (isset($role) && $role === 'kepala_desa') : ?>
+        <div class="requirements">
+            <h4>Data Persyaratan:</h4>
+            <ul>
+                <?php if (isset($ktp_file) && $ktp_file) : ?>
                     <?php
-                    // Assuming 'ktp_file' and 'kk_file' are passed for this specific letter type
-                    // You might need to retrieve these from the 'surat' table or a specific 'surat_domisili_gapoktan' table
-                    // if they are not already available in the $data array passed to this view.
-                    // For example, if your SuratModel has 'ktp' and 'kk' columns.
-                    // If not, you'd need to add them to the controller function that loads this view.
+                        $display_ktp_file = is_array($ktp_file) ? ($ktp_file[0] ?? null) : $ktp_file;
                     ?>
-                    <?php if (isset($ktp_file) && $ktp_file) : ?>
-                        <li>KTP:<a href="<?= base_url('lihat-file/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a>
-                        </li>
+                    <?php if ($display_ktp_file) : ?>
+                        <li>KTP: <a href="<?= base_url('lihat-file/ktp/' . $display_ktp_file) ?>" target="_blank"><?= htmlspecialchars($display_ktp_file) ?></a></li>
                     <?php else : ?>
-                        <li>KTP : Tidak tersedia</li>
+                        <li>KTP: Tidak tersedia</li>
                     <?php endif; ?>
+                <?php else : ?>
+                    <li>KTP: Tidak tersedia</li>
+                <?php endif; ?>
 
-                    <?php if (isset($kk_file) && $kk_file) : ?>
-                        <li>KK : <a href="<?= base_url('lihat-file/kk/' . $kk_file) ?>" target="_blank"><?= $kk_file ?></a></li>
+                <?php if (isset($kk_file) && $kk_file) : ?>
+                    <?php
+                        $display_kk_file = is_array($kk_file) ? ($kk_file[0] ?? null) : $kk_file;
+                    ?>
+                    <?php if ($display_kk_file) : ?>
+                        <li>KK: <a href="<?= base_url('lihat-file/kk/' . $display_kk_file) ?>" target="_blank"><?= htmlspecialchars($display_kk_file) ?></a></li>
                     <?php else : ?>
-                        <li>KK : Tidak tersedia</li>
+                        <li>KK: Tidak tersedia</li>
                     <?php endif; ?>
-
-
-                </ul>
-            </div>
-        <?php endif; ?>
+                <?php else : ?>
+                    <li>KK: Tidak tersedia</li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 </div>
 
 </body>

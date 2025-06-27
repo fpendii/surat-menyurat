@@ -17,7 +17,7 @@ class DisposisiModel extends Model
         'id_surat_masuk',
         'surat_dari',
         'tanggal_surat',
-        'tanggal_diterima',
+        'tanggal_pelaksanaan',
         'nomor_agenda',
         'sifat',
         'perihal',

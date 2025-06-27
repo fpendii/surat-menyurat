@@ -177,13 +177,14 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('pengajuan-surat', 'Admin\PengajuanSuratController::pengajuanSurat');
     $routes->post('kirim-surat/(:num)', 'Admin\PengajuanSuratController::kirimSurat/$1');
     $routes->get('arsip-surat', 'Admin\ArsipSuratAdmin::index');
-    
 
     $routes->get('surat-masuk', 'Admin\SuratMasukController::index');
     $routes->post('surat-masuk/disposisi/(:num)', 'Admin\SuratMasukController::disposisi/$1');
     $routes->get('surat-masuk/tambah', 'Admin\SuratMasukController::tambah');
     $routes->post('surat-masuk/simpan', 'Admin\SuratMasukController::simpan');
     $routes->post('surat-masuk/hapus/(:num)', 'Admin\SuratMasukController::hapus/$1');
+    $routes->get('surat-masuk/edit/(:num)', 'Admin\SuratMasukController::edit/$1');
+    $routes->put('surat-masuk/update/(:num)', 'Admin\SuratMasukController::update/$1');
 
     $routes->get('disposisi', 'Admin\DisposisiController::index');
      $routes->get('disposisi/tambah', 'Admin\DisposisiController::tambah');

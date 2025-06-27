@@ -44,9 +44,31 @@
         }
 
         .ttd {
-            text-align: right;
+            /* text-align: right; */ /* Hapus atau komen baris ini untuk rata kiri */
             margin-top: 50px;
+            margin-left: auto;
+            margin-right: 0;
+            width: fit-content;
+            float: right;
         }
+        /* Penyesuaian untuk teks di dalam TTD agar rata kiri di dalam TTD box yang rata kanan */
+        .ttd p {
+            text-align: left;
+            margin: 0;
+        }
+        .ttd p:last-of-type { /* Untuk "Kepala Desa Handil Suruk" */
+            margin-bottom: 80px; /* <--- UBAH NILAI INI UNTUK MENYESUAIKAN JARAK */
+        }
+        .ttd strong {
+            text-align: left;
+            display: block;
+        }
+        /* Penting untuk membersihkan float agar elemen setelah ttd tidak ikut terpengaruh */
+        .requirements {
+            clear: both;
+            margin-top: 50px; /* Sesuaikan jarak atas setelah tanda tangan */
+        }
+
     </style>
 </head>
 
@@ -167,23 +189,15 @@
         </div>
 
         <div class="ttd">
-            <p>Dikeluarkan di Handil Suruk</p>
-            <p>Pada Tanggal: <?= $tanggal ?? date('d F Y') ?></p>
-            <p style="margin-bottom: 60px;">Kepala Desa Handil Suruk</p>
+              <p>Handil Suruk, <?= date('d F Y', strtotime($created_at ?? date('Y-m-d'))) ?></p>
+            <p>Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
 
-        <?php if (session('role') === 'kepala_desa') : ?>
+        <?php if (isset($role) && $role === 'kepala_desa') : ?>
             <div class="requirements">
                 <h4>Data Persyaratan:</h4>
                 <ul>
-                    <?php
-                    // Assuming 'ktp_file' and 'kk_file' are passed for this specific letter type
-                    // You might need to retrieve these from the 'surat' table or a specific 'surat_domisili_gapoktan' table
-                    // if they are not already available in the $data array passed to this view.
-                    // For example, if your SuratModel has 'ktp' and 'kk' columns.
-                    // If not, you'd need to add them to the controller function that loads this view.
-                    ?>
                     <?php if (isset($ktp_file) && $ktp_file) : ?>
                         <li>KTP:<a href="<?= base_url('lihat-file/ktp/' . $ktp_file) ?>" target="_blank"><?= $ktp_file ?></a>
                         </li>
@@ -196,7 +210,6 @@
                     <?php else : ?>
                         <li>KK : Tidak tersedia</li>
                     <?php endif; ?>
-
                 </ul>
             </div>
         <?php endif; ?>

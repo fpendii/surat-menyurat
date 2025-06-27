@@ -12,14 +12,14 @@ class CreateDisposisiTable extends Migration
             'id_disposisi' => [
                 'type'           => 'INT',
                 'constraint'     => 11,
-                'unsigned'       => true, // Umumnya ID primary key unsigned jika auto_increment
+                'unsigned'       => true, 
                 'auto_increment' => true,
             ],
             'id_surat_masuk' => [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'unsigned'   => true, // int tidak unsigned
-                'null'       => false, // Sesuai dengan tabel Anda (NO)
+                'unsigned'   => true,
+                'null'       => false, 
             ],
             'surat_dari' => [
                 'type'       => 'VARCHAR',
@@ -30,7 +30,7 @@ class CreateDisposisiTable extends Migration
                 'type' => 'DATE',
                 'null' => true,
             ],
-            'tanggal_diterima' => [
+            'tanggal_pelaksanaan' => [
                 'type' => 'DATE',
                 'null' => true,
             ],
@@ -51,8 +51,8 @@ class CreateDisposisiTable extends Migration
             'id_user' => [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'unsigned'   => true, // int tidak unsigned
-                'null'       => true, // Sesuai dengan tabel Anda (YES)
+                'unsigned'   => true, 
+                'null'       => true, 
             ],
             'catatan' => [
                 'type' => 'TEXT',
