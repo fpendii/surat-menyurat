@@ -34,6 +34,7 @@ class CreateSuratMasukTable extends Migration
                 'type'    => 'DATETIME',
                 'null'    => true, 
             ],
+            // 'created_at' => [
             'updated_at' => [
                 'type'    => 'DATETIME',
                 'null'    => true, // Sesuai dengan tabel Anda (YES)
