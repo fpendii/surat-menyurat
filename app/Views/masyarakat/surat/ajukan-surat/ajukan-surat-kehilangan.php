@@ -131,6 +131,7 @@
                 <p><strong>Alamat:</strong> <span id="preview_alamat"></span></p>
                 <p><strong>Barang yang Hilang:</strong> <span id="preview_barang_hilang"></span></p>
                 <p><strong>Keperluan:</strong> <span id="preview_keperluan"></span></p>
+                <p><strong>Deskripsi Barang:</strong> <span id="preview_deskripsi"></span></p>
                 <p><strong>Kartu Keluarga (KK):</strong> <span id="preview_kk_file"></span></p>
                 <p><strong>Kartu Tanda Penduduk (KTP):</strong> <span id="preview_ktp_file"></span></p>
             </div>
@@ -152,6 +153,7 @@
         document.getElementById('preview_agama').textContent = document.getElementById('agama').value;
         document.getElementById('preview_alamat').textContent = document.getElementById('alamat').value;
         document.getElementById('preview_barang_hilang').textContent = document.getElementById('barang_hilang').value;
+        document.getElementById('preview_deskripsi').textContent = document.getElementById('deskripsi_barang').value;
         document.getElementById('preview_keperluan').textContent = document.getElementById('keperluan').value;
 
         const kkFile = document.getElementById('kk').files[0];
