@@ -22,8 +22,6 @@ class SuratUsahaModel extends Model
         'nama_usaha',
         'alamat_usaha',
         'sejak_tahun',
-        'kk',
-        'ktp',
     ];
 
     // Nonaktifkan fitur timestamps karena tidak ada kolom created_at dan updated_at

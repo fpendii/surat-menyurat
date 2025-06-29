@@ -59,16 +59,6 @@ class CreateSuratKehilanganTable extends Migration
                 'type' => 'TEXT',
                 'null' => false,
             ],
-            'ktp' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => false,
-            ],
-            'kk' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => false,
-            ],
             'deskripsi_barang' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '255',

@@ -88,19 +88,7 @@ class SuratCatatanPolisiController extends BaseController
 
         // Simpan dulu data surat umum ke tabel surat dan dapatkan id_surat
 
-        $suratData = [
-            'id_user' => $userId,
-            'no_surat' => $nomorSurat,
-            'jenis_surat' => 'catatan_polisi',
-            'status' => 'diajukan'
-        ];
-
-        $suratModel = new \App\Models\SuratModel();
-        $idSurat = $suratModel->insert($suratData);
-
-        if (!$idSurat) {
-            return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat.');
-        }
+        
 
         $berkasPath = WRITEPATH . 'uploads/surat_catatan_polisi/';
         if (!is_dir($berkasPath)) {
@@ -124,6 +112,21 @@ class SuratCatatanPolisiController extends BaseController
         $ijazahName = $ijazahFile->getRandomName();
         $ijazahFile->move($berkasPath, $ijazahName);
 
+        $suratData = [
+            'id_user' => $userId,
+            'no_surat' => $nomorSurat,
+            'jenis_surat' => 'catatan_polisi',
+            'status' => 'diajukan',
+            'ktp' => $ktpName,
+            'kk' => $kkName,
+        ];
+
+        $suratModel = new \App\Models\SuratModel();
+        $idSurat = $suratModel->insert($suratData);
+
+        if (!$idSurat) {
+            return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat.');
+        }
 
         $catatanPolisiData = [
             'id_surat' => $idSurat,
@@ -136,8 +139,6 @@ class SuratCatatanPolisiController extends BaseController
             'pekerjaan' => $this->request->getPost('pekerjaan'),
             'nik' => $this->request->getPost('nik'),
             'alamat' => $this->request->getPost('alamat'),
-            'kk' => $kkName,
-            'ktp' => $ktpName,
             'akta_lahir' => $aktaName,
             'ijazah' => $ijazahName,
         ];
@@ -228,8 +229,8 @@ class SuratCatatanPolisiController extends BaseController
             'alamat' => $catatanPolisi['alamat'],
             'no_surat' => $surat['no_surat'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-            'ktp_file'               => $catatanPolisi['ktp'], // URL untuk KTP
-            'kk_file'                => $catatanPolisi['kk'], // URL untuk KK
+            'ktp_file'               => $surat['ktp'], // URL untuk KTP
+            'kk_file'                => $surat['kk'], // URL untuk KK
         ];
 
         // Ambil dan encode logo
@@ -307,12 +308,6 @@ class SuratCatatanPolisiController extends BaseController
             return redirect()->back()->with('error', 'Data surat tidak ditemukan atau Anda tidak berhak mengubahnya.');
         }
 
-        // Update data surat jika diperlukan, contoh update status tetap 'diajukan'
-        $suratUpdateData = [
-            'status_surat' => 'diajukan',
-        ];
-        $suratModel->update($idSurat, $suratUpdateData);
-
         // Ambil data catatan polisi terkait
         $catatanPolisi = $catatanPolisiModel->where('id_surat', $idSurat)->first();
         if (!$catatanPolisi) {
@@ -323,6 +318,12 @@ class SuratCatatanPolisiController extends BaseController
         if (!is_dir($berkasPath)) {
             mkdir($berkasPath, 0777, true);
         }
+
+         // Update data surat jika diperlukan, contoh update status tetap 'diajukan'
+        $suratUpdateData = [
+            'status_surat' => 'diajukan',
+        ];
+        $suratModel->update($idSurat, $suratUpdateData);
 
         // Siapkan array update data
         $updateData = [
@@ -354,10 +355,8 @@ class SuratCatatanPolisiController extends BaseController
 
         // Cek dan upload file baru jika ada, jika tidak, gunakan file lama
         $kkName = $handleUpload('kk', $catatanPolisi['kk']);
-        if ($kkName) $updateData['kk'] = $kkName;
 
         $ktpName = $handleUpload('ktp', $catatanPolisi['ktp']);
-        if ($ktpName) $updateData['ktp'] = $ktpName;
 
         $aktaName = $handleUpload('akta_lahir', $catatanPolisi['akta_lahir']);
         if ($aktaName) $updateData['akta_lahir'] = $aktaName;

@@ -73,16 +73,6 @@ class CreateSuratKeteranganUsahaTable extends Migration
                 'type' => 'YEAR',
                 'null' => false,
             ],
-            'kk' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => false,
-            ],
-            'ktp' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => false,
-            ],
         ]);
 
         $this->forge->addPrimaryKey('id_surat_usaha');

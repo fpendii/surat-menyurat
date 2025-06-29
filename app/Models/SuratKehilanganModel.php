@@ -19,8 +19,6 @@ class SuratKehilanganModel extends Model
         'alamat',
         'barang_hilang',
         'keperluan',
-        'ktp',
-        'kk',
         'deskripsi_barang'
     ];
 

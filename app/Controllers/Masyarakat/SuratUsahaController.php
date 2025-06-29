@@ -112,7 +112,9 @@ class SuratUsahaController extends BaseController
             'id_user' => $userId,
             'no_surat' => $nomorSurat,
             'jenis_surat' => 'usaha',
-            'status' => 'diajukan'
+            'status' => 'diajukan',
+            'kk' => $kkName,
+            'ktp' => $ktpName,
         ]);
 
         // Simpan data detail surat usaha
@@ -131,8 +133,7 @@ class SuratUsahaController extends BaseController
             'nama_usaha' => $this->request->getPost('nama_usaha'),
             'alamat_usaha' => $this->request->getPost('alamat_usaha'),
             'sejak_tahun' => $this->request->getPost('sejak_tahun'),
-            'kk' => $kkName,
-            'ktp' => $ktpName,
+            
         ]);
 
         // Kirim email notifikasi
@@ -208,8 +209,8 @@ class SuratUsahaController extends BaseController
             'sejak_tahun' => $usaha['sejak_tahun'],
             'no_surat' => $surat['no_surat'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-            'ktp_file'               => $usaha['ktp'], // URL untuk KTP
-            'kk_file'                => $usaha['kk'], // URL untuk KK
+            'ktp_file'               => $surat['ktp'], // URL untuk KTP
+            'kk_file'                => $surat['kk'], // URL untuk KK
         ];
 
         // Ambil dan encode logo

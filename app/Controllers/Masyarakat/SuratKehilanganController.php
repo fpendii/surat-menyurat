@@ -95,18 +95,7 @@ class SuratKehilanganController extends BaseController
         // Simpan data ke tabel surat
         $suratModel = new \App\Models\SuratModel();
 
-        $suratData = [
-            'id_user' => $userId,
-            'no_surat' => $nomorSurat,
-            'jenis_surat' => 'kehilangan',
-            'status' => 'diajukan'
-        ];
-
-        $idSurat = $suratModel->insert($suratData);
-        if (!$idSurat) {
-            return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat.');
-        }
-
+        
         // Upload file KTP
         $ktpFile = $this->request->getFile('ktp');
         $ktpName = $ktpFile->getRandomName();
@@ -116,6 +105,21 @@ class SuratKehilanganController extends BaseController
         $kkFile = $this->request->getFile('kk');
         $kkName = $kkFile->getRandomName();
         $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
+
+        $suratData = [
+            'id_user' => $userId,
+            'no_surat' => $nomorSurat,
+            'jenis_surat' => 'kehilangan',
+            'status' => 'diajukan',
+            'ktp' => $ktpName,
+            'kk' => $kkName,
+        ];
+
+        $idSurat = $suratModel->insert($suratData);
+        if (!$idSurat) {
+            return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data surat.');
+        }
+
 
         // Simpan data ke tabel kehilangan
         $kehilanganData = [
@@ -129,8 +133,6 @@ class SuratKehilanganController extends BaseController
             'barang_hilang' => $this->request->getPost('barang_hilang'),
             'keperluan' => $this->request->getPost('keperluan'),
             'deskripsi_barang' => $this->request->getPost('deskripsi_barang'),
-            'ktp' => $ktpName,
-            'kk' => $kkName,
         ];
 
         $kehilanganModel = new \App\Models\SuratKehilanganModel();
@@ -210,8 +212,8 @@ class SuratKehilanganController extends BaseController
             'keperluan' => $kehilangan['keperluan'],
             'deskripsi_barang' => $kehilangan['deskripsi_barang'],
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
-            'ktp_file'               => $kehilangan['ktp'], // URL untuk KTP
-            'kk_file'                => $kehilangan['kk'], // URL untuk KK
+            'ktp_file'               => $surat['ktp'], 
+            'kk_file'                => $surat['kk'], 
         ];
 
         // Ambil dan encode logo
@@ -275,9 +277,7 @@ class SuratKehilanganController extends BaseController
         if (!$surat || $surat['jenis_surat'] !== 'kehilangan') {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan atau bukan surat kehilangan');
         }
-        $suratModel->update($idSurat, [
-            'status_surat' => 'diajukan'
-        ]);
+      
 
         // Ambil data kehilangan
         $kehilangan = $kehilanganModel->where('id_surat', $idSurat)->first();
@@ -325,6 +325,12 @@ class SuratKehilanganController extends BaseController
             $kk->move($uploadPath, $kkName);
         }
 
+          $suratModel->update($idSurat, [
+            'status_surat' => 'diajukan',
+            'ktp' => $ktpName,
+            'kk' => $kkName,
+        ]);
+
         // Update data kehilangan
         $kehilanganData = [
             'nama' => $this->request->getPost('nama'),
@@ -335,8 +341,7 @@ class SuratKehilanganController extends BaseController
             'alamat' => $this->request->getPost('alamat'),
             'barang_hilang' => $this->request->getPost('barang_hilang'),
             'keperluan' => $this->request->getPost('keperluan'),
-            'ktp' => $ktpName,
-            'kk' => $kkName,
+            
         ];
 
         if (!$kehilanganModel->update($kehilangan['id_surat_kehilangan'], $kehilanganData)) {

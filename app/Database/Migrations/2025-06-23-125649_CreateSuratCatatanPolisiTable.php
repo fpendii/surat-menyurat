@@ -65,16 +65,6 @@ class CreateSuratCatatanPolisiTable extends Migration
                 'type' => 'TEXT',
                 'null' => false,
             ],
-            'kk' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => false,
-            ],
-            'ktp' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => false,
-            ],
             'akta_lahir' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '255',

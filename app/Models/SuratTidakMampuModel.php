@@ -20,8 +20,6 @@ class SuratTidakMampuModel extends Model
         'pekerjaan',
         'alamat',
         'keperluan',
-        'ktp',
-        'kk',
     ];
 
     protected $useTimestamps = false;

@@ -83,21 +83,6 @@ class CreateSuratPindahTable extends Migration
                 'constraint' => 11,
                 'null'       => true,
             ],
-            'kk' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => true,
-            ],
-            'ktp' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => true,
-            ],
-            'form_f1' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => true,
-            ],
             'status' => [
                 'type'    => 'ENUM',
                 'constraint' => ['diajukan', 'diproses', 'ditolak', 'selesai'],

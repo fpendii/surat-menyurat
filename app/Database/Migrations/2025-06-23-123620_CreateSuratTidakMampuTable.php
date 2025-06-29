@@ -64,16 +64,6 @@ class CreateSuratTidakMampuTable extends Migration
                 'type' => 'TEXT',
                 'null' => false,
             ],
-            'ktp' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => false,
-            ],
-            'kk' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => false,
-            ],
         ]);
 
         $this->forge->addPrimaryKey('id_tidak_mampu');

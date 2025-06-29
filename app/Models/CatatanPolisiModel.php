@@ -20,8 +20,6 @@ class CatatanPolisiModel extends Model
         'pekerjaan',
         'nik',
         'alamat',
-        'kk',
-        'ktp',
         'akta_lahir',
         'ijazah',
         'foto_latar_belakang',
