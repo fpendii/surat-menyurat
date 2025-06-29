@@ -16,7 +16,7 @@ class MasyarakatDashboardController extends BaseController
         $today = date('Y-m-d');
 
         // Total surat diajukan hari ini
-        $totalSuratDiajukanHariIni = $suratModel->where('DATE(created_at)', $today)
+        $totalSuratDiajukanHariIni = $suratModel
             ->where('id_user', session()->get('user_id'))
             ->countAllResults();
 

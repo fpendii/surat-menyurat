@@ -70,7 +70,6 @@ class DisposisiControllerKepalaDesa extends BaseController
         ];
 
 
-
         return view('kepala-desa/disposisi/tambah', $data); // Pastikan path view sudah benar
     }
 

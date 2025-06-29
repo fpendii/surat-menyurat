@@ -34,7 +34,7 @@
                                     <th>No</th>
                                     <th>Jenis Surat</th>
                                     <th>File</th>
-                                    <th>Waktu Upload</th>
+                                    <th>Tanggal Surat</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,7 +49,7 @@
                                                 Tidak ada file
                                             <?php endif; ?>
                                         </td>
-                                         <td><?= date('d-m-Y', strtotime($surat['created_at'])) ?></td>
+                                         <td><?= date('d-m-Y', strtotime($surat['tanggal_surat'])) ?></td>
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>

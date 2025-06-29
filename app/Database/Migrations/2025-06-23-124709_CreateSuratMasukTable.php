@@ -25,6 +25,10 @@ class CreateSuratMasukTable extends Migration
                 'constraint' => '255',
                 'null'       => false,
             ],
+            'tanggal_surat' => [
+                'type'       => 'DATE',
+                'null'       => false,
+            ],
             'nama_instansi' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '255',

@@ -56,7 +56,8 @@ class SuratMasukController extends BaseController
                 'jenis_surat' => $this->request->getPost('jenis_surat'),
                 'file_surat'  => $newName,
                 'nama_instansi' => $this->request->getPost('nama_instansi'),
-                'no_surat' => $this->request->getPost('no_surat')
+                'no_surat' => $this->request->getPost('no_surat'),
+                'tanggal_surat' => $this->request->getPost('tanggal_surat') ?: date('Y-m-d'), // Default to today if not provided
             ]);
 
             // --- Bagian Baru: Mengirim Email Pemberitahuan ---
@@ -154,6 +155,7 @@ class SuratMasukController extends BaseController
             'jenis_surat' => 'required|min_length[3]|max_length[255]',
             'nama_instansi' => 'required|min_length[3]|max_length[255]',
             'no_surat' => 'required'
+            
         ];
 
         // Jika ada file baru diunggah, tambahkan aturan validasi untuk file
@@ -169,7 +171,8 @@ class SuratMasukController extends BaseController
         $dataToUpdate = [
             'jenis_surat' => $this->request->getPost('jenis_surat'),
             'nama_instansi' => $this->request->getPost('nama_instansi'),
-            'no_surat' => $this->request->getPost('no_surat')
+            'no_surat' => $this->request->getPost('no_surat'),
+            'tanggal_surat' => $this->request->getPost('tanggal_surat') ?: date('Y-m-d'), // Default to today if not provided
         ];
 
         // Tangani upload file jika ada file baru

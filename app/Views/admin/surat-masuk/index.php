@@ -39,7 +39,7 @@
                     <td><?= esc($surat['no_surat']) ?></td>
                     <td><?= esc($surat['nama_instansi']) ?></td>
                     <td><a href="<?= base_url('uploads/surat_masuk/' . $surat['file_surat']) ?>" target="_blank">Lihat</a></td>
-                    <td><?= date('d-m-Y', strtotime($surat['created_at'])) ?></td>
+                    <td><?= date('d-m-Y', strtotime($surat['tanggal_surat'])) ?></td>
                     <td>
                         <a href="<?= base_url('admin/surat-masuk/edit/' . $surat['id_surat_masuk']) ?>" class="btn btn-primary btn-sm mr-2">Edit</a>
                         <form action="<?= base_url('admin/surat-masuk/hapus/' . $surat['id_surat_masuk']) ?>" method="POST" onsubmit="return confirm('Yakin ingin menghapus surat ini?')" class="d-inline">

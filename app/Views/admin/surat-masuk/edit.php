@@ -42,6 +42,10 @@
                 <small class="form-text text-muted">File saat ini: <a href="<?= base_url('uploads/surat_masuk/' . $surat['file_surat']) ?>" target="_blank"><?= esc($surat['file_surat']) ?></a></small>
             <?php endif; ?>
         </div>
+        <div class="form-group mt-3">
+            <label for="tanggal_surat">Tanggal Surat</label>
+            <input type="date" name="tanggal_surat" class="form-control" value="<?= esc(old('tanggal_surat', $surat['tanggal_surat'])) ?>" required>
+        </div>
         
         <a href="/admin/surat-masuk" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>

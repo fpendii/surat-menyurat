@@ -39,6 +39,10 @@
             <label for="file_surat">File Surat</label>
             <input type="file" name="file_surat" class="form-control" accept=".pdf,.jpg,.png" required>
         </div>
+        <div class="form-group mt-3">
+            <label for="tanggal_surat">Tanggal Surat</label>
+            <input type="date" name="tanggal_surat" class="form-control" required>
+        </div>
         <a href="/admin/surat-masuk" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="submit" class="btn btn-primary mt-3">Upload</button>
     </form>

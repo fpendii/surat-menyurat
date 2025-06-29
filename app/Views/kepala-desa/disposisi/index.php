@@ -41,7 +41,7 @@
                         <th>No</th>
                         <th>Jenis Surat</th>
                         <th>File Surat</th>
-                        <th>Waktu Upload</th>
+                        <th>Tanggal Surat</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -57,7 +57,7 @@
                                     Tidak ada file
                                 <?php endif; ?>
                             </td>
-                            <td><?= date('d-m-Y', strtotime($surat['created_at'])) ?></td>
+                            <td><?= date('d-m-Y', strtotime($surat['tanggal_surat'])) ?></td>
                             <td>
                                 <!-- Tombol untuk mengarahkan ke formulir disposisi surat ini -->
                                 <a href="<?= site_url('kepala-desa/disposisi/form/' . $surat['id_surat_masuk']) ?>" class="btn btn-warning btn-sm">Disposisi</a>
