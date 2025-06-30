@@ -6,7 +6,7 @@
 <div class="container mt-4">
     <h1 class="mb-4">Selamat Datang di Dashboard Kepala Desa!</h1>
     <p class="lead">Ini adalah portal informasi utama Anda untuk memantau aktivitas surat di lingkungan desa.</p>
-
+    
     <hr class="my-4">
 
     <div class="row">

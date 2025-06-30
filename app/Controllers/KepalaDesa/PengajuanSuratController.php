@@ -35,6 +35,7 @@ class PengajuanSuratController extends BaseController
 
         $data = [
             'dataSurat' => $dataSurat,
+            'role' => session()->get('role'),
         ];
         return view('kepala-desa/pengajuan-surat/pengajuan-surat', $data);
     }

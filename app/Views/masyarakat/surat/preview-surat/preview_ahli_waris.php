@@ -193,6 +193,7 @@
         // Bagian ini hanya ditampilkan jika peran pengguna adalah 'kepala_desa'
         // Asumsi session('role') sudah diatur dengan benar di aplikasi CodeIgniter Anda
         ?>
+        <?php $role = session()->get('role'); ?>
         <?php if (session('role') === 'kepala_desa') : ?>
             <div class="requirements">
                 <h4>Data Persyaratan:</h4>

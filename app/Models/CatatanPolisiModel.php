@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class CatatanPolisiModel extends Model
 {
-   protected $table = 'surat_catatan_polisi';
+    protected $table = 'surat_catatan_polisi';
     protected $primaryKey = 'id_surat_keterangan_polisi'; // sesuai migration
 
     protected $allowedFields = [
