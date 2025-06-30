@@ -231,6 +231,8 @@ class SuratCatatanPolisiController extends BaseController
             'created_at' => Time::parse($surat['created_at'])->toLocalizedString('d MMMM yyyy'),
             'ktp_file'               => $surat['ktp'], // URL untuk KTP
             'kk_file'                => $surat['kk'], // URL untuk KK
+            'akta_lahir_file' => $catatanPolisi['akta_lahir'], // URL untuk Akta Lahir
+            'ijazah_file' => $catatanPolisi['ijazah'], //
         ];
 
         // Ambil dan encode logo
