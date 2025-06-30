@@ -169,7 +169,7 @@
             </tr>
     </table>
 
-
+    <?php $role = session()->get('role'); ?>
     <?php if (session('role') === 'kepala_desa') : ?>
             <div class="requirements">
                 <h4>Data Persyaratan:</h4>

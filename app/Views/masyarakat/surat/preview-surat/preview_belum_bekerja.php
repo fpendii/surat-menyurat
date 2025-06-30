@@ -177,7 +177,7 @@
             <p>Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
-
+        <?php $role = session()->get('role'); ?>
         <?php if (isset($role) && $role === 'kepala_desa') : ?>
             <div class="requirements">
                 <h4>Data Persyaratan:</h4>

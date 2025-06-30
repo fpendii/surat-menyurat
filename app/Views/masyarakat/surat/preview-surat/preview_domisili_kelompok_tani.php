@@ -121,6 +121,7 @@
 <body>
 
     <div class="surat">
+        
         <table style="width: 100%;">
             <tr>
                 <td style="width: 90px; text-align: center;">
@@ -199,7 +200,7 @@
             <p>Kepala Desa Handil Suruk</p>
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
-
+        <?php $role = session()->get('role'); ?>
         <?php if (isset($role) && $role === 'kepala_desa') : ?>
             <div class="requirements">
                 <h4>Data Persyaratan:</h4>

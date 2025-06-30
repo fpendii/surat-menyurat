@@ -186,7 +186,7 @@
             <strong><u>KHALIKUL BASIR</u></strong>
         </div>
     </div>
-
+    <?php $role = session()->get('role'); ?>
     <?php if (isset($role) && $role === 'kepala_desa') : ?>
         <div class="requirements">
             <h4>Data Persyaratan:</h4>
