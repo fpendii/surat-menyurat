@@ -213,6 +213,18 @@
                     <?php else : ?>
                         <li>KK: Tidak tersedia</li>
                     <?php endif; ?>
+
+                    <?php if (isset($akta_lahir_file) && $akta_lahir_file) : ?>
+                        <li>Akta Lahir: <a href="<?= base_url('lihat-file/surat_catatan_polisi/' . $akta_lahir_file) ?>" target="_blank"><?= htmlspecialchars($akta_lahir_file) ?></a></li>
+                    <?php else : ?>
+                        <li>Akta Lahir: Tidak tersedia</li>
+                    <?php endif; ?>
+
+                    <?php if (isset($ijazah_file) && $ijazah_file) : ?>
+                        <li>Ijazah: <a href="<?= base_url('lihat-file/surat_catatan_polisi/' . $ijazah_file) ?>" target="_blank"><?= htmlspecialchars($ijazah_file) ?></a></li>
+                    <?php else : ?>
+                        <li>Ijazah: Tidak tersedia</li>
+                    <?php endif; ?>
                 </ul>
             </div>
         <?php endif; ?>

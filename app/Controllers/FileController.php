@@ -10,6 +10,7 @@ class FileController extends BaseController
     {
         $path = WRITEPATH . '../public/uploads/' . $folder . '/' . $filename;
 
+
         if (!file_exists($path)) {
             return "File tidak ditemukan.";
         }
