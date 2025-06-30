@@ -39,8 +39,7 @@ class PengajuanSuratController extends BaseController
 
         return view('kepala-desa/pengajuan-surat/pengajuan-surat', [
             'dataSurat' => $dataSurat,
-        ];
-        return view('kepala-desa/pengajuan-surat/pengajuan-surat', $data);
+        ]);
     }
 
 
