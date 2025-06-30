@@ -21,7 +21,7 @@ class MasyarakatDashboardController extends BaseController
             ->countAllResults();
 
         // Total surat sedang direvisi (assuming 'direvisi' is a status)
-        $totalSuratDirevisi = $suratModel->where('status_surat', 'direvisi')
+        $totalSuratDirevisi = $suratModel->where('status_surat', 'revisi')
             ->where('id_user', session()->get('user_id'))
             ->countAllResults();
 
