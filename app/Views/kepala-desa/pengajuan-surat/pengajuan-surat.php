@@ -107,7 +107,7 @@
                                         </div>
 
                                         <a href="<?= base_url('masyarakat/data-surat/' . $s['jenis_surat'] . '/download/' . $s['id_surat']) ?>" class="btn btn-sm btn-success" target="_blank">
-                                            <i class="fa fa-download"></i> Download
+                                            <i class="fa fa-download"></i> Preview
                                         </a>
 
                                     </td>
