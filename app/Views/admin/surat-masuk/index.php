@@ -27,7 +27,7 @@
                 <th>Nomer Surat</th>
                 <th>Nama Instansi</th>
                 <th>File</th>
-                <th>Waktu Upload</th>
+                <th>Tanggal</th>
                 <th>Aksi</th>
             </tr>
         </thead>
