@@ -23,6 +23,7 @@
 
     <form id="formKelahiran" action="<?= site_url('masyarakat/surat/kelahiran/update/' . $surat['id_surat']) ?>" enctype="multipart/form-data" method="POST">
         <?= csrf_field() ?>
+        
         <input type="hidden" name="_method" value="PUT"> <div class="form-group mb-2">
             <label for="nama">Nama<span class="text-danger">*</span></label>
             <input type="text" class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>" id="nama" name="nama" value="<?= old('nama', $detail['nama'] ?? '') ?>" required>

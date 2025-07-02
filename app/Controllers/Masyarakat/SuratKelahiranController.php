@@ -281,11 +281,11 @@ class SuratKelahiranController extends BaseController
             'alamat'       => 'required',
             'nama_ayah'    => 'required',
             'nama_ibu'     => 'required',
-            'anak_ke'      => 'required|numeric',
+            'anak_ke'      => 'required',
         ];
 
         if (!$this->validate($rules)) {
-            return redirect()->to('/masyarakat/surat/kelahiran/update/' . $id_surat)
+            return redirect()->to('/masyarakat/data-surat/kelahiran/edit/' . $id_surat)
                 ->withInput()->with('errors', $validation->getErrors());
         }
 
