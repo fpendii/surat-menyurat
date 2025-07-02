@@ -291,7 +291,7 @@ class SuratDomisiliWargaController extends BaseController
 
         $suratModel->update($idSurat, [
             // 'no_surat' => $this->request->getPost('no_surat'),
-            'status' => 'diajukan',
+            'status_surat' => 'diajukan',
         ]);
 
         return redirect()->to('/masyarakat/data-surat')->with('success', 'Data surat berhasil diperbarui.');

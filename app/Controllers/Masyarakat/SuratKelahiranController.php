@@ -98,20 +98,16 @@ class SuratKelahiranController extends BaseController
             ->countAllResults();
         $nomorUrut = $jumlahSuratTahunIni + 1;
 
-        // 3. Gabungkan semua jadi nomor surat
         $nomorSurat = "{$klasifikasi}/{$nomorUrut}/{$lokasi}/{$tahun}";
 
-        // Upload file KTP
         $ktpFile = $this->request->getFile('ktp');
         $ktpName = $ktpFile->getRandomName();
         $ktpFile->move(ROOTPATH . 'public/uploads/ktp', $ktpName);
 
-        // Upload file KK
         $kkFile = $this->request->getFile('kk');
         $kkName = $kkFile->getRandomName();
         $kkFile->move(ROOTPATH . 'public/uploads/kk', $kkName);
 
-        // Simpan ke tabel `surat`
         $suratModel = new \App\Models\SuratModel();
         $idSurat = $suratModel->insert([
             'id_user' => session()->get('user_id'),
@@ -266,8 +262,6 @@ class SuratKelahiranController extends BaseController
             'detail' => $detail
         ]);
     }
-
-
 
     public function updateSurat($id_surat)
     {
