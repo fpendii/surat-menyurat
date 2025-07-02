@@ -106,11 +106,11 @@ class SuratCatatanPolisiController extends BaseController
 
         $aktaFile = $this->request->getFile('akta_lahir');
         $aktaName = $aktaFile->getRandomName();
-        $aktaFile->move($berkasPath, $aktaName);
+        $aktaFile->move('uploads/akta_lahir/', $aktaName);
 
         $ijazahFile = $this->request->getFile('ijazah');
         $ijazahName = $ijazahFile->getRandomName();
-        $ijazahFile->move($berkasPath, $ijazahName);
+        $ijazahFile->move('uploads/ijazah/', $ijazahName);
 
         $suratData = [
             'id_user' => $userId,
@@ -276,6 +276,7 @@ class SuratCatatanPolisiController extends BaseController
         if (!$catatanPolisi) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat catatan polisi tidak ditemukan');
         }
+
 
         return view('masyarakat/surat/edit-surat/edit_catatan_polisi', [
             'surat' => $surat,

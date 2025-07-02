@@ -247,6 +247,7 @@ class SuratKelahiranController extends BaseController
             return redirect()->back()->with('error', 'Data surat kelahiran tidak ditemukan.');
         }
 
+
         // Siapkan data untuk view
         $data = [
             'id_surat' => $id,
@@ -260,7 +261,10 @@ class SuratKelahiranController extends BaseController
             'anak_ke' => $detail['anak_ke'],
         ];
 
-        return view('masyarakat/surat/edit-surat/edit_kelahiran', $data);
+        return view('masyarakat/surat/edit-surat/edit_kelahiran', [
+            'surat' => $surat,
+            'detail' => $detail
+        ]);
     }
 
 

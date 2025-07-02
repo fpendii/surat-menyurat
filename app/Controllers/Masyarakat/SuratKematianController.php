@@ -278,7 +278,7 @@ class SuratKematianController extends BaseController
 
         $rules = [
             'nama' => 'required',
-            'jenis_kelamin' => 'required|in_list[L,P]',
+            'jenis_kelamin' => 'required',
             'ttl' => 'required',
             'agama' => 'required',
             'hari_tanggal' => 'required',

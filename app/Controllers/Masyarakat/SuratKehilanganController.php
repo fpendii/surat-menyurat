@@ -241,6 +241,8 @@ class SuratKehilanganController extends BaseController
         $dompdf->stream('Surat_Keterangan_Kehilangan_' . $kehilangan['nama'] . '.pdf', ['Attachment' => false]);
     }
 
+    
+
     public function editSurat($idSurat)
     {
         $suratModel = new \App\Models\SuratModel();
@@ -255,12 +257,12 @@ class SuratKehilanganController extends BaseController
         // Ambil data kehilangan
         $kehilangan = $kehilanganModel->where('id_surat', $idSurat)->first();
         if (!$kehilangan) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data surat kehilangan tidak ditemukan');
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data kehilangan tidak ditemukan');
         }
 
         return view('masyarakat/surat/edit-surat/edit_kehilangan', [
-            'kehilangan' => $kehilangan,
-            'surat' => $surat
+            'surat' => $surat,
+            'detail' => $kehilangan
         ]);
     }
 

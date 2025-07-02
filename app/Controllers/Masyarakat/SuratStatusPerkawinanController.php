@@ -258,7 +258,7 @@ class SuratStatusPerkawinanController extends BaseController
         // Update data surat
         $suratData = [
             'jenis_surat' => 'status_perkawinan',
-            'status'      => 'diajukan',
+            'status_surat'      => 'diajukan',
         ];
         $suratModel->update($idSurat, $suratData);
 

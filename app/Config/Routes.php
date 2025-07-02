@@ -73,7 +73,7 @@ $routes->group('masyarakat', ['filter' => 'auth:masyarakat,kepala_desa,admin'], 
     $routes->post('surat/tidak-mampu/ajukan', 'Masyarakat\SuratTidakMampuController::ajukanTidakMampu');
     $routes->post('surat/tidak-mampu/preview', 'Masyarakat\SuratTidakMampuController::previewTidakMampu');
     $routes->get('data-surat/tidak_mampu/download/(:num)', 'Masyarakat\SuratTidakMampuController::downloadSurat/$1');
-    $routes->get('data-surat/tidak_mampu/edit/(:num)', 'Masyarakat\Masyarakat\SuratTidakMampuController::editSurat/$1');
+    $routes->get('data-surat/tidak_mampu/edit/(:num)', 'Masyarakat\SuratTidakMampuController::editSurat/$1');
     $routes->put('surat/tidak-mampu/update/(:num)', 'Masyarakat\SuratTidakMampuController::updateSurat/$1');
 
     $routes->get('surat/belum-bekerja', 'Masyarakat\SuratBelumBekerjaController::belumBekerja');

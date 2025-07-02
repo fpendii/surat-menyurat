@@ -139,36 +139,45 @@
             <div class="invalid-feedback"><?= session('errors.alamat') ?></div>
         </div>
 
-        ---
         <h5 class="mt-4">Upload Berkas</h5>
-        <?php
-        $files = [
-            'kk'            => 'KK',
-            'ktp'           => 'KTP',
-            'akta_lahir'    => 'Akta Lahir',
-            'ijazah'        => 'Ijazah Terakhir',
-        ];
-        foreach ($files as $id => $label):
-            // Determine the file path based on the file type (assuming a folder structure like uploads/surat_catatan_polisi/)
-            // We'll use the 'surat' array for the main document uploads associated with the surat entry
-            // and assume the field names match 'kk', 'ktp', 'akta_lahir', 'ijazah' in the $surat array.
-            $currentFileName = $surat[$id] ?? null; // Check in the main surat data for the file name
-            $filePath = !empty($currentFileName) ? base_url('uploads/surat_catatan_polisi/' . $currentFileName) : null;
-        ?>
-            <div class="form-group mb-2">
-                <label for="<?= $id ?>">Upload <?= $label ?> <span class="text-danger">*</span> <small class="text-muted">(Format: PDF/JPG/PNG)</small></label>
-                <input
-                    type="file"
-                    class="form-control-file <?= (session("errors.$id")) ? 'is-invalid' : '' ?>"
-                    id="<?= $id ?>" name="<?= $id ?>"
-                    accept=".pdf,.jpg,.jpeg,.png"> <?php if (!empty($currentFileName)): ?>
-                    <small class="form-text text-muted">File saat ini: <a href="<?= esc($filePath) ?>" target="_blank"><?= esc($currentFileName) ?></a> (Kosongkan jika tidak ingin mengubah)</small>
-                <?php else: ?>
-                    <small class="form-text text-muted">Belum ada file diunggah. Harap unggah file baru.</small>
-                <?php endif; ?>
-                <div class="invalid-feedback"><?= session("errors.$id") ?></div>
-            </div>
-        <?php endforeach; ?>
+        <div class="form-group mb-2">
+            <label for="kk">Upload KK <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control" id="kk" name="kk" accept=".jpg,.jpeg,.png,.pdf">
+            <?php if (!empty($surat['kk'])): ?>
+                <small class="form-text text-muted">File saat ini: <a href="<?= base_url('uploads/kk/' . $surat['kk']) ?>" target="_blank"><?= esc($surat['kk']) ?></a> (Kosongkan jika tidak ingin mengubah)</small>
+            <?php else: ?>
+                <small class="form-text text-muted">Belum ada file diunggah. Harap unggah file baru.</small>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group mb-2">
+            <label for="ktp">Upload KTP <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control" id="ktp" name="ktp" accept=".jpg,.jpeg,.png,.pdf">
+            <?php if (!empty($surat['ktp'])): ?>
+                <small class="form-text text-muted">File saat ini: <a href="<?= base_url('uploads/ktp/' . $surat['ktp']) ?>" target="_blank"><?= esc($surat['ktp']) ?></a> (Kosongkan jika tidak ingin mengubah)</small>
+            <?php else: ?>
+                <small class="form-text text-muted">Belum ada file diunggah. Harap unggah file baru.</small>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group mb-2">
+            <label for="akta_lahir">Upload Akta Lahir <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control" id="akta_lahir" name="akta_lahir" accept=".jpg,.jpeg,.png,.pdf">
+            <?php if (!empty($catatanPolisi['akta_lahir'])): ?>
+                <small class="form-text text-muted">File saat ini: <a href="<?= base_url('uploads/akta_lahir/' . $catatanPolisi['akta_lahir']) ?>" target="_blank"><?= esc($catatanPolisi['akta_lahir']) ?></a> (Kosongkan jika tidak ingin mengubah)</small>
+            <?php else: ?>
+                <small class="form-text text-muted">Belum ada file diunggah. Harap unggah file baru.</small>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group mb-2">
+            <label for="ijazah">Upload Ijazah <span class="text-danger">*</span> <small>(jpg, jpeg, png, pdf)</small></label>
+            <input type="file" class="form-control" id="ijazah" name="ijazah" accept=".jpg,.jpeg,.png,.pdf">
+            <?php if (!empty($catatanPolisi['ijazah'])): ?>
+                <small class="form-text text-muted">File saat ini: <a href="<?= base_url('uploads/ijazah/' . $catatanPolisi['ijazah']) ?>" target="_blank"><?= esc($catatanPolisi['ijazah']) ?></a> (Kosongkan jika tidak ingin mengubah)</small>
+            <?php else: ?>
+                <small class="form-text text-muted">Belum ada file diunggah. Harap unggah file baru.</small>
+            <?php endif; ?>
 
         <a href="/masyarakat/data-surat" class="btn btn-secondary mt-3 text-white">Batal</a>
         <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>

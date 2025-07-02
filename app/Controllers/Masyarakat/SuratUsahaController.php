@@ -254,7 +254,7 @@ class SuratUsahaController extends BaseController
         }
 
         return view('masyarakat/surat/edit-surat/edit_usaha', [
-            'usaha' => $usaha,
+            'detail' => $usaha,
             'surat' => $surat
         ]);
     }
@@ -276,8 +276,7 @@ class SuratUsahaController extends BaseController
 
         $suratModel = new \App\Models\SuratModel();
         $suratModel->update($id, [
-            'no_surat' => $this->request->getPost('no_surat'),
-            'status' => 'diajukan'
+            'status_surat' => 'diajukan'
         ]);
 
         $usahaModel->where('id_surat', $id)->set([

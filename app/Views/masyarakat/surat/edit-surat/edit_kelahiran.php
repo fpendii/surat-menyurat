@@ -71,7 +71,7 @@
 
         <div class="form-group mb-2">
             <label for="anak_ke">Anak Ke- <span class="text-danger">*</span></label>
-            <input type="number" class="form-control <?= session('errors.anak_ke') ? 'is-invalid' : '' ?>" id="anak_ke" name="anak_ke" min="1" value="<?= old('anak_ke', $detail['anak_ke'] ?? '') ?>" required>
+            <input type="text" class="form-control <?= session('errors.anak_ke') ? 'is-invalid' : '' ?>" id="anak_ke" name="anak_ke" min="1" value="<?= old('anak_ke', $detail['anak_ke'] ?? '') ?>" required>
             <div class="invalid-feedback"><?= session('errors.anak_ke') ?></div>
         </div>
 
