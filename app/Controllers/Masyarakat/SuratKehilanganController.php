@@ -313,8 +313,8 @@ class SuratKehilanganController extends BaseController
         $ktp = $this->request->getFile('ktp');
         $kk = $this->request->getFile('kk');
 
-        $ktpName = $kehilangan['ktp']; // Default dari database
-        $kkName = $kehilangan['kk'];   // Default dari database
+        $ktpName = $surat['ktp']; // Default dari database
+        $kkName = $surat['kk'];   // Default dari database
 
         // Jika user upload file baru, simpan yang baru
         if ($ktp && $ktp->isValid() && !$ktp->hasMoved()) {
