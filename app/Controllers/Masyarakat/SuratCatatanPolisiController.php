@@ -294,8 +294,7 @@ class SuratCatatanPolisiController extends BaseController
             'kk' => 'max_size[kk,2048]|mime_in[kk,image/jpg,image/jpeg,image/png,application/pdf]',
             'ktp' => 'max_size[ktp,2048]|mime_in[ktp,image/jpg,image/jpeg,image/png,application/pdf]',
             'akta_lahir' => 'max_size[akta_lahir,2048]|mime_in[akta_lahir,image/jpg,image/jpeg,image/png,application/pdf]',
-            'ijazah' => 'max_size[ijazah,2048]|mime_in[ijazah,image/jpg,image/jpeg,image/png,application/pdf]',
-            'foto_latar_belakang' => 'max_size[foto_latar_belakang,2048]|mime_in[foto_latar_belakang,image/jpg,image/jpeg,image/png]',
+            'ijazah' => 'max_size[ijazah,2048]|mime_in[ijazah,image/jpg,image/jpeg,image/png,application/pdf]'
         ]);
 
         if (!$valid) {
@@ -357,9 +356,12 @@ class SuratCatatanPolisiController extends BaseController
         };
 
         // Cek dan upload file baru jika ada, jika tidak, gunakan file lama
-        $kkName = $handleUpload('kk', $catatanPolisi['kk']);
+        $kkName = $handleUpload('kk', $surat['kk']);
 
-        $ktpName = $handleUpload('ktp', $catatanPolisi['ktp']);
+        $ktpName = $handleUpload('ktp', $surat['ktp']);
+
+        if ($kkName) $updateData['kk'] = $kkName;
+        if ($ktpName) $updateData['ktp'] = $ktpName;
 
         $aktaName = $handleUpload('akta_lahir', $catatanPolisi['akta_lahir']);
         if ($aktaName) $updateData['akta_lahir'] = $aktaName;
